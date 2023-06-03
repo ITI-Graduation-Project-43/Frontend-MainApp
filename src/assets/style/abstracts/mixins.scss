@@ -1,0 +1,21 @@
+@use "../abstracts/variables.scss" as *;
+@mixin custom-button($background, $forground, $paddingX) {
+    font-size: 1.5rem;
+    color: $forground;
+    text-transform: uppercase;
+    padding: 16px $paddingX;
+    border: 1px solid $blackColor;
+    background: $background;
+    box-shadow: 5px 5px $blackColor;
+    cursor: pointer;
+    margin: 35px 0;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+    color: $blackColor;
+
+    &:active {
+      box-shadow: none;
+      transform: translate(3px, 3px);
+    }
+}

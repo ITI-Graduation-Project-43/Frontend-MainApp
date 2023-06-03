@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
-  APIURL: 'http://localhost:8080',
+  production: false,
+  APIURL: 'https://localhost:7129/api/',
   secretKey: 'Messi'
 };

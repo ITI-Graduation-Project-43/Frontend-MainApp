@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { catchError, Observable, retry, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { APIResponseVM } from '../ViewModels/apiresponse-vm';
-import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -20,11 +19,6 @@ export class APIService {
   }
 
   private handleError(err: HttpErrorResponse) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: err.error.errmsg
-    })
     return throwError(function() {
       return new Error("Error occur, please try again!");
     })

@@ -1,0 +1,10 @@
+@use "../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../assets/style/abstracts/mixins.scss" as *;
+
+h1 {
+  color: $mainColorLight;
+}
+
+button {
+  @include custom-button($greenColor, $blackColor,43px);
+}

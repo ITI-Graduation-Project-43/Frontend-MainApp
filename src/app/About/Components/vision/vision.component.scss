@@ -28,7 +28,7 @@
 .child-two-child {
   border: 1px solid black;
   margin-bottom: 8px;
-  padding: 10px 0px;
+  padding: 25px;
   display: flex;
   align-items: flex-start;
   justify-content: space-around;
@@ -54,13 +54,22 @@
   }
 }
 .child-two-child > h2 {
-  font-size: 1.5rem;
-  padding: 10px 40px;
+  padding: 5px 40px;
+  position: relative;
+  width: 150px;
+  height: 60px;
   border: 1px solid black;
-  background: #ade2bf;
+  background: $greenColor;
   box-shadow: 5px 5px black;
   border-radius: 50px;
   cursor: pointer;
   font-weight: 700;
   color: black;
+  text-align: center;
+}
+svg {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

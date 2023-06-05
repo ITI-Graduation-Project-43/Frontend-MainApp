@@ -6,5 +6,5 @@ h1 {
 }
 
 button {
-  @include custom-button($greenColor, $blackColor,43px);
+  @include custom-button($greenColor, $blackColor,$blackColor,43px);
 }

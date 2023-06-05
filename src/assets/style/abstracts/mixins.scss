@@ -1,4 +1,6 @@
 @use "../abstracts/variables.scss" as *;
+
+// Mixin for custom buttons
 @mixin custom-button($background, $forground, $shadowColor, $paddingX) {
   font-size: 1.5rem;
   color: $forground;
@@ -27,4 +29,58 @@
   font-weight: 400;
   margin-bottom: 10px;
   width: fit-content;
+}
+
+
+@mixin course-card{
+  @include style-display-column(24px, 24px);
+  background: $mainColorLight;
+  border: 1px solid $blackColor;
+}
+@mixin details-card($width){
+  @include style-display-column(24px, 24px);
+  max-width: $width;
+  background: $whiteColor;
+  border: 1px solid $blackColor;
+  box-shadow: 5px 5px 0px 1px $blackColor;
+}
+
+@mixin style-card($width, $bgColor, $borderColor){
+  width:$width;
+  background: $bgColor;
+  border: 2px solid $borderColor;
+}
+
+
+@mixin style-font($font-family, $font-size,$line-height,$color, $font-weight:400){
+  font-family: $font-family;
+  font-size: $font-size;
+  line-height: $line-height;
+  color: $color;
+  font-weight: $font-weight
+}
+
+@mixin style-display-column ($gap, $padding, $padding2:$padding){
+  @extend %flex-column;
+  padding: $padding $padding;
+  gap: $gap;
+}
+
+@mixin style-display-row ($gap, $padding , $padding2:$padding){
+  @extend %flex-row;
+  padding: $padding  $padding2;
+  gap: $gap;
+}
+
+@mixin style-display-row-center ($gap, $padding, $padding2:$padding){
+  @extend %flex-row-center;
+  padding: $padding $padding2;
+  gap: $gap;
+}
+
+@mixin make-avatar($width,$height){
+  width: $width;
+  height: $height;
+  border: 2px solid $blackColor;
+  border-radius: 50%;
 }

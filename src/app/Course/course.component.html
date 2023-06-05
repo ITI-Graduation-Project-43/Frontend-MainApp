@@ -230,6 +230,48 @@
   </div>
 </div>
 
+<!--Course content-->
+<div class="course-content-section">
+  <h1>Course Content</h1>
+  <div class="course-content-details">
+    <div class="course-content-details-item">
+      <img src="../../assets/svg/lecture.svg" alt="lecture-icon" />
+      <div>24 Lectures</div>
+    </div>
+    <div class="ellipse-seperator"></div>
+    <div class="course-content-details-item">
+      <img src="../../assets/svg/clock.svg" alt="clock icon" />
+      <div>140 Hourse</div>
+    </div>
+    <div class="ellipse-seperator"></div>
+    <div class="course-content-details-item">
+      <img src="../../assets/svg/section.svg" alt="section icon" />
+      <div>12 Section</div>
+    </div>
+  </div>
+  <div class="course-content-modules">
+    <div class="course-chapter" *ngFor="let chapter of chapters">
+      <div class="course-chapter-heading" (click)="toggleChapter(chapter)">
+        <img
+          [src]="
+            chapter.open
+              ? '../../assets/svg/up arrow.svg'
+              : '../../assets/svg/down arrow.svg'
+          "
+          alt="arrow"
+        />
+        <h2>{{ chapter.title }}</h2>
+      </div>
+      <div class="course-lessons" *ngIf="chapter.open">
+        <div class="course-lesson" *ngFor="let lesson of chapter.lessons">
+          <img [src]="lesson.icon" alt="icon" />
+          <h3>{{ lesson.title }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Who Should Enroll Card -->
 <div class="enroll-card">
   <!-- Title -->
@@ -264,15 +306,17 @@
 </div>
 
 <!--Student also bought-->
-<div class="student-also-bought-section">
+<div class="courses-section">
   <h1>Students also bought</h1>
 
-  <div class="student-also-bought-courses">
-    <div class="student-also-bought-courses-items">
-      <div class="suggested-course-card">
-        <div class="course-picture">
-          <img src="../../assets/images/courseImage.png" alt="course image" />
-        </div>
+  <div class="suggested-courses-section">
+    <div class="course-cards">
+      <div class="course-card">
+        <img
+          src="../../assets/images/courseImage.png"
+          alt="course image"
+          class="course-image"
+        />
         <div class="course-info">
           <div class="course-rating">
             <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
@@ -324,10 +368,12 @@
         </div>
       </div>
 
-      <div class="suggested-course-card">
-        <div class="course-picture">
-          <img src="../../assets/images/courseImage.png" alt="course image" />
-        </div>
+      <div class="course-card">
+        <img
+          src="../../assets/images/courseImage.png"
+          alt="course image"
+          class="course-image"
+        />
         <div class="course-info">
           <div class="course-rating">
             <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
@@ -384,19 +430,23 @@
 </div>
 
 <!--Instructor details card-->
-<div>
-  <img src="../../assets/images/instructor.webp" alt="instrucotr-picture" />
-  <div>
-    <div>
-      <div>
-        <img src="../../assets/svg/rating-star.svg" alt="star icon" />5
-        Instructor Rating
+<div class="instructor-details-card">
+  <img
+    src="../../assets/images/instructor.webp"
+    alt="instrucotr-picture"
+    class="instructor-avatar"
+  />
+  <div class="instructor-info-details">
+    <div class="instructor-main-info">
+      <div class="instructor-rating">
+        <img src="../../assets/svg/rating-star.svg" alt="star icon" />
+        <span> 5 Instructor Rating </span>
       </div>
-      <div>Joey Tribbiani</div>
+      <div class="instructor-name">Joey Tribbiani</div>
     </div>
-    <div>
-      <div>Front-end Developer</div>
-      <div>
+    <div class="instructor-additional-info">
+      <div class="instructor-title">Front-end Developer</div>
+      <div class="instructor-detials">
         Joey Tribbiani has a BS and MS in Mechanical Engineering from Santa
         Clara University and years of experience as a professional instructor
         and trainer for Data Science, Machine Learning and Python Programming.
@@ -412,14 +462,231 @@
         SalesForce, Starbucks, McKinsey and many more. Feel free to check out
         the website link to find out more information about training offerings.
       </div>
-      <div>
-        <div>36,002 Students</div>
-        |
-        <div>5 Courses</div>
+      <div class="instructor-stats">
+        <span>36,002 Students</span> <span>|</span> <span>5 Courses</span>
       </div>
     </div>
   </div>
 </div>
+
+<!--Instructor other courses-->
+<div class="courses-section">
+  <h1>Also taught by Joey</h1>
+
+  <div class="suggested-courses-section">
+    <div class="course-cards">
+      <div class="course-card">
+        <img
+          src="../../assets/images/courseImage.png"
+          alt="course image"
+          class="course-image"
+        />
+        <div class="course-info">
+          <div class="course-rating">
+            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+          </div>
+          <div class="course-category">Development</div>
+          <div class="course-name">Become a back-end developer in 3 months</div>
+          <div class="course-students">
+            <div class="student-pictures">
+              <img
+                class="course-students-pic"
+                src="../../assets/images/student1.webp"
+                alt="student-picture"
+              />
+              <img
+                class="course-students-pic"
+                src="../../assets/images/student2.webp"
+                alt="student-picture"
+              />
+              <img
+                class="course-students-pic"
+                src="../../assets/images/student3.webp"
+                alt="student-picture"
+              />
+              <img
+                class="course-students-pic"
+                src="../../assets/images/student4.webp"
+                alt="student-picture"
+              />
+            </div>
+            <div class="enrollments-number">+3K enrolled</div>
+          </div>
+        </div>
+
+        <div class="course-instructor-price">
+          <div class="course-instructor">
+            <div class="instructor-picture">
+              <img
+                src="../../assets/images/instructor.webp"
+                alt="instructor-picture"
+              />
+            </div>
+            <div class="instructor-name">Chandler Bing</div>
+          </div>
+          <div class="course-price">230 EGP</div>
+        </div>
+      </div>
+
+      <div class="course-card">
+        <img
+          src="../../assets/images/courseImage.png"
+          alt="course image"
+          class="course-image"
+        />
+        <div class="course-info">
+          <div class="course-rating">
+            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+          </div>
+          <div class="course-category">Development</div>
+          <div class="course-name">Become a back-end developer in 3 months</div>
+          <div class="course-students">
+            <div class="student-pictures">
+              <img
+                class="course-students-pic"
+                src="../../assets/images/student1.webp"
+                alt="student-picture"
+              />
+              <img
+                class="course-students-pic"
+                src="../../assets/images/student2.webp"
+                alt="student-picture"
+              />
+              <img
+                class="course-students-pic"
+                src="../../assets/images/student3.webp"
+                alt="student-picture"
+              />
+              <img
+                class="course-students-pic"
+                src="../../assets/images/student4.webp"
+                alt="student-picture"
+              />
+            </div>
+            <div class="enrollments-number">+3K enrolled</div>
+          </div>
+        </div>
+
+        <div class="course-instructor-price">
+          <div class="course-instructor">
+            <div class="instructor-picture">
+              <img
+                src="../../assets/images/instructor.webp"
+                alt="instructor-picture"
+              />
+            </div>
+            <div class="instructor-name">Chandler Bing</div>
+          </div>
+          <div class="course-price">230 EGP</div>
+        </div>
+      </div>
+    </div>
+    <button class="view-more-btn">View more</button>
+  </div>
+</div>
+
+<!--Course Feedback section-->
+<div class="student-feedback-section">
+  <div class="students-feedback">
+    <div class="student-feedback-card">
+      <div class="student-image">
+        <img src="../../assets/images/student1.jpg" alt="student image" />
+      </div>
+      <div class="student-feedback">
+        <div class="student-review">
+          <div class="student-comment">
+            Taking the Node.js course on MindMission was one of the best
+            decisions I've made for my career. As a software developer, I was
+            seeking to enhance my skills and stay updated with the latest
+            technologies. The course genuinely exceeded my expectations.
+          </div>
+          <div class="student-rating">
+            <div class="student-name">Monica Geller</div>
+            <div class="student-course-rating">
+              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+            </div>
+          </div>
+        </div>
+        <div class="student-course">
+          Completed the ‘Mastering Python: From Fundamentals to Advanced
+          Concepts’ course
+        </div>
+      </div>
+    </div>
+    <div class="student-feedback-card">
+      <div class="student-image">
+        <img src="../../assets/images/student1.jpg" alt="student image" />
+      </div>
+      <div class="student-feedback">
+        <div class="student-review">
+          <div class="student-comment">
+            Taking the Node.js course on MindMission was one of the best
+            decisions I've made for my career. As a software developer, I was
+            seeking to enhance my skills and stay updated with the latest
+            technologies. The course genuinely exceeded my expectations.
+          </div>
+          <div class="student-rating">
+            <div class="student-name">Monica Geller</div>
+            <div class="student-course-rating">
+              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+            </div>
+          </div>
+        </div>
+        <div class="student-course">
+          Completed the ‘Mastering Python: From Fundamentals to Advanced
+          Concepts’ course
+        </div>
+      </div>
+    </div>
+    <div class="student-feedback-card">
+      <div class="student-image">
+        <img src="../../assets/images/student1.jpg" alt="student image" />
+      </div>
+      <div class="student-feedback">
+        <div class="student-review">
+          <div class="student-comment">
+            Taking the Node.js course on MindMission was one of the best
+            decisions I've made for my career. As a software developer, I was
+            seeking to enhance my skills and stay updated with the latest
+            technologies. The course genuinely exceeded my expectations.
+          </div>
+          <div class="student-rating">
+            <div class="student-name">Monica Geller</div>
+            <div class="student-course-rating">
+              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+            </div>
+          </div>
+        </div>
+        <div class="student-course">
+          Completed the ‘Mastering Python: From Fundamentals to Advanced
+          Concepts’ course
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="view-more-btn">View more</button>
+</div>
+
 <!--Footer-->
 <footer class="footer">
   <div class="footer-section">
@@ -432,12 +699,10 @@
     </div>
     <div class="footer-navigation">
       <h2 class="nav-title">Pages</h2>
-      <ul class="nav-list">
-        <li class="nav-item">Home</li>
-        <li class="nav-item">Courses</li>
-        <li class="nav-item">About Us</li>
-        <li class="nav-item">Contact</li>
-      </ul>
+      <a class="nav-item">Home</a>
+      <a class="nav-item">Courses</a>
+      <a class="nav-item">About Us</a>
+      <a class="nav-item">Contact</a>
     </div>
   </div>
   <hr class="footer-separator" />

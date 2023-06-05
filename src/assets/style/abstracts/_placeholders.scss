@@ -1,0 +1,37 @@
+@use "../abstracts/variables.scss" as *;
+
+%flex-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+%flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+%flex-row-center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+
+
+%main-heading{
+  font-family: 'Anton', sans-serif;
+  font-size: 32px;
+  line-height: 124.04%;
+  color: $blackColor;
+}
+
+%paragraph{
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: $darkGreyColor;
+  margin: 0;
+  padding: 0;
+}

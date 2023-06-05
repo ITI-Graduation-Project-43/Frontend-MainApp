@@ -1,0 +1,66 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: $mainFontFamily;
+}
+
+.Vision-section {
+  background-color: $secondaryColor;
+}
+.parent {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+}
+
+@media screen and (min-width: 768px) {
+  .parent {
+    grid-template-columns: 1fr 3fr;
+  }
+}
+.child-one > span {
+  @include custom-header;
+}
+
+.child-two-child {
+  border: 1px solid black;
+  margin-bottom: 8px;
+  padding: 10px 0px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  flex-flow: row wrap;
+  background-color: white;
+  gap: 15px;
+}
+.child-two-child div {
+  width: 75%;
+}
+.child-two-child p {
+  font-family: $secondaryFontFamily;
+  font-size: 1.26rem;
+  text-align: start;
+}
+
+@media screen and (max-width: 576px) {
+  .child-two-child p {
+    font-size: 1rem;
+  }
+  .child-two-child > div {
+    text-align: center;
+  }
+}
+.child-two-child > h2 {
+  font-size: 1.5rem;
+  padding: 10px 40px;
+  border: 1px solid black;
+  background: #ade2bf;
+  box-shadow: 5px 5px black;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 700;
+  color: black;
+}

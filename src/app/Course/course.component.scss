@@ -386,7 +386,6 @@
     }
   }
 }
-
 /*  what you will learn card */
 .learn-card {
   @extend .card;
@@ -451,7 +450,6 @@
     color: $darkGreyColor;
   }
 }
-
 /* Exercise Demo */
 .exercise-demo {
   display: flex;
@@ -497,7 +495,6 @@
     }
   }
 }
-
 /* Who Should Enroll Card */
 .enroll-card {
   @extend .card;
@@ -512,7 +509,6 @@
     }
   }
 }
-
 /* Course Requirements Card */
 .requirements-card {
   @extend .card;
@@ -530,16 +526,14 @@
     }
   }
 }
-
-
-/* Student also bought */
-
+/* Student also bought section */
 .student-also-bought-section{
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 0px;
   gap: 32px;
+  max-width: 828px;
 
   h1{
     font-family: 'Anton';
@@ -561,6 +555,11 @@
 
       .suggested-course-card{
         @extend .course-card;
+        max-width: 402px;
+
+        .course-picture img{
+          width: 100%;
+        }
 
         & .course-info{
           display: flex;
@@ -573,6 +572,13 @@
             align-items: flex-start;
             padding: 0px;
             gap: 5.6px;
+          }
+
+          .course-name{
+            font-family: 'Anton';
+            font-size: 32px;
+            line-height: 124.04%;
+            color: $blackColor;
           }
         }
 
@@ -665,36 +671,444 @@
     }
 }
 }
+/* Instructor details card */
+.instructor-details-card{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 40px 32px;
+  gap: 32px;
+
+  max-width: 828px;
+
+  background: $secondaryColor;
+  border: 1px solid $blackColor;
+
+  .instructor-avatar{
+    width: 116px;
+    height: 116px;
+
+    border: 2px solid $blackColor;
+    border-radius: 1000px;
+  }
+
+  .instructor-info-details{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 8px;
+
+    .instructor-main-info{
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0px;
+      gap: 4px;
+
+      .instructor-rating{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0px;
+        gap: 8px;
+
+        span{
+          font-weight: 700;
+          font-size: 16px;
+          line-height: 19px;
+
+          color: $darkGreyColor;
+        }
+      }
+      .instructor-name{
+        font-family: 'Anton';
+        font-size: 24px;
+        line-height: 124.04%;
+
+        color: $blackColor;
+      }
+    }
+    .instructor-additional-info{
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0px;
+      gap: 8px;
+      font-family: 'Cabin';
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 24px;
+      color: $darkGreyColor;
+
+
+      .instructor-stats{
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        padding: 0px;
+        gap: 16px;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+      }
+    }
+  }
+}
+/* Instructor other courses section */
+.instructor-other-courses-section{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 32px;
+  max-width: 828px;
+
+  h1{
+    font-family: 'Anton';
+    font-size: 48px;
+    line-height: 124.04%;
+    color: $blackColor;
+  }
+  .instructor-other-courses{
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: center;
+    .instructor-other-courses-items{
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      padding: 0px;
+      gap: 24px;
+
+      .suggested-course-card{
+        @extend .course-card;
+        max-width: 402px;
+
+        .course-picture img{
+          width: 100%;
+        }
+
+        & .course-info{
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 0px;
+          gap: 16px;
+          & .course-rating {
+            display: flex;
+            align-items: flex-start;
+            padding: 0px;
+            gap: 5.6px;
+          }
+
+          .course-name{
+            font-family: 'Anton';
+            font-size: 32px;
+            line-height: 124.04%;
+            color: $blackColor;
+          }
+        }
+
+        & .course-students{
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          padding: 0px;
+          gap: 8px;
+          & .student-pictures{
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            padding: 0px;
+            max-height: 24px;
+            & img{
+              width: 24px;
+              height: 24px;
+              border: 2px solid #181818;
+              border-radius: 50%;
+              margin-left: -6px;
+            }
+          }
+
+          & .enrollments-number{
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 19px;
+
+            color: #303030;
+          }
+
+
+        }
+        & .course-instructor-price{
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+
+          & .course-instructor {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 0px;
+            gap: 16px;
+
+            & .instructor-picture {
+              width: 42px;
+              height: 42px;
+
+              & img {
+                width: 100%;
+                height: 100%;
+                border: 2px solid #181818;
+                border-radius: 50%;
+              }
+            }
+
+            & .instructor-name{
+              font-weight: 700;
+              font-size: 16px;
+              line-height: 19px;
+            }
+
+          }
+
+          & .course-price{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 15px 24px;
+            gap: 10px;
+
+            background: $greenColor;
+            border: 2px solid $blackColor;
+            border-radius: 33px;
+
+
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 19px;
+          }
+        }
+      }
+    }
+
+    .view-more-btn{
+      @include custom-button($greenColor,$blackColor,$blackColor,43px);
+    }
+  }
+}
+
+/* Student feedback section */
+.student-feedback-section{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px;
+  gap: 32px;
+  max-width: 828px;
+
+  .students-feedback{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+    gap: 16px;
+    max-width: 828px;
+
+    .student-feedback-card{
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      padding: 24px;
+      gap: 10px;
+
+
+      background: $whiteColor;
+      border: 1px solid $blackColor;
+
+      .student-image{
+        min-width: 187px;
+        height: 240px;
+        border: 1px solid $blackColor;
+
+        img{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .student-feedback{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0px;
+        gap: 32px;
+        .student-review{
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 0px;
+          gap: 16px;
+
+          .student-comment{
+            font-size: 20px;
+            line-height: 24px;
+            color: $darkGreyColor;
+          }
+          .student-rating{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 0px;
+            gap: 8px;
+
+            .student-name{
+              font-weight: 700;
+              font-size: 16px;
+              line-height: 19px;
+
+              color: $darkGreyColor;
+            }
+
+            .student-course-rating{
+              display: flex;
+              flex-direction: row;
+              align-items: flex-start;
+              padding: 0px;
+              gap: 5.6px;
+            }
+          }
+
+        }
+
+        .student-course{
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 14px 24px;
+          gap: 10px;
+
+          max-width: 515px;
+
+          background: $mainColorLight;
+          border: 1px solid $blackColor;
+          border-radius: 33px;
+
+
+          font-weight: 700;
+          font-size: 16px;
+          line-height: 19px;
+          color: $darkGreyColor
+
+        }
+
+      }
+    }
+  }
+
+  .view-more-btn{
+    @include custom-button($greenColor,$blackColor,$blackColor,43px);
+  }
+}
 /* footer */
+.footer{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 88px 40px 24px 40px;
+  gap: 10px;
 
+  background: $mainColorLight;
 
+  .footer-section{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0px;
 
+    .footer-logo{
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0px;
+      gap: 16px;
 
+      max-width: 328px;
+      ;
 
+      .logo-text{
+        font-family: 'Anton';
+        font-size: 48px;
+        line-height: 124.04%;
 
+        color: $blackColor;
+      }
+      .logo-desc{
+        margin: 0;
 
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 29px;
 
+        color: $darkGreyColor;
 
+      }
+    }
 
+    .footer-navigation{
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0px;
+      gap: 8px;
+      font-family: 'Cabin';
+      font-style: normal;
+      font-size: 24px;
+      line-height: 29px;
 
+      color: $darkGreyColor;
 
+      h2{
+        font-weight: 700;
+      }
+      .nav-item{
+        text-decoration: none;
+        font-family: 'Cabin';
+        font-style: normal;
+        font-size: 24px;
+        line-height: 29px;
+        color: $darkGreyColor;
 
+        &:hover{
+          color: $blackColor;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+  .footer-separator{
+    width: 100%;
+    border: 1px solid $darkGreyColor;
+  }
 
+  .footer-copyright{
 
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
 
+    color: $darkGreyColor;
 
+    p{
+      margin: 0;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+  }
+}
 

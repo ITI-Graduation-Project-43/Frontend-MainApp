@@ -105,7 +105,7 @@
 </nav>
 
 <!--Course Card-->
-<div class="course-card">
+<div class="course-details-card">
   <div class="course-picture">
     <img src="../../assets/images/courseImage.png" alt="course image" />
   </div>
@@ -184,6 +184,242 @@
   </div>
 </div>
 
+<!-- What You Will Learn Card -->
+<div class="learn-card">
+  <!-- Title -->
+  <h2 class="card-title">What you'll learn:</h2>
+
+  <!-- Learn Items -->
+  <div class="learn-items">
+    <div *ngFor="let item of getRows(); let i = index" class="learn-item-row">
+      <div *ngFor="let subitem of item">
+        <p class="learn-item" [class.hidden]="!showMore && i >= 2">
+          <span class="title">{{ subitem.title }}</span>
+          <span class="description">{{ subitem.description }}</span>
+        </p>
+      </div>
+    </div>
+    <!-- Gradient Overlay -->
+    <div *ngIf="!showMore" class="gradient-overlay"></div>
+  </div>
+
+  <!-- Show More/Less Button -->
+  <button (click)="toggleShowMore()" class="read-more">
+    {{ showMore ? "Read less" : "Read more" }}
+    <img
+      [src]="
+        showMore
+          ? '../../assets/svg/up arrow.svg'
+          : '../../assets/svg/down arrow.svg'
+      "
+      alt="arrow"
+    />
+  </button>
+</div>
+
+<!--Excercise Demo-->
+<div class="exercise-demo">
+  <img src="../../assets/images/excersieDemo.png" alt="exercise demo" />
+  <div class="exercise-demo-content">
+    <h2>Exercise Demo</h2>
+    <p>
+      This course includes our updated coding exercises so you can practice your
+      skills as you learn.
+    </p>
+    <a href="#" class="see-demo">See demo</a>
+  </div>
+</div>
+
+<!-- Who Should Enroll Card -->
+<div class="enroll-card">
+  <!-- Title -->
+  <h2 class="card-title">Who should enroll:</h2>
+
+  <!-- Enroll Items -->
+  <div class="enroll-items">
+    <div *ngFor="let item of whoEnrollItems; let i = index" class="enroll-item">
+      <img src="../../assets/svg/tick.svg" alt="tick" />
+      <p class="enroll-item-title">{{ item }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Course Requirements Card -->
+<div class="requirements-card">
+  <!-- Title -->
+  <h2 class="card-title">Requirements:</h2>
+
+  <!-- Requirements Items -->
+  <div class="requirements-items">
+    <div
+      *ngFor="let item of courseRequirments; let i = index"
+      class="requirements-item"
+    >
+      <p class="requirements-item-details">
+        <span class="requirements-item-title">{{ item.title }}</span>
+        {{ item.description }}
+      </p>
+    </div>
+  </div>
+</div>
+
+<!--Student also bought-->
+<div class="student-also-bought-section">
+  <h1>Students also bought</h1>
+
+  <div class="student-also-bought-courses">
+    <div class="student-also-bought-courses-items">
+      <div class="suggested-course-card">
+        <div class="course-picture">
+          <img src="../../assets/images/courseImage.png" alt="course image" />
+        </div>
+        <div class="course-info">
+          <div class="course-rating">
+            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+          </div>
+          <div class="course-category">Development</div>
+          <div class="course-name">Become a back-end developer in 3 months</div>
+          <div class="course-students">
+            <div class="student-pictures">
+              <img
+                class="course-students-pic"
+                src="../../assets/images/student1.webp"
+                alt="student-picture"
+              />
+              <img
+                class="course-students-pic"
+                src="../../assets/images/student2.webp"
+                alt="student-picture"
+              />
+              <img
+                class="course-students-pic"
+                src="../../assets/images/student3.webp"
+                alt="student-picture"
+              />
+              <img
+                class="course-students-pic"
+                src="../../assets/images/student4.webp"
+                alt="student-picture"
+              />
+            </div>
+            <div class="enrollments-number">+3K enrolled</div>
+          </div>
+        </div>
+
+        <div class="course-instructor-price">
+          <div class="course-instructor">
+            <div class="instructor-picture">
+              <img
+                src="../../assets/images/instructor.webp"
+                alt="instructor-picture"
+              />
+            </div>
+            <div class="instructor-name">Chandler Bing</div>
+          </div>
+          <div class="course-price">230 EGP</div>
+        </div>
+      </div>
+
+      <div class="suggested-course-card">
+        <div class="course-picture">
+          <img src="../../assets/images/courseImage.png" alt="course image" />
+        </div>
+        <div class="course-info">
+          <div class="course-rating">
+            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+          </div>
+          <div class="course-category">Development</div>
+          <div class="course-name">Become a back-end developer in 3 months</div>
+          <div class="course-students">
+            <div class="student-pictures">
+              <img
+                class="course-students-pic"
+                src="../../assets/images/student1.webp"
+                alt="student-picture"
+              />
+              <img
+                class="course-students-pic"
+                src="../../assets/images/student2.webp"
+                alt="student-picture"
+              />
+              <img
+                class="course-students-pic"
+                src="../../assets/images/student3.webp"
+                alt="student-picture"
+              />
+              <img
+                class="course-students-pic"
+                src="../../assets/images/student4.webp"
+                alt="student-picture"
+              />
+            </div>
+            <div class="enrollments-number">+3K enrolled</div>
+          </div>
+        </div>
+
+        <div class="course-instructor-price">
+          <div class="course-instructor">
+            <div class="instructor-picture">
+              <img
+                src="../../assets/images/instructor.webp"
+                alt="instructor-picture"
+              />
+            </div>
+            <div class="instructor-name">Chandler Bing</div>
+          </div>
+          <div class="course-price">230 EGP</div>
+        </div>
+      </div>
+    </div>
+    <button class="view-more-btn">View more</button>
+  </div>
+</div>
+
+<!--Instructor details card-->
+<div>
+  <img src="../../assets/images/instructor.webp" alt="instrucotr-picture" />
+  <div>
+    <div>
+      <div>
+        <img src="../../assets/svg/rating-star.svg" alt="star icon" />5
+        Instructor Rating
+      </div>
+      <div>Joey Tribbiani</div>
+    </div>
+    <div>
+      <div>Front-end Developer</div>
+      <div>
+        Joey Tribbiani has a BS and MS in Mechanical Engineering from Santa
+        Clara University and years of experience as a professional instructor
+        and trainer for Data Science, Machine Learning and Python Programming.
+        He has publications and patents in various fields such as microfluidics,
+        materials science, and data science. Over the course of his career he
+        has developed a skill set in analyzing data and he hopes to use his
+        experience in teaching and data science to help other people learn the
+        power of programming, the ability to analyze data, and the skills needed
+        to present the data in clear and beautiful visualizations. Currently he
+        works as the Head of Data Science for Pierian Training and provides
+        in-person data science and python programming training courses to
+        employees working at top companies, including General Electric, Cigna,
+        SalesForce, Starbucks, McKinsey and many more. Feel free to check out
+        the website link to find out more information about training offerings.
+      </div>
+      <div>
+        <div>36,002 Students</div>
+        |
+        <div>5 Courses</div>
+      </div>
+    </div>
+  </div>
+</div>
 <!--Footer-->
 <footer class="footer">
   <div class="footer-section">

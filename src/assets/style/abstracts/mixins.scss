@@ -5,7 +5,8 @@
     padding: 16px $paddingX;
     border: 1px solid $blackColor;
     background: $background;
-    box-shadow: 5px 5px $shadowColor;
+    box-shadow: 5px 5px $shadowColor
+                ,5px 5px 0px 1px $blackColor;
     cursor: pointer;
     font-weight: 700;
     font-size: 24px;

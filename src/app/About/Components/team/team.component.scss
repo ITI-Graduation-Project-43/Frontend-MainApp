@@ -1,0 +1,79 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+
+* {
+  font-family: $mainFontFamily;
+}
+.team {
+  padding: 2rem;
+}
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.header > h2 {
+  @include custom-header;
+  margin: auto;
+  margin-bottom: 20px;
+  background-color: #fbe6e9;
+  text-transform: capitalize;
+}
+
+.header > p {
+  font-size: $fs-48;
+  font-weight: 400;
+}
+
+.header > p:last-child {
+  font-size: $fs-24;
+  font-family: $secondaryFontFamily;
+}
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+@media screen and (min-width: 441px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media screen and (min-width: 576px) {
+  .cards {
+    grid-template-columns: repeat(3, 1fr);
+    width: 800px;
+    margin: auto;
+  }
+}
+.card {
+  text-align: center;
+  border: none;
+}
+
+.card img {
+  max-width: 100%;
+  border: 2px solid black;
+  border-radius: 50%;
+  width: 180px;
+  height: 180px;
+  margin: auto;
+  margin-bottom: 20px;
+}
+.info > h2 {
+  font-size: $fs-24;
+  text-transform: capitalize;
+}
+.info > p {
+  font-family: $secondaryFontFamily;
+  font-size: 16px;
+}
+
+.contact {
+  padding: 2rem;
+  text-align: center;
+}
+.contact button {
+  @include custom-button($greenColor, $blackColor, $blackColor, 43px);
+  font-family: $secondaryFontFamily;
+}

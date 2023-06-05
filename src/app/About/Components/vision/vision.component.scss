@@ -23,6 +23,7 @@
 }
 .child-one > span {
   @include custom-header;
+  background-color: $mainColorLight;
 }
 
 .child-two-child {

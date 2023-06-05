@@ -18,11 +18,10 @@
   }
 }
 
-@mixin custom-header {
+@mixin custom-header() {
   font-size: 1.6rem;
-  padding: 6px 28px;
+  padding: 8px 40px;
   border: 1px solid black;
-  background-color: #fbe6e9;
   box-shadow: -3px -3px black;
   border-radius: 50px;
   font-weight: 400;

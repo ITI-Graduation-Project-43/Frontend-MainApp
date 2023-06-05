@@ -2,6 +2,64 @@
 @use "../../assets/style/abstracts/mixins.scss" as *;
 
 
+/* Common styles for card */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px;
+  gap: 24px;
+
+  max-width: 820px;
+  background: $whiteColor;
+  border: 1px solid $blackColor;
+  box-shadow: 5px 5px 0px 1px $blackColor;
+}
+
+.course-card{
+
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  gap: 24px;
+
+
+  background: $mainColorLight;
+  border: 1px solid $blackColor;
+}
+/* Card Titles */
+.card-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 32px;
+  line-height: 124.04%;
+  color: $blackColor;
+}
+
+/* Common styles for card-items */
+.card-items {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.card-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+
+
+}
+
+.card-item-p {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: $darkGreyColor;
+  margin: 0;
+  padding: 0;
+}
 
 
 
@@ -99,7 +157,7 @@
   }
 }
 
-
+/* course hero section */
 .course-title{
   display: flex;
   flex-direction: column;
@@ -128,9 +186,6 @@
     color: $whiteColor;
   }
 }
-
-
-
 
 /* breadcrumb navigation */
 .breadcrumb {
@@ -174,12 +229,8 @@
 
 
 /* course card */
-.course-card{
-
-  display: flex;
-  flex-direction: column;
-  padding: 24px;
-  gap: 24px;
+.course-details-card{
+  @extend .course-card;
 
   position: relative;
   left: 1000px;
@@ -187,8 +238,6 @@
 
   max-width: 500px;
 
-  background: $mainColorLight;
-  border: 1px solid $blackColor;
 
   & .course-info{
     display: flex;
@@ -338,12 +387,284 @@
   }
 }
 
+/*  what you will learn card */
+.learn-card {
+  @extend .card;
+  position: relative;
+
+  .learn-items {
+    position: relative;
+    margin-bottom: 20px;
+
+    .learn-item-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 24px;
+      width: 100%;
+
+      .learn-item {
+        flex: 1;
+        font-size: 20px;
+        line-height: 24px;
+        max-width: 374px;
+
+        span {
+          &:first-child {
+            font-weight: 700;
+          }
+        }
+
+        &.hidden {
+          display: none;
+        }
+      }
+    }
+
+    .gradient-overlay {
+      position: absolute;
+      top: 50%;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #fff 100%);
+      pointer-events: none;
+    }
+  }
+
+  .read-more {
+    position: absolute;
+    bottom: 22px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 8px;
+    z-index: 2;
+    cursor: pointer;
+    background: none;
+    border: none;
+
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+    color: $darkGreyColor;
+  }
+}
+
+/* Exercise Demo */
+.exercise-demo {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 24px;
+  width: 820px;
+  background: $secondaryColor;
+  border: 2px solid $blackColor;
+
+  img {
+    margin-right: 24px;
+  }
+
+  .exercise-demo-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    h2 {
+      font-family: 'Anton';
+      font-size: 32px;
+      line-height: 124.04%;
+      color: $blackColor;
+      margin-bottom: 24px;
+    }
+
+    p {
+      font-size: 20px;
+      line-height: 24px;
+      color: $darkGreyColor;
+      margin-bottom: 24px;
+    }
+
+    .see-demo{
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 24px;
+      text-decoration-line: underline;
+      color: $darkGreyColor;
+    }
+  }
+}
+
+/* Who Should Enroll Card */
+.enroll-card {
+  @extend .card;
+
+  .enroll-items {
+    @extend .card-items;
+    .enroll-item{
+      @extend .card-item;
+      p {
+        @extend .card-item-p;
+      }
+    }
+  }
+}
+
+/* Course Requirements Card */
+.requirements-card {
+  @extend .card;
+
+  .requirements-items {
+    @extend .card-items;
+
+    .requirements-item {
+      p {
+      @extend .card-item-p;
+        span {
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}
 
 
+/* Student also bought */
+
+.student-also-bought-section{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 32px;
+
+  h1{
+    font-family: 'Anton';
+    font-size: 48px;
+    line-height: 124.04%;
+    color: $blackColor;
+  }
+  .student-also-bought-courses{
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: center;
+    .student-also-bought-courses-items{
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      padding: 0px;
+      gap: 24px;
+
+      .suggested-course-card{
+        @extend .course-card;
+
+        & .course-info{
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 0px;
+          gap: 16px;
+          & .course-rating {
+            display: flex;
+            align-items: flex-start;
+            padding: 0px;
+            gap: 5.6px;
+          }
+        }
+
+        & .course-students{
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          padding: 0px;
+          gap: 8px;
+          & .student-pictures{
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            padding: 0px;
+            max-height: 24px;
+            & img{
+              width: 24px;
+              height: 24px;
+              border: 2px solid #181818;
+              border-radius: 50%;
+              margin-left: -6px;
+            }
+          }
+
+          & .enrollments-number{
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 19px;
+
+            color: #303030;
+          }
 
 
+        }
+        & .course-instructor-price{
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+
+          & .course-instructor {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 0px;
+            gap: 16px;
+
+            & .instructor-picture {
+              width: 42px;
+              height: 42px;
+
+              & img {
+                width: 100%;
+                height: 100%;
+                border: 2px solid #181818;
+                border-radius: 50%;
+              }
+            }
+
+            & .instructor-name{
+              font-weight: 700;
+              font-size: 16px;
+              line-height: 19px;
+            }
+
+          }
+
+          & .course-price{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 15px 24px;
+            gap: 10px;
+
+            background: $greenColor;
+            border: 2px solid $blackColor;
+            border-radius: 33px;
 
 
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 19px;
+          }
+        }
+      }
+    }
+
+    .view-more-btn{
+      @include custom-button($greenColor,$blackColor,$blackColor,43px);
+    }
+}
+}
 /* footer */
 
 

@@ -230,6 +230,48 @@
   </div>
 </div>
 
+<!--Course content-->
+<div class="course-content-section">
+  <h1>Course Content</h1>
+  <div class="course-content-details">
+    <div class="course-content-details-item">
+      <img src="../../assets/svg/lecture.svg" alt="lecture-icon" />
+      <div>24 Lectures</div>
+    </div>
+    <div class="ellipse-seperator"></div>
+    <div class="course-content-details-item">
+      <img src="../../assets/svg/clock.svg" alt="clock icon" />
+      <div>140 Hourse</div>
+    </div>
+    <div class="ellipse-seperator"></div>
+    <div class="course-content-details-item">
+      <img src="../../assets/svg/section.svg" alt="section icon" />
+      <div>12 Section</div>
+    </div>
+  </div>
+  <div class="course-content-modules">
+    <div class="course-chapter" *ngFor="let chapter of chapters">
+      <div class="course-chapter-heading" (click)="toggleChapter(chapter)">
+        <img
+          [src]="
+            chapter.open
+              ? '../../assets/svg/up arrow.svg'
+              : '../../assets/svg/down arrow.svg'
+          "
+          alt="arrow"
+        />
+        <h2>{{ chapter.title }}</h2>
+      </div>
+      <div class="course-lessons" *ngIf="chapter.open">
+        <div class="course-lesson" *ngFor="let lesson of chapter.lessons">
+          <img [src]="lesson.icon" alt="icon" />
+          <h3>{{ lesson.title }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Who Should Enroll Card -->
 <div class="enroll-card">
   <!-- Title -->

@@ -1,67 +1,38 @@
 @use "../../assets/style/abstracts/variables.scss" as *;
 @use "../../assets/style/abstracts/mixins.scss" as *;
+@use "../../assets/style/abstracts/_placeholders.scss" as *;
 
 
 /* Common styles for card */
 .card {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 24px;
-  gap: 24px;
-
-  max-width: 820px;
-  background: $whiteColor;
-  border: 1px solid $blackColor;
-  box-shadow: 5px 5px 0px 1px $blackColor;
+  @include details-card(820px)
 }
-
 .course-card{
-
-  display: flex;
-  flex-direction: column;
-  padding: 24px;
-  gap: 24px;
-
-
-  background: $mainColorLight;
-  border: 1px solid $blackColor;
+  @include course-card
 }
+
+
 /* Card Titles */
 .card-title {
-  font-family: 'Anton', sans-serif;
-  font-size: 32px;
-  line-height: 124.04%;
-  color: $blackColor;
+  @extend %main-heading;
 }
 
 /* Common styles for card-items */
 .card-items {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  @extend %flex-column;
   gap: 16px;
 }
 
 .card-item {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  @extend %flex-row;
   gap: 16px;
-
-
 }
 
 .card-item-p {
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 24px;
-  color: $darkGreyColor;
-  margin: 0;
-  padding: 0;
+  @extend %paragraph;
 }
 
-
+/* Nav bar */
 
 .navbar {
   display: flex;
@@ -170,20 +141,11 @@
 
   .main-title{
     max-width: 844px;
-
-    font-family: 'Anton';
-    font-size: 64px;
-    line-height: 79px;
-
-    color: $whiteColor;
+    @include style-font('Anton',64px,79px,$whiteColor)
   }
   .description{
     max-width: 844px;
-
-    font-size: 24px;
-    line-height: 29px;
-
-    color: $whiteColor;
+    @include style-font('Cabin',24px,29px,$whiteColor)
   }
 }
 
@@ -195,21 +157,17 @@
 
   ol {
     margin: 0;
-    display: flex;
-    align-items: center;
+    @extend %flex-row;
   }
   &__item {
-    display: flex;
-    align-items: center;
+    @extend %flex-row;
     &:not(:last-child) {
       margin-right: 1.2rem;
     }
     // Additional styles for the active breadcrumb item
     &--active .breadcrumb__link {
-      font-weight: bold;
-      font-family: 'Anton';
-      font-size: 24px;
-      line-height: 124.04%;
+      @include style-font('Anton',24px,124.04%,$blackColor);
+      font-weight:bold
     }
   }
   // Styles for breadcrumb separator
@@ -495,6 +453,87 @@
     }
   }
 }
+
+/*  course content */
+.course-content-section{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 32px;
+
+  max-width: 820px;
+
+  h1{
+    font-family: 'Anton';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 124.04%;
+
+    color: $blackColor;
+  }
+  .course-content-details{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 32px;
+
+    .course-content-details-item{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 0px;
+      gap: 16px;
+    }
+    .ellipse-seperator{
+      width: 6px;
+      height: 6px;
+
+      border-radius: 50%;
+      background: $blackColor;
+    }
+  }
+
+  .course-content-modules{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+
+    .course-chapter-heading{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 24px 32px;
+      gap: 24px;
+
+      width: 820px;
+
+      background: $mainColorLight;
+      border: 1px solid $blackColor;
+    }
+    .course-lessons{
+      .course-lesson{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 24px 32px;
+        gap: 10px;
+
+        background: $whiteColor;
+        border: 1px solid $blackColor;
+
+        .course-lesson h3{
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+
 /* Who Should Enroll Card */
 .enroll-card {
   @extend .card;

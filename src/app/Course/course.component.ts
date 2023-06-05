@@ -77,6 +77,36 @@ export class CourseComponent {
     },
   ];
 
+  chapters = [
+    {
+      title: 'Chapter 1',
+      open: true,
+      lessons: [
+        { title: 'Introduction Lecture', icon: '../../assets/svg/lecture.svg' },
+        { title: 'Introduction Exercise', icon: '../../assets/svg/pen.svg' },
+        { title: 'Introduction Article', icon: '../../assets/svg/article.svg' },
+      ],
+    },
+    {
+      title: 'Chapter 1',
+      open: false,
+      lessons: [
+        { title: 'Introduction Lecture', icon: '../../assets/svg/lecture.svg' },
+        { title: 'Introduction Exercise', icon: '../../assets/svg/pen.svg' },
+        { title: 'Introduction Article', icon: '../../assets/svg/article.svg' },
+      ],
+    },
+    {
+      title: 'Chapter 1',
+      open: false,
+      lessons: [
+        { title: 'Introduction Lecture', icon: '../../assets/svg/lecture.svg' },
+        { title: 'Introduction Exercise', icon: '../../assets/svg/pen.svg' },
+        { title: 'Introduction Article', icon: '../../assets/svg/article.svg' },
+      ],
+    },
+  ];
+
   getRows() {
     const result = [];
     for (let i = 0; i < this.learningItems.length; i += 2) {
@@ -87,5 +117,9 @@ export class CourseComponent {
 
   toggleShowMore() {
     this.showMore = !this.showMore;
+  }
+
+  toggleChapter(chapter: any): void {
+    chapter.open = !chapter.open;
   }
 }

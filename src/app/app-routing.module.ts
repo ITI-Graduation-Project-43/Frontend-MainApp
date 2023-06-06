@@ -11,8 +11,17 @@ import { HomeInstructorComponent } from './HomeInstructor/home-instructor.compon
 const routes: Routes = [
   { path: '', redirectTo: 'header', pathMatch: 'full' },
   { path: 'header', component: HeaderComponent },
-  { path: 'courseDetails', component: CourseComponent },
-  {path: 'category', loadChildren: ()=>import('../app/Category/category.module').then(m=>m.CategoryModule),component: CategoryComponent},
+  {
+    path: 'courseDetails',
+    loadChildren: () =>
+      import('../app/Course/course.module').then((m) => m.CourseModule),
+  },
+  {
+    path: 'category',
+    loadChildren: () =>
+      import('../app/Category/category.module').then((m) => m.CategoryModule),
+    component: CategoryComponent,
+  },
   {
     path: 'about',
     loadChildren: () =>

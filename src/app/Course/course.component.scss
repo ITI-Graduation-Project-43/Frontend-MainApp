@@ -153,11 +153,15 @@
 /* course card */
 .course-details-card{
   @include course-card;
-  position: relative;
-  left: 1000px;
-  top: -486px;
+  // position: relative;
+  // left: 1000px;
+  // top: -486px;
   max-width: 500px;
 
+  .course-picture img{
+    max-width: 100%;
+    object-fit: contain
+  }
   .course-info{
     @include style-display-column(16px, 0);
 
@@ -221,6 +225,7 @@
       .instructor-picture {
         img {
           @include make-avatar(42px, 42px);
+          overflow: hidden;
         }
       }
       .instructor-name{

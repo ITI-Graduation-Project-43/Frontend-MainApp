@@ -1,0 +1,33 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+section {
+  padding: 4rem;
+  background-color: $mainColorLight;
+}
+h2 {
+  margin: auto;
+  width: fit-content;
+  font-size: $fs-24;
+  font-weight: 400;
+  font-family: $mainFontFamily;
+  margin-bottom: 20px;
+}
+
+.cards {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 20px;
+}
+
+.card {
+  border: none;
+  background-color: transparent;
+  text-align: center;
+  margin: auto;
+  margin-bottom: 25px;
+  text-align: center;
+  width: 150px;
+}
+svg {
+  max-width: 100%;
+}

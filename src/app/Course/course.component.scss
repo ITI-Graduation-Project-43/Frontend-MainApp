@@ -2,36 +2,6 @@
 @use "../../assets/style/abstracts/mixins.scss" as *;
 @use "../../assets/style/abstracts/_placeholders.scss" as *;
 
-
-/* Common styles for card */
-.card {
-  @include details-card(820px)
-}
-.course-card{
-  @include course-card
-}
-
-
-/* Card Titles */
-.card-title {
-  @extend %main-heading;
-}
-
-/* Common styles for card-items */
-.card-items {
-  @extend %flex-column;
-  gap: 16px;
-}
-
-.card-item {
-  @extend %flex-row;
-  gap: 16px;
-}
-
-.card-item-p {
-  @extend %paragraph;
-}
-
 /* Nav bar */
 
 .navbar {
@@ -130,14 +100,8 @@
 
 /* course hero section */
 .course-title{
-  display: flex;
-  flex-direction: column;
-  padding: 2rem;
-  gap: 24px;
-
+  @include style-display-column(24px, 2rem);
   background-color: $blackColor;
-  color: $whiteColor;
-
 
   .main-title{
     max-width: 844px;
@@ -188,165 +152,96 @@
 
 /* course card */
 .course-details-card{
-  @extend .course-card;
-
+  @include course-card;
   position: relative;
   left: 1000px;
   top: -486px;
-
   max-width: 500px;
 
+  .course-info{
+    @include style-display-column(16px, 0);
 
-  & .course-info{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0px;
-    gap: 16px;
-    & .course-rating {
-      display: flex;
-      align-items: flex-start;
-      padding: 0px;
-      gap: 5.6px;
+    .course-rating {
+      @include style-display-row(5.6px, 0);
     }
   }
-
-  & .course-students{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0px;
-    gap: 8px;
-    & .student-pictures{
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      padding: 0px;
+  .course-students{
+    @include style-display-row-center(8px, 0);
+    .student-pictures{
+      @include style-display-row(0 , 0);
       max-height: 24px;
-      & img{
-        width: 24px;
-        height: 24px;
-        border: 2px solid #181818;
-        border-radius: 50%;
+      img{
+        @include make-avatar(24px, 24px);
         margin-left: -6px;
       }
     }
 
-    & .enrollments-number{
-      font-weight: 700;
-      font-size: 16px;
-      line-height: 19px;
-
-      color: #303030;
+    .enrollments-number{
+      @include style-font('Cabin', 16px, 19px, $darkGreyColor,700);
     }
   }
-
-  & .course-action{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0px;
-    gap: 16px;
-    & .add-to-cart{
-      @include custom-button($greenColor,$blackColor,$whiteColor,63px);
+  .course-action{
+      @include style-display-column(16px, 0);
       width: 100%;
+      .add-to-cart{
+        @include custom-button($greenColor,$blackColor,$whiteColor,63px);
+        width: 100%;
+      }
+      .add-to-wishlist{
+        @include custom-button($whiteColor,$blackColor,$blackColor,63px);
+        width: 100%;
+      }
     }
-    .add-to-wishlist{
-      @include custom-button($whiteColor,$blackColor,$blackColor,63px);
-      width: 100%;
-    }
-  }
-
-  & .course-details{
-    display: flex;
-    flex-direction: column;
-    & h2{
-      font-family: 'Anton';
-      font-size: 24px;
-      line-height: 36px;
-      color: $darkGreyColor;
+  .course-details{
+    @extend %flex-column;
+    h2{
+      @include style-font('Anton',24px, 36px, $darkGreyColor);
     }
 
-    & .course-details-items {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 0;
-      gap: 16px;
-
+    .course-details-items {
+      @include style-display-column(16px, 0);
       list-style: none;
       margin: 0;
 
       & li {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        padding: 0;
-        gap: 16px;
-
-        font-weight: 700;
-        font-size: 20px;
-        line-height: 24px;
-        color: $darkGreyColor;
+        @include style-display-row-center(16px, 0) ;
+        @include style-font('Cabin',20px, 24px, $darkGreyColor,700);
       }
     }
   }
 
 
-  & .course-instructor-price{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  .course-instructor-price{
+    @include style-display-row-center(0 , 0);
     justify-content: space-between;
+    width: 100%;
 
-    & .course-instructor {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      padding: 0px;
-      gap: 16px;
-
-      & .instructor-picture {
-        width: 42px;
-        height: 42px;
-
-        & img {
-          width: 100%;
-          height: 100%;
-          border: 2px solid #181818;
-          border-radius: 50%;
+    .course-instructor {
+      @include style-display-row-center(16px, 0);
+      .instructor-picture {
+        img {
+          @include make-avatar(42px, 42px);
         }
       }
-
-      & .instructor-name{
-        font-weight: 700;
-        font-size: 16px;
-        line-height: 19px;
+      .instructor-name{
+        @include style-font('Cabin',16px, 19px, $darkGreyColor,700);
       }
 
     }
 
-    & .course-price{
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 15px 24px;
-      gap: 10px;
+    .course-price{
+      @include style-display-column(10px, 15px, 24px);
 
       background: $whiteColor;
       border: 2px solid $blackColor;
       border-radius: 33px;
-
-
-      font-weight: 700;
-      font-size: 16px;
-      line-height: 19px;
+      @include style-font('Cabin',16px, 19px, $darkGreyColor,700);
     }
   }
 }
 /*  what you will learn card */
 .learn-card {
-  @extend .card;
+  @include details-card(820px);
   position: relative;
 
   .learn-items {
@@ -354,10 +249,8 @@
     margin-bottom: 20px;
 
     .learn-item-row {
-      display: flex;
-      flex-direction: row;
+      @include style-display-row(24px, 0);
       justify-content: space-between;
-      gap: 24px;
       width: 100%;
 
       .learn-item {
@@ -392,100 +285,60 @@
   .read-more {
     position: absolute;
     bottom: 22px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0px;
-    gap: 8px;
+
+    @include style-display-row-center(8px, 0);
     z-index: 2;
     cursor: pointer;
     background: none;
     border: none;
 
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 19px;
-    color: $darkGreyColor;
+    @include style-font('Cabin', 16px,16px,$darkGreyColor, 700)
   }
 }
 /* Exercise Demo */
 .exercise-demo {
-  display: flex;
-  flex-direction: row;
+  @include style-display-row-center(0 , 24px);
   justify-content: flex-start;
-  align-items: center;
-  padding: 24px;
-  width: 820px;
-  background: $secondaryColor;
-  border: 2px solid $blackColor;
+  @include style-card(820px, $secondaryColor, $blackColor);
 
   img {
     margin-right: 24px;
   }
 
   .exercise-demo-content {
-    display: flex;
-    flex-direction: column;
+    @extend %flex-column;
     justify-content: flex-start;
-    align-items: flex-start;
-
     h2 {
-      font-family: 'Anton';
-      font-size: 32px;
-      line-height: 124.04%;
-      color: $blackColor;
+      @include style-font('Anton', 32px,124.04%,$blackColor, 700);
       margin-bottom: 24px;
     }
 
     p {
-      font-size: 20px;
-      line-height: 24px;
-      color: $darkGreyColor;
+      @include style-font('Cabin', 20px, 24px,$darkGreyColor);
       margin-bottom: 24px;
     }
 
     .see-demo{
-      font-weight: 700;
-      font-size: 20px;
-      line-height: 24px;
       text-decoration-line: underline;
-      color: $darkGreyColor;
+      @include style-font('Cabin', 20px, 24px,$darkGreyColor, 700);
     }
   }
 }
 
 /*  course content */
 .course-content-section{
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 32px;
-
+  @include style-display-column(32px, 0);
   max-width: 820px;
 
   h1{
-    font-family: 'Anton';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 48px;
-    line-height: 124.04%;
-
-    color: $blackColor;
+    @include style-font('Anton', 48px, 124.04%, $blackColor, 400);
   }
   .course-content-details{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0px;
-    gap: 32px;
+    @include style-display-row-center(32px, 0);
 
     .course-content-details-item{
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      padding: 0px;
-      gap: 16px;
+      @include style-display-row-center(16px, 0);
+
     }
     .ellipse-seperator{
       width: 6px;
@@ -497,18 +350,11 @@
   }
 
   .course-content-modules{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0px;
+    @include style-display-column(0, 0);
+
 
     .course-chapter-heading{
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      padding: 24px 32px;
-      gap: 24px;
-
+      @include style-display-row-center(24px, 24px, 32px);
       width: 820px;
 
       background: $mainColorLight;
@@ -516,11 +362,7 @@
     }
     .course-lessons{
       .course-lesson{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        padding: 24px 32px;
-        gap: 10px;
+        @include style-display-row-center(10px, 24px,  32px);
 
         background: $whiteColor;
         border: 1px solid $blackColor;
@@ -536,28 +378,28 @@
 
 /* Who Should Enroll Card */
 .enroll-card {
-  @extend .card;
+  @include details-card(820px);
 
   .enroll-items {
-    @extend .card-items;
+    @include style-display-column(16px, 0);
     .enroll-item{
-      @extend .card-item;
+      @include style-display-row(16px, 0);
       p {
-        @extend .card-item-p;
+        @extend %paragraph;
       }
     }
   }
 }
 /* Course Requirements Card */
 .requirements-card {
-  @extend .card;
+  @include details-card(820px);
 
   .requirements-items {
-    @extend .card-items;
+    @include style-display-column(16px, 0);
 
     .requirements-item {
       p {
-      @extend .card-item-p;
+      @extend %paragraph;
         span {
           font-weight: 700;
         }
@@ -566,140 +408,86 @@
   }
 }
 /* Student also bought section */
-.student-also-bought-section{
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 32px;
+/* Instructor other courses section */
+.courses-section{
+  @include style-display-column(32px, 0);
   max-width: 828px;
 
   h1{
-    font-family: 'Anton';
-    font-size: 48px;
-    line-height: 124.04%;
-    color: $blackColor;
+    @include style-font('Anton',48px,124.04%,$blackColor)
   }
-  .student-also-bought-courses{
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
+  .suggested-courses-section{
+    @include style-display-column(32px, 0);
     align-items: center;
-    .student-also-bought-courses-items{
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      padding: 0px;
-      gap: 24px;
-
-      .suggested-course-card{
-        @extend .course-card;
+    .course-cards{
+      @include style-display-row(24px, 0);
+      .course-card{
+        @include course-card;
         max-width: 402px;
 
-        .course-picture img{
+        .course-image{
           width: 100%;
         }
 
-        & .course-info{
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          padding: 0px;
-          gap: 16px;
-          & .course-rating {
-            display: flex;
-            align-items: flex-start;
-            padding: 0px;
-            gap: 5.6px;
+        .course-info{
+          @include style-display-column(16px, 0);
+          .course-rating {
+            @include style-display-row(5.6px, 0);
           }
 
           .course-name{
-            font-family: 'Anton';
-            font-size: 32px;
-            line-height: 124.04%;
-            color: $blackColor;
+            @include style-font('Anton',32px,124.04%,$blackColor)
           }
         }
 
-        & .course-students{
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          padding: 0px;
-          gap: 8px;
-          & .student-pictures{
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            padding: 0px;
+        .course-students{
+          @include style-display-row-center(8px, 0);
+
+          .student-pictures{
+            @include style-display-row(0, 0);
             max-height: 24px;
-            & img{
-              width: 24px;
-              height: 24px;
-              border: 2px solid #181818;
-              border-radius: 50%;
+            img{
+              @include make-avatar(24px, 24px);
               margin-left: -6px;
             }
           }
 
-          & .enrollments-number{
-            font-weight: 700;
-            font-size: 16px;
-            line-height: 19px;
-
-            color: #303030;
+          .enrollments-number{
+            @include style-font('Cabin', 16px, 19px, $darkGreyColor,700);
           }
 
 
         }
-        & .course-instructor-price{
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: space-between;
+        .course-instructor-price{
+          @include style-display-row-center(0 , 0);
+    justify-content: space-between;
+    width: 100%;
 
-          & .course-instructor {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            padding: 0px;
-            gap: 16px;
+          .course-instructor {
+            @include style-display-row-center(16px, 0);
 
-            & .instructor-picture {
-              width: 42px;
-              height: 42px;
-
-              & img {
-                width: 100%;
-                height: 100%;
-                border: 2px solid #181818;
-                border-radius: 50%;
+            .instructor-picture {
+              img {
+                @include make-avatar(42px, 42px);
               }
             }
 
-            & .instructor-name{
-              font-weight: 700;
-              font-size: 16px;
-              line-height: 19px;
+            .instructor-name{
+              @include style-font('Cabin',16px, 19px, $darkGreyColor,700);
             }
 
           }
 
-          & .course-price{
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            padding: 15px 24px;
-            gap: 10px;
+          .course-price{
+            @include style-display-column(10px, 15px, 24px);
+
 
             background: $greenColor;
             border: 2px solid $blackColor;
             border-radius: 33px;
 
 
-            font-weight: 700;
-            font-size: 16px;
-            line-height: 19px;
+            @include style-font('Cabin',16px, 19px, $darkGreyColor,700);
           }
         }
       }
@@ -712,11 +500,7 @@
 }
 /* Instructor details card */
 .instructor-details-card{
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 40px 32px;
-  gap: 32px;
+  @include style-display-row(32px , 40px, 32px);
 
   max-width: 828px;
 
@@ -732,238 +516,52 @@
   }
 
   .instructor-info-details{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0px;
-    gap: 8px;
+    @include style-display-column(8px, 0);
 
     .instructor-main-info{
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 0px;
-      gap: 4px;
+      @include style-display-column(4px, 0);
+
 
       .instructor-rating{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        padding: 0px;
-        gap: 8px;
+        @include style-display-row-center(8px, 0);
 
         span{
-          font-weight: 700;
-          font-size: 16px;
-          line-height: 19px;
-
-          color: $darkGreyColor;
+            @include style-font('Cabin',16px, 19px, $darkGreyColor,700);
         }
       }
       .instructor-name{
-        font-family: 'Anton';
-        font-size: 24px;
-        line-height: 124.04%;
-
-        color: $blackColor;
+        @include style-font('Anton',24px,124.04%,$blackColor)
       }
     }
     .instructor-additional-info{
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 0px;
-      gap: 8px;
-      font-family: 'Cabin';
-      font-weight: 400;
-      font-size: 20px;
-      line-height: 24px;
+      @include style-display-column(8px, 0);
+
       color: $darkGreyColor;
+      @include style-font('Cabin',20px, 24px, $darkGreyColor,400);
 
 
       .instructor-stats{
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        padding: 0px;
-        gap: 16px;
-        font-weight: 700;
-        font-size: 16px;
-        line-height: 19px;
+        @include style-display-row(16px, 0);
+        @include style-font('Cabin',16px, 19px, $darkGreyColor,700);
       }
-    }
-  }
-}
-/* Instructor other courses section */
-.instructor-other-courses-section{
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 32px;
-  max-width: 828px;
-
-  h1{
-    font-family: 'Anton';
-    font-size: 48px;
-    line-height: 124.04%;
-    color: $blackColor;
-  }
-  .instructor-other-courses{
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-    align-items: center;
-    .instructor-other-courses-items{
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      padding: 0px;
-      gap: 24px;
-
-      .suggested-course-card{
-        @extend .course-card;
-        max-width: 402px;
-
-        .course-picture img{
-          width: 100%;
-        }
-
-        & .course-info{
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          padding: 0px;
-          gap: 16px;
-          & .course-rating {
-            display: flex;
-            align-items: flex-start;
-            padding: 0px;
-            gap: 5.6px;
-          }
-
-          .course-name{
-            font-family: 'Anton';
-            font-size: 32px;
-            line-height: 124.04%;
-            color: $blackColor;
-          }
-        }
-
-        & .course-students{
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          padding: 0px;
-          gap: 8px;
-          & .student-pictures{
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            padding: 0px;
-            max-height: 24px;
-            & img{
-              width: 24px;
-              height: 24px;
-              border: 2px solid #181818;
-              border-radius: 50%;
-              margin-left: -6px;
-            }
-          }
-
-          & .enrollments-number{
-            font-weight: 700;
-            font-size: 16px;
-            line-height: 19px;
-
-            color: #303030;
-          }
-
-
-        }
-        & .course-instructor-price{
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: space-between;
-
-          & .course-instructor {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            padding: 0px;
-            gap: 16px;
-
-            & .instructor-picture {
-              width: 42px;
-              height: 42px;
-
-              & img {
-                width: 100%;
-                height: 100%;
-                border: 2px solid #181818;
-                border-radius: 50%;
-              }
-            }
-
-            & .instructor-name{
-              font-weight: 700;
-              font-size: 16px;
-              line-height: 19px;
-            }
-
-          }
-
-          & .course-price{
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            padding: 15px 24px;
-            gap: 10px;
-
-            background: $greenColor;
-            border: 2px solid $blackColor;
-            border-radius: 33px;
-
-
-            font-weight: 700;
-            font-size: 16px;
-            line-height: 19px;
-          }
-        }
-      }
-    }
-
-    .view-more-btn{
-      @include custom-button($greenColor,$blackColor,$blackColor,43px);
     }
   }
 }
 
 /* Student feedback section */
 .student-feedback-section{
-  display: flex;
-  flex-direction: column;
+  @include style-display-column(32px , 0);
   align-items: center;
-  padding: 0px;
-  gap: 32px;
   max-width: 828px;
 
   .students-feedback{
-    display: flex;
-    flex-direction: column;
+    @include style-display-column(16px , 0);
     align-items: center;
-    padding: 0px;
-    gap: 16px;
     max-width: 828px;
 
-    .student-feedback-card{
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      padding: 24px;
-      gap: 10px;
 
+    .student-feedback-card{
+      @include style-display-row(10px , 24px);
 
       background: $whiteColor;
       border: 1px solid $blackColor;
@@ -981,68 +579,36 @@
       }
 
       .student-feedback{
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 0px;
-        gap: 32px;
-        .student-review{
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          padding: 0px;
-          gap: 16px;
+        @include style-display-column(32px , 0);
 
+        .student-review{
+          @include style-display-column(16px , 0);
           .student-comment{
-            font-size: 20px;
-            line-height: 24px;
-            color: $darkGreyColor;
+            @include style-font('Cabin',20px, 24px, $darkGreyColor,400);
           }
           .student-rating{
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            padding: 0px;
-            gap: 8px;
+            @include style-display-column(8px , 0);
 
             .student-name{
-              font-weight: 700;
-              font-size: 16px;
-              line-height: 19px;
-
-              color: $darkGreyColor;
+              @include style-font('Cabin',16px, 19px, $darkGreyColor,700);
             }
 
             .student-course-rating{
-              display: flex;
-              flex-direction: row;
-              align-items: flex-start;
-              padding: 0px;
-              gap: 5.6px;
+              @include style-display-row(5.6px , 0);
             }
           }
 
         }
 
         .student-course{
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          padding: 14px 24px;
-          gap: 10px;
+          @include style-display-column(10px , 14px, 24px);
 
           max-width: 515px;
 
           background: $mainColorLight;
           border: 1px solid $blackColor;
           border-radius: 33px;
-
-
-          font-weight: 700;
-          font-size: 16px;
-          line-height: 19px;
-          color: $darkGreyColor
-
+          @include style-font('Cabin',16px, 19px, $darkGreyColor,700);
         }
 
       }
@@ -1055,74 +621,42 @@
 }
 /* footer */
 .footer{
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  @include style-display-column(10px ,0);
   padding: 88px 40px 24px 40px;
-  gap: 10px;
 
   background: $mainColorLight;
 
   .footer-section{
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
+    @include style-display-row(0 ,0);
     justify-content: space-between;
-    padding: 0px;
+
 
     .footer-logo{
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 0px;
-      gap: 16px;
-
+      @include style-display-column(16px ,0);
       max-width: 328px;
-      ;
 
       .logo-text{
-        font-family: 'Anton';
-        font-size: 48px;
-        line-height: 124.04%;
-
-        color: $blackColor;
+        @include style-font('Anton',48px,124.04%,$blackColor);
       }
       .logo-desc{
         margin: 0;
-
-        font-weight: 400;
-        font-size: 24px;
-        line-height: 29px;
-
-        color: $darkGreyColor;
-
+        @include style-font('Cabin',24px, 29px, $darkGreyColor,400);
       }
     }
 
     .footer-navigation{
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 0px;
-      gap: 8px;
-      font-family: 'Cabin';
-      font-style: normal;
-      font-size: 24px;
-      line-height: 29px;
+      @include style-display-column(8px ,0);
+      @include style-font('Cabin',24px, 29px, $darkGreyColor,400);
 
-      color: $darkGreyColor;
 
       h2{
         font-weight: 700;
       }
       .nav-item{
         text-decoration: none;
-        font-family: 'Cabin';
-        font-style: normal;
-        font-size: 24px;
-        line-height: 29px;
-        color: $darkGreyColor;
+        @include style-font('Cabin',24px, 29px, $darkGreyColor,400);
+
 
         &:hover{
           color: $blackColor;
@@ -1137,17 +671,10 @@
   }
 
   .footer-copyright{
-
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
-
-    color: $darkGreyColor;
-
+    @include style-font('Cabin',16px, 19px, $darkGreyColor,400);
     p{
       margin: 0;
     }
-
   }
 }
 

@@ -1,0 +1,35 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+
+.statistics {
+  background-color: white;
+  padding: 1.5rem;
+}
+.main-statistics {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+@media screen and (min-width: 768px) {
+  .main-statistics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media screen and (min-width: 992px) {
+  .main-statistics {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.child {
+  text-align: center;
+  padding: 1rem;
+}
+.child > h2 {
+  font-size: 64px;
+  font-family: $mainFontFamily;
+}
+
+.child > p {
+  font-size: $fs-24;
+  font-family: $secondaryFontFamily;
+  font-weight: 700;
+}
+

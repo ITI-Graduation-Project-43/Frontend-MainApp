@@ -6,6 +6,7 @@ import { CourseModule } from './Course/course.module';
 import { CourseComponent } from './Course/course.component';
 import { AboutComponent } from './About/about.component';
 import { CategoryComponent } from './Category/category.component';
+import { HomeInstructorComponent } from './HomeInstructor/home-instructor.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'header', pathMatch: 'full' },
@@ -14,8 +15,17 @@ const routes: Routes = [
   {path: 'category', loadChildren: ()=>import('../app/Category/category.module').then(m=>m.CategoryModule),component: CategoryComponent},
   {
     path: 'about',
-    loadChildren: () => import('../app/About/about.module').then(m => m.AboutModule),
+    loadChildren: () =>
+      import('../app/About/about.module').then((m) => m.AboutModule),
     component: AboutComponent,
+  },
+  {
+    path: 'HomeInstructor',
+    loadChildren: () =>
+      import('../app/HomeInstructor/home-instructor.module').then(
+        (m) => m.HomeInstructorModule
+      ),
+    component: HomeInstructorComponent,
   },
 ];
 

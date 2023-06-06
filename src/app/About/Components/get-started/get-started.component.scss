@@ -1,0 +1,31 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+
+* {
+  font-family: $mainFontFamily;
+}
+section {
+  padding: 2rem;
+}
+.header {
+  text-align: center;
+}
+.header > p {
+  font-size: $fs-48;
+  font-weight: 400;
+  margin-top: -20px;
+}
+
+.header > p:last-child {
+  font-size: $fs-24;
+  font-family: $secondaryFontFamily;
+}
+
+.contact {
+  padding: 2rem;
+  text-align: center;
+}
+.contact button {
+  @include custom-button($greenColor, $blackColor, $blackColor, 43px);
+  font-family: $secondaryFontFamily;
+}

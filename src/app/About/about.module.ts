@@ -12,8 +12,18 @@ import { TrustedByComponent } from './Components/trusted-by/trusted-by.component
 import { GetStartedComponent } from './Components/get-started/get-started.component';
 
 @NgModule({
-  declarations: [AboutComponent, EmptyComponent, MainSectionComponent, VisionComponent, StatisticsComponent, GoalsComponent, TeamComponent, TrustedByComponent, GetStartedComponent],
+  declarations: [
+    AboutComponent,
+    EmptyComponent,
+    MainSectionComponent,
+    VisionComponent,
+    StatisticsComponent,
+    GoalsComponent,
+    TeamComponent,
+    TrustedByComponent,
+    GetStartedComponent,
+  ],
   imports: [CommonModule],
-  exports: [MainSectionComponent],
+  exports: [GetStartedComponent],
 })
 export class AboutModule {}

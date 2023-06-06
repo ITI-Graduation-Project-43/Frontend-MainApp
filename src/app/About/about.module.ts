@@ -9,9 +9,10 @@ import { StatisticsComponent } from './Components/statistics/statistics.componen
 import { GoalsComponent } from './Components/goals/goals.component';
 import { TeamComponent } from './Components/team/team.component';
 import { TrustedByComponent } from './Components/trusted-by/trusted-by.component';
+import { GetStartedComponent } from './Components/get-started/get-started.component';
 
 @NgModule({
-  declarations: [AboutComponent, EmptyComponent, MainSectionComponent, VisionComponent, StatisticsComponent, GoalsComponent, TeamComponent, TrustedByComponent],
+  declarations: [AboutComponent, EmptyComponent, MainSectionComponent, VisionComponent, StatisticsComponent, GoalsComponent, TeamComponent, TrustedByComponent, GetStartedComponent],
   imports: [CommonModule],
   exports: [MainSectionComponent],
 })

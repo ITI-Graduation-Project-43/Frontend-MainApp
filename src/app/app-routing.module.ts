@@ -5,11 +5,13 @@ import { CommonModule } from '@angular/common';
 import { CourseModule } from './Course/course.module';
 import { CourseComponent } from './Course/course.component';
 import { AboutComponent } from './About/about.component';
+import { CategoryComponent } from './Category/category.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'header', pathMatch: 'full' },
   { path: 'header', component: HeaderComponent },
   { path: 'courseDetails', component: CourseComponent },
+  {path: 'category', loadChildren: ()=>import('../app/Category/category.module').then(m=>m.CategoryModule),component: CategoryComponent},
   {
     path: 'about',
     loadChildren: () => import('../app/About/about.module').then(m => m.AboutModule),

@@ -1,0 +1,98 @@
+@use "../../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../../assets/style/abstracts/_placeholders.scss" as *;
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+    background-color: $blackColor;
+    color: $whiteColor;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 29px;
+  
+  
+    a {
+      display: flex;
+      align-items: center;
+      color: inherit;
+      text-decoration: none;
+      svg {
+        margin-left: .5rem;
+      }
+    }
+  
+    &__brand-logo {
+      a{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        svg{
+          position: relative;
+          left: 14px;
+        }
+      }
+      &__brand-name{
+        font-family: 'Anton';
+        font-size: 36px;
+        line-height: 124.04%;
+      }
+    }
+  
+    &__menu-items {
+      list-style-type: none;
+      display: flex;
+      margin:0;
+      li {
+        margin: 0 1rem;
+        a {
+          color: inherit;
+          text-decoration: none;
+        }
+      }
+    }
+  
+    &__actions {
+      display: flex;
+      align-items: center;
+  
+      & > *:not(:last-child) {
+        margin-right: 1.5rem;
+      }
+  
+  
+  
+  
+  
+      & .navbar__register-btn {
+        .register-button {
+          @include custom-button($greenColor,$blackColor,$whiteColor,43px);
+        }
+      }
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .navbar {
+      flex-direction: column;
+  
+      &__menu-items {
+        flex-direction: column;
+  
+        li {
+          margin: .5rem 0;
+        }
+      }
+  
+      &__actions {
+        flex-direction: column;
+  
+        & .navbar__login-link, .navbar__register-btn {
+          margin: .5rem 0;
+        }
+      }
+    }
+  }
+  

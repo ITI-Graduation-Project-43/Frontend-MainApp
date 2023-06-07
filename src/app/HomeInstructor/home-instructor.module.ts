@@ -6,6 +6,7 @@ import { RequirementsComponent } from './Components/requirements/requirements.co
 import { RouterModule } from '@angular/router';
 import { ProcessComponent } from './Components/process/process.component';
 import { InstructorComponent } from './Components/instructor/instructor.component';
+import { MilestoneComponent } from './Components/milestone/milestone.component';
 // import { AboutModule } from '../About/about.module';
 
 @NgModule({
@@ -15,6 +16,7 @@ import { InstructorComponent } from './Components/instructor/instructor.componen
     RequirementsComponent,
     ProcessComponent,
     InstructorComponent,
+    MilestoneComponent,
   ],
   imports: [
     CommonModule,

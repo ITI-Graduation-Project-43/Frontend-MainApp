@@ -266,15 +266,22 @@
   <div class="course-content-modules">
     <div class="course-chapter" *ngFor="let chapter of chapters">
       <div class="course-chapter-heading" (click)="toggleChapter(chapter)">
-        <img
-          [src]="
-            chapter.open
-              ? '../../assets/svg/up arrow.svg'
-              : '../../assets/svg/down arrow.svg'
-          "
-          alt="arrow"
-        />
-        <h2>{{ course.title }}</h2>
+        <div class="course-chapter-name">
+          <img
+            [src]="
+              chapter.open
+                ? '../../assets/svg/up arrow.svg'
+                : '../../assets/svg/down arrow.svg'
+            "
+            alt="arrow"
+          />
+          <h2>{{ course.chapters[0].title }}</h2>
+        </div>
+        <div class="chapter-stats">
+          <span>24 Lesson</span>
+          <div class="ellipse-seperator"></div>
+          <span>24 Hourse</span>
+        </div>
       </div>
       <div class="course-lessons" *ngIf="chapter.open">
         <div class="course-lesson" *ngFor="let lesson of chapter.lessons">

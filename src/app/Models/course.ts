@@ -36,7 +36,7 @@ export interface Course {
   instructorNoOfStudents: number;
   instructorAvgRating: number;
   instructorNoOfRatings: number;
-  chapters: Chapter[];
+  chapters: CourseChapter[];
   learningItems: LearningItem[];
   enrollmentItems: EnrollmentItem[];
   courseRequirements: CourseRequirement[];
@@ -56,7 +56,7 @@ export interface CourseRequirement {
   description: string;
 }
 
-export interface Chapter {
+export interface CourseChapter {
   title: string;
   noOfLessons: number;
   noOfHours: number;

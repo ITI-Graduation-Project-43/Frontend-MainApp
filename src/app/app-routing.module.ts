@@ -26,15 +26,13 @@ const routes: Routes = [
     path: 'about',
     loadChildren: () =>
       import('../app/About/about.module').then((m) => m.AboutModule),
-    component: AboutComponent,
   },
   {
-    path: 'HomeInstructor',
+    path: 'homeinstructor',
     loadChildren: () =>
       import('../app/HomeInstructor/home-instructor.module').then(
         (m) => m.HomeInstructorModule
       ),
-    component: HomeInstructorComponent,
   },
 ];
 

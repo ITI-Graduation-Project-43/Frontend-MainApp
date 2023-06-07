@@ -1,0 +1,80 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+section {
+  padding: 4rem;
+  font-family: $mainFontFamily;
+}
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.header > h2 {
+  @include custom-header;
+  margin: auto;
+  margin-bottom: 20px;
+  background-color: #fbe6e9;
+}
+
+.header > p {
+  font-size: $fs-48;
+  font-weight: 400;
+}
+
+.header > p:last-child {
+  font-size: $fs-24;
+  font-family: $font-cabin;
+  margin: -10px;
+}
+
+.header > h2,
+.header > p {
+  text-transform: capitalize;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  .card:first-child {
+    background-color: $mainColorLight;
+  }
+  .card:nth-child(2) {
+    background-color: $greenColor;
+  }
+  .card:nth-child(3) {
+    background-color: $lightPurpleColor;
+  }
+  .card:last-child {
+    background-color: $secondaryColor;
+  }
+}
+.card {
+  padding: 24px;
+  margin-bottom: 10px;
+
+  h2 {
+    font-size: $fs-32;
+  }
+  p {
+    font-size: 20px;
+    font-family: $font-cabin;
+  }
+}
+@media screen and (min-width: 768px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .card {
+    margin-bottom: 0px;
+  }
+}
+.contact {
+  padding: 1.5rem;
+  text-align: center;
+  margin-top: 20px;
+}
+.contact button {
+  @include custom-button($greenColor, $blackColor, $blackColor, 43px);
+  font-family: $secondaryFontFamily;
+}

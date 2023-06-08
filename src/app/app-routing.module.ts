@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HeaderComponent } from './Core/header/header.component';
 import { CommonModule } from '@angular/common';
@@ -29,6 +29,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('../app/HomeInstructor/home-instructor.module').then(
         (m) => m.HomeInstructorModule
+      ),
+    component: HomeInstructorComponent,
+  },
+  {
+    path: 'contact',
+    loadChildren: () =>
+      import('../app/Contact/contact.module').then(
+        (contact) => contact.ContactModule
       ),
   },
 ];

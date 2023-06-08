@@ -21,26 +21,37 @@ h1 {
   font-weight: 400;
   font-family: $mainFontFamily;
   position: relative;
+  width: fit-content;
+  margin: auto;
 }
-// .empower::before {
-//   position: absolute;
-//   content: url(../../../../assets/svg/underquoute.svg);
-//   width: 30px;
-//   height: 30px;
-//   top: 100%;
-//   left: 0%;
-//   transform: translate(-50%, -50%);
-// }
-// .inspire::before {
-//   content: url(../../../../assets/svg/upstar.svg);
-//   position: absolute;
-//   width: 20px;
-//   height: 30px;
-//   right: 25%;
-//   top: -50%;
-//   transform: translate(-50%, -50%);
-//   text-align: center;
-// }
+.empower::before {
+  position: absolute;
+  content: url(../../../../assets/svg/upqoute.svg);
+  width: 30px;
+  height: 30px;
+  top: -40%;
+  right: -10%;
+  transform: translate(-50%, -50%);
+}
+.empower::after {
+  position: absolute;
+  content: url(../../../../assets/svg/underquoute.svg);
+  width: 30px;
+  height: 30px;
+  top: 100%;
+  left: 0%;
+  transform: translate(-50%, -50%);
+}
+.inspire::before {
+  content: url(../../../../assets/svg/upstar.svg);
+  position: absolute;
+  width: 20px;
+  height: 30px;
+  right: -5px;
+  top: -35px;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
 .inspire::after {
   position: absolute;
   content: url(../../../../assets/svg/underline.svg);
@@ -57,7 +68,7 @@ h1 {
   width: 100%;
   height: 20px;
   top: 20%;
-  left: 50%;
+  left: 40%;
   transform: translate(-50%, -50%);
   z-index: -50;
 }

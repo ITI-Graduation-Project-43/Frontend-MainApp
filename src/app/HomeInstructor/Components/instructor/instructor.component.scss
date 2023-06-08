@@ -7,9 +7,15 @@ section {
   padding: 30px;
 }
 .card {
-  @include style-display-row(10px, 24px);
+  @include style-display-row-center(10px, 24px);
   background-color: transparent;
   border: none;
+}
+@media screen and (max-width: 992px) {
+  .card {
+    flex-direction: column;
+    gap: 30px;
+  }
 }
 .image {
   img {
@@ -35,5 +41,6 @@ section {
   p:last-child {
     font-size: 16px;
     font-weight: 400;
+    margin: 0;
   }
 }

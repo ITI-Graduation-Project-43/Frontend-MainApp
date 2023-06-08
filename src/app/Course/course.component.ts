@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { forkJoin } from 'rxjs';
 
-import { APIService } from '../Shared/Services/api.service';
+import { CourseService } from '../Services/course.service';
 import { Course } from '../Models/course';
 import { APIResponseVM } from '../Shared/ViewModels/apiresponse-vm';
 import { mapEnumValue } from '../Shared/Helper/EnumMapper';
 import { Language } from '../Models/Enums/CourseLanguage';
 import { Level } from '../Models/Enums/CourseLevel';
 import { LessonType } from '../Models/Enums/LessonType';
-import { Chapter, ChapterLesson } from '../Models/chapter';
+import { Chapter } from '../Models/chapter';
 @Component({
   selector: 'app-course',
   templateUrl: './course.component.html',
@@ -15,71 +16,55 @@ import { Chapter, ChapterLesson } from '../Models/chapter';
 })
 export class CourseComponent implements OnInit {
   showMore = false;
-  chapterss = [
-    {
-      title: 'Chapter 1',
-      open: false,
-      lessons: [
-        { title: 'Introduction Lecture', icon: '../../assets/svg/lecture.svg' },
-        { title: 'Introduction Exercise', icon: '../../assets/svg/pen.svg' },
-        { title: 'Introduction Article', icon: '../../assets/svg/article.svg' },
-      ],
-    },
-    {
-      title: 'Chapter 1',
-      open: false,
-      lessons: [
-        { title: 'Introduction Lecture', icon: '../../assets/svg/lecture.svg' },
-        { title: 'Introduction Exercise', icon: '../../assets/svg/pen.svg' },
-        { title: 'Introduction Article', icon: '../../assets/svg/article.svg' },
-      ],
-    },
-    {
-      title: 'Chapter 1',
-      open: false,
-      lessons: [
-        { title: 'Introduction Lecture', icon: '../../assets/svg/lecture.svg' },
-        { title: 'Introduction Exercise', icon: '../../assets/svg/pen.svg' },
-        { title: 'Introduction Article', icon: '../../assets/svg/article.svg' },
-      ],
-    },
-  ];
+
+  pageNumber: number = 1;
+  taughtByInstructorPageNumber: number = 1;
+
+  pageSize: number = 2;
+
+  relatedCoursesTotalCount: number = 0;
+  instructorCoursesTotalCount: number = 0;
+
   course: Course = {} as Course;
   chapters: Chapter[] = [];
   relatedCourses: Course[] = [];
   instructorCourses: Course[] = [];
-  constructor(private apiService: APIService) {}
+
+  constructor(private apiService: CourseService) {}
 
   ngOnInit() {
-    this.apiService.getItemById('Course', 11).subscribe(
-      (data: APIResponseVM) => {
-        if (
-          data.success &&
-          Array.isArray(data.items) &&
-          data.items.length > 0
-        ) {
-          const courses = data.items as Course[];
+    const course$ = this.apiService.getItemById('Course', 11);
+    const chapters$ = this.apiService.getItemById('Chapter/byCourse', 11);
+    const relatedCourses$ = this.apiService.getRelatedCourses(11);
 
+    forkJoin({ course$, chapters$, relatedCourses$ }).subscribe(
+      (data: {
+        course$: APIResponseVM;
+        chapters$: APIResponseVM;
+        relatedCourses$: APIResponseVM;
+      }) => {
+        // Handling course data
+        const courseData = data.course$;
+        if (
+          courseData.success &&
+          Array.isArray(courseData.items) &&
+          courseData.items.length > 0
+        ) {
+          const courses = courseData.items as Course[];
           courses[0].language = mapEnumValue(Language, courses[0].language);
           courses[0].level = mapEnumValue(Level, courses[0].level);
-
           this.course = courses[0];
           console.log(this.course);
         }
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-    this.apiService.getItemById('Chapter/byCourse', 11).subscribe(
-      (data: APIResponseVM) => {
-        if (
-          data.success &&
-          Array.isArray(data.items) &&
-          data.items.length > 0
-        ) {
-          this.chapters = data.items;
 
+        // Handling chapters data
+        const chaptersData = data.chapters$;
+        if (
+          chaptersData.success &&
+          Array.isArray(chaptersData.items) &&
+          chaptersData.items.length > 0
+        ) {
+          this.chapters = chaptersData.items;
           for (let i = 0; i < this.chapters.length; i++) {
             this.chapters[i].open = false;
             for (let j = 0; j < this.chapters[i].lessons.length; j++) {
@@ -91,46 +76,70 @@ export class CourseComponent implements OnInit {
           }
           console.log(this.chapters);
         }
+
+        // Handling related courses data
+        const relatedCoursesData = data.relatedCourses$;
+        if (
+          relatedCoursesData.success &&
+          Array.isArray(relatedCoursesData.items) &&
+          relatedCoursesData.items.length > 0
+        ) {
+          let courses = relatedCoursesData.items as Course[];
+          for (let i = 0; i < courses.length; i++) {
+            courses[i].language = mapEnumValue(Language, courses[i].language);
+            courses[i].level = mapEnumValue(Level, courses[i].level);
+          }
+          this.relatedCourses = courses;
+          this.relatedCoursesTotalCount = relatedCoursesData.TotalPages;
+          console.log(this.relatedCourses);
+        }
+
+        // Make instructor courses API call
+        this.apiService
+          .getInstructorOtherCourses(this.course.instructorId, 11)
+          .subscribe(
+            (instructorCoursesData: APIResponseVM) => {
+              if (
+                instructorCoursesData.success &&
+                Array.isArray(instructorCoursesData.items) &&
+                instructorCoursesData.items.length > 0
+              ) {
+                let courses = instructorCoursesData.items as Course[];
+                for (let i = 0; i < courses.length; i++) {
+                  courses[i].language = mapEnumValue(
+                    Language,
+                    courses[i].language
+                  );
+                  courses[i].level = mapEnumValue(Level, courses[i].level);
+                }
+                this.instructorCourses = courses;
+                this.instructorCoursesTotalCount = 9;
+
+                console.log(this.instructorCourses);
+              }
+            },
+            (error) => {
+              console.error(error);
+            }
+          );
       },
       (error) => {
         console.error(error);
       }
     );
-    this.apiService
-      .getItemById('Course/category', this.course.categoryId)
-      .subscribe(
-        (data: APIResponseVM) => {
-          if (
-            data.success &&
-            Array.isArray(data.items) &&
-            data.items.length > 0
-          ) {
-            const courses = data.items as Course[];
-
-            courses[0].language = mapEnumValue(Language, courses[0].language);
-            courses[0].level = mapEnumValue(Level, courses[0].level);
-
-            this.course = courses[0];
-            console.log(this.course);
-          }
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
   }
 
   /* Learningn items */
   getRows() {
     const result = [];
-    for (let i = 0; i < this.course.learningItems.length; i += 2) {
+    for (let i = 0; i < this.course.learningItems?.length; i += 2) {
       result.push(this.course.learningItems.slice(i, i + 2));
     }
     return result;
   }
 
   hasMoreItems() {
-    return this.course.learningItems.length > 2;
+    return this.course.learningItems?.length > 2;
   }
   toggleShowMore() {
     this.showMore = !this.showMore;
@@ -153,5 +162,62 @@ export class CourseComponent implements OnInit {
       default:
         return '';
     }
+  }
+
+  /**************************************************************/
+  /*  for related courses */
+  loadMoreCourses() {
+    this.pageNumber++;
+    this.apiService
+      .getRelatedCourses(11, this.pageNumber, this.pageSize)
+      .subscribe(
+        (data: APIResponseVM) => {
+          if (
+            data.success &&
+            Array.isArray(data.items) &&
+            data.items.length > 0
+          ) {
+            let courses = data.items as Course[];
+            for (let i = 0; i < courses.length; i++) {
+              courses[i].language = mapEnumValue(Language, courses[i].language);
+              courses[i].level = mapEnumValue(Level, courses[i].level);
+            }
+            this.relatedCourses.push(...courses);
+          }
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+  }
+
+  loadMoreInstrucorCourses() {
+    this.taughtByInstructorPageNumber++;
+    this.apiService
+      .getInstructorOtherCourses(
+        this.course.instructorId,
+        11,
+        this.taughtByInstructorPageNumber,
+        this.pageSize
+      )
+      .subscribe(
+        (instructorCoursesData: APIResponseVM) => {
+          if (
+            instructorCoursesData.success &&
+            Array.isArray(instructorCoursesData.items) &&
+            instructorCoursesData.items.length > 0
+          ) {
+            let courses = instructorCoursesData.items as Course[];
+            for (let i = 0; i < courses.length; i++) {
+              courses[i].language = mapEnumValue(Language, courses[i].language);
+              courses[i].level = mapEnumValue(Level, courses[i].level);
+            }
+            this.instructorCourses.push(...courses);
+          }
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
   }
 }

@@ -1,9 +1,11 @@
 import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { HeaderComponent } from './Core/header/header.component';
 import { CommonModule } from '@angular/common';
 import { CourseModule } from './Course/course.module';
 import { CategoryComponent } from './Category/category.component';
+import { HomeInstructorComponent } from './HomeInstructor/home-instructor.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'header', pathMatch: 'full' },

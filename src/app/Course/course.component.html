@@ -337,126 +337,67 @@
 </div>
 
 <!--Student also bought-->
-<div class="courses-section">
+<div class="courses-section" *ngIf="relatedCourses.length > 0">
   <h1>Students also bought</h1>
 
   <div class="suggested-courses-section">
     <div class="course-cards">
-      <div class="course-card">
-        <img
-          src="../../assets/images/courseImage.png"
-          alt="course image"
-          class="course-image"
-        />
-        <div class="course-info">
-          <div class="course-rating">
-            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-          </div>
-          <div class="course-category">Development</div>
-          <div class="course-name">Become a back-end developer in 3 months</div>
-          <div class="course-students">
-            <div class="student-pictures">
+      <!-- Loop through relatedCourses array -->
+      <ng-container *ngFor="let course of relatedCourses; let i = index">
+        <div class="course-card">
+          <img
+            [src]="course.imageUrl"
+            alt="course image"
+            class="course-image"
+          />
+          <div class="course-info">
+            <div class="course-rating">
               <img
-                class="course-students-pic"
-                src="../../assets/images/student1.webp"
-                alt="student-picture"
-              />
-              <img
-                class="course-students-pic"
-                src="../../assets/images/student2.webp"
-                alt="student-picture"
-              />
-              <img
-                class="course-students-pic"
-                src="../../assets/images/student3.webp"
-                alt="student-picture"
-              />
-              <img
-                class="course-students-pic"
-                src="../../assets/images/student4.webp"
-                alt="student-picture"
+                *ngFor="let star of [1, 2, 3, 4, 5]"
+                [src]="'../../assets/svg/rating-star.svg'"
+                alt="rating-star"
+                [class.highlighted]="star <= course.avgReview"
               />
             </div>
-            <div class="enrollments-number">+3K enrolled</div>
+            <div class="course-category">{{ course.categoryName }}</div>
+            <div class="course-name">{{ course.title }}</div>
+            <div class="course-students">
+              <div class="student-pictures">
+                <!-- Display student pictures dynamically -->
+                <img
+                  *ngFor="let student of [1, 2, 3, 4]"
+                  class="course-students-pic"
+                  [src]="'../../assets/images/student' + student + '.webp'"
+                  alt="student-picture"
+                />
+              </div>
+              <div class="enrollments-number">
+                +{{ course.noOfStudents }} enrolled
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div class="course-instructor-price">
-          <div class="course-instructor">
-            <div class="instructor-picture">
-              <img
-                src="../../assets/images/instructor.webp"
-                alt="instructor-picture"
-              />
+          <div class="course-instructor-price">
+            <div class="course-instructor">
+              <div class="instructor-picture">
+                <img
+                  [src]="course.instructorProfilePicture"
+                  alt="instructor-picture"
+                />
+              </div>
+              <div class="instructor-name">{{ course.instructorName }}</div>
             </div>
-            <div class="instructor-name">Chandler Bing</div>
-          </div>
-          <div class="course-price">230 EGP</div>
-        </div>
-      </div>
-
-      <div class="course-card">
-        <img
-          src="../../assets/images/courseImage.png"
-          alt="course image"
-          class="course-image"
-        />
-        <div class="course-info">
-          <div class="course-rating">
-            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-          </div>
-          <div class="course-category">Development</div>
-          <div class="course-name">Become a back-end developer in 3 months</div>
-          <div class="course-students">
-            <div class="student-pictures">
-              <img
-                class="course-students-pic"
-                src="../../assets/images/student1.webp"
-                alt="student-picture"
-              />
-              <img
-                class="course-students-pic"
-                src="../../assets/images/student2.webp"
-                alt="student-picture"
-              />
-              <img
-                class="course-students-pic"
-                src="../../assets/images/student3.webp"
-                alt="student-picture"
-              />
-              <img
-                class="course-students-pic"
-                src="../../assets/images/student4.webp"
-                alt="student-picture"
-              />
-            </div>
-            <div class="enrollments-number">+3K enrolled</div>
+            <div class="course-price">{{ course.price }} EGP</div>
           </div>
         </div>
-
-        <div class="course-instructor-price">
-          <div class="course-instructor">
-            <div class="instructor-picture">
-              <img
-                src="../../assets/images/instructor.webp"
-                alt="instructor-picture"
-              />
-            </div>
-            <div class="instructor-name">Chandler Bing</div>
-          </div>
-          <div class="course-price">230 EGP</div>
-        </div>
-      </div>
+      </ng-container>
+      <!-- End of loop -->
     </div>
-    <button class="view-more-btn">View more</button>
+    <div *ngIf="pageNumber * pageSize < relatedCoursesTotalCount">
+      <button class="view-more-btn" (click)="loadMoreCourses()">
+        View more
+      </button>
+    </div>
   </div>
 </div>
 
@@ -496,121 +437,79 @@
 
   <div class="suggested-courses-section">
     <div class="course-cards">
-      <div class="course-card">
-        <img
-          src="../../assets/images/courseImage.png"
-          alt="course image"
-          class="course-image"
-        />
-        <div class="course-info">
-          <div class="course-rating">
-            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-          </div>
-          <div class="course-category">Development</div>
-          <div class="course-name">Become a back-end developer in 3 months</div>
-          <div class="course-students">
-            <div class="student-pictures">
+      <!-- Loop through instructorCourses array -->
+      <ng-container *ngFor="let course of instructorCourses; let i = index">
+        <div class="course-card">
+          <img
+            [src]="course.imageUrl"
+            alt="course image"
+            class="course-image"
+          />
+          <div class="course-info">
+            <div class="course-rating">
               <img
-                class="course-students-pic"
-                src="../../assets/images/student1.webp"
-                alt="student-picture"
-              />
-              <img
-                class="course-students-pic"
-                src="../../assets/images/student2.webp"
-                alt="student-picture"
-              />
-              <img
-                class="course-students-pic"
-                src="../../assets/images/student3.webp"
-                alt="student-picture"
-              />
-              <img
-                class="course-students-pic"
-                src="../../assets/images/student4.webp"
-                alt="student-picture"
+                *ngFor="let star of [1, 2, 3, 4, 5]"
+                [src]="'../../assets/svg/rating-star.svg'"
+                alt="rating-star"
+                [class.highlighted]="star <= course.avgReview"
               />
             </div>
-            <div class="enrollments-number">+3K enrolled</div>
+            <div class="course-category">{{ course.categoryName }}</div>
+            <div class="course-name">{{ course.title }}</div>
+            <div class="course-students">
+              <div class="student-pictures">
+                <img
+                  class="course-students-pic"
+                  src="../../assets/images/student1.webp"
+                  alt="student-picture"
+                />
+                <img
+                  class="course-students-pic"
+                  src="../../assets/images/student2.webp"
+                  alt="student-picture"
+                />
+                <img
+                  class="course-students-pic"
+                  src="../../assets/images/student3.webp"
+                  alt="student-picture"
+                />
+                <img
+                  class="course-students-pic"
+                  src="../../assets/images/student4.webp"
+                  alt="student-picture"
+                />
+              </div>
+              <div class="enrollments-number">
+                +{{ course.noOfStudents }} enrolled
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div class="course-instructor-price">
-          <div class="course-instructor">
-            <div class="instructor-picture">
-              <img
-                src="../../assets/images/instructor.webp"
-                alt="instructor-picture"
-              />
+          <div class="course-instructor-price">
+            <div class="course-instructor">
+              <div class="instructor-picture">
+                <img
+                  [src]="course.instructorProfilePicture"
+                  alt="instructor-picture"
+                />
+              </div>
+              <div class="instructor-name">{{ course.instructorName }}</div>
             </div>
-            <div class="instructor-name">Chandler Bing</div>
-          </div>
-          <div class="course-price">230 EGP</div>
-        </div>
-      </div>
-
-      <div class="course-card">
-        <img
-          src="../../assets/images/courseImage.png"
-          alt="course image"
-          class="course-image"
-        />
-        <div class="course-info">
-          <div class="course-rating">
-            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-            <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-          </div>
-          <div class="course-category">Development</div>
-          <div class="course-name">Become a back-end developer in 3 months</div>
-          <div class="course-students">
-            <div class="student-pictures">
-              <img
-                class="course-students-pic"
-                src="../../assets/images/student1.webp"
-                alt="student-picture"
-              />
-              <img
-                class="course-students-pic"
-                src="../../assets/images/student2.webp"
-                alt="student-picture"
-              />
-              <img
-                class="course-students-pic"
-                src="../../assets/images/student3.webp"
-                alt="student-picture"
-              />
-              <img
-                class="course-students-pic"
-                src="../../assets/images/student4.webp"
-                alt="student-picture"
-              />
-            </div>
-            <div class="enrollments-number">+3K enrolled</div>
+            <div class="course-price">{{ course.price }} EGP</div>
           </div>
         </div>
-
-        <div class="course-instructor-price">
-          <div class="course-instructor">
-            <div class="instructor-picture">
-              <img
-                src="../../assets/images/instructor.webp"
-                alt="instructor-picture"
-              />
-            </div>
-            <div class="instructor-name">Chandler Bing</div>
-          </div>
-          <div class="course-price">230 EGP</div>
-        </div>
-      </div>
+      </ng-container>
+      <!-- End of loop -->
     </div>
-    <button class="view-more-btn">View more</button>
+    <div
+      *ngIf="
+        taughtByInstructorPageNumber * pageSize < instructorCoursesTotalCount
+      "
+    >
+      <button class="view-more-btn" (click)="loadMoreInstrucorCourses()">
+        View more
+      </button>
+    </div>
   </div>
 </div>
 

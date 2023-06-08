@@ -153,11 +153,15 @@
 /* course card */
 .course-details-card{
   @include course-card;
-  position: relative;
-  left: 1000px;
-  top: -486px;
+  // position: relative;
+  // left: 1000px;
+  // top: -486px;
   max-width: 500px;
 
+  .course-picture img{
+    max-width: 100%;
+    object-fit: contain
+  }
   .course-info{
     @include style-display-column(16px, 0);
 
@@ -221,6 +225,7 @@
       .instructor-picture {
         img {
           @include make-avatar(42px, 42px);
+          overflow: hidden;
         }
       }
       .instructor-name{
@@ -329,7 +334,13 @@
 .course-content-section{
   @include style-display-column(32px, 0);
   max-width: 820px;
+  .ellipse-seperator{
+    width: 6px;
+    height: 6px;
 
+    border-radius: 50%;
+    background: $blackColor;
+  }
   h1{
     @include style-font('Anton', 48px, 124.04%, $blackColor, 400);
   }
@@ -340,13 +351,7 @@
       @include style-display-row-center(16px, 0);
 
     }
-    .ellipse-seperator{
-      width: 6px;
-      height: 6px;
 
-      border-radius: 50%;
-      background: $blackColor;
-    }
   }
 
   .course-content-modules{
@@ -356,9 +361,15 @@
     .course-chapter-heading{
       @include style-display-row-center(24px, 24px, 32px);
       width: 820px;
-
+      justify-content: space-between;
       background: $mainColorLight;
       border: 1px solid $blackColor;
+      .course-chapter-name{
+        @include style-display-row-center(8px, 0);
+      }
+      .chapter-stats{
+        @include style-display-row-center(10px, 0);
+      }
     }
     .course-lessons{
       .course-lesson{

@@ -1,17 +1,21 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Anton", sans-serif;
 }
+
 img {
   box-shadow: 3px 3px 0 white;
   border: 3px solid black;
-  width: 300px;
+  width: 400px;
+  height: 400px;
 }
 .main {
   background-color: black;
-  padding: 20px;
+  padding: 40px;
   display: flex;
 }
 .about {
@@ -34,13 +38,13 @@ img {
     width: 400px;
   }
   .about {
-    font-size: 2.5rem;
+    font-size: $fs-48;
     font-weight: 400;
   }
 }
 @media only screen and (min-width: 1200px) {
   .about {
-    font-size: 3rem;
-    line-height: 5.5rem;
+    font-size: $fs-64;
+    font-weight: 400;
   }
 }

@@ -1,0 +1,39 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/_placeholders.scss" as *;
+
+section {
+  background-color: $mainColorLight;
+  padding: 30px;
+}
+.card {
+  @include style-display-row(10px, 24px);
+  background-color: transparent;
+  border: none;
+}
+.image {
+  img {
+    box-shadow: 5px 5px 0px black;
+  }
+}
+
+.info {
+  padding: 10px;
+  h5 {
+    font-size: 16px;
+    font-weight: 700;
+  }
+  p {
+    font-size: 20px;
+    font-weight: 400;
+  }
+  h4 {
+    font-size: $fs-24;
+    font-family: $mainFontFamily;
+    font-weight: 400;
+  }
+  p:last-child {
+    font-size: 16px;
+    font-weight: 400;
+  }
+}

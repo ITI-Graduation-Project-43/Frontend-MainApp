@@ -4,47 +4,351 @@
 
 
 // Category Title
-.category-title{
-    display: flex;
-    flex-direction: column;
-    padding: 2rem;
-    gap: 24px;
-  
-    background-color: $blackColor;
-    color: $whiteColor;
-  
-  
-    .main-title{
-      max-width: 844px;
-      @include style-font('Anton',64px,79px,$whiteColor)
+.category-title {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  gap: 24px;
+
+  background-color: $blackColor;
+  color: $whiteColor;
+
+
+  .main-title {
+    max-width: 844px;
+    @include style-font('Anton', 64px, 79px, $whiteColor)
+  }
+
+  .description {
+    max-width: 844px;
+    @include style-font('Cabin', 24px, 29px, $whiteColor)
+  }
+}
+
+
+
+//NavBar Subcategory
+.subcategory {
+  background-color: $secondaryColor;
+  color: $blackColor;
+
+  ol {
+    margin: 0;
+    @extend %flex-row-center;
+  }
+
+  &__item {
+    @extend %flex-row-center;
+
+    &:not(:last-child) {
+      margin-right: 1.2rem;
     }
-    .description{
-      max-width: 844px;
-      @include style-font('Cabin',24px,29px,$whiteColor)
+
+    // Styles for the active item
+    &--active .subcategory__link {
+      @include style-font('Anton', 24px, 124.04%, $blackColor);
+      font-weight: bold
     }
   }
 
+  // Styles for separator
+  &__separator {
+    margin-left: 1.2rem;
+  }
+
+  // Styles for links
+  &__link {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      font-weight: bold;
+    }
+  }
+}
 
 
-  //NavBar Subcategory
-  .subcategory {
-    background-color: $secondaryColor;
-    color: $blackColor;
-    padding: 1rem 2rem;
+//Feature this week
+.featurecontainer, .search-result-container {
+  padding: 24px;
+  background-color: #FDF6EB;
 
-    &__item {
-      @extend %flex-row;
-      &:not(:last-child) {
-        margin-right: 1.2rem;
+  .course-rating {
+    @include style-display-row(5.6px, 0);
+    width: 10rem;
+  }
+
+  .course-students {
+    @include style-display-row-center(8px, 0);
+
+    .student-pictures {
+      @include style-display-row(0, 0);
+      max-height: 24px;
+
+      img {
+        @include make-avatar(24px, 24px);
+        margin-left: -6px;
       }
     }
-    // Styles for breadcrumb links
-    &__link {
-      text-decoration: none;
-      color: inherit;
-  
-      &:hover {
-        font-weight: bold;
+
+    .enrollments-number {
+      @include style-font('Cabin', 16px, 19px, $darkGreyColor, 700);
+    }
+  }
+
+  h1 {
+    @include style-font('Anton', 24, 124.04%, $blackColor);
+    margin-bottom: 0;
+  }
+
+  .weekfeature {
+    @extend %flex-row;
+    box-sizing: border-box;
+    padding: 24px;
+    gap: 10px;
+    background: #FFFFFF;
+    border: 1px solid #181818;
+    order: 1;
+
+    .image{
+      .featureImg {
+        border: 1px solid #181818;
+        width: 32rem;
+      }
+    }
+    
+  }
+
+  .course-instructor-price {
+    @include style-display-row-center(0, 0);
+    justify-content: space-between;
+    width: 100%;
+
+    .course-instructor {
+      @include style-display-row-center(16px, 0);
+
+      .instructor-picture {
+        img {
+          @include make-avatar(42px, 42px);
+        }
+      }
+
+      .instructor-name {
+        @include style-font('Cabin', 16px, 19px, $darkGreyColor, 700);
+      }
+
+    }
+
+    .course-price {
+      @include style-display-column(10px, 15px, 24px);
+
+
+      background: $greenColor;
+      border: 2px solid $blackColor;
+      border-radius: 33px;
+
+
+      @include style-font('Cabin', 16px, 19px, $darkGreyColor, 700);
+    }
+  }
+}
+
+
+
+
+//Learning Journey
+.learning-journey,
+.latest-courses {
+  @include style-display-column(32px, 0);
+  padding: 24px;
+
+  .get-started {
+    @include custom-button(#FBE6E9, $blackColor, $blackColor, 43px);
+    border-radius: 5rem
+  }
+
+  h1 {
+    @include style-font('Anton', 48px, 124.04%, $blackColor);
+  }
+
+  .suggested-courses-section {
+    @include style-display-column(32px, 0);
+    align-items: center;
+
+    .course-cards {
+      @include style-display-row(24px, 0);
+
+      .course-card {
+        @include course-card;
+
+        .course-image {
+          width: 100%;
+        }
+
+        .course-info {
+          @include style-display-column(16px, 0);
+
+          .course-rating {
+            @include style-display-row(5.6px, 0);
+          }
+
+          .course-name {
+            @include style-font('Anton', 32px, 124.04%, $blackColor)
+          }
+        }
+
+        .course-students {
+          @include style-display-row-center(8px, 0);
+
+          .student-pictures {
+            @include style-display-row(0, 0);
+            max-height: 24px;
+
+            img {
+              @include make-avatar(24px, 24px);
+              margin-left: -6px;
+            }
+          }
+
+          .enrollments-number {
+            @include style-font('Cabin', 16px, 19px, $darkGreyColor, 700);
+          }
+
+
+        }
+
+        .course-instructor-price {
+          @include style-display-row-center(0, 0);
+          justify-content: space-between;
+          width: 100%;
+
+          .course-instructor {
+            @include style-display-row-center(16px, 0);
+
+            .instructor-picture {
+              img {
+                @include make-avatar(42px, 42px);
+              }
+            }
+
+            .instructor-name {
+              @include style-font('Cabin', 16px, 19px, $darkGreyColor, 700);
+            }
+
+          }
+
+          .course-price {
+            @include style-display-column(10px, 15px, 24px);
+
+
+            background: $greenColor;
+            border: 2px solid $blackColor;
+            border-radius: 33px;
+
+
+            @include style-font('Cabin', 16px, 19px, $darkGreyColor, 700);
+          }
+        }
       }
     }
   }
+}
+
+//Popular Instructors
+.section-title button{
+  @include custom-button(#FBE6E9, $blackColor, $blackColor, 24px);
+  border-radius: 5rem
+}
+.popular-instructors{
+  display: grid;
+  grid-template-columns: repeat(8,1fr);
+  grid-template-rows: repeat(1,1fr);
+  gap: 10px;
+
+  .section-title{
+    grid-column: 1 / 3;
+  }
+
+  .first-two-cards,.second-two-cards{
+    @include style-display-column(10px,0px,0px);
+    .Instructor-card{
+      @include style-display-row-center(20px,10px,10px);
+      width: 100%;
+      border: 1px solid #181818;
+      img{
+        @include make-avatar(120px,120px);
+        margin-left: 1rem;
+      }
+    }
+
+    .first{
+      background-color: #FDF6EB;
+    }
+    .second{
+      background-color: #D8D6FB;
+    }
+    .third{
+      background-color: #ADE2BF;
+    }
+    .forth{
+      background-color: #FBE6E9;
+    }
+  }
+  .first-two-cards{
+    grid-column: 3 / 6;
+  }
+  .second-two-cards{
+    grid-column: 6 / 9;
+  }
+}
+
+
+//Lastest Courses
+.latest-courses {
+  background-color: #FBE6E9;
+
+  .suggested-courses-section {
+    .course-cards {
+      .course-card {
+        background-color: #FFFFFF;
+      }
+    }
+  }
+}
+
+
+//All Developement Courses
+.all-courses{
+  @include style-display-column(16px, 24px);
+  h1{
+    @include style-font('Anton', 24, 124.04%, $blackColor);
+  }
+  .control-container{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    .controls{
+      grid-column: 1/2;
+      margin-right: 2rem;
+      @include style-display-column(16px, 0px);
+      section{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #FDF6EB;
+        border: 1px solid #181818;
+        padding: 20px 30px;
+      }
+    }
+    .search-results{
+      grid-column: 2/5;
+      @include style-display-column(16px, 0px);
+      .search-result-container{
+        padding: 0;
+        background-color: transparent;
+      }
+    }
+  }
+}
+
+

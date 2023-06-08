@@ -1,0 +1,21 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+
+h2 {
+  font-family: $font-anton;
+  font-size: $fs-64;
+  font-weight: 400;
+}
+p {
+  font-size: $fs-24;
+  font-family: $font-cabin;
+  font-weight: 400;
+}
+h5 {
+  font-size: $fs-24;
+  font-weight: 400;
+  font-family: $font-anton;
+}
+img {
+  max-width: 100%;
+}

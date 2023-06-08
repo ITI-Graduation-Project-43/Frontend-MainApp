@@ -105,15 +105,9 @@
 <div class="course-details-card">
   <div class="course-picture">
     <img [src]="course.imageUrl" alt="course image" />
-    <!-- src  = "../../assets/images/courseImage.png"-->
   </div>
   <div class="course-info">
     <div class="course-rating">
-      <!-- <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-      <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-      <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-      <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-      <img src="../../assets/svg/rating-star.svg" alt="rating-star" /> -->
       <img
         *ngFor="let star of ' '.repeat(course.avgReview).split('')"
         src="../../assets/svg/rating-star.svg"
@@ -208,17 +202,17 @@
     <div *ngFor="let item of getRows(); let i = index" class="learn-item-row">
       <div *ngFor="let subitem of item">
         <p class="learn-item" [class.hidden]="!showMore && i >= 2">
-          <span class="title">{{ subitem.title }}</span>
-          <span class="description">{{ subitem.description }}</span>
+          <span class="title">{{ subitem.title }}: </span>
+          <span class="description">{{ subitem.description }}.</span>
         </p>
       </div>
     </div>
     <!-- Gradient Overlay -->
-    <div *ngIf="!showMore" class="gradient-overlay"></div>
+    <div *ngIf="!showMore && hasMoreItems()" class="gradient-overlay"></div>
   </div>
 
   <!-- Show More/Less Button -->
-  <button (click)="toggleShowMore()" class="read-more">
+  <button (click)="toggleShowMore()" *ngIf="hasMoreItems()" class="read-more">
     {{ showMore ? "Read less" : "Read more" }}
     <img
       [src]="
@@ -255,12 +249,12 @@
     <div class="ellipse-seperator"></div>
     <div class="course-content-details-item">
       <img src="../../assets/svg/clock.svg" alt="clock icon" />
-      <div>{{ course.noOfHours }} Hourse</div>
+      <div>{{ course.noOfHours }} Hours</div>
     </div>
     <div class="ellipse-seperator"></div>
     <div class="course-content-details-item">
       <img src="../../assets/svg/section.svg" alt="section icon" />
-      <div>{{ course.chapterCount }} Section</div>
+      <div>{{ course.chapterCount }} Sections</div>
     </div>
   </div>
   <div class="course-content-modules">
@@ -275,18 +269,31 @@
             "
             alt="arrow"
           />
-          <h2>{{ course.chapters[0].title }}</h2>
+          <h2>{{ chapter.title }}</h2>
         </div>
         <div class="chapter-stats">
-          <span>24 Lesson</span>
+          <span>{{ chapter.noOfLessons }} Lesson(s)</span>
           <div class="ellipse-seperator"></div>
-          <span>24 Hourse</span>
+          <span>{{ chapter.noOfHours }} Hour(s)</span>
         </div>
       </div>
       <div class="course-lessons" *ngIf="chapter.open">
         <div class="course-lesson" *ngFor="let lesson of chapter.lessons">
-          <img [src]="lesson.icon" alt="icon" />
-          <h3>{{ lesson.title }}</h3>
+          <div class="lesson-main-data">
+            <div class="lesson-heading">
+              <img [src]="getIconByType(lesson.type)" alt="icon" />
+              <h3>{{ lesson.title }}</h3>
+            </div>
+            <div
+              *ngIf="lesson.description.length > 0"
+              class="lesson-description"
+            >
+              {{ lesson.description }}
+            </div>
+          </div>
+          <div class="lesson-stats">
+            <span>{{ lesson.noOfHours }} Hour(s)</span>
+          </div>
         </div>
       </div>
     </div>

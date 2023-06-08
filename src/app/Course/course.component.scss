@@ -37,7 +37,7 @@
       }
     }
     &__brand-name{
-      font-family: 'Anton';
+      font-family: $font-anton;
       font-size: 36px;
       line-height: 124.04%;
     }
@@ -105,11 +105,11 @@
 
   .main-title{
     max-width: 844px;
-    @include style-font('Anton',64px,79px,$whiteColor)
+    @include style-font($font-anton,64px,79px,$whiteColor)
   }
   .description{
     max-width: 844px;
-    @include style-font('Cabin',24px,29px,$whiteColor)
+    @include style-font($font-cabin,24px,29px,$whiteColor)
   }
 }
 
@@ -130,7 +130,7 @@
     }
     // Additional styles for the active breadcrumb item
     &--active .breadcrumb__link {
-      @include style-font('Anton',24px,124.04%,$blackColor);
+      @include style-font($font-anton,24px,124.04%,$blackColor);
       font-weight:bold
     }
   }
@@ -181,7 +181,7 @@
     }
 
     .enrollments-number{
-      @include style-font('Cabin', 16px, 19px, $darkGreyColor,700);
+      @include style-font($font-cabin, 16px, 19px, $darkGreyColor,700);
     }
   }
   .course-action{
@@ -199,7 +199,7 @@
   .course-details{
     @extend %flex-column;
     h2{
-      @include style-font('Anton',24px, 36px, $darkGreyColor);
+      @include style-font($font-anton,24px, 36px, $darkGreyColor);
     }
 
     .course-details-items {
@@ -209,7 +209,7 @@
 
       & li {
         @include style-display-row-center(16px, 0) ;
-        @include style-font('Cabin',20px, 24px, $darkGreyColor,700);
+        @include style-font($font-cabin,20px, 24px, $darkGreyColor,700);
       }
     }
   }
@@ -229,7 +229,7 @@
         }
       }
       .instructor-name{
-        @include style-font('Cabin',16px, 19px, $darkGreyColor,700);
+        @include style-font($font-cabin,16px, 19px, $darkGreyColor,700);
       }
 
     }
@@ -240,7 +240,7 @@
       background: $whiteColor;
       border: 2px solid $blackColor;
       border-radius: 33px;
-      @include style-font('Cabin',16px, 19px, $darkGreyColor,700);
+      @include style-font($font-cabin,16px, 19px, $darkGreyColor,700);
     }
   }
 }
@@ -297,7 +297,7 @@
     background: none;
     border: none;
 
-    @include style-font('Cabin', 16px,16px,$darkGreyColor, 700)
+    @include style-font($font-cabin, 16px,16px,$darkGreyColor, 700)
   }
 }
 /* Exercise Demo */
@@ -314,18 +314,18 @@
     @extend %flex-column;
     justify-content: flex-start;
     h2 {
-      @include style-font('Anton', 32px,124.04%,$blackColor, 700);
+      @include style-font($font-anton, 32px,124.04%,$blackColor, 700);
       margin-bottom: 24px;
     }
 
     p {
-      @include style-font('Cabin', 20px, 24px,$darkGreyColor);
+      @include style-font($font-cabin, 20px, 24px,$darkGreyColor);
       margin-bottom: 24px;
     }
 
     .see-demo{
       text-decoration-line: underline;
-      @include style-font('Cabin', 20px, 24px,$darkGreyColor, 700);
+      @include style-font($font-cabin, 20px, 24px,$darkGreyColor, 700);
     }
   }
 }
@@ -342,7 +342,7 @@
     background: $blackColor;
   }
   h1{
-    @include style-font('Anton', 48px, 124.04%, $blackColor, 400);
+    @include style-font($font-anton, 48px, 124.04%, $blackColor, 400);
   }
   .course-content-details{
     @include style-display-row-center(32px, 0);
@@ -356,8 +356,6 @@
 
   .course-content-modules{
     @include style-display-column(0, 0);
-
-
     .course-chapter-heading{
       @include style-display-row-center(24px, 24px, 32px);
       width: 820px;
@@ -373,13 +371,24 @@
     }
     .course-lessons{
       .course-lesson{
-        @include style-display-row-center(10px, 24px,  32px);
+        @include style-display-row-center(10px, 0px,  32px);
+        width: 100%;
+        justify-content: space-between;
 
         background: $whiteColor;
         border: 1px solid $blackColor;
-
-        .course-lesson h3{
-          margin: 0;
+        .lesson-main-data{
+          @include style-display-column(2px, 24px,  32px);
+          .lesson-heading{
+            @include style-display-row-center(10px, 0);
+            h3{
+              margin: 0;
+            }
+          }
+          .lesson-description{
+            margin-left: 34px;
+            @include style-font($font-cabin,20px,24px,$darkGreyColor)
+          }
         }
       }
     }
@@ -425,7 +434,7 @@
   max-width: 828px;
 
   h1{
-    @include style-font('Anton',48px,124.04%,$blackColor)
+    @include style-font($font-anton,48px,124.04%,$blackColor)
   }
   .suggested-courses-section{
     @include style-display-column(32px, 0);
@@ -447,7 +456,7 @@
           }
 
           .course-name{
-            @include style-font('Anton',32px,124.04%,$blackColor)
+            @include style-font($font-anton,32px,124.04%,$blackColor)
           }
         }
 
@@ -464,7 +473,7 @@
           }
 
           .enrollments-number{
-            @include style-font('Cabin', 16px, 19px, $darkGreyColor,700);
+            @include style-font($font-cabin, 16px, 19px, $darkGreyColor,700);
           }
 
 
@@ -484,7 +493,7 @@
             }
 
             .instructor-name{
-              @include style-font('Cabin',16px, 19px, $darkGreyColor,700);
+              @include style-font($font-cabin,16px, 19px, $darkGreyColor,700);
             }
 
           }
@@ -498,7 +507,7 @@
             border-radius: 33px;
 
 
-            @include style-font('Cabin',16px, 19px, $darkGreyColor,700);
+            @include style-font($font-cabin,16px, 19px, $darkGreyColor,700);
           }
         }
       }
@@ -537,23 +546,23 @@
         @include style-display-row-center(8px, 0);
 
         span{
-            @include style-font('Cabin',16px, 19px, $darkGreyColor,700);
+            @include style-font($font-cabin,16px, 19px, $darkGreyColor,700);
         }
       }
       .instructor-name{
-        @include style-font('Anton',24px,124.04%,$blackColor)
+        @include style-font($font-anton,24px,124.04%,$blackColor)
       }
     }
     .instructor-additional-info{
       @include style-display-column(8px, 0);
 
       color: $darkGreyColor;
-      @include style-font('Cabin',20px, 24px, $darkGreyColor,400);
+      @include style-font($font-cabin,20px, 24px, $darkGreyColor,400);
 
 
       .instructor-stats{
         @include style-display-row(16px, 0);
-        @include style-font('Cabin',16px, 19px, $darkGreyColor,700);
+        @include style-font($font-cabin,16px, 19px, $darkGreyColor,700);
       }
     }
   }
@@ -595,13 +604,13 @@
         .student-review{
           @include style-display-column(16px , 0);
           .student-comment{
-            @include style-font('Cabin',20px, 24px, $darkGreyColor,400);
+            @include style-font($font-cabin,20px, 24px, $darkGreyColor,400);
           }
           .student-rating{
             @include style-display-column(8px , 0);
 
             .student-name{
-              @include style-font('Cabin',16px, 19px, $darkGreyColor,700);
+              @include style-font($font-cabin,16px, 19px, $darkGreyColor,700);
             }
 
             .student-course-rating{
@@ -619,7 +628,7 @@
           background: $mainColorLight;
           border: 1px solid $blackColor;
           border-radius: 33px;
-          @include style-font('Cabin',16px, 19px, $darkGreyColor,700);
+          @include style-font($font-cabin,16px, 19px, $darkGreyColor,700);
         }
 
       }
@@ -648,17 +657,17 @@
       max-width: 328px;
 
       .logo-text{
-        @include style-font('Anton',48px,124.04%,$blackColor);
+        @include style-font($font-anton,48px,124.04%,$blackColor);
       }
       .logo-desc{
         margin: 0;
-        @include style-font('Cabin',24px, 29px, $darkGreyColor,400);
+        @include style-font($font-cabin,24px, 29px, $darkGreyColor,400);
       }
     }
 
     .footer-navigation{
       @include style-display-column(8px ,0);
-      @include style-font('Cabin',24px, 29px, $darkGreyColor,400);
+      @include style-font($font-cabin,24px, 29px, $darkGreyColor,400);
 
 
       h2{
@@ -666,7 +675,7 @@
       }
       .nav-item{
         text-decoration: none;
-        @include style-font('Cabin',24px, 29px, $darkGreyColor,400);
+        @include style-font($font-cabin,24px, 29px, $darkGreyColor,400);
 
 
         &:hover{
@@ -682,7 +691,7 @@
   }
 
   .footer-copyright{
-    @include style-font('Cabin',16px, 19px, $darkGreyColor,400);
+    @include style-font($font-cabin,16px, 19px, $darkGreyColor,400);
     p{
       margin: 0;
     }

@@ -35,6 +35,13 @@ const routes: Routes = [
       ),
     component: HomeInstructorComponent,
   },
+  {
+    path: 'contact',
+    loadChildren: () =>
+      import('../app/Contact/contact.module').then(
+        (contact) => contact.ContactModule
+      ),
+  },
 ];
 
 @NgModule({

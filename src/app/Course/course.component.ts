@@ -9,6 +9,9 @@ import { Language } from '../Models/Enums/CourseLanguage';
 import { Level } from '../Models/Enums/CourseLevel';
 import { LessonType } from '../Models/Enums/LessonType';
 import { Chapter } from '../Models/chapter';
+import { Student } from '../Models/student';
+import { StudentService } from '../Services/student.service';
+import { courseStudents } from '../Models/courseStudents';
 @Component({
   selector: 'app-course',
   templateUrl: './course.component.html',
@@ -16,6 +19,7 @@ import { Chapter } from '../Models/chapter';
 })
 export class CourseComponent implements OnInit {
   showMore = false;
+  courseId: number = 11;
 
   pageNumber: number = 1;
   taughtByInstructorPageNumber: number = 1;
@@ -27,21 +31,48 @@ export class CourseComponent implements OnInit {
 
   course: Course = {} as Course;
   chapters: Chapter[] = [];
-  relatedCourses: Course[] = [];
-  instructorCourses: Course[] = [];
 
-  constructor(private apiService: CourseService) {}
+  relatedCourses: courseStudents[] = [];
+  instructorCourses: courseStudents[] = [];
+
+  courseStudents: Course[] = [];
+  studentInCourse: Student[] = [];
+
+  constructor(
+    private courseService: CourseService,
+    private studentService: StudentService
+  ) {}
 
   ngOnInit() {
-    const course$ = this.apiService.getItemById('Course', 11);
-    const chapters$ = this.apiService.getItemById('Chapter/byCourse', 11);
-    const relatedCourses$ = this.apiService.getRelatedCourses(11);
+    const course$ = this.courseService.getItemById('Course', this.courseId);
+    const chapters$ = this.courseService.getItemById(
+      'Chapter/byCourse',
+      this.courseId
+    );
+    const relatedCourses$ = this.courseService.getRelatedCoursesWithStudents(
+      this.courseId,
+      4,
+      this.pageNumber,
+      this.pageSize
+    );
+    const studentInCourse$ = this.studentService.getRecentStudentsInCourse(
+      4,
+      this.courseId,
+      1,
+      4
+    );
 
-    forkJoin({ course$, chapters$, relatedCourses$ }).subscribe(
+    forkJoin({
+      course$,
+      chapters$,
+      relatedCourses$,
+      studentInCourse$,
+    }).subscribe(
       (data: {
         course$: APIResponseVM;
         chapters$: APIResponseVM;
         relatedCourses$: APIResponseVM;
+        studentInCourse$: APIResponseVM;
       }) => {
         // Handling course data
         const courseData = data.course$;
@@ -84,19 +115,33 @@ export class CourseComponent implements OnInit {
           Array.isArray(relatedCoursesData.items) &&
           relatedCoursesData.items.length > 0
         ) {
-          let courses = relatedCoursesData.items as Course[];
-          for (let i = 0; i < courses.length; i++) {
-            courses[i].language = mapEnumValue(Language, courses[i].language);
-            courses[i].level = mapEnumValue(Level, courses[i].level);
-          }
+          let courses = relatedCoursesData.items as courseStudents[];
+
           this.relatedCourses = courses;
-          this.relatedCoursesTotalCount = relatedCoursesData.TotalPages;
+          this.relatedCoursesTotalCount = 9 || relatedCoursesData.TotalPages;
           console.log(this.relatedCourses);
         }
 
+        // Handling student in course data
+        const studentInCourseData = data.studentInCourse$;
+        if (
+          studentInCourseData.success &&
+          Array.isArray(studentInCourseData.items) &&
+          studentInCourseData.items.length > 0
+        ) {
+          this.studentInCourse = studentInCourseData.items;
+          console.log(this.studentInCourse);
+        }
+
         // Make instructor courses API call
-        this.apiService
-          .getInstructorOtherCourses(this.course.instructorId, 11)
+        this.courseService
+          .getInstructorOtherCoursesWithStudents(
+            this.course.instructorId,
+            this.courseId,
+            4,
+            this.taughtByInstructorPageNumber,
+            this.pageSize
+          )
           .subscribe(
             (instructorCoursesData: APIResponseVM) => {
               if (
@@ -104,17 +149,11 @@ export class CourseComponent implements OnInit {
                 Array.isArray(instructorCoursesData.items) &&
                 instructorCoursesData.items.length > 0
               ) {
-                let courses = instructorCoursesData.items as Course[];
-                for (let i = 0; i < courses.length; i++) {
-                  courses[i].language = mapEnumValue(
-                    Language,
-                    courses[i].language
-                  );
-                  courses[i].level = mapEnumValue(Level, courses[i].level);
-                }
-                this.instructorCourses = courses;
-                this.instructorCoursesTotalCount = 9;
+                let courses = instructorCoursesData.items as courseStudents[];
 
+                this.instructorCourses = courses;
+                this.instructorCoursesTotalCount =
+                  9 || relatedCoursesData.TotalPages;
                 console.log(this.instructorCourses);
               }
             },
@@ -168,8 +207,13 @@ export class CourseComponent implements OnInit {
   /*  for related courses */
   loadMoreCourses() {
     this.pageNumber++;
-    this.apiService
-      .getRelatedCourses(11, this.pageNumber, this.pageSize)
+    this.courseService
+      .getRelatedCoursesWithStudents(
+        this.courseId,
+        4,
+        this.pageNumber,
+        this.pageSize
+      )
       .subscribe(
         (data: APIResponseVM) => {
           if (
@@ -177,11 +221,7 @@ export class CourseComponent implements OnInit {
             Array.isArray(data.items) &&
             data.items.length > 0
           ) {
-            let courses = data.items as Course[];
-            for (let i = 0; i < courses.length; i++) {
-              courses[i].language = mapEnumValue(Language, courses[i].language);
-              courses[i].level = mapEnumValue(Level, courses[i].level);
-            }
+            let courses = data.items as courseStudents[];
             this.relatedCourses.push(...courses);
           }
         },
@@ -193,10 +233,11 @@ export class CourseComponent implements OnInit {
 
   loadMoreInstrucorCourses() {
     this.taughtByInstructorPageNumber++;
-    this.apiService
-      .getInstructorOtherCourses(
+    this.courseService
+      .getInstructorOtherCoursesWithStudents(
         this.course.instructorId,
-        11,
+        this.courseId,
+        4,
         this.taughtByInstructorPageNumber,
         this.pageSize
       )
@@ -207,11 +248,7 @@ export class CourseComponent implements OnInit {
             Array.isArray(instructorCoursesData.items) &&
             instructorCoursesData.items.length > 0
           ) {
-            let courses = instructorCoursesData.items as Course[];
-            for (let i = 0; i < courses.length; i++) {
-              courses[i].language = mapEnumValue(Language, courses[i].language);
-              courses[i].level = mapEnumValue(Level, courses[i].level);
-            }
+            let courses = instructorCoursesData.items as courseStudents[];
             this.instructorCourses.push(...courses);
           }
         },

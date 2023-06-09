@@ -175,7 +175,7 @@
     .student-pictures{
       @include style-display-row(0 , 0);
       max-height: 24px;
-      img{
+      .course-students-pic{
         @include make-avatar(24px, 24px);
         margin-left: -6px;
       }

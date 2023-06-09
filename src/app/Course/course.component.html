@@ -117,24 +117,10 @@
     <div class="course-students">
       <div class="student-pictures">
         <img
+          *ngFor="let student of studentInCourse | slice : 0 : 4"
           class="course-students-pic"
-          src="../../assets/images/student1.webp"
-          alt="student-picture"
-        />
-        <img
-          class="course-students-pic"
-          src="../../assets/images/student2.webp"
-          alt="student-picture"
-        />
-        <img
-          class="course-students-pic"
-          src="../../assets/images/student3.webp"
-          alt="student-picture"
-        />
-        <img
-          class="course-students-pic"
-          src="../../assets/images/student4.webp"
-          alt="student-picture"
+          [src]="student.profilePicture || '../../assets/images/student1.webp'"
+          alt="{{ student.firstName + ' ' + student.lastName + ' photo' }}"
         />
       </div>
       <div class="enrollments-number" *ngIf="course.noOfStudents < 1000">
@@ -184,7 +170,6 @@
     <div class="course-instructor">
       <div class="instructor-picture">
         <img [src]="course.instructorProfilePicture" alt="instructor-picture" />
-        <!-- src="../../assets/images/instructor.webp" -->
       </div>
       <div class="instructor-name">{{ course.instructorName }}</div>
     </div>
@@ -346,8 +331,8 @@
       <ng-container *ngFor="let course of relatedCourses; let i = index">
         <div class="course-card">
           <img
-            [src]="course.imageUrl"
-            alt="course image"
+            [src]="course.courseImageUrl"
+            alt="{{ course.courseTitle + 'image ' }}"
             class="course-image"
           />
           <div class="course-info">
@@ -356,23 +341,51 @@
                 *ngFor="let star of [1, 2, 3, 4, 5]"
                 [src]="'../../assets/svg/rating-star.svg'"
                 alt="rating-star"
-                [class.highlighted]="star <= course.avgReview"
+                [class.highlighted]="star <= course.courseAvgReview"
               />
             </div>
-            <div class="course-category">{{ course.categoryName }}</div>
-            <div class="course-name">{{ course.title }}</div>
+            <div class="course-category">{{ course.courseCategoryName }}</div>
+            <div class="course-name">{{ course.courseTitle }}</div>
             <div class="course-students">
               <div class="student-pictures">
                 <!-- Display student pictures dynamically -->
                 <img
-                  *ngFor="let student of [1, 2, 3, 4]"
+                  *ngFor="let student of course.student | slice : 0 : 4"
                   class="course-students-pic"
-                  [src]="'../../assets/images/student' + student + '.webp'"
-                  alt="student-picture"
+                  [src]="
+                    student.studentProfilePicture ||
+                    '../../assets/images/student1.webp'
+                  "
+                  alt="{{
+                    student.studentFirstName +
+                      ' ' +
+                      student.studentLastName +
+                      ' photo'
+                  }}"
                 />
               </div>
-              <div class="enrollments-number">
-                +{{ course.noOfStudents }} enrolled
+              <div
+                class="enrollments-number"
+                *ngIf="course.courseNoOfStudents < 1000"
+              >
+                {{ course.courseNoOfStudents }} enrolled
+              </div>
+              <div
+                class="enrollments-number"
+                *ngIf="
+                  course.courseNoOfStudents >= 1000 &&
+                  course.courseNoOfStudents < 1000000
+                "
+              >
+                {{ course.courseNoOfStudents / 1000 | number : "1.0-2" }}K
+                enrolled
+              </div>
+              <div
+                class="enrollments-number"
+                *ngIf="course.courseNoOfStudents >= 1000000"
+              >
+                {{ course.courseNoOfStudents / 1000000 | number : "1.0-4" }}M
+                enrolled
               </div>
             </div>
           </div>
@@ -385,7 +398,11 @@
                   alt="instructor-picture"
                 />
               </div>
-              <div class="instructor-name">{{ course.instructorName }}</div>
+              <div class="instructor-name">
+                {{
+                  course.instructorFirstName + " " + course.instructorLastName
+                }}
+              </div>
             </div>
             <div class="course-price">{{ course.price }} EGP</div>
           </div>
@@ -441,8 +458,8 @@
       <ng-container *ngFor="let course of instructorCourses; let i = index">
         <div class="course-card">
           <img
-            [src]="course.imageUrl"
-            alt="course image"
+            [src]="course.courseImageUrl"
+            alt="{{ course.courseTitle + 'image ' }}"
             class="course-image"
           />
           <div class="course-info">
@@ -451,36 +468,50 @@
                 *ngFor="let star of [1, 2, 3, 4, 5]"
                 [src]="'../../assets/svg/rating-star.svg'"
                 alt="rating-star"
-                [class.highlighted]="star <= course.avgReview"
+                [class.highlighted]="star <= course.courseAvgReview"
               />
             </div>
-            <div class="course-category">{{ course.categoryName }}</div>
-            <div class="course-name">{{ course.title }}</div>
+            <div class="course-category">{{ course.courseCategoryName }}</div>
+            <div class="course-name">{{ course.courseTitle }}</div>
             <div class="course-students">
               <div class="student-pictures">
                 <img
+                  *ngFor="let student of course.student | slice : 0 : 4"
                   class="course-students-pic"
-                  src="../../assets/images/student1.webp"
-                  alt="student-picture"
-                />
-                <img
-                  class="course-students-pic"
-                  src="../../assets/images/student2.webp"
-                  alt="student-picture"
-                />
-                <img
-                  class="course-students-pic"
-                  src="../../assets/images/student3.webp"
-                  alt="student-picture"
-                />
-                <img
-                  class="course-students-pic"
-                  src="../../assets/images/student4.webp"
-                  alt="student-picture"
+                  [src]="
+                    student.studentProfilePicture ||
+                    '../../assets/images/student1.webp'
+                  "
+                  alt="{{
+                    student.studentFirstName +
+                      ' ' +
+                      student.studentLastName +
+                      ' photo'
+                  }}"
                 />
               </div>
-              <div class="enrollments-number">
-                +{{ course.noOfStudents }} enrolled
+              <div
+                class="enrollments-number"
+                *ngIf="course.courseNoOfStudents < 1000"
+              >
+                {{ course.courseNoOfStudents }} enrolled
+              </div>
+              <div
+                class="enrollments-number"
+                *ngIf="
+                  course.courseNoOfStudents >= 1000 &&
+                  course.courseNoOfStudents < 1000000
+                "
+              >
+                {{ course.courseNoOfStudents / 1000 | number : "1.0-2" }}K
+                enrolled
+              </div>
+              <div
+                class="enrollments-number"
+                *ngIf="course.courseNoOfStudents >= 1000000"
+              >
+                {{ course.courseNoOfStudents / 1000000 | number : "1.0-4" }}M
+                enrolled
               </div>
             </div>
           </div>
@@ -493,7 +524,11 @@
                   alt="instructor-picture"
                 />
               </div>
-              <div class="instructor-name">{{ course.instructorName }}</div>
+              <div class="instructor-name">
+                {{
+                  course.instructorFirstName + " " + course.instructorLastName
+                }}
+              </div>
             </div>
             <div class="course-price">{{ course.price }} EGP</div>
           </div>

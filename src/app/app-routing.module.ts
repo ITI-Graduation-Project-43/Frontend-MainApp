@@ -1,15 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HeaderComponent } from './Core/header/header.component';
 import { CommonModule } from '@angular/common';
 import { CourseModule } from './Course/course.module';
 import { CourseComponent } from './Course/course.component';
 import { AboutComponent } from './About/about.component';
+import { HomeComponent } from './Home/home.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'header', pathMatch: 'full' },
-  { path: 'header', component: HeaderComponent },
-  { path: 'courseDetails', component: CourseComponent },
+  { path: "", redirectTo: 'home', pathMatch: 'full' },
+  {
+    path: 'home',
+    loadChildren: () => import('../app/Home/home.module').then(m => m.HomeModule),
+    component: HomeComponent
+  },
+
+  {
+    path: 'courseDetails',
+    loadChildren: () => import('../app/Course/course.module').then(m => m.CourseModule),
+    component: CourseComponent
+  },
   {
     path: 'about',
     loadChildren: () => import('../app/About/about.module').then(m => m.AboutModule),

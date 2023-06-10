@@ -17,10 +17,9 @@ const routes: Routes = [
       import('../app/Course/course.module').then((m) => m.CourseModule),
   },
   {
-    path: 'category',
+    path: 'category/:id',
     loadChildren: () =>
-      import('../app/Category/category.module').then((m) => m.CategoryModule),
-    component: CategoryComponent,
+      import('../app/Category/category.module').then((m) => m.CategoryModule)
   },
   {
     path: 'instructorDetails',
@@ -56,4 +55,4 @@ const routes: Routes = [
   imports: [CommonModule, CourseModule, RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

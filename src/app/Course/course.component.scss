@@ -14,4 +14,39 @@
 }
 
 
+.loading-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .loading-icon{
+    width:200px;
+    height:200px;
+    border-radius:50%;
+    background:conic-gradient(#0000 10%,#D8D6FB);
+    -webkit-mask:radial-gradient(farthest-side,#0000 calc(100% - 16px),#000 0);
+    animation:s3 1s infinite linear;
+}
+}
+@keyframes s3 {to{transform: rotate(1turn)}}
 
+.error-message {
+  padding: 20px;
+  margin: 10px;
+  color: #721c24;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: 'Cabin';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 32px;
+  .error-message-photo{
+    width: 80vh;
+    object-fit: cover;
+  }
+}

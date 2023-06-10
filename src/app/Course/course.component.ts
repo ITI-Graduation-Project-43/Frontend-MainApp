@@ -12,29 +12,37 @@ import { Chapter } from '../Models/chapter';
 import { Student } from '../Models/student';
 import { StudentService } from '../Services/student.service';
 import { courseStudents } from '../Models/courseStudents';
+
+const COURSE = 'Course';
+const CHAPTER_BY_COURSE = 'Chapter/byCourse';
+const INITIAL_PAGE_SIZE = 2;
+const INITIAL_PAGE_NUMBER = 1;
+const STUDENTS_NUMBER = 4;
+const DEFAULT_PAGE_SIZE = 4;
+const DEFAULT_TOTAL_PAGES = 9;
+
 @Component({
   selector: 'app-course',
   templateUrl: './course.component.html',
   styleUrls: ['./course.component.scss'],
 })
 export class CourseComponent implements OnInit {
+  // Properties
   courseId: number = 11;
-
-  pageNumber: number = 1;
-  taughtByInstructorPageNumber: number = 1;
-
-  pageSize: number = 2;
-
+  pageNumber: number = INITIAL_PAGE_NUMBER;
+  taughtByInstructorPageNumber: number = INITIAL_PAGE_NUMBER;
+  pageSize: number = INITIAL_PAGE_SIZE;
   relatedCoursesTotalCount: number = 0;
   instructorCoursesTotalCount: number = 0;
 
+  loading: boolean = false;
+  errorMessage: string | null = null;
+
+  // Models
   course: Course = {} as Course;
   chapters: Chapter[] = [];
-
   relatedCourses: courseStudents[] = [];
   instructorCourses: courseStudents[] = [];
-
-  courseStudents: Course[] = [];
   studentInCourse: Student[] = [];
 
   constructor(
@@ -43,185 +51,155 @@ export class CourseComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const course$ = this.courseService.getItemById('Course', this.courseId);
-    const chapters$ = this.courseService.getItemById(
-      'Chapter/byCourse',
-      this.courseId
-    );
-    const relatedCourses$ = this.courseService.getRelatedCoursesWithStudents(
-      this.courseId,
-      4,
-      this.pageNumber,
-      this.pageSize
-    );
-    const studentInCourse$ = this.studentService.getRecentStudentsInCourse(
-      4,
-      this.courseId,
-      1,
-      4
-    );
+    this.loadData();
+  }
 
+  loadData() {
+    this.loading = true;
     forkJoin({
-      course$,
-      chapters$,
-      relatedCourses$,
-      studentInCourse$,
+      course: this.courseService.getItemById(COURSE, this.courseId),
+      chapters: this.courseService.getItemById(
+        CHAPTER_BY_COURSE,
+        this.courseId
+      ),
+      relatedCourses: this.courseService.getRelatedCoursesWithStudents(
+        this.courseId,
+        STUDENTS_NUMBER,
+        this.pageNumber,
+        this.pageSize
+      ),
+      students: this.studentService.getRecentStudentsInCourse(
+        STUDENTS_NUMBER,
+        this.courseId,
+        INITIAL_PAGE_NUMBER,
+        DEFAULT_PAGE_SIZE
+      ),
     }).subscribe(
-      (data: {
-        course$: APIResponseVM;
-        chapters$: APIResponseVM;
-        relatedCourses$: APIResponseVM;
-        studentInCourse$: APIResponseVM;
-      }) => {
-        // Handling course data
-        const courseData = data.course$;
-        if (
-          courseData.success &&
-          Array.isArray(courseData.items) &&
-          courseData.items.length > 0
-        ) {
-          const courses = courseData.items as Course[];
+      (data) => {
+        this.handleResponse(data.course, (courses: Course[]) => {
           courses[0].language = mapEnumValue(Language, courses[0].language);
           courses[0].level = mapEnumValue(Level, courses[0].level);
           this.course = courses[0];
-          console.log(this.course);
-        }
+        });
 
-        // Handling chapters data
-        const chaptersData = data.chapters$;
-        if (
-          chaptersData.success &&
-          Array.isArray(chaptersData.items) &&
-          chaptersData.items.length > 0
-        ) {
-          this.chapters = chaptersData.items;
-          for (let i = 0; i < this.chapters.length; i++) {
-            this.chapters[i].open = false;
-            for (let j = 0; j < this.chapters[i].lessons.length; j++) {
-              this.chapters[i].lessons[j].type = mapEnumValue(
-                LessonType,
-                this.chapters[i].lessons[j].type
-              );
-            }
+        this.handleResponse(data.chapters, (chapters: Chapter[]) => {
+          chapters.forEach((chapter) => {
+            chapter.open = false;
+            chapter.lessons.forEach((lesson) => {
+              lesson.type = mapEnumValue(LessonType, lesson.type);
+            });
+          });
+          this.chapters = chapters;
+        });
+
+        this.handleResponse(
+          data.relatedCourses,
+          (courses: courseStudents[]) => {
+            this.relatedCourses = courses;
+            this.relatedCoursesTotalCount =
+              DEFAULT_TOTAL_PAGES || data.relatedCourses.TotalPages;
           }
-          console.log(this.chapters);
-        }
+        );
 
-        // Handling related courses data
-        const relatedCoursesData = data.relatedCourses$;
-        if (
-          relatedCoursesData.success &&
-          Array.isArray(relatedCoursesData.items) &&
-          relatedCoursesData.items.length > 0
-        ) {
-          let courses = relatedCoursesData.items as courseStudents[];
-
-          this.relatedCourses = courses;
-          this.relatedCoursesTotalCount = 9 || relatedCoursesData.TotalPages;
-          console.log(this.relatedCourses);
-        }
-
-        // Handling student in course data
-        const studentInCourseData = data.studentInCourse$;
-        if (
-          studentInCourseData.success &&
-          Array.isArray(studentInCourseData.items) &&
-          studentInCourseData.items.length > 0
-        ) {
-          this.studentInCourse = studentInCourseData.items;
-          console.log(this.studentInCourse);
-        }
-
-        // Make instructor courses API call
-        this.courseService
-          .getInstructorOtherCoursesWithStudents(
-            this.course.instructorId,
-            this.courseId,
-            4,
-            this.taughtByInstructorPageNumber,
-            this.pageSize
-          )
-          .subscribe(
-            (instructorCoursesData: APIResponseVM) => {
-              if (
-                instructorCoursesData.success &&
-                Array.isArray(instructorCoursesData.items) &&
-                instructorCoursesData.items.length > 0
-              ) {
-                let courses = instructorCoursesData.items as courseStudents[];
-
-                this.instructorCourses = courses;
-                this.instructorCoursesTotalCount =
-                  9 || relatedCoursesData.TotalPages;
-                console.log(this.instructorCourses);
-              }
-            },
-            (error) => {
-              console.error(error);
-            }
-          );
+        this.handleResponse(data.students, (students: Student[]) => {
+          this.studentInCourse = students;
+        });
+        this.loading = false;
+        this.loadInstructorCourses();
       },
       (error) => {
-        console.error(error);
+        this.handleError(error);
+        this.loading = false;
       }
     );
   }
 
-  /**************************************************************/
-  /*  for course content */
+  loadInstructorCourses() {
+    this.courseService
+      .getInstructorOtherCoursesWithStudents(
+        this.course.instructorId,
+        this.courseId,
+        STUDENTS_NUMBER,
+        this.taughtByInstructorPageNumber,
+        this.pageSize
+      )
+      .subscribe(
+        (data) =>
+          this.handleResponse(data, (courses: courseStudents[]) => {
+            this.instructorCourses = courses;
+            this.instructorCoursesTotalCount =
+              DEFAULT_TOTAL_PAGES || data.TotalPages;
+          }),
+        (error) => {
+          this.handleError(error);
+        }
+      );
+  }
 
-  /**************************************************************/
-  /*  for related courses */
   loadMoreCourses() {
     this.pageNumber++;
     this.courseService
       .getRelatedCoursesWithStudents(
         this.courseId,
-        4,
+        STUDENTS_NUMBER,
         this.pageNumber,
         this.pageSize
       )
       .subscribe(
-        (data: APIResponseVM) => {
-          if (
-            data.success &&
-            Array.isArray(data.items) &&
-            data.items.length > 0
-          ) {
-            let courses = data.items as courseStudents[];
+        (data) =>
+          this.handleResponse(data, (courses: courseStudents[]) => {
             this.relatedCourses.push(...courses);
-          }
-        },
+          }),
         (error) => {
-          console.error(error);
+          this.handleError(error);
         }
       );
   }
 
-  loadMoreInstrucorCourses() {
+  loadMoreInstructorCourses() {
     this.taughtByInstructorPageNumber++;
     this.courseService
       .getInstructorOtherCoursesWithStudents(
         this.course.instructorId,
         this.courseId,
-        4,
+        STUDENTS_NUMBER,
         this.taughtByInstructorPageNumber,
         this.pageSize
       )
       .subscribe(
-        (instructorCoursesData: APIResponseVM) => {
-          if (
-            instructorCoursesData.success &&
-            Array.isArray(instructorCoursesData.items) &&
-            instructorCoursesData.items.length > 0
-          ) {
-            let courses = instructorCoursesData.items as courseStudents[];
+        (data) =>
+          this.handleResponse(data, (courses: courseStudents[]) => {
             this.instructorCourses.push(...courses);
-          }
-        },
+          }),
         (error) => {
-          console.error(error);
+          this.handleError(error);
         }
       );
+  }
+
+  handleResponse<T>(response: APIResponseVM, handler: (data: T[]) => void) {
+    if (response.success) {
+      if (Array.isArray(response.items) && response.items.length > 0) {
+        handler(response.items as T[]);
+      } else {
+        this.errorMessage = 'No data available.';
+      }
+    } else {
+      this.errorMessage =
+        response.message || 'An error occurred while fetching data.';
+    }
+  }
+  private handleError(error: any) {
+    console.error('An error occurred:', error);
+
+    this.errorMessage =
+      'An error occurred while loading the data. Please try again later.';
+
+    if (error.status === 404) {
+      this.errorMessage = 'The requested data could not be found.';
+    } else if (error.status === 500) {
+      this.errorMessage =
+        'There was a problem with the server. Please try again later.';
+    }
   }
 }

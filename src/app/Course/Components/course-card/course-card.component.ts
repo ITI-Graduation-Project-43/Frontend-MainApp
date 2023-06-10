@@ -10,6 +10,7 @@ import { Student } from 'src/app/Models/student';
 export class CourseCardComponent implements OnInit {
   @Input() course: Course = {} as Course;
   @Input() studentInCourse: Student[] = [];
+
   constructor() {}
 
   ngOnInit() {}

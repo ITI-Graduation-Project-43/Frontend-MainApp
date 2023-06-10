@@ -1,4 +1,19 @@
-<div class="course-header-wrapper">
+<!-- Content Loader -->
+<div *ngIf="loading" class="loading-page">
+  <div class="loading-icon"></div>
+</div>
+
+<!-- Error Message -->
+<div *ngIf="errorMessage" class="error-message">
+  <img
+    src="../../assets/svg/Computer troubleshooting-rafiki.svg"
+    alt="Error Icon"
+    class="error-message-photo"
+  />
+  <p>{{ errorMessage }}</p>
+</div>
+
+<div class="course-header-wrapper" *ngIf="!loading && !errorMessage">
   <!--Course Title-->
   <app-course-title
     [title]="course.title"
@@ -20,7 +35,7 @@
     [studentInCourse]="studentInCourse"
   ></app-course-card>
 </div>
-<div class="course-content-wrapper">
+<div class="course-content-wrapper" *ngIf="!loading && !errorMessage">
   <!-- What You Will Learn Card -->
   <app-learn-card [course]="course"></app-learn-card>
 
@@ -62,7 +77,7 @@
     [coursesTotalCount]="instructorCoursesTotalCount"
     [pageNumber]="taughtByInstructorPageNumber"
     [pageSize]="pageSize"
-    (loadMore)="loadMoreInstrucorCourses()"
+    (loadMore)="loadMoreInstructorCourses()"
   >
   </other-courses-card>
 

@@ -1,67 +1,71 @@
-<!--Course Title-->
-<app-course-title
-  [title]="course.title"
-  [description]="course.shortDescription"
-></app-course-title>
+<div class="course-header-wrapper">
+  <!--Course Title-->
+  <app-course-title
+    [title]="course.title"
+    [description]="course.shortDescription"
+  ></app-course-title>
 
-<!-- Breadcrumb navigation component -->
-<app-breadcrumb-navigation
-  [categoryName]="course.categoryName"
-  [subCategoryName]="course.subCategoryName"
-  [topicName]="course.topicName"
->
-</app-breadcrumb-navigation>
+  <!-- Breadcrumb navigation component -->
+  <app-breadcrumb-navigation
+    [categoryName]="course.categoryName"
+    [subCategoryName]="course.subCategoryName"
+    [topicName]="course.topicName"
+  >
+  </app-breadcrumb-navigation>
 
-<!--Course Card-->
-<app-course-card
-  [course]="course"
-  [studentInCourse]="studentInCourse"
-></app-course-card>
+  <!--Course Card-->
+  <app-course-card
+    class="course-main-card"
+    [course]="course"
+    [studentInCourse]="studentInCourse"
+  ></app-course-card>
+</div>
+<div class="course-content-wrapper">
+  <!-- What You Will Learn Card -->
+  <app-learn-card [course]="course"></app-learn-card>
 
-<!-- What You Will Learn Card -->
-<app-learn-card [course]="course"></app-learn-card>
+  <!--Course Excercise Card-->
+  <app-excercise-card></app-excercise-card>
 
-<!--Course Excercise Card-->
-<app-excercise-card></app-excercise-card>
+  <!--Course Content-->
+  <app-course-content
+    [course]="course"
+    [chapters]="chapters"
+  ></app-course-content>
 
-<!--Course Content-->
-<app-course-content
-  [course]="course"
-  [chapters]="chapters"
-></app-course-content>
+  <!-- Who Should Enroll Card -->
+  <app-enroll-card [enrollmentItems]="course.enrollmentItems"></app-enroll-card>
 
-<!-- Who Should Enroll Card -->
-<app-enroll-card [enrollmentItems]="course.enrollmentItems"></app-enroll-card>
+  <!-- Course Requirements Card -->
+  <app-requirements-card
+    [courseRequirements]="course.courseRequirements"
+  ></app-requirements-card>
 
-<!-- Course Requirements Card -->
-<app-requirements-card
-  [courseRequirements]="course.courseRequirements"
-></app-requirements-card>
+  <!--Student also bought-->
+  <other-courses-card
+    [title]="'Students also bought'"
+    [courses]="relatedCourses"
+    [coursesTotalCount]="relatedCoursesTotalCount"
+    [pageNumber]="pageNumber"
+    [pageSize]="pageSize"
+    (loadMore)="loadMoreCourses()"
+  >
+  </other-courses-card>
 
-<!--Student also bought-->
-<other-courses-card
-  [title]="'Students also bought'"
-  [courses]="relatedCourses"
-  [coursesTotalCount]="relatedCoursesTotalCount"
-  [pageNumber]="pageNumber"
-  [pageSize]="pageSize"
-  (loadMore)="loadMoreCourses()"
->
-</other-courses-card>
+  <!--Instructor details card-->
+  <app-instructor-details [course]="course"></app-instructor-details>
 
-<!--Instructor details card-->
-<app-instructor-details [course]="course"></app-instructor-details>
+  <!--Instructor other courses-->
+  <other-courses-card
+    [title]="'Also taught by ' + course.instructorName"
+    [courses]="instructorCourses"
+    [coursesTotalCount]="instructorCoursesTotalCount"
+    [pageNumber]="taughtByInstructorPageNumber"
+    [pageSize]="pageSize"
+    (loadMore)="loadMoreInstrucorCourses()"
+  >
+  </other-courses-card>
 
-<!--Instructor other courses-->
-<other-courses-card
-  [title]="'Also taught by ' + course.instructorName"
-  [courses]="instructorCourses"
-  [coursesTotalCount]="instructorCoursesTotalCount"
-  [pageNumber]="taughtByInstructorPageNumber"
-  [pageSize]="pageSize"
-  (loadMore)="loadMoreInstrucorCourses()"
->
-</other-courses-card>
-
-<!--Course Feedback section-->
-<app-student-feedback></app-student-feedback>
+  <!--Course Feedback section-->
+  <app-student-feedback></app-student-feedback>
+</div>

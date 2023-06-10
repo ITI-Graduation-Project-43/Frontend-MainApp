@@ -18,3 +18,17 @@
     @include style-font($font-cabin,24px,29px,$whiteColor)
   }
 }
+
+
+
+
+
+/* Skeleton Loading Styles */
+.main-title.skeleton {
+  height: 8rem;
+}
+
+.description.skeleton {
+  height: 3rem;
+}
+

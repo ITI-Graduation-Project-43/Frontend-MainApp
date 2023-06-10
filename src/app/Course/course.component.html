@@ -1,7 +1,17 @@
 <!-- Content Loader -->
-<div *ngIf="loading" class="loading-page">
-  <div class="loading-icon"></div>
-</div>
+<!-- <div *ngIf="loading" class="loading-page">
+  <div class="sk-cube-grid">
+    <div class="sk-cube sk-cube1"></div>
+    <div class="sk-cube sk-cube2"></div>
+    <div class="sk-cube sk-cube3"></div>
+    <div class="sk-cube sk-cube4"></div>
+    <div class="sk-cube sk-cube5"></div>
+    <div class="sk-cube sk-cube6"></div>
+    <div class="sk-cube sk-cube7"></div>
+    <div class="sk-cube sk-cube8"></div>
+    <div class="sk-cube sk-cube9"></div>
+  </div>
+</div> -->
 
 <!-- Error Message -->
 <div *ngIf="errorMessage" class="error-message">
@@ -13,11 +23,12 @@
   <p>{{ errorMessage }}</p>
 </div>
 
-<div class="course-header-wrapper" *ngIf="!loading && !errorMessage">
+<div class="course-header-wrapper" *ngIf="!errorMessage">
   <!--Course Title-->
   <app-course-title
     [title]="course.title"
     [description]="course.shortDescription"
+    [loading]="loading"
   ></app-course-title>
 
   <!-- Breadcrumb navigation component -->
@@ -25,6 +36,7 @@
     [categoryName]="course.categoryName"
     [subCategoryName]="course.subCategoryName"
     [topicName]="course.topicName"
+    [loading]="loading"
   >
   </app-breadcrumb-navigation>
 
@@ -33,27 +45,33 @@
     class="course-main-card"
     [course]="course"
     [studentInCourse]="studentInCourse"
+    [loading]="loading"
   ></app-course-card>
 </div>
-<div class="course-content-wrapper" *ngIf="!loading && !errorMessage">
+<div class="course-content-wrapper" *ngIf="!errorMessage">
   <!-- What You Will Learn Card -->
-  <app-learn-card [course]="course"></app-learn-card>
+  <app-learn-card [course]="course" [loading]="loading"></app-learn-card>
 
   <!--Course Excercise Card-->
-  <app-excercise-card></app-excercise-card>
+  <app-excercise-card [loading]="loading"></app-excercise-card>
 
   <!--Course Content-->
   <app-course-content
     [course]="course"
     [chapters]="chapters"
+    [loading]="loading"
   ></app-course-content>
 
   <!-- Who Should Enroll Card -->
-  <app-enroll-card [enrollmentItems]="course.enrollmentItems"></app-enroll-card>
+  <app-enroll-card
+    [enrollmentItems]="course.enrollmentItems"
+    [loading]="loading"
+  ></app-enroll-card>
 
   <!-- Course Requirements Card -->
   <app-requirements-card
     [courseRequirements]="course.courseRequirements"
+    [loading]="loading"
   ></app-requirements-card>
 
   <!--Student also bought-->
@@ -64,11 +82,15 @@
     [pageNumber]="pageNumber"
     [pageSize]="pageSize"
     (loadMore)="loadMoreCourses()"
+    [loading]="loading"
   >
   </other-courses-card>
 
   <!--Instructor details card-->
-  <app-instructor-details [course]="course"></app-instructor-details>
+  <app-instructor-details
+    [course]="course"
+    [loading]="loading"
+  ></app-instructor-details>
 
   <!--Instructor other courses-->
   <other-courses-card
@@ -78,9 +100,10 @@
     [pageNumber]="taughtByInstructorPageNumber"
     [pageSize]="pageSize"
     (loadMore)="loadMoreInstructorCourses()"
+    [loading]="loading"
   >
   </other-courses-card>
 
   <!--Course Feedback section-->
-  <app-student-feedback></app-student-feedback>
+  <app-student-feedback [loading]="loading"></app-student-feedback>
 </div>

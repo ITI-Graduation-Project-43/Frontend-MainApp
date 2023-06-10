@@ -1,31 +1,44 @@
-<div class="learn-card">
-  <!-- Title -->
+<div *ngIf="loading; else content" class="learn-card">
   <h2 class="card-title">What you'll learn:</h2>
 
-  <!-- Learn Items -->
-  <div class="learn-items">
-    <div *ngFor="let item of getRows(); let i = index" class="learn-item-row">
-      <div *ngFor="let subitem of item">
-        <p class="learn-item" [class.hidden]="!showMore && i >= 2">
-          <span class="title">{{ subitem.title }}: </span>
-          <span class="description">{{ subitem.description }}.</span>
-        </p>
-      </div>
-    </div>
-    <!-- Gradient Overlay -->
-    <div *ngIf="!showMore && hasMoreItems()" class="gradient-overlay"></div>
+  <!-- Enroll Items -->
+  <div class="enroll-items">
+    <div class="enroll-item skeleton"></div>
+    <div class="enroll-item skeleton"></div>
+    <div class="enroll-item skeleton"></div>
   </div>
-
-  <!-- Show More/Less Button -->
-  <button (click)="toggleShowMore()" *ngIf="hasMoreItems()" class="read-more">
-    {{ showMore ? "Read less" : "Read more" }}
-    <img
-      [src]="
-        showMore
-          ? '../../assets/svg/up arrow.svg'
-          : '../../assets/svg/down arrow.svg'
-      "
-      alt="arrow"
-    />
-  </button>
 </div>
+
+<ng-template #content>
+  <div class="learn-card">
+    <!-- Title -->
+    <h2 class="card-title">What you'll learn:</h2>
+
+    <!-- Learn Items -->
+    <div class="learn-items">
+      <div *ngFor="let item of getRows(); let i = index" class="learn-item-row">
+        <div *ngFor="let subitem of item">
+          <p class="learn-item" [class.hidden]="!showMore && i >= 2">
+            <span class="title">{{ subitem.title }}: </span>
+            <span class="description">{{ subitem.description }}.</span>
+          </p>
+        </div>
+      </div>
+      <!-- Gradient Overlay -->
+      <div *ngIf="!showMore && hasMoreItems()" class="gradient-overlay"></div>
+    </div>
+
+    <!-- Show More/Less Button -->
+    <button (click)="toggleShowMore()" *ngIf="hasMoreItems()" class="read-more">
+      {{ showMore ? "Read less" : "Read more" }}
+      <img
+        [src]="
+          showMore
+            ? '../../assets/svg/up arrow.svg'
+            : '../../assets/svg/down arrow.svg'
+        "
+        alt="arrow"
+      />
+    </button>
+  </div>
+</ng-template>

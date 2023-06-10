@@ -1,60 +1,72 @@
-<div class="course-content-section">
+<div *ngIf="loading; else content" class="course-content-section">
   <h1>Course Content</h1>
-  <div class="course-content-details">
-    <div class="course-content-details-item">
-      <img src="../../assets/svg/lecture.svg" alt="lecture-icon" />
-      <div>{{ course.lessonCount }} Lectures</div>
-    </div>
-    <div class="ellipse-seperator"></div>
-    <div class="course-content-details-item">
-      <img src="../../assets/svg/clock.svg" alt="clock icon" />
-      <div>{{ course.noOfHours }} Hours</div>
-    </div>
-    <div class="ellipse-seperator"></div>
-    <div class="course-content-details-item">
-      <img src="../../assets/svg/section.svg" alt="section icon" />
-      <div>{{ course.chapterCount }} Sections</div>
-    </div>
-  </div>
+  <div class="course-content-details skeleton"></div>
   <div class="course-content-modules">
-    <div class="course-chapter" *ngFor="let chapter of chapters">
-      <div class="course-chapter-heading" (click)="toggleChapter(chapter)">
-        <div class="course-chapter-name">
-          <img
-            [src]="
-              chapter.open
-                ? '../../assets/svg/up arrow.svg'
-                : '../../assets/svg/down arrow.svg'
-            "
-            alt="arrow"
-          />
-          <h2>{{ chapter.title }}</h2>
-        </div>
-        <div class="chapter-stats">
-          <span>{{ chapter.noOfLessons }} Lesson(s)</span>
-          <div class="ellipse-seperator"></div>
-          <span>{{ chapter.noOfHours }} Hour(s)</span>
-        </div>
-      </div>
-      <div class="course-lessons" *ngIf="chapter.open">
-        <div class="course-lesson" *ngFor="let lesson of chapter.lessons">
-          <div class="lesson-main-data">
-            <div class="lesson-heading">
-              <img [src]="getIconByType(lesson.type)" alt="icon" />
-              <h3>{{ lesson.title }}</h3>
-            </div>
-            <div
-              *ngIf="lesson.description.length > 0"
-              class="lesson-description"
-            >
-              {{ lesson.description }}
-            </div>
-          </div>
-          <div class="lesson-stats">
-            <span>{{ lesson.noOfHours }} Hour(s)</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div class="course-chapter skeleton"></div>
+    <div class="course-chapter skeleton"></div>
+    <div class="course-chapter skeleton"></div>
   </div>
 </div>
+
+<ng-template #content>
+  <div class="course-content-section">
+    <h1>Course Content</h1>
+    <div class="course-content-details">
+      <div class="course-content-details-item">
+        <img src="../../assets/svg/lecture.svg" alt="lecture-icon" />
+        <div>{{ course.lessonCount }} Lectures</div>
+      </div>
+      <div class="ellipse-seperator"></div>
+      <div class="course-content-details-item">
+        <img src="../../assets/svg/clock.svg" alt="clock icon" />
+        <div>{{ course.noOfHours }} Hours</div>
+      </div>
+      <div class="ellipse-seperator"></div>
+      <div class="course-content-details-item">
+        <img src="../../assets/svg/section.svg" alt="section icon" />
+        <div>{{ course.chapterCount }} Sections</div>
+      </div>
+    </div>
+    <div class="course-content-modules">
+      <div class="course-chapter" *ngFor="let chapter of chapters">
+        <div class="course-chapter-heading" (click)="toggleChapter(chapter)">
+          <div class="course-chapter-name">
+            <img
+              [src]="
+                chapter.open
+                  ? '../../assets/svg/up arrow.svg'
+                  : '../../assets/svg/down arrow.svg'
+              "
+              alt="arrow"
+            />
+            <h2>{{ chapter.title }}</h2>
+          </div>
+          <div class="chapter-stats">
+            <span>{{ chapter.noOfLessons }} Lesson(s)</span>
+            <div class="ellipse-seperator"></div>
+            <span>{{ chapter.noOfHours }} Hour(s)</span>
+          </div>
+        </div>
+        <div class="course-lessons" *ngIf="chapter.open">
+          <div class="course-lesson" *ngFor="let lesson of chapter.lessons">
+            <div class="lesson-main-data">
+              <div class="lesson-heading">
+                <img [src]="getIconByType(lesson.type)" alt="icon" />
+                <h3>{{ lesson.title }}</h3>
+              </div>
+              <div
+                *ngIf="lesson.description.length > 0"
+                class="lesson-description"
+              >
+                {{ lesson.description }}
+              </div>
+            </div>
+            <div class="lesson-stats">
+              <span>{{ lesson.noOfHours }} Hour(s)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

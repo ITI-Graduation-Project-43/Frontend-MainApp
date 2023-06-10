@@ -101,3 +101,27 @@
 
 
 
+/* Skeleton Loading Styles */
+.course-picture.skeleton {
+  height: 14rem;
+  max-width: 450px;
+}
+
+
+h2.skeleton,.course-rating.skeleton, .course-students.skeleton {
+  height: 2rem;
+  max-width: 200px;
+}
+.add-to-cart-sec.skeleton,add-to-wishlist-sec.skeleton{
+  height: 3rem;
+  max-width: 450px;
+  margin-bottom: 12px;
+}
+.course-details-item.skeleton{
+  height: 2rem;
+  max-width: 400px;
+}
+.course-instructor-price.skeleton{
+  height: 3.5rem;
+  max-width: 400px;
+}

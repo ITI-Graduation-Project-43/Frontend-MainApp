@@ -1,74 +1,104 @@
-<div class="course-details-card">
-  <div class="course-picture">
-    <img [src]="course.imageUrl" alt="course image" />
-  </div>
+<div class="course-details-card" *ngIf="loading; else content">
+  <div class="course-picture skeleton"></div>
   <div class="course-info">
-    <div class="course-rating">
-      <img
-        *ngFor="let star of ' '.repeat(course.avgReview).split('')"
-        src="../../assets/svg/rating-star.svg"
-        alt="rating-star"
-      />
-    </div>
-    <div class="course-students">
-      <div class="student-pictures">
-        <img
-          *ngFor="let student of studentInCourse | slice : 0 : 4"
-          class="course-students-pic"
-          [src]="student.profilePicture || '../../assets/images/student1.webp'"
-          alt="{{ student.firstName + ' ' + student.lastName + ' photo' }}"
-        />
-      </div>
-      <div class="enrollments-number" *ngIf="course.noOfStudents < 1000">
-        {{ course.noOfStudents }} enrolled
-      </div>
-      <div
-        class="enrollments-number"
-        *ngIf="course.noOfStudents >= 1000 && course.noOfStudents < 1000000"
-      >
-        {{ course.noOfStudents / 1000 | number : "1.0-2" }}K enrolled
-      </div>
-      <div class="enrollments-number" *ngIf="course.noOfStudents >= 1000000">
-        {{ course.noOfStudents / 1000000 | number : "1.0-4" }}M enrolled
-      </div>
-    </div>
+    <div class="course-rating skeleton"></div>
+    <div class="course-students skeleton"></div>
   </div>
   <div class="course-action">
-    <button class="add-to-cart">Add to Cart</button>
-    <button class="add-to-wishlist">Add to Wishlist</button>
+    <div class="add-to-cart-sec skeleton"></div>
+    <div class="add-to-wishlist-sec skeleton"></div>
   </div>
   <div class="course-details">
-    <h2>This course includes:</h2>
+    <h2 class="skeleton"></h2>
     <ul class="course-details-items">
-      <li class="course-details-item">
-        <img src="../../assets/svg/lecture.svg" alt="lecture-icon" />
-        {{ course.lessonCount }} Lessons
-      </li>
-      <li class="course-details-item">
-        <img src="../../assets/svg/clock.svg" alt="clock-icon" />
-        {{ course.noOfHours }} Hours
-      </li>
-      <li class="course-details-item">
-        <img src="../../assets/svg/article.svg" alt="article-icon" />
-        {{ course.noOfArticles }} Articles
-      </li>
-      <li class="course-details-item">
-        <img src="../../assets/svg/pen.svg" alt="excercise-icon" />
-        {{ course.noOfQuizes }} Excercises
-      </li>
-      <li class="course-details-item">
-        <img src="../../assets/svg/completion.svg" alt="excercise-icon" />
-        Completion certificate
-      </li>
+      <li class="course-details-item skeleton"></li>
+      <li class="course-details-item skeleton"></li>
+      <li class="course-details-item skeleton"></li>
+      <li class="course-details-item skeleton"></li>
+      <li class="course-details-item skeleton"></li>
     </ul>
   </div>
-  <div class="course-instructor-price">
-    <div class="course-instructor">
-      <div class="instructor-picture">
-        <img [src]="course.instructorProfilePicture" alt="instructor-picture" />
-      </div>
-      <div class="instructor-name">{{ course.instructorName }}</div>
-    </div>
-    <div class="course-price">{{ course.price }} EGP</div>
-  </div>
+  <div class="course-instructor-price skeleton"></div>
 </div>
+
+<ng-template #content>
+  <div class="course-details-card">
+    <div class="course-picture">
+      <img [src]="course.imageUrl" alt="course image" />
+    </div>
+    <div class="course-info">
+      <div class="course-rating">
+        <img
+          *ngFor="let star of ' '.repeat(course.avgReview).split('')"
+          src="../../assets/svg/rating-star.svg"
+          alt="rating-star"
+        />
+      </div>
+      <div class="course-students">
+        <div class="student-pictures">
+          <img
+            *ngFor="let student of studentInCourse | slice : 0 : 4"
+            class="course-students-pic"
+            [src]="
+              student.profilePicture || '../../assets/images/student1.webp'
+            "
+            alt="{{ student.firstName + ' ' + student.lastName + ' photo' }}"
+          />
+        </div>
+        <div class="enrollments-number" *ngIf="course.noOfStudents < 1000">
+          {{ course.noOfStudents }} enrolled
+        </div>
+        <div
+          class="enrollments-number"
+          *ngIf="course.noOfStudents >= 1000 && course.noOfStudents < 1000000"
+        >
+          {{ course.noOfStudents / 1000 | number : "1.0-2" }}K enrolled
+        </div>
+        <div class="enrollments-number" *ngIf="course.noOfStudents >= 1000000">
+          {{ course.noOfStudents / 1000000 | number : "1.0-4" }}M enrolled
+        </div>
+      </div>
+    </div>
+    <div class="course-action">
+      <button class="add-to-cart">Add to Cart</button>
+      <button class="add-to-wishlist">Add to Wishlist</button>
+    </div>
+    <div class="course-details">
+      <h2>This course includes:</h2>
+      <ul class="course-details-items">
+        <li class="course-details-item">
+          <img src="../../assets/svg/lecture.svg" alt="lecture-icon" />
+          {{ course.lessonCount }} Lessons
+        </li>
+        <li class="course-details-item">
+          <img src="../../assets/svg/clock.svg" alt="clock-icon" />
+          {{ course.noOfHours }} Hours
+        </li>
+        <li class="course-details-item">
+          <img src="../../assets/svg/article.svg" alt="article-icon" />
+          {{ course.noOfArticles }} Articles
+        </li>
+        <li class="course-details-item">
+          <img src="../../assets/svg/pen.svg" alt="excercise-icon" />
+          {{ course.noOfQuizes }} Excercises
+        </li>
+        <li class="course-details-item">
+          <img src="../../assets/svg/completion.svg" alt="excercise-icon" />
+          Completion certificate
+        </li>
+      </ul>
+    </div>
+    <div class="course-instructor-price">
+      <div class="course-instructor">
+        <div class="instructor-picture">
+          <img
+            [src]="course.instructorProfilePicture"
+            alt="instructor-picture"
+          />
+        </div>
+        <div class="instructor-name">{{ course.instructorName }}</div>
+      </div>
+      <div class="course-price">{{ course.price }} EGP</div>
+    </div>
+  </div>
+</ng-template>

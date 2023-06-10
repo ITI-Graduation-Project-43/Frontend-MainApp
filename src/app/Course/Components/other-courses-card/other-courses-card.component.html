@@ -1,94 +1,143 @@
-<div class="courses-section" *ngIf="courses && courses.length > 0">
-  <h1>{{ title }}</h1>
+<div *ngIf="loading; else content" class="courses-section">
+  <h1 class="skeleton"></h1>
 
   <div class="suggested-courses-section">
     <div class="course-cards">
-      <!-- Loop through courses array -->
-      <ng-container *ngFor="let course of courses; let i = index">
-        <div class="course-card">
-          <img
-            [src]="course.courseImageUrl"
-            alt="{{ course.courseTitle + 'image ' }}"
-            class="course-image"
-          />
-          <div class="course-info">
-            <div class="course-rating">
-              <img
-                *ngFor="let star of [1, 2, 3, 4, 5]"
-                [src]="'../../assets/svg/rating-star.svg'"
-                alt="rating-star"
-                [class.highlighted]="star <= course.courseAvgReview"
-              />
-            </div>
-            <div class="course-category">{{ course.courseCategoryName }}</div>
-            <div class="course-name">{{ course.courseTitle }}</div>
-            <div class="course-students">
-              <div class="student-pictures">
-                <img
-                  *ngFor="let student of course.student | slice : 0 : 4"
-                  class="course-students-pic"
-                  [src]="
-                    student.studentProfilePicture ||
-                    '../../assets/images/student1.webp'
-                  "
-                  alt="{{
-                    student.studentFirstName +
-                      ' ' +
-                      student.studentLastName +
-                      ' photo'
-                  }}"
-                />
-              </div>
-              <div
-                class="enrollments-number"
-                *ngIf="course.courseNoOfStudents < 1000"
-              >
-                {{ course.courseNoOfStudents }} enrolled
-              </div>
-              <div
-                class="enrollments-number"
-                *ngIf="
-                  course.courseNoOfStudents >= 1000 &&
-                  course.courseNoOfStudents < 1000000
-                "
-              >
-                {{ course.courseNoOfStudents / 1000 | number : "1.0-2" }}K
-                enrolled
-              </div>
-              <div
-                class="enrollments-number"
-                *ngIf="course.courseNoOfStudents >= 1000000"
-              >
-                {{ course.courseNoOfStudents / 1000000 | number : "1.0-4" }}M
-                enrolled
-              </div>
-            </div>
-          </div>
-
-          <div class="course-instructor-price">
-            <div class="course-instructor">
-              <div class="instructor-picture">
-                <img
-                  [src]="course.instructorProfilePicture"
-                  alt="instructor-picture"
-                />
-              </div>
-              <div class="instructor-name">
-                {{
-                  course.instructorFirstName + " " + course.instructorLastName
-                }}
-              </div>
-            </div>
-            <div class="course-price">{{ course.price }} EGP</div>
+      <div class="course-card">
+        <div class="course-image skeleton"></div>
+        <div class="course-info">
+          <div class="course-rating skeleton"></div>
+          <div class="course-category skeleton"></div>
+          <div class="course-name skeleton"></div>
+          <div class="course-students">
+            <div class="student-pictures skeleton"></div>
+            <div class="enrollments-number skeleton"></div>
           </div>
         </div>
-      </ng-container>
-      <!-- End of loop -->
+
+        <div class="course-instructor-price">
+          <div class="course-instructor">
+            <div class="instructor-picture skeleton"></div>
+          </div>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-image skeleton"></div>
+        <div class="course-info">
+          <div class="course-rating skeleton"></div>
+          <div class="course-category skeleton"></div>
+          <div class="course-name skeleton"></div>
+          <div class="course-students">
+            <div class="student-pictures skeleton"></div>
+            <div class="enrollments-number skeleton"></div>
+          </div>
+        </div>
+
+        <div class="course-instructor-price">
+          <div class="course-instructor">
+            <div class="instructor-picture skeleton"></div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div *ngIf="pageNumber * pageSize < coursesTotalCount">
-      <button class="view-more-btn" (click)="loadMoreCourses()">
-        View more
-      </button>
+    <div>
+      <button class="view-more-btn">View more</button>
     </div>
   </div>
 </div>
+<ng-template #content>
+  <div class="courses-section" *ngIf="courses && courses.length > 0">
+    <h1>{{ title }}</h1>
+
+    <div class="suggested-courses-section">
+      <div class="course-cards">
+        <!-- Loop through courses array -->
+        <ng-container *ngFor="let course of courses; let i = index">
+          <div class="course-card">
+            <img
+              [src]="course.courseImageUrl"
+              alt="{{ course.courseTitle + 'image ' }}"
+              class="course-image"
+            />
+            <div class="course-info">
+              <div class="course-rating">
+                <img
+                  *ngFor="let star of [1, 2, 3, 4, 5]"
+                  [src]="'../../assets/svg/rating-star.svg'"
+                  alt="rating-star"
+                  [class.highlighted]="star <= course.courseAvgReview"
+                />
+              </div>
+              <div class="course-category">{{ course.courseCategoryName }}</div>
+              <div class="course-name">{{ course.courseTitle }}</div>
+              <div class="course-students">
+                <div class="student-pictures">
+                  <img
+                    *ngFor="let student of course.student | slice : 0 : 4"
+                    class="course-students-pic"
+                    [src]="
+                      student.studentProfilePicture ||
+                      '../../assets/images/student1.webp'
+                    "
+                    alt="{{
+                      student.studentFirstName +
+                        ' ' +
+                        student.studentLastName +
+                        ' photo'
+                    }}"
+                  />
+                </div>
+                <div
+                  class="enrollments-number"
+                  *ngIf="course.courseNoOfStudents < 1000"
+                >
+                  {{ course.courseNoOfStudents }} enrolled
+                </div>
+                <div
+                  class="enrollments-number"
+                  *ngIf="
+                    course.courseNoOfStudents >= 1000 &&
+                    course.courseNoOfStudents < 1000000
+                  "
+                >
+                  {{ course.courseNoOfStudents / 1000 | number : "1.0-2" }}K
+                  enrolled
+                </div>
+                <div
+                  class="enrollments-number"
+                  *ngIf="course.courseNoOfStudents >= 1000000"
+                >
+                  {{ course.courseNoOfStudents / 1000000 | number : "1.0-4" }}M
+                  enrolled
+                </div>
+              </div>
+            </div>
+
+            <div class="course-instructor-price">
+              <div class="course-instructor">
+                <div class="instructor-picture">
+                  <img
+                    [src]="course.instructorProfilePicture"
+                    alt="instructor-picture"
+                  />
+                </div>
+                <div class="instructor-name">
+                  {{
+                    course.instructorFirstName + " " + course.instructorLastName
+                  }}
+                </div>
+              </div>
+              <div class="course-price">{{ course.price }} EGP</div>
+            </div>
+          </div>
+        </ng-container>
+        <!-- End of loop -->
+      </div>
+      <div *ngIf="pageNumber * pageSize < coursesTotalCount">
+        <button class="view-more-btn" (click)="loadMoreCourses()">
+          View more
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

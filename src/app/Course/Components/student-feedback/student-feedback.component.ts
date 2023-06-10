@@ -10,6 +10,8 @@ import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
 })
 export class StudentFeedbackComponent implements OnInit {
   @Input() courseId: number = 11;
+  @Input() loading: boolean = true;
+
   courseFeedbacks: CourseFeedback[] = [];
   pageNumber: number = 1;
   pageSize: number = 3;

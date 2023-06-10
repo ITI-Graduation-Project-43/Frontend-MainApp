@@ -10,6 +10,7 @@ import { Course } from 'src/app/Models/course';
 export class CourseContentComponent implements OnInit {
   @Input() course: Course = {} as Course;
   @Input() chapters: Chapter[] = [];
+  @Input() loading: boolean = true;
 
   constructor() {}
 

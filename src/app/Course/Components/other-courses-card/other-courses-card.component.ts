@@ -14,6 +14,7 @@ export class OtherCoursesCardComponent implements OnInit {
   @Input() pageNumber: number = 1;
   @Input() pageSize: number = 2;
   @Output() loadMore = new EventEmitter();
+  @Input() loading: boolean = true;
 
   constructor() {}
 

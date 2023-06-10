@@ -75,3 +75,26 @@
   }
 }
 
+
+/* Skeleton Loading Styles */
+.student-image.skeleton{
+  height: 8rem;
+  max-width: 140px;
+}
+.student-comment.skeleton{
+  height: 5rem;
+  max-width: 600px;
+}
+.student-name.skeleton{
+  height: 2.5rem;
+  max-width: 100px;
+}
+
+.student-course-rating.skeleton{
+  height: 2rem;
+  max-width: 150px;
+}
+.student-course-sec.skeleton{
+  height: 3rem;
+  max-width: 600px;
+}

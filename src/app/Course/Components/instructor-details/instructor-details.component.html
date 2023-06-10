@@ -1,28 +1,44 @@
-<div class="instructor-details-card">
-  <img
-    [src]="course.instructorProfilePicture"
-    alt="instrucotr-picture"
-    class="instructor-avatar"
-  />
-  <!-- src="../../assets/images/instructor.webp" -->
+<div *ngIf="loading; else content" class="instructor-details-card">
+  <div class="image-sec skeleton"></div>
   <div class="instructor-info-details">
     <div class="instructor-main-info">
-      <div class="instructor-rating">
-        <img src="../../assets/svg/rating-star.svg" alt="star icon" />
-        <span>{{ course.instructorAvgRating }} Instructor Rating </span>
-      </div>
-      <div class="instructor-name">{{ course.instructorName }}</div>
+      <div class="instructor-rating skeleton"></div>
+      <div class="instructor-name skeleton"></div>
     </div>
     <div class="instructor-additional-info">
-      <div class="instructor-title">{{ course.instructorTitle }}</div>
-      <div class="instructor-detials">
-        {{ course.instructorDescription }}
-      </div>
-      <div class="instructor-stats">
-        <span>{{ course.instructorNoOfStudents }} Students</span>
-        <span>|</span>
-        <span>{{ course.instructorNoOfCourses }} Courses</span>
-      </div>
+      <div class="instructor-title skeleton"></div>
+      <div class="instructor-detials skeleton"></div>
+      <div class="instructor-stats skeleton"></div>
     </div>
   </div>
 </div>
+<ng-template #content>
+  <div class="instructor-details-card">
+    <img
+      [src]="course.instructorProfilePicture"
+      alt="instrucotr-picture"
+      class="instructor-avatar"
+    />
+
+    <div class="instructor-info-details">
+      <div class="instructor-main-info">
+        <div class="instructor-rating">
+          <img src="../../assets/svg/rating-star.svg" alt="star icon" />
+          <span>{{ course.instructorAvgRating }} Instructor Rating </span>
+        </div>
+        <div class="instructor-name">{{ course.instructorName }}</div>
+      </div>
+      <div class="instructor-additional-info">
+        <div class="instructor-title">{{ course.instructorTitle }}</div>
+        <div class="instructor-detials">
+          {{ course.instructorDescription }}
+        </div>
+        <div class="instructor-stats">
+          <span>{{ course.instructorNoOfStudents }} Students</span>
+          <span>|</span>
+          <span>{{ course.instructorNoOfCourses }} Courses</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

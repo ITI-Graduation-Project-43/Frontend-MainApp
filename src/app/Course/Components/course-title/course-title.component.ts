@@ -8,4 +8,5 @@ import { Component, Input } from '@angular/core';
 export class CourseTitleComponent {
   @Input() title: string = '';
   @Input() description: string = '';
+  @Input() loading: boolean = true;
 }

@@ -8,6 +8,8 @@ import { CourseRequirement } from 'src/app/Models/course';
 })
 export class RequirementsCardComponent implements OnInit {
   @Input() courseRequirements: CourseRequirement[] = [];
+  @Input() loading: boolean = true;
+
   constructor() {}
 
   ngOnInit() {}

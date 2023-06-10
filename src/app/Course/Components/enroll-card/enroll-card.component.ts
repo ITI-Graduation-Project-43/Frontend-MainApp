@@ -8,6 +8,8 @@ import { EnrollmentItem } from '../../../Models/course';
 })
 export class EnrollCardComponent implements OnInit {
   @Input() enrollmentItems: EnrollmentItem[] = [];
+  @Input() loading: boolean = true;
+
   constructor() {}
 
   ngOnInit() {}

@@ -1,15 +1,28 @@
-<div class="enroll-card">
-  <!-- Title -->
+<div *ngIf="loading; else content" class="enroll-card">
   <h2 class="card-title">Who should enroll:</h2>
 
   <!-- Enroll Items -->
   <div class="enroll-items">
-    <div
-      *ngFor="let item of enrollmentItems; let i = index"
-      class="enroll-item"
-    >
-      <img src="../../assets/svg/tick.svg" alt="tick" />
-      <p class="enroll-item-title">{{ item.description }}</p>
-    </div>
+    <div class="enroll-item skeleton"></div>
+    <div class="enroll-item skeleton"></div>
+    <div class="enroll-item skeleton"></div>
   </div>
 </div>
+
+<ng-template #content>
+  <div class="enroll-card">
+    <!-- Title -->
+    <h2 class="card-title">Who should enroll:</h2>
+
+    <!-- Enroll Items -->
+    <div class="enroll-items">
+      <div
+        *ngFor="let item of enrollmentItems; let i = index"
+        class="enroll-item"
+      >
+        <img src="../../assets/svg/tick.svg" alt="tick" />
+        <p class="enroll-item-title">{{ item.description }}</p>
+      </div>
+    </div>
+  </div>
+</ng-template>

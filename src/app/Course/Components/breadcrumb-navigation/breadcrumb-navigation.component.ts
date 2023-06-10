@@ -9,4 +9,5 @@ export class BreadcrumbNavigationComponent {
   @Input() categoryName: string = '';
   @Input() subCategoryName: string = '';
   @Input() topicName: string = '';
+  @Input() loading: boolean = true;
 }

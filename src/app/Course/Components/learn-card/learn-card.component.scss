@@ -61,3 +61,10 @@
     @include style-font($font-cabin, 16px,16px,$darkGreyColor, 700)
   }
 }
+
+
+/* Skeleton Loading Styles */
+.enroll-item.skeleton {
+  height: 2rem;
+}
+

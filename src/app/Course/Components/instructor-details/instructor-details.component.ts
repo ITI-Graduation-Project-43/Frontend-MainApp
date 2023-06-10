@@ -8,6 +8,8 @@ import { Course } from 'src/app/Models/course';
 })
 export class InstructorDetailsComponent implements OnInit {
   @Input() course: Course = {} as Course;
+  @Input() loading: boolean = true;
+
   constructor() {}
 
   ngOnInit() {}

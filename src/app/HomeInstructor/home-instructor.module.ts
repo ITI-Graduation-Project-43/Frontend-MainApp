@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { ProcessComponent } from './Components/process/process.component';
 import { InstructorComponent } from './Components/instructor/instructor.component';
 import { MilestoneComponent } from './Components/milestone/milestone.component';
-// import { AboutModule } from '../About/about.module';
+import { AboutModule } from '../About/about.module';
 
 @NgModule({
   declarations: [
@@ -20,8 +20,8 @@ import { MilestoneComponent } from './Components/milestone/milestone.component';
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild([{ path: '', component: HomeInstructorComponent }]),
-    // AboutModule
+    AboutModule,
+    // RouterModule.forChild([{ path: '', component: HomeInstructorComponent }]),
   ],
 })
 export class HomeInstructorModule {}

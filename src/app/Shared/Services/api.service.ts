@@ -13,7 +13,7 @@ import { APIResponseVM } from '../ViewModels/apiresponse-vm';
 })
 export class APIService {
   httpOption;
-  constructor(private http: HttpClient) {
+  constructor(protected http: HttpClient) {
     this.httpOption = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -21,24 +21,24 @@ export class APIService {
     };
   }
 
-  private handleError(err: HttpErrorResponse) {
-    return throwError(function () {
-      return new Error('Error occur, please try again!');
-    });
-  }
-
-  // private handleError(error: HttpErrorResponse) {
-  //   let errorMessage = '';
-  //   if (error.error instanceof ErrorEvent) {
-  //     // Client-side or network error
-  //     errorMessage = `Error: ${error.error.message}`;
-  //   } else {
-  //     // Server-side error
-  //     errorMessage = `Server returned code: ${error.status}, error message is: ${error.message}`;
-  //   }
-  //   console.error(errorMessage);
-  //   return throwError(errorMessage);
+  // private handleError(err: HttpErrorResponse) {
+  //   return throwError(function () {
+  //     return new Error('Error occur, please try again!');
+  //   });
   // }
+
+  protected handleError(error: HttpErrorResponse) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // Client-side or network error
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // Server-side error
+      errorMessage = `Server returned code: ${error.status}, error message is: ${error.message}`;
+    }
+    console.error(errorMessage);
+    return throwError(errorMessage);
+  }
 
   getAllItem(APIRoute: string): Observable<APIResponseVM> {
     const url = `${environment.APIURL}${APIRoute}`;

@@ -79,8 +79,9 @@
 }
 
 @mixin make-avatar($width,$height){
-  max-width: $width;
-  max-height: $height;
+  width: $width;
+  height: $height;
   border: 2px solid $blackColor;
   border-radius: 50%;
+  object-fit: cover;
 }

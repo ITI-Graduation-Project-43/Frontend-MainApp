@@ -1,0 +1,56 @@
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/_placeholders.scss" as *;
+
+/* Exercise Demo */
+.exercise-demo {
+  @include style-display-row-center(0 , 24px);
+  justify-content: flex-start;
+  @include style-card(820px, $secondaryColor, $blackColor);
+
+  img {
+    margin-right: 24px;
+  }
+
+  .exercise-demo-content {
+    @extend %flex-column;
+    justify-content: flex-start;
+    h2 {
+      @include style-font($font-anton, 32px,124.04%,$blackColor, 700);
+      margin-bottom: 24px;
+    }
+
+    p {
+      @include style-font($font-cabin, 20px, 24px,$darkGreyColor);
+      margin-bottom: 24px;
+    }
+
+    .see-demo{
+      text-decoration-line: underline;
+      @include style-font($font-cabin, 20px, 24px,$darkGreyColor, 700);
+    }
+  }
+}
+
+
+/* Skeleton styles */
+.image-sec.skeleton {
+  height: 7rem;
+  max-width: 150px;
+  margin-right: 10px;
+}
+.main-title.skeleton {
+  height: 2.5rem;
+  max-width: 100px;
+}
+
+.description.skeleton {
+  height: 4rem;
+  max-width: 500px;
+
+}
+.link.skeleton {
+  height: 1rem;
+  max-width: 120px;
+}
+

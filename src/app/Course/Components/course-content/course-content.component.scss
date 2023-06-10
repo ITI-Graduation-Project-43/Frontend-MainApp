@@ -1,0 +1,75 @@
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/_placeholders.scss" as *;
+
+.course-content-section{
+  @include style-display-column(32px, 0);
+  max-width: 820px;
+  .ellipse-seperator{
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+    background: $blackColor;
+  }
+  h1{
+    @include style-font($font-anton, 48px, 124.04%, $blackColor, 400);
+  }
+  .course-content-details{
+    @include style-display-row-center(32px, 0);
+
+    .course-content-details-item{
+      @include style-display-row-center(16px, 0);
+
+    }
+
+  }
+
+  .course-content-modules{
+    @include style-display-column(0, 0);
+    .course-chapter-heading{
+      @include style-display-row-center(24px, 24px, 32px);
+      width: 820px;
+      justify-content: space-between;
+      background: $mainColorLight;
+      border: 1px solid $blackColor;
+      .course-chapter-name{
+        @include style-display-row-center(8px, 0);
+      }
+      .chapter-stats{
+        @include style-display-row-center(10px, 0);
+      }
+    }
+    .course-lessons{
+      .course-lesson{
+        @include style-display-row-center(10px, 0px,  32px);
+        width: 100%;
+        justify-content: space-between;
+
+        background: $whiteColor;
+        border: 1px solid $blackColor;
+        .lesson-main-data{
+          @include style-display-column(2px, 24px,  32px);
+          .lesson-heading{
+            @include style-display-row-center(10px, 0);
+            h3{
+              margin: 0;
+            }
+          }
+          .lesson-description{
+            margin-left: 34px;
+            @include style-font($font-cabin,20px,24px,$darkGreyColor)
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Skeleton Loading Styles */
+.course-content-details.skeleton{
+  height: 3rem;
+}
+.course-chapter.skeleton{
+  height: 5rem;
+}

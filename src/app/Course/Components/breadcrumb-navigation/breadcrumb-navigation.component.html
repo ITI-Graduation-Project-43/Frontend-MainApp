@@ -1,0 +1,28 @@
+<div *ngIf="loading; else content" class="breadcrumb">
+  <div class="breadcrumb__item skeleton"></div>
+</div>
+
+<ng-template #content>
+  <nav aria-label="breadcrumb" class="breadcrumb">
+    <!-- List to hold breadcrumb items -->
+    <ol>
+      <li class="breadcrumb__item breadcrumb__item--active">
+        <a href="#" class="breadcrumb__link">{{ categoryName }}</a>
+        <!-- Breadcrumb separator (SVG) -->
+        <div class="breadcrumb__separator">
+          <img src="../../assets/svg/breadcrum-vector.svg" alt="arrow" />
+        </div>
+      </li>
+      <li class="breadcrumb__item">
+        <a href="#" class="breadcrumb__link">{{ subCategoryName }}</a>
+        <!-- Breadcrumb separator (SVG) -->
+        <div class="breadcrumb__separator">
+          <img src="../../assets/svg/breadcrum-vector.svg" alt="arrow" />
+        </div>
+      </li>
+      <li class="breadcrumb__item">
+        <a href="#" class="breadcrumb__link">{{ topicName }}</a>
+      </li>
+    </ol>
+  </nav>
+</ng-template>

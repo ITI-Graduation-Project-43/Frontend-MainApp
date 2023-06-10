@@ -1,0 +1,89 @@
+<div *ngIf="loading; else content" class="student-feedback-section">
+  <div class="students-feedback">
+    <div class="student-feedback-card">
+      <div class="student-image skeleton"></div>
+      <div class="student-feedback">
+        <div class="student-review">
+          <div class="student-comment skeleton"></div>
+          <div class="student-rating">
+            <div class="student-name skeleton"></div>
+            <div class="student-course-rating skeleton"></div>
+          </div>
+        </div>
+        <div class="student-course-sec skeleton"></div>
+      </div>
+    </div>
+    <div class="student-feedback-card">
+      <div class="student-image skeleton"></div>
+      <div class="student-feedback">
+        <div class="student-review">
+          <div class="student-comment skeleton"></div>
+          <div class="student-rating">
+            <div class="student-name skeleton"></div>
+            <div class="student-course-rating skeleton"></div>
+          </div>
+        </div>
+        <div class="student-course skeleton"></div>
+      </div>
+    </div>
+    <div class="student-feedback-card">
+      <div class="student-image skeleton"></div>
+      <div class="student-feedback">
+        <div class="student-review">
+          <div class="student-comment skeleton"></div>
+          <div class="student-rating">
+            <div class="student-name skeleton"></div>
+            <div class="student-course-rating skeleton"></div>
+          </div>
+        </div>
+        <div class="student-course skeleton"></div>
+      </div>
+    </div>
+  </div>
+  <button class="view-more-btn">View more</button>
+</div>
+
+<ng-template #content>
+  <div class="student-feedback-section">
+    <div class="students-feedback">
+      <div
+        class="student-feedback-card"
+        *ngFor="let feedback of courseFeedbacks"
+      >
+        <div class="student-image">
+          <img [src]="feedback.studentImage" alt="student image" />
+        </div>
+        <div class="student-feedback">
+          <div class="student-review">
+            <div class="student-comment">
+              {{ feedback.feedbackText }}
+            </div>
+            <div class="student-rating">
+              <div class="student-name">{{ feedback.studentName }}</div>
+              <div class="student-course-rating">
+                <img
+                  src="../../assets/svg/rating-star.svg"
+                  alt="rating-star"
+                  *ngFor="
+                    let n of [].constructor(feedback.courseRating);
+                    let i = index
+                  "
+                />
+              </div>
+            </div>
+          </div>
+          <div class="student-course">
+            Completed the ‘{{ feedback.courseName }}’ course
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      class="view-more-btn"
+      (click)="loadMoreFeedbacks()"
+      *ngIf="courseFeedbacks.length < totalSize"
+    >
+      View more
+    </button>
+  </div>
+</ng-template>

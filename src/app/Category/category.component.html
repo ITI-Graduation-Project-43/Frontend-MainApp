@@ -26,25 +26,9 @@
         </li>
 
         <!-- Subcategories names -->
-        <li class="subcategory__item">
-            <a href="#" class="subcategory__link">Web Development</a>
+        <li class="subcategory__item" *ngFor="let subCat of subcategories">
+            <a href="#" class="subcategory__link">{{subCat.name}}</a>
         </li>
-        <li class="subcategory__item">
-            <a href="#" class="subcategory__link">Data Science</a>
-        </li>
-        <li class="subcategory__item">
-            <a href="#" class="subcategory__link">Mobile Development</a>
-        </li>
-        <li class="subcategory__item">
-            <a href="#" class="subcategory__link">Programming Languages</a>
-        </li>
-        <li class="subcategory__item">
-            <a href="#" class="subcategory__link">Game Development</a>
-        </li>
-        <li class="subcategory__item">
-            <a href="#" class="subcategory__link">Software Testing</a>
-        </li>
-
     </ol>
 </nav>
 
@@ -268,7 +252,7 @@
 
 <!-- All Developement Courses -->
 <div class="all-courses">
-    <h1 class="mt-5 mb-2">All Development Courses</h1>
+    <h1 class="mt-5 mb-2">All {{mainCategory[0].name}} Courses</h1>
     <div class="control-container">
         <div class="controls">
             <section>
@@ -289,7 +273,7 @@
                 </div>
                 <div class="checks" *ngIf="!ratingChoices">
                     <div>
-                        <input type="radio" name="rating" class="form-check-input me-1" id="4">
+                        <input type="radio" name="rating" class="form-check-input me-1" id="4" value="4" [(ngModel)]="ratingFilters.rating" (ngModelChange)="filter()">
                         <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
                         <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
                         <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
@@ -299,7 +283,7 @@
                         <label for="4">4 & UP</label>
                     </div>
                     <div>
-                        <input type="radio" name="rating" class="form-check-input me-1" id="3">
+                        <input type="radio" name="rating" class="form-check-input me-1" id="3" value="3" [(ngModel)]="ratingFilters.rating" (ngModelChange)="filter()">
                         <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
                         <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
                         <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
@@ -308,7 +292,7 @@
                         <label for="3">3 & UP</label>
                     </div>
                     <div>
-                        <input type="radio" name="rating" class="form-check-input me-1" id="2">
+                        <input type="radio" name="rating" class="form-check-input me-1" id="2" value="2" [(ngModel)]="ratingFilters.rating" (ngModelChange)="filter()">
                         <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
                         <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
                         <img src="../../assets/svg/NoneFill-RatingStar.svg" alt="non-rating-star" />
@@ -337,23 +321,23 @@
                 </div>
                 <div class="checks" *ngIf="!durationChoices">
                     <div>
-                        <input type="checkbox" class="form-check-input me-1" id="5">
+                        <input type="checkbox" class="form-check-input me-1" id="5" [(ngModel)]="durationFilters.upTo5Hours" (ngModelChange)="filter()">
                         <label for="5">0-5 Hours</label>
                     </div>
                     <div>
-                        <input type="checkbox" class="form-check-input me-1" id="10">
+                        <input type="checkbox" class="form-check-input me-1" id="10" [(ngModel)]="durationFilters.upTo10Hours" (ngModelChange)="filter()">
                         <label for="10">6-10 Hours</label>
                     </div>
                     <div>
-                        <input type="checkbox" class="form-check-input me-1" id="15">
+                        <input type="checkbox" class="form-check-input me-1" id="15" [(ngModel)]="durationFilters.upTo15Hours" (ngModelChange)="filter()">
                         <label for="15">11-15 Hours</label>
                     </div>
                     <div>
-                        <input type="checkbox" class="form-check-input me-1" id="20">
+                        <input type="checkbox" class="form-check-input me-1" id="20" [(ngModel)]="durationFilters.upTo20Hours" (ngModelChange)="filter()">
                         <label for="20">16-20 Hours</label>
                     </div>
                     <div>
-                        <input type="checkbox" class="form-check-input me-1" id="21">
+                        <input type="checkbox" class="form-check-input me-1" id="21" [(ngModel)]="durationFilters.moreThan21Hours" (ngModelChange)="filter()">
                         <label for="21">21+ Hours</label>
                     </div>
                 </div>
@@ -468,7 +452,7 @@
             </section>
         </div>
         <div class="search-results">
-            <div class="search-result-container" *ngFor="let course of relatedCourses">
+            <div class="search-result-container" *ngFor="let course of filteredCourses">
                 <div class="weekfeature">
                     <div class="image me-1">
                         <img class="featureImg" src={{course.imageUrl}} alt="">

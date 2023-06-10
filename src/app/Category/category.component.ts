@@ -25,8 +25,27 @@ export class CategoryComponent implements OnInit {
   //Arrays of viewed data
   latestCourses: Course[] = [];
   relatedCourses: Course[] = [];
+  filteredCourses: any[] = [];
   entryLevelCourses: Course[] = [];
   topInstructors: any[] = [];
+
+
+
+  //filtering objects
+  ratingFilters: any = {
+    rating: 'all',
+  }
+
+  durationFilters: any = {
+    upTo5Hours: false,
+    upTo10Hours: false,
+    upTo15Hours: false,
+    upTo20Hours: false,
+    moreThan21Hours: false,
+  }
+
+
+
 
   //ngIf for filtering
   ratingChoices: boolean = true;
@@ -83,6 +102,7 @@ export class CategoryComponent implements OnInit {
     //Related Courses
     this.apiService.getAllItem(`Course/category/${this.CategoryId}`).subscribe((data: APIResponseVM) => {
       this.relatedCourses = data.items;
+      this.relatedCourses.forEach(crs => crs.avgReview = Math.floor(crs.avgReview));
       let loops: number = 3;
       if (this.relatedCourses.length < 3)
         loops = this.relatedCourses.length;
@@ -90,16 +110,49 @@ export class CategoryComponent implements OnInit {
       for (let i = 0; i < loops; i++) {
         if (this.relatedCourses[i].level != 0)
           continue;
-        this.relatedCourses[i].avgReview = Math.floor(this.relatedCourses[i].avgReview)
         this.entryLevelCourses.push(this.relatedCourses[i]);
       }
+      this.filteredCourses = this.relatedCourses;
     })
 
     //******************************************************************************** */
 
     //Top 4 Instructors
-    this.apiService.getAllItem("Instructor/TopTenInstructors?topNumber=4").subscribe((data:APIResponseVM)=>{
+    this.apiService.getAllItem("Instructor/TopTenInstructors?topNumber=4").subscribe((data: APIResponseVM) => {
       this.topInstructors = data.items;
     })
+
+    //******************************************************************************** */
+  }
+
+  filter() {
+    this.filteredCourses = this.relatedCourses;
+    if (this.ratingFilters.rating != 'all')
+      this.filteredCourses = this.filteredCourses
+        .filter(course => course.avgReview >= +this.ratingFilters.rating);
+
+
+    let durationFiltersArr = [
+      0,
+      this.durationFilters.upTo5Hours, 5,
+      this.durationFilters.upTo10Hours, 10,
+      this.durationFilters.upTo15Hours, 15,
+      this.durationFilters.upTo20Hours, 20,
+      this.durationFilters.moreThan21Hours, 21
+    ]
+
+    let afterDurationFilteredCourses = [];
+    for (let i = 1; i < durationFiltersArr.length; i += 2) {
+      if (durationFiltersArr[i] == true) {
+        let tempFilteredCourses = this.filteredCourses
+          .filter(course => course.noOfHours >= durationFiltersArr[i - 1]
+            && course.noOfHours <= durationFiltersArr[i + 1]);
+        afterDurationFilteredCourses.push(...tempFilteredCourses);
+      }
+    }
+    if (afterDurationFilteredCourses.length) {
+      this.filteredCourses = afterDurationFilteredCourses;
+    }
+
   }
 }

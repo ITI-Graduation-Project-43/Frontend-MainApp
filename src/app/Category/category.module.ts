@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CategoryComponent } from './category.component';
 import { EmptyComponent } from './Components/empty/empty.component';
 import { CoreModule } from '../Core/core.module';
+import { CategoryRoutingModule } from './category-routing.module';
 
 
 
@@ -13,7 +14,8 @@ import { CoreModule } from '../Core/core.module';
   ],
   imports: [
     CommonModule,
-    CoreModule
+    CoreModule,
+    CategoryRoutingModule
   ]
 })
 export class CategoryModule { }

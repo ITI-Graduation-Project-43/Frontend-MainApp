@@ -1,0 +1,21 @@
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/_placeholders.scss" as *;
+
+/* Course Requirements Card */
+.requirements-card {
+  @include details-card(820px);
+
+  .requirements-items {
+    @include style-display-column(16px, 0);
+
+    .requirements-item {
+      p {
+      @extend %paragraph;
+        span {
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}

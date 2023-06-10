@@ -1,0 +1,100 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/_placeholders.scss" as *;
+
+
+/* Student also bought section */
+/* Instructor other courses section */
+.courses-section{
+  @include style-display-column(32px, 0);
+  max-width: 828px;
+
+  h1{
+    @include style-font($font-anton,48px,124.04%,$blackColor)
+  }
+  .suggested-courses-section{
+    @include style-display-column(32px, 0);
+    align-items: center;
+    .course-cards{
+      @include style-display-row(24px, 0);
+      flex-wrap: wrap;
+
+      .course-card{
+        @include course-card;
+        width: 402px;
+
+        .course-image{
+          width: 100%;
+          height: 225px;
+          object-fit: cover;
+        }
+
+        .course-info{
+          @include style-display-column(16px, 0);
+          .course-rating {
+            @include style-display-row(5.6px, 0);
+          }
+
+          .course-name{
+            @include style-font($font-anton,32px,124.04%,$blackColor)
+          }
+        }
+
+        .course-students{
+          @include style-display-row-center(8px, 0);
+
+          .student-pictures{
+            @include style-display-row(0, 0);
+            max-height: 24px;
+            img{
+              @include make-avatar(24px, 24px);
+              margin-left: -6px;
+            }
+          }
+
+          .enrollments-number{
+            @include style-font($font-cabin, 16px, 19px, $darkGreyColor,700);
+          }
+
+
+        }
+        .course-instructor-price{
+          @include style-display-row-center(0 , 0);
+    justify-content: space-between;
+    width: 100%;
+
+          .course-instructor {
+            @include style-display-row-center(16px, 0);
+
+            .instructor-picture {
+              img {
+                @include make-avatar(42px, 42px);
+              }
+            }
+
+            .instructor-name{
+              @include style-font($font-cabin,16px, 19px, $darkGreyColor,700);
+            }
+
+          }
+
+          .course-price{
+            @include style-display-column(10px, 15px, 24px);
+
+
+            background: $greenColor;
+            border: 2px solid $blackColor;
+            border-radius: 33px;
+
+
+            @include style-font($font-cabin,16px, 19px, $darkGreyColor,700);
+          }
+        }
+      }
+    }
+
+    .view-more-btn{
+      @include custom-button($greenColor,$blackColor,$blackColor,43px);
+    }
+}
+}

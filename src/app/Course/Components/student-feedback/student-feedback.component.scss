@@ -1,0 +1,77 @@
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/_placeholders.scss" as *;
+
+
+/* Student feedback section */
+.student-feedback-section{
+  @include style-display-column(32px , 0);
+  align-items: center;
+  max-width: 828px;
+
+  .students-feedback{
+    @include style-display-column(16px , 0);
+    align-items: center;
+    max-width: 828px;
+
+
+    .student-feedback-card{
+      @include style-display-row(10px , 24px);
+
+      background: $whiteColor;
+      border: 1px solid $blackColor;
+
+      .student-image{
+        min-width: 187px;
+        height: 240px;
+        border: 1px solid $blackColor;
+
+        img{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .student-feedback{
+        @include style-display-column(32px , 0);
+
+        .student-review{
+          @include style-display-column(16px , 0);
+          .student-comment{
+            @include style-font($font-cabin,20px, 24px, $darkGreyColor,400);
+          }
+          .student-rating{
+            @include style-display-column(8px , 0);
+
+            .student-name{
+              @include style-font($font-cabin,16px, 19px, $darkGreyColor,700);
+            }
+
+            .student-course-rating{
+              @include style-display-row(5.6px , 0);
+            }
+          }
+
+        }
+
+        .student-course{
+          @include style-display-column(10px , 14px, 24px);
+
+          max-width: 515px;
+
+          background: $mainColorLight;
+          border: 1px solid $blackColor;
+          border-radius: 33px;
+          @include style-font($font-cabin,16px, 19px, $darkGreyColor,700);
+        }
+
+      }
+    }
+  }
+
+  .view-more-btn{
+    @include custom-button($greenColor,$blackColor,$blackColor,43px);
+  }
+}
+

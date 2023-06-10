@@ -18,7 +18,6 @@ import { courseStudents } from '../Models/courseStudents';
   styleUrls: ['./course.component.scss'],
 })
 export class CourseComponent implements OnInit {
-  showMore = false;
   courseId: number = 11;
 
   pageNumber: number = 1;
@@ -168,40 +167,8 @@ export class CourseComponent implements OnInit {
     );
   }
 
-  /* Learningn items */
-  getRows() {
-    const result = [];
-    for (let i = 0; i < this.course.learningItems?.length; i += 2) {
-      result.push(this.course.learningItems.slice(i, i + 2));
-    }
-    return result;
-  }
-
-  hasMoreItems() {
-    return this.course.learningItems?.length > 2;
-  }
-  toggleShowMore() {
-    this.showMore = !this.showMore;
-  }
-
   /**************************************************************/
   /*  for course content */
-  toggleChapter(chapter: Chapter): void {
-    chapter.open = !chapter.open;
-  }
-
-  getIconByType(type: string): string {
-    switch (type) {
-      case 'Video':
-        return '../../assets/svg/lecture.svg';
-      case 'Quiz':
-        return '../../assets/svg/pen.svg';
-      case 'Article':
-        return '../../assets/svg/article.svg';
-      default:
-        return '';
-    }
-  }
 
   /**************************************************************/
   /*  for related courses */

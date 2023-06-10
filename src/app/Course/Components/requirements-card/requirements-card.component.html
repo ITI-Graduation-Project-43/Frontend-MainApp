@@ -1,0 +1,17 @@
+<div class="requirements-card">
+  <!-- Title -->
+  <h2 class="card-title">Requirements:</h2>
+
+  <!-- Requirements Items -->
+  <div class="requirements-items">
+    <div
+      *ngFor="let item of courseRequirements; let i = index"
+      class="requirements-item"
+    >
+      <p class="requirements-item-details">
+        <span class="requirements-item-title">{{ item.title }}</span>
+        {{ item.description }}
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+@use "../../assets/style/abstracts/variables.scss" as *;
+@use "../../assets/style/abstracts/mixins.scss" as *;
+section {
+  background-color: $mainColorLight;
+  padding: 4rem;
+}
+.card {
+  display: grid;
+  grid-template: 1fr;
+  background-color: transparent;
+  border: none;
+  gap: 30px;
+  align-items: center;
+}
+@media screen and (min-width: 768px) {
+  .card {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

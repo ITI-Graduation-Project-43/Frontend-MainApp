@@ -5,7 +5,7 @@
   font-family: $mainFontFamily;
 }
 section {
-  padding: 4rem;
+  padding: 2rem;
 }
 .header {
   text-align: center;
@@ -13,6 +13,7 @@ section {
 .header > p {
   font-size: $fs-48;
   font-weight: 400;
+  margin-top: -20px;
 }
 
 .header > p:last-child {
@@ -21,7 +22,7 @@ section {
 }
 
 .contact {
-  padding: 2rem;
+  padding: 1.5rem;
   text-align: center;
 }
 .contact button {

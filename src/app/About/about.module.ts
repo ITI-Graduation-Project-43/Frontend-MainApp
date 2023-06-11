@@ -10,10 +10,24 @@ import { GoalsComponent } from './Components/goals/goals.component';
 import { TeamComponent } from './Components/team/team.component';
 import { TrustedByComponent } from './Components/trusted-by/trusted-by.component';
 import { GetStartedComponent } from './Components/get-started/get-started.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [AboutComponent, EmptyComponent, MainSectionComponent, VisionComponent, StatisticsComponent, GoalsComponent, TeamComponent, TrustedByComponent, GetStartedComponent],
-  imports: [CommonModule],
-  exports: [MainSectionComponent],
+  declarations: [
+    AboutComponent,
+    EmptyComponent,
+    MainSectionComponent,
+    VisionComponent,
+    StatisticsComponent,
+    GoalsComponent,
+    TeamComponent,
+    TrustedByComponent,
+    GetStartedComponent,
+  ],
+  imports: [
+    CommonModule,
+    RouterModule.forChild([{ path: '', component: AboutComponent }]),
+  ],
+  exports: [GetStartedComponent],
 })
 export class AboutModule {}

@@ -1,0 +1,104 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+section {
+  background-color: $mainColorLight;
+}
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-content: center;
+}
+@media screen and (min-width: 992px) {
+  .container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.info {
+  padding: 30px;
+}
+h2 {
+  font-size: $fs-48;
+  font-weight: 400;
+  font-family: $font-anton;
+  width: 100%;
+}
+p {
+  font-size: $fs-24;
+  font-weight: 400;
+  font-family: $font-cabin;
+}
+button {
+  @include custom-button($greenColor, $blackColor, $blackColor, 48px);
+  padding: 10px 30px;
+}
+
+.image {
+  position: relative;
+  height: 496px;
+  width: 496px;
+  display: none;
+}
+@media screen and (min-width: 500px) {
+  .image {
+    display: block;
+  }
+}
+img {
+  position: absolute;
+  max-height: 100%;
+}
+.alexander {
+  bottom: 0%;
+  z-index: 10;
+}
+.green-rec {
+  top: 43%;
+  left: 16%;
+  z-index: 1;
+  box-shadow: 5px -5px 0 black;
+}
+.purple-rec {
+  top: 20%;
+  right: 8%;
+  z-index: 2;
+}
+.light-orange {
+  top: 2%;
+  right: 25%;
+  box-shadow: -3px -2px 0 black;
+  z-index: 3;
+}
+.purple-elip {
+  top: 56%;
+  left: 13%;
+  z-index: 2;
+}
+.bird {
+  left: 17px;
+  z-index: 4;
+  top: 67%;
+}
+
+.greater {
+  top: 5%;
+  right: 30%;
+  z-index: 11;
+}
+
+.black-star {
+  top: 30%;
+  left: 20%;
+}
+
+.arrow {
+  right: 30%;
+  bottom: 43%;
+  z-index: 12;
+}
+
+.check {
+  right: 3%;
+  bottom: 25%;
+}

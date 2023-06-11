@@ -47,7 +47,7 @@ export class APIService {
       .pipe(retry(3), catchError(this.handleError));
   }
 
-  getItemById(APIRoute: string, id: number): Observable<APIResponseVM> {
+  getItemById(APIRoute: string, id: any): Observable<APIResponseVM> {
     const url = `${environment.APIURL}${APIRoute}/${id}`;
     return this.http
       .get<APIResponseVM>(url)

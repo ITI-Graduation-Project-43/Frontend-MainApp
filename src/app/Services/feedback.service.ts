@@ -19,4 +19,14 @@ export class FeedbackService extends APIService {
       .get<APIResponseVM>(url)
       .pipe(retry(3), catchError(this.handleError));
   }
+  getInstructorFeedback(
+    instructorId: string,
+    pageNumber: number = 1,
+    pageSize: number = 2
+  ): Observable<APIResponseVM> {
+    const url = `${environment.APIURL}CourseFeedback/Instructor/${instructorId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+    return this.http
+      .get<APIResponseVM>(url)
+      .pipe(retry(3), catchError(this.handleError));
+  }
 }

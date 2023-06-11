@@ -2,7 +2,7 @@
 @use "../../../assets/style/abstracts/mixins.scss" as *;
 
 .navbar {
-  background-color: $secondaryBgColor;
+  background-color: $mainColorLight;
   font-size: $fs-24;
 
   .navbar-brand {

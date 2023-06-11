@@ -1,1 +1,37 @@
-<p>footer works!</p>
+<footer class="footer py-3">
+  <div class="container-fluid">
+    <div class="footer-section d-flex align-items-center flex-column flex-lg-row">
+      <div class="footer-logo text-center">
+        <h1 class="logo-text m-auto">MindMission</h1>
+        <p class="logo-desc">
+          Our instructors are highly experienced professionals who bring their
+          expertise and real-world knowledge to help you succeed.
+        </p>
+      </div>
+      <hr class="d-block d-lg-none w-100" />
+      <div class="footer-navigation flex-grow-1 d-flex flex-column justify-content-end align-lg-items-end">
+        <h2 class="nav-title text-center">Pages</h2>
+        <div class="m-auto">
+          <ul class="navbar-nav flex-row flex-lg-column gap-3 gap-lg-1 flex-wrap justify-content-center justify-content-lg-start">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/courseDetails" routerLinkActive="active">Courses</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/about" routerLinkActive="active">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/contact" routerLinkActive="active">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <hr class="footer-separator" />
+    <div class="footer-copyright text-center">
+      <p>Copyright © {{currentYear}} MindMission | All rights reserved.</p>
+    </div>
+  </div>
+</footer>

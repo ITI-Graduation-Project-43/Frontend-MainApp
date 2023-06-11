@@ -5,11 +5,15 @@ import { CourseModule } from './Course/course.module';
 import { CategoryComponent } from './Category/category.component';
 import { HomeInstructorComponent } from './HomeInstructor/home-instructor.component';
 import { InstructorComponent } from './instructor/instructor.component';
-import { HeaderComponent } from './Core/header/header.component';
+import { HomeComponent } from './Home/home.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'header', pathMatch: 'full' },
-  { path: 'header', component: HeaderComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  {
+    path: 'home',
+    loadChildren: () => import('../app/Home/home.module').then((m) => m.HomeModule),
+    component: HomeComponent
+  },
   {
     path: 'courseDetails',
     loadChildren: () =>
@@ -52,7 +56,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [CommonModule, CourseModule, RouterModule.forRoot(routes)],
+  imports: [CommonModule, RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

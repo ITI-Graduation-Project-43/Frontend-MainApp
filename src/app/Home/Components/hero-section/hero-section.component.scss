@@ -1,0 +1,23 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+
+
+section {
+  background-color: $mainColorLight;
+
+  h1 {
+    @include style-font($font-anton, 48px, 124.04%, $blackColor);
+  }
+
+  p {
+    font-family: 'Cabin';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+  }
+
+  .search-btn {
+    @include custom-button($greenColor,$blackColor,$blackColor,20px);
+  }
+}
+

@@ -415,11 +415,11 @@
                 </div>
                 <div class="checks" *ngIf="!languageChoices">
                     <div>
-                        <input type="checkbox" class="form-check-input me-1" id="ar">
+                        <input type="checkbox" class="form-check-input me-1" id="ar" [(ngModel)]="languageFilters.Arabic" (ngModelChange)="filter()">
                         <label for="ar">Arabic</label>
                     </div>
                     <div>
-                        <input type="checkbox" class="form-check-input me-1" id="en">
+                        <input type="checkbox" class="form-check-input me-1" id="en" [(ngModel)]="languageFilters.English" (ngModelChange)="filter()">
                         <label for="en">English</label>
                     </div>
                 </div>
@@ -441,11 +441,11 @@
                 </div>
                 <div class="checks" *ngIf="!priceChoices">
                     <div>
-                        <input type="checkbox" class="form-check-input me-1" id="paid">
+                        <input type="checkbox" class="form-check-input me-1" id="paid" [(ngModel)]="priceFilters.paid" (ngModelChange)="filter()">
                         <label for="paid">Paid</label>
                     </div>
                     <div>
-                        <input type="checkbox" class="form-check-input me-1" id="free">
+                        <input type="checkbox" class="form-check-input me-1" id="free" [(ngModel)]="priceFilters.free" (ngModelChange)="filter()">
                         <label for="free">Free</label>
                     </div>
                 </div>

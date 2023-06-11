@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EmptyComponent } from './empty.component';
+import { TrustedSectionComponent } from './trusted-section.component';
 
-describe('EmptyComponent', () => {
-  let component: EmptyComponent;
-  let fixture: ComponentFixture<EmptyComponent>;
+describe('TrustedSectionComponent', () => {
+  let component: TrustedSectionComponent;
+  let fixture: ComponentFixture<TrustedSectionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EmptyComponent ]
+      declarations: [ TrustedSectionComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(EmptyComponent);
+    fixture = TestBed.createComponent(TrustedSectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

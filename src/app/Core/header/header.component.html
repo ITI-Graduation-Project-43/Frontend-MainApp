@@ -1,1 +1,71 @@
-<button>Hello</button>
+<nav class="navbar navbar-expand-lg px-2 py-3">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex flex-column" href="/">
+      <span class="navbar__brand-logo__brand-name">MindMission</span>
+      <svg
+        class="ms-4"
+        width="185"
+        height="6"
+        viewBox="0 0 185 6"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M184.56 5.05592C180.484 5.28563 176.441 5.74533 172.314 5.69934C160.16 5.56298 147.976 5.16911 135.816 4.98234C123.999 4.80072 112.193 4.74193 100.39 4.6501C78.6351 4.4808 56.8723 4.27763 35.1317 4.18711C25.8738 4.1483 16.6689 4.35763 7.42329 4.42513C6.30944 4.43067 4.78798 4.45918 4.09821 4.10488C2.57785 3.33516 1.47234 2.32129 0.202533 1.41076C1.58071 0.960595 2.88667 0.11107 4.36373 0.117832C22.7271 0.15005 41.0897 0.193281 59.4872 0.449973C79.9219 0.735861 100.391 1.24071 120.837 1.64393C127.996 1.78715 135.139 1.8516 142.303 2.05625C145.116 2.13619 147.953 2.57282 150.773 2.70868C152.276 2.78402 153.763 2.40351 155.254 2.49455C162.678 2.96382 170.094 3.52123 177.512 4.05661C179.83 4.22455 182.134 4.42472 184.45 4.60919C184.491 4.75654 184.52 4.90857 184.56 5.05592Z"
+          fill="black"
+        />
+      </svg>
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarText"
+      aria-controls="navbarText"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul
+        class="navbar-nav flex-grow-1 justify-content-center align-items-center gap-3"
+      >
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/home" routerLinkActive="active"
+            >Home</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/courseDetails"
+            routerLinkActive="active"
+            >Courses</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/about" routerLinkActive="active"
+            >About</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/contact" routerLinkActive="active"
+            >Contact</a
+          >
+        </li>
+      </ul>
+      <span
+        class="navbar-text d-flex flex-column flex-lg-row align-items-center gap-5"
+      >
+        <a href="/cart" class="navbar__cart-icon">
+          <img src="../../../assets/svg/cart.svg" alt="shopping cart" />
+        </a>
+        <a href="/login" class="">Login</a>
+        <a href="/register" class="navbar__register-btn">
+          <button class="register-button">Register</button>
+        </a>
+      </span>
+    </div>
+  </div>
+</nav>

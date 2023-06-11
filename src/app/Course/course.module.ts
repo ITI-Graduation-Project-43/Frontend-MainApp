@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CourseComponent } from './course.component';
-import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-
 import { RouterModule } from '@angular/router';
+
 import { OtherCoursesCardComponent } from './Components/other-courses-card/other-courses-card.component';
 import { CourseTitleComponent } from './Components/course-title/course-title.component';
 import { BreadcrumbNavigationComponent } from './Components/breadcrumb-navigation/breadcrumb-navigation.component';
@@ -33,7 +32,6 @@ import { StudentFeedbackComponent } from './Components/student-feedback/student-
   ],
   imports: [
     CommonModule,
-    NgxSkeletonLoaderModule,
     RouterModule.forChild([{ path: '', component: CourseComponent }]),
   ],
   exports: [OtherCoursesCardComponent],

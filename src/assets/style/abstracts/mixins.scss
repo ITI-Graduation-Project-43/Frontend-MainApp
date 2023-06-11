@@ -4,13 +4,13 @@
 @mixin custom-button($background, $forground, $shadowColor, $paddingX) {
   font-size: 1.5rem;
   color: $forground;
-  padding: 16px $paddingX;
+  padding: 8px $paddingX;
   border: 1px solid $blackColor;
   background: $background;
   box-shadow: 5px 5px $shadowColor, 5px 5px 0px 1px $blackColor;
   cursor: pointer;
   font-weight: 700;
-  font-size: 24px;
+  font-size: $fs-24;
   line-height: 29px;
   color: $blackColor;
 

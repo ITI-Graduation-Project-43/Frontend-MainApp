@@ -1,560 +1,109 @@
-<div class="course-title">
-  <div class="main-title">
-    {{ this.course.title }}
+<!-- Content Loader -->
+<!-- <div *ngIf="loading" class="loading-page">
+  <div class="sk-cube-grid">
+    <div class="sk-cube sk-cube1"></div>
+    <div class="sk-cube sk-cube2"></div>
+    <div class="sk-cube sk-cube3"></div>
+    <div class="sk-cube sk-cube4"></div>
+    <div class="sk-cube sk-cube5"></div>
+    <div class="sk-cube sk-cube6"></div>
+    <div class="sk-cube sk-cube7"></div>
+    <div class="sk-cube sk-cube8"></div>
+    <div class="sk-cube sk-cube9"></div>
   </div>
-  <div class="description">
-    {{ this.course.shortDescription }}
-  </div>
-</div>
+</div> -->
 
-<!-- Breadcrumb navigation component -->
-<nav aria-label="breadcrumb" class="breadcrumb">
-  <!-- List to hold breadcrumb items -->
-  <ol>
-    <li class="breadcrumb__item breadcrumb__item--active">
-      <a href="#" class="breadcrumb__link">{{ course.categoryName }}</a>
-      <!-- Breadcrumb separator (SVG) -->
-      <div class="breadcrumb__separator">
-        <svg
-          width="11"
-          height="18"
-          viewBox="0 0 11 18"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M10.2969 9.79687L2.79687 17.2969C2.58553 17.5082 2.29888 17.6269 2 17.6269C1.70111 17.6269 1.41447 17.5082 1.20312 17.2969C0.991779 17.0855 0.873047 16.7989 0.873047 16.5C0.873047 16.2011 0.991779 15.9145 1.20312 15.7031L7.90719 9.00094L1.205 2.29687C1.10035 2.19223 1.01734 2.06799 0.960706 1.93126C0.904071 1.79454 0.874922 1.64799 0.874922 1.5C0.874922 1.35201 0.904071 1.20546 0.960706 1.06873C1.01734 0.932004 1.10035 0.807771 1.205 0.703123C1.30965 0.598476 1.43388 0.515466 1.57061 0.458831C1.70734 0.402196 1.85388 0.373047 2.00187 0.373047C2.14987 0.373047 2.29641 0.402196 2.43314 0.458831C2.56987 0.515466 2.6941 0.598476 2.79875 0.703123L10.2987 8.20312C10.4035 8.30776 10.4866 8.43205 10.5432 8.56887C10.5998 8.70568 10.6289 8.85232 10.6287 9.00039C10.6285 9.14845 10.5991 9.29503 10.5422 9.43171C10.4852 9.56839 10.4019 9.69248 10.2969 9.79687Z"
-            fill="#181818"
-          />
-        </svg>
-      </div>
-    </li>
-    <li class="breadcrumb__item">
-      <a href="#" class="breadcrumb__link">{{ course.subCategoryName }}</a>
-      <!-- Breadcrumb separator (SVG) -->
-      <div class="breadcrumb__separator">
-        <svg
-          width="11"
-          height="18"
-          viewBox="0 0 11 18"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M10.2969 9.79687L2.79687 17.2969C2.58553 17.5082 2.29888 17.6269 2 17.6269C1.70111 17.6269 1.41447 17.5082 1.20312 17.2969C0.991779 17.0855 0.873047 16.7989 0.873047 16.5C0.873047 16.2011 0.991779 15.9145 1.20312 15.7031L7.90719 9.00094L1.205 2.29687C1.10035 2.19223 1.01734 2.06799 0.960706 1.93126C0.904071 1.79454 0.874922 1.64799 0.874922 1.5C0.874922 1.35201 0.904071 1.20546 0.960706 1.06873C1.01734 0.932004 1.10035 0.807771 1.205 0.703123C1.30965 0.598476 1.43388 0.515466 1.57061 0.458831C1.70734 0.402196 1.85388 0.373047 2.00187 0.373047C2.14987 0.373047 2.29641 0.402196 2.43314 0.458831C2.56987 0.515466 2.6941 0.598476 2.79875 0.703123L10.2987 8.20312C10.4035 8.30776 10.4866 8.43205 10.5432 8.56887C10.5998 8.70568 10.6289 8.85232 10.6287 9.00039C10.6285 9.14845 10.5991 9.29503 10.5422 9.43171C10.4852 9.56839 10.4019 9.69248 10.2969 9.79687Z"
-            fill="#181818"
-          />
-        </svg>
-      </div>
-    </li>
-    <li class="breadcrumb__item">
-      <a href="#" class="breadcrumb__link">{{ course.topicName }}</a>
-    </li>
-  </ol>
-</nav>
-
-<!--Course Card-->
-<div class="course-details-card">
-  <div class="course-picture">
-    <img [src]="course.imageUrl" alt="course image" />
-  </div>
-  <div class="course-info">
-    <div class="course-rating">
-      <img
-        *ngFor="let star of ' '.repeat(course.avgReview).split('')"
-        src="../../assets/svg/rating-star.svg"
-        alt="rating-star"
-      />
-    </div>
-    <div class="course-students">
-      <div class="student-pictures">
-        <img
-          class="course-students-pic"
-          src="../../assets/images/student1.webp"
-          alt="student-picture"
-        />
-        <img
-          class="course-students-pic"
-          src="../../assets/images/student2.webp"
-          alt="student-picture"
-        />
-        <img
-          class="course-students-pic"
-          src="../../assets/images/student3.webp"
-          alt="student-picture"
-        />
-        <img
-          class="course-students-pic"
-          src="../../assets/images/student4.webp"
-          alt="student-picture"
-        />
-      </div>
-      <div class="enrollments-number" *ngIf="course.noOfStudents < 1000">
-        {{ course.noOfStudents }} enrolled
-      </div>
-      <div
-        class="enrollments-number"
-        *ngIf="course.noOfStudents >= 1000 && course.noOfStudents < 1000000"
-      >
-        {{ course.noOfStudents / 1000 | number : "1.0-2" }}K enrolled
-      </div>
-      <div class="enrollments-number" *ngIf="course.noOfStudents >= 1000000">
-        {{ course.noOfStudents / 1000000 | number : "1.0-4" }}M enrolled
-      </div>
-    </div>
-  </div>
-  <div class="course-action">
-    <button class="add-to-cart">Add to Cart</button>
-    <button class="add-to-wishlist">Add to Wishlist</button>
-  </div>
-  <div class="course-details">
-    <h2>This course includes:</h2>
-    <ul class="course-details-items">
-      <li class="course-details-item">
-        <img src="../../assets/svg/lecture.svg" alt="lecture-icon" />
-        {{ course.lessonCount }} Lessons
-      </li>
-      <li class="course-details-item">
-        <img src="../../assets/svg/clock.svg" alt="clock-icon" />
-        {{ course.noOfHours }} Hours
-      </li>
-      <li class="course-details-item">
-        <img src="../../assets/svg/article.svg" alt="article-icon" />
-        {{ course.noOfArticles }} Articles
-      </li>
-      <li class="course-details-item">
-        <img src="../../assets/svg/pen.svg" alt="excercise-icon" />
-        {{ course.noOfQuizes }} Excercises
-      </li>
-      <li class="course-details-item">
-        <img src="../../assets/svg/completion.svg" alt="excercise-icon" />
-        Completion certificate
-      </li>
-    </ul>
-  </div>
-  <div class="course-instructor-price">
-    <div class="course-instructor">
-      <div class="instructor-picture">
-        <img [src]="course.instructorProfilePicture" alt="instructor-picture" />
-        <!-- src="../../assets/images/instructor.webp" -->
-      </div>
-      <div class="instructor-name">{{ course.instructorName }}</div>
-    </div>
-    <div class="course-price">{{ course.price }} EGP</div>
-  </div>
-</div>
-
-<!-- What You Will Learn Card -->
-<div class="learn-card">
-  <!-- Title -->
-  <h2 class="card-title">What you'll learn:</h2>
-
-  <!-- Learn Items -->
-  <div class="learn-items">
-    <div *ngFor="let item of getRows(); let i = index" class="learn-item-row">
-      <div *ngFor="let subitem of item">
-        <p class="learn-item" [class.hidden]="!showMore && i >= 2">
-          <span class="title">{{ subitem.title }}: </span>
-          <span class="description">{{ subitem.description }}.</span>
-        </p>
-      </div>
-    </div>
-    <!-- Gradient Overlay -->
-    <div *ngIf="!showMore && hasMoreItems()" class="gradient-overlay"></div>
-  </div>
-
-  <!-- Show More/Less Button -->
-  <button (click)="toggleShowMore()" *ngIf="hasMoreItems()" class="read-more">
-    {{ showMore ? "Read less" : "Read more" }}
-    <img
-      [src]="
-        showMore
-          ? '../../assets/svg/up arrow.svg'
-          : '../../assets/svg/down arrow.svg'
-      "
-      alt="arrow"
-    />
-  </button>
-</div>
-
-<!--Excercise Demo-->
-<div class="exercise-demo">
-  <img src="../../assets/images/excersieDemo.png" alt="exercise demo" />
-  <div class="exercise-demo-content">
-    <h2>Exercise Demo</h2>
-    <p>
-      This course includes our updated coding exercises so you can practice your
-      skills as you learn.
-    </p>
-    <a href="#" class="see-demo">See demo</a>
-  </div>
-</div>
-
-<!--Course content-->
-<div class="course-content-section">
-  <h1>Course Content</h1>
-  <div class="course-content-details">
-    <div class="course-content-details-item">
-      <img src="../../assets/svg/lecture.svg" alt="lecture-icon" />
-      <div>{{ course.lessonCount }} Lectures</div>
-    </div>
-    <div class="ellipse-seperator"></div>
-    <div class="course-content-details-item">
-      <img src="../../assets/svg/clock.svg" alt="clock icon" />
-      <div>{{ course.noOfHours }} Hours</div>
-    </div>
-    <div class="ellipse-seperator"></div>
-    <div class="course-content-details-item">
-      <img src="../../assets/svg/section.svg" alt="section icon" />
-      <div>{{ course.chapterCount }} Sections</div>
-    </div>
-  </div>
-  <div class="course-content-modules">
-    <div class="course-chapter" *ngFor="let chapter of chapters">
-      <div class="course-chapter-heading" (click)="toggleChapter(chapter)">
-        <div class="course-chapter-name">
-          <img
-            [src]="
-              chapter.open
-                ? '../../assets/svg/up arrow.svg'
-                : '../../assets/svg/down arrow.svg'
-            "
-            alt="arrow"
-          />
-          <h2>{{ chapter.title }}</h2>
-        </div>
-        <div class="chapter-stats">
-          <span>{{ chapter.noOfLessons }} Lesson(s)</span>
-          <div class="ellipse-seperator"></div>
-          <span>{{ chapter.noOfHours }} Hour(s)</span>
-        </div>
-      </div>
-      <div class="course-lessons" *ngIf="chapter.open">
-        <div class="course-lesson" *ngFor="let lesson of chapter.lessons">
-          <div class="lesson-main-data">
-            <div class="lesson-heading">
-              <img [src]="getIconByType(lesson.type)" alt="icon" />
-              <h3>{{ lesson.title }}</h3>
-            </div>
-            <div
-              *ngIf="lesson.description.length > 0"
-              class="lesson-description"
-            >
-              {{ lesson.description }}
-            </div>
-          </div>
-          <div class="lesson-stats">
-            <span>{{ lesson.noOfHours }} Hour(s)</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Who Should Enroll Card -->
-<div class="enroll-card">
-  <!-- Title -->
-  <h2 class="card-title">Who should enroll:</h2>
-
-  <!-- Enroll Items -->
-  <div class="enroll-items">
-    <div
-      *ngFor="let item of course.enrollmentItems; let i = index"
-      class="enroll-item"
-    >
-      <img src="../../assets/svg/tick.svg" alt="tick" />
-      <p class="enroll-item-title">{{ item.description }}</p>
-    </div>
-  </div>
-</div>
-
-<!-- Course Requirements Card -->
-<div class="requirements-card">
-  <!-- Title -->
-  <h2 class="card-title">Requirements:</h2>
-
-  <!-- Requirements Items -->
-  <div class="requirements-items">
-    <div
-      *ngFor="let item of course.courseRequirements; let i = index"
-      class="requirements-item"
-    >
-      <p class="requirements-item-details">
-        <span class="requirements-item-title">{{ item.title }}</span>
-        {{ item.description }}
-      </p>
-    </div>
-  </div>
-</div>
-
-<!--Student also bought-->
-<div class="courses-section" *ngIf="relatedCourses.length > 0">
-  <h1>Students also bought</h1>
-
-  <div class="suggested-courses-section">
-    <div class="course-cards">
-      <!-- Loop through relatedCourses array -->
-      <ng-container *ngFor="let course of relatedCourses; let i = index">
-        <div class="course-card">
-          <img
-            [src]="course.imageUrl"
-            alt="course image"
-            class="course-image"
-          />
-          <div class="course-info">
-            <div class="course-rating">
-              <img
-                *ngFor="let star of [1, 2, 3, 4, 5]"
-                [src]="'../../assets/svg/rating-star.svg'"
-                alt="rating-star"
-                [class.highlighted]="star <= course.avgReview"
-              />
-            </div>
-            <div class="course-category">{{ course.categoryName }}</div>
-            <div class="course-name">{{ course.title }}</div>
-            <div class="course-students">
-              <div class="student-pictures">
-                <!-- Display student pictures dynamically -->
-                <img
-                  *ngFor="let student of [1, 2, 3, 4]"
-                  class="course-students-pic"
-                  [src]="'../../assets/images/student' + student + '.webp'"
-                  alt="student-picture"
-                />
-              </div>
-              <div class="enrollments-number">
-                +{{ course.noOfStudents }} enrolled
-              </div>
-            </div>
-          </div>
-
-          <div class="course-instructor-price">
-            <div class="course-instructor">
-              <div class="instructor-picture">
-                <img
-                  [src]="course.instructorProfilePicture"
-                  alt="instructor-picture"
-                />
-              </div>
-              <div class="instructor-name">{{ course.instructorName }}</div>
-            </div>
-            <div class="course-price">{{ course.price }} EGP</div>
-          </div>
-        </div>
-      </ng-container>
-      <!-- End of loop -->
-    </div>
-    <div *ngIf="pageNumber * pageSize < relatedCoursesTotalCount">
-      <button class="view-more-btn" (click)="loadMoreCourses()">
-        View more
-      </button>
-    </div>
-  </div>
-</div>
-
-<!--Instructor details card-->
-<div class="instructor-details-card">
+<!-- Error Message -->
+<div *ngIf="errorMessage" class="error-message">
   <img
-    [src]="course.instructorProfilePicture"
-    alt="instrucotr-picture"
-    class="instructor-avatar"
+    src="../../assets/svg/Computer troubleshooting-rafiki.svg"
+    alt="Error Icon"
+    class="error-message-photo"
   />
-  <!-- src="../../assets/images/instructor.webp" -->
-  <div class="instructor-info-details">
-    <div class="instructor-main-info">
-      <div class="instructor-rating">
-        <img src="../../assets/svg/rating-star.svg" alt="star icon" />
-        <span>{{ course.instructorAvgRating }} Instructor Rating </span>
-      </div>
-      <div class="instructor-name">{{ course.instructorName }}</div>
-    </div>
-    <div class="instructor-additional-info">
-      <div class="instructor-title">{{ course.instructorTitle }}</div>
-      <div class="instructor-detials">
-        {{ course.instructorDescription }}
-      </div>
-      <div class="instructor-stats">
-        <span>{{ course.instructorNoOfStudents | number }} Students</span>
-        <span>|</span>
-        <span>{{ course.instructorNoOfCourses }} Courses</span>
-      </div>
-    </div>
-  </div>
+  <p>{{ errorMessage }}</p>
 </div>
 
-<!--Instructor other courses-->
-<div class="courses-section">
-  <h1>Also taught by Joey</h1>
+<div class="course-header-wrapper" *ngIf="!errorMessage">
+  <!--Course Title-->
+  <app-course-title
+    [title]="course.title"
+    [description]="course.shortDescription"
+    [loading]="loading"
+  ></app-course-title>
 
-  <div class="suggested-courses-section">
-    <div class="course-cards">
-      <!-- Loop through instructorCourses array -->
-      <ng-container *ngFor="let course of instructorCourses; let i = index">
-        <div class="course-card">
-          <img
-            [src]="course.imageUrl"
-            alt="course image"
-            class="course-image"
-          />
-          <div class="course-info">
-            <div class="course-rating">
-              <img
-                *ngFor="let star of [1, 2, 3, 4, 5]"
-                [src]="'../../assets/svg/rating-star.svg'"
-                alt="rating-star"
-                [class.highlighted]="star <= course.avgReview"
-              />
-            </div>
-            <div class="course-category">{{ course.categoryName }}</div>
-            <div class="course-name">{{ course.title }}</div>
-            <div class="course-students">
-              <div class="student-pictures">
-                <img
-                  class="course-students-pic"
-                  src="../../assets/images/student1.webp"
-                  alt="student-picture"
-                />
-                <img
-                  class="course-students-pic"
-                  src="../../assets/images/student2.webp"
-                  alt="student-picture"
-                />
-                <img
-                  class="course-students-pic"
-                  src="../../assets/images/student3.webp"
-                  alt="student-picture"
-                />
-                <img
-                  class="course-students-pic"
-                  src="../../assets/images/student4.webp"
-                  alt="student-picture"
-                />
-              </div>
-              <div class="enrollments-number">
-                +{{ course.noOfStudents }} enrolled
-              </div>
-            </div>
-          </div>
+  <!-- Breadcrumb navigation component -->
+  <app-breadcrumb-navigation
+    [categoryName]="course.categoryName"
+    [subCategoryName]="course.subCategoryName"
+    [topicName]="course.topicName"
+    [loading]="loading"
+  >
+  </app-breadcrumb-navigation>
 
-          <div class="course-instructor-price">
-            <div class="course-instructor">
-              <div class="instructor-picture">
-                <img
-                  [src]="course.instructorProfilePicture"
-                  alt="instructor-picture"
-                />
-              </div>
-              <div class="instructor-name">{{ course.instructorName }}</div>
-            </div>
-            <div class="course-price">{{ course.price }} EGP</div>
-          </div>
-        </div>
-      </ng-container>
-      <!-- End of loop -->
-    </div>
-    <div
-      *ngIf="
-        taughtByInstructorPageNumber * pageSize < instructorCoursesTotalCount
-      "
-    >
-      <button class="view-more-btn" (click)="loadMoreInstrucorCourses()">
-        View more
-      </button>
-    </div>
-  </div>
+  <!--Course Card-->
+  <app-course-card
+    class="course-main-card"
+    [course]="course"
+    [studentInCourse]="studentInCourse"
+    [loading]="loading"
+  ></app-course-card>
 </div>
+<div class="course-content-wrapper" *ngIf="!errorMessage">
+  <!-- What You Will Learn Card -->
+  <app-learn-card [course]="course" [loading]="loading"></app-learn-card>
 
-<!--Course Feedback section-->
-<div class="student-feedback-section">
-  <div class="students-feedback">
-    <div class="student-feedback-card">
-      <div class="student-image">
-        <img src="../../assets/images/student1.jpg" alt="student image" />
-      </div>
-      <div class="student-feedback">
-        <div class="student-review">
-          <div class="student-comment">
-            Taking the Node.js course on MindMission was one of the best
-            decisions I've made for my career. As a software developer, I was
-            seeking to enhance my skills and stay updated with the latest
-            technologies. The course genuinely exceeded my expectations.
-          </div>
-          <div class="student-rating">
-            <div class="student-name">Monica Geller</div>
-            <div class="student-course-rating">
-              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-            </div>
-          </div>
-        </div>
-        <div class="student-course">
-          Completed the ‘Mastering Python: From Fundamentals to Advanced
-          Concepts’ course
-        </div>
-      </div>
-    </div>
-    <div class="student-feedback-card">
-      <div class="student-image">
-        <img src="../../assets/images/student1.jpg" alt="student image" />
-      </div>
-      <div class="student-feedback">
-        <div class="student-review">
-          <div class="student-comment">
-            Taking the Node.js course on MindMission was one of the best
-            decisions I've made for my career. As a software developer, I was
-            seeking to enhance my skills and stay updated with the latest
-            technologies. The course genuinely exceeded my expectations.
-          </div>
-          <div class="student-rating">
-            <div class="student-name">Monica Geller</div>
-            <div class="student-course-rating">
-              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-            </div>
-          </div>
-        </div>
-        <div class="student-course">
-          Completed the ‘Mastering Python: From Fundamentals to Advanced
-          Concepts’ course
-        </div>
-      </div>
-    </div>
-    <div class="student-feedback-card">
-      <div class="student-image">
-        <img src="../../assets/images/student1.jpg" alt="student image" />
-      </div>
-      <div class="student-feedback">
-        <div class="student-review">
-          <div class="student-comment">
-            Taking the Node.js course on MindMission was one of the best
-            decisions I've made for my career. As a software developer, I was
-            seeking to enhance my skills and stay updated with the latest
-            technologies. The course genuinely exceeded my expectations.
-          </div>
-          <div class="student-rating">
-            <div class="student-name">Monica Geller</div>
-            <div class="student-course-rating">
-              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-              <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-            </div>
-          </div>
-        </div>
-        <div class="student-course">
-          Completed the ‘Mastering Python: From Fundamentals to Advanced
-          Concepts’ course
-        </div>
-      </div>
-    </div>
-  </div>
-  <button class="view-more-btn">View more</button>
+  <!--Course Excercise Card-->
+  <app-excercise-card [loading]="loading"></app-excercise-card>
+
+  <!--Course Content-->
+  <app-course-content
+    [course]="course"
+    [chapters]="chapters"
+    [loading]="loading"
+  ></app-course-content>
+
+  <!-- Who Should Enroll Card -->
+  <app-enroll-card
+    [enrollmentItems]="course.enrollmentItems"
+    [loading]="loading"
+  ></app-enroll-card>
+
+  <!-- Course Requirements Card -->
+  <app-requirements-card
+    [courseRequirements]="course.courseRequirements"
+    [loading]="loading"
+  ></app-requirements-card>
+
+  <!--Student also bought-->
+  <other-courses-card
+    [title]="'Students also bought'"
+    [courses]="relatedCourses"
+    [coursesTotalCount]="relatedCoursesTotalCount"
+    [pageNumber]="pageNumber"
+    [pageSize]="pageSize"
+    (loadMore)="loadMoreCourses()"
+    [loading]="loading"
+  >
+  </other-courses-card>
+
+  <!--Instructor details card-->
+  <app-instructor-details
+    [course]="course"
+    [loading]="loading"
+  ></app-instructor-details>
+
+  <!--Instructor other courses-->
+  <other-courses-card
+    [title]="'Also taught by ' + course.instructorName"
+    [courses]="instructorCourses"
+    [coursesTotalCount]="instructorCoursesTotalCount"
+    [pageNumber]="taughtByInstructorPageNumber"
+    [pageSize]="pageSize"
+    (loadMore)="loadMoreInstructorCourses()"
+    [loading]="loading"
+  >
+  </other-courses-card>
+
+  <!--Course Feedback section-->
+  <app-student-feedback [loading]="loading"></app-student-feedback>
 </div>

@@ -1,0 +1,70 @@
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/_placeholders.scss" as *;
+
+
+
+
+/*  what you will learn card */
+.learn-card {
+  @include details-card(820px);
+  position: relative;
+
+  .learn-items {
+    position: relative;
+    margin-bottom: 20px;
+
+    .learn-item-row {
+      @include style-display-row(24px, 0);
+      justify-content: space-between;
+      width: 100%;
+
+      .learn-item {
+        flex: 1;
+        font-size: 20px;
+        line-height: 24px;
+        max-width: 374px;
+
+        span {
+          &:first-child {
+            font-weight: 700;
+          }
+        }
+
+        &.hidden {
+          display: none;
+        }
+      }
+    }
+
+    .gradient-overlay {
+      position: absolute;
+      top: 50%;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #fff 100%);
+      pointer-events: none;
+    }
+  }
+
+  .read-more {
+    position: absolute;
+    bottom: 22px;
+
+    @include style-display-row-center(8px, 0);
+    z-index: 2;
+    cursor: pointer;
+    background: none;
+    border: none;
+
+    @include style-font($font-cabin, 16px,16px,$darkGreyColor, 700)
+  }
+}
+
+
+/* Skeleton Loading Styles */
+.enroll-item.skeleton {
+  height: 2rem;
+}
+

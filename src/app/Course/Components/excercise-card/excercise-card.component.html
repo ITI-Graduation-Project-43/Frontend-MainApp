@@ -1,0 +1,23 @@
+<div *ngIf="loading; else content" class="enroll-card">
+  <div class="exercise-demo">
+    <div class="image-sec skeleton"></div>
+    <div class="exercise-demo-content">
+      <div class="main-title skeleton"></div>
+      <div class="description skeleton"></div>
+      <div class="link skeleton"></div>
+    </div>
+  </div>
+</div>
+<ng-template #content>
+  <div class="exercise-demo">
+    <img src="../../assets/images/excersieDemo.png" alt="exercise demo" />
+    <div class="exercise-demo-content">
+      <h2>Exercise Demo</h2>
+      <p>
+        This course includes our updated coding exercises so you can practice
+        your skills as you learn.
+      </p>
+      <a href="#" class="see-demo">See demo</a>
+    </div>
+  </div>
+</ng-template>

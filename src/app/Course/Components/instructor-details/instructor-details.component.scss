@@ -1,0 +1,81 @@
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/_placeholders.scss" as *;
+
+
+/* Instructor details card */
+.instructor-details-card{
+  @include style-display-row(32px , 40px, 32px);
+
+  max-width: 828px;
+
+  background: $secondaryColor;
+  border: 1px solid $blackColor;
+
+  .instructor-avatar{
+    width: 116px;
+    height: 116px;
+
+    border: 2px solid $blackColor;
+    border-radius: 1000px;
+  }
+
+  .instructor-info-details{
+    @include style-display-column(8px, 0);
+
+    .instructor-main-info{
+      @include style-display-column(4px, 0);
+
+
+      .instructor-rating{
+        @include style-display-row-center(8px, 0);
+
+        span{
+            @include style-font($font-cabin,16px, 19px, $darkGreyColor,700);
+        }
+      }
+      .instructor-name{
+        @include style-font($font-anton,24px,124.04%,$blackColor)
+      }
+    }
+    .instructor-additional-info{
+      @include style-display-column(8px, 0);
+
+      color: $darkGreyColor;
+      @include style-font($font-cabin,20px, 24px, $darkGreyColor,400);
+
+
+      .instructor-stats{
+        @include style-display-row(16px, 0);
+        @include style-font($font-cabin,16px, 19px, $darkGreyColor,700);
+      }
+    }
+  }
+}
+
+/* Skeleton Loading Styles */
+.image-sec.skeleton {
+  height: 6rem;
+  max-width: 120px;
+}
+.instructor-rating.skeleton {
+  height: 1rem;
+  max-width: 120px;
+}
+.instructor-name.skeleton {
+  height: 2rem;
+  max-width: 180px;
+}
+.instructor-title.skeleton {
+  height: 2rem;
+  max-width: 180px;
+}
+
+.instructor-detials.skeleton {
+  height: 12rem;
+  max-width: 600px;
+}
+.instructor-stats.skeleton {
+  height: 2rem;
+  max-width: 200px;
+}

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 import { CourseService } from '../Services/course.service';
 import { Course } from '../Models/course';
@@ -47,11 +48,15 @@ export class CourseComponent implements OnInit {
 
   constructor(
     private courseService: CourseService,
-    private studentService: StudentService
+    private studentService: StudentService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.loadData();
+    this.route.params.subscribe((params) => {
+      this.courseId = +params['id'];
+      this.loadData();
+    });
   }
 
   loadData() {

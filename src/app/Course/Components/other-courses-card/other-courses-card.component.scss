@@ -22,7 +22,7 @@
       .course-card{
         @include course-card;
         width: 402px;
-
+        cursor: pointer;
         .course-image{
           width: 100%;
           height: 225px;

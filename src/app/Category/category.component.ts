@@ -66,14 +66,6 @@ export class CategoryComponent implements OnInit {
 
   subcategoryFilters: any = {};
 
-  levelFilters: any = {
-    Entry: false,
-    Intermediate: false,
-    Expert: false,
-  };
-
-  subcategoryFilters: any = {};
-
   //ngIf for filtering
   ratingChoices: boolean = true;
   durationChoices: boolean = true;

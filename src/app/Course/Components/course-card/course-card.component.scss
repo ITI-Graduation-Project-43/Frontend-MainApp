@@ -50,7 +50,7 @@
   .course-details{
     @extend %flex-column;
     h2{
-      @include style-font($font-anton,24px, 36px, $darkGreyColor);
+      @include style-font($font-anton,24px, 36px, $darkGreyColor,400);
     }
 
     .course-details-items {

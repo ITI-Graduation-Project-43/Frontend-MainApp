@@ -1,0 +1,50 @@
+@use "../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../assets/style/abstracts/variables.scss" as *;
+
+
+@keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+@keyframes fadeOut {
+  0% {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+.snackbar {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 200px;
+  background-color: #333;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  border-radius: 8px;
+  z-index: 1000;
+  @include style-font($font-cabin, 16px, 19px,  $blackColor,400);
+  animation-fill-mode: forwards;
+  &.success {
+    background-color: #ade2bf;
+  }
+  &.error {
+    background-color: #fbe6e9;
+  }
+  &.info {
+    background-color: #FDF6EB;
+  }
+
+  &.fade-in {
+    animation: fadeIn 0.6s;
+  }
+
+  &.fade-out {
+    animation: fadeOut 0.6s;
+  }
+
+}
+
+
+

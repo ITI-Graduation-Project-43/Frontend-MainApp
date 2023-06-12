@@ -2,3 +2,12 @@
   min-height: calc(100vh - (434px));
   overflow-x: hidden;
 }
+
+.side-cart{
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 10;
+}
+
+

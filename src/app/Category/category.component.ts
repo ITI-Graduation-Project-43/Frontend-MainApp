@@ -5,6 +5,7 @@ import { Course } from '../Models/course';
 import { Category } from '../Models/category';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Language } from '../Models/Enums/CourseLanguage';
+import { Level } from '../Models/Enums/CourseLevel';
 
 @Component({
   selector: 'app-category',
@@ -23,6 +24,9 @@ export class CategoryComponent implements OnInit {
 
   //Main Category
   mainCategory: any;
+
+  //Feature this week
+  featureThisWeekCourse: Course[] = [];
 
   //Arrays of viewed data
   latestCourses: Course[] = [];
@@ -53,6 +57,22 @@ export class CategoryComponent implements OnInit {
     free: false,
     paid: false,
   };
+
+  levelFilters: any = {
+    Entry: false,
+    Intermediate: false,
+    Expert: false,
+  };
+
+  subcategoryFilters: any = {};
+
+  levelFilters: any = {
+    Entry: false,
+    Intermediate: false,
+    Expert: false,
+  };
+
+  subcategoryFilters: any = {};
 
   //ngIf for filtering
   ratingChoices: boolean = true;
@@ -88,12 +108,27 @@ export class CategoryComponent implements OnInit {
     );
     //**************************************************************************** */
 
+    //Feature this week
+    this.apiService
+      .getAllItem('Course/featureThisWeek')
+      .subscribe((data: APIResponseVM) => {
+        this.featureThisWeekCourse = data.items as Course[];
+        this.featureThisWeekCourse[0].avgReview = Math.floor(
+          this.featureThisWeekCourse[0].avgReview
+        );
+      });
+
+    //**************************************************************************** */
+
     //Subcategories
     this.apiService
       .getAllItem(`Category/ParentSubCategories/${this.CategoryId}`)
       .subscribe(
         (data: APIResponseVM) => {
           this.subcategories = data.items;
+          this.subcategories.forEach((subCat) => {
+            this.subcategoryFilters[subCat.name] = false;
+          });
         },
         (error) => {
           console.log(error.message);
@@ -119,18 +154,17 @@ export class CategoryComponent implements OnInit {
 
     //Related Courses
     this.apiService
-      .getAllItem(`Course/category/${this.CategoryId}`)
+      .getAllItem(`Course/category/${this.CategoryId}?PageNumber=1&PageSize=5`)
       .subscribe((data: APIResponseVM) => {
         this.relatedCourses = data.items;
         this.relatedCourses.forEach(
           (crs) => (crs.avgReview = Math.floor(crs.avgReview))
         );
-        let loops: number = 3;
-        if (this.relatedCourses.length < 3) loops = this.relatedCourses.length;
 
-        for (let i = 0; i < loops; i++) {
+        for (let i = 0; i < this.relatedCourses.length; i++) {
           if (this.relatedCourses[i].level != 0) continue;
           this.entryLevelCourses.push(this.relatedCourses[i]);
+          if (this.entryLevelCourses.length == 3) break;
         }
         this.filteredCourses = this.relatedCourses;
       });
@@ -155,7 +189,7 @@ export class CategoryComponent implements OnInit {
       );
 
     let durationFiltersArr = [
-      0,
+      -1,
       this.durationFilters.upTo5Hours,
       5,
       this.durationFilters.upTo10Hours,
@@ -165,7 +199,7 @@ export class CategoryComponent implements OnInit {
       this.durationFilters.upTo20Hours,
       20,
       this.durationFilters.moreThan21Hours,
-      21,
+      100,
     ];
 
     let afterDurationFilteredCourses = [];
@@ -177,76 +211,99 @@ export class CategoryComponent implements OnInit {
             course.noOfHours <= durationFiltersArr[i + 1]
         );
         afterDurationFilteredCourses.push(...tempFilteredCourses);
-        this.durationFilters.upTo5Hours,
-          5,
-          this.durationFilters.upTo10Hours,
-          10,
-          this.durationFilters.upTo15Hours,
-          15,
-          this.durationFilters.upTo20Hours,
-          20,
-          this.durationFilters.moreThan21Hours,
-          100;
-
-        if (
-          this.durationFilters.upTo5Hours ||
-          this.durationFilters.upTo10Hours ||
-          this.durationFilters.upTo15Hours ||
-          this.durationFilters.upTo20Hours ||
-          this.durationFilters.moreThan21Hours
-        ) {
-          let afterDurationFilteredCourses = [];
-          for (let i = 1; i < durationFiltersArr.length; i += 2) {
-            if (durationFiltersArr[i]) {
-              let tempFilteredCourses = this.filteredCourses.filter(
-                (course) =>
-                  course.noOfHours >= durationFiltersArr[i - 1] + 1 &&
-                  course.noOfHours <= durationFiltersArr[i + 1]
-              );
-              afterDurationFilteredCourses.push(...tempFilteredCourses);
-            }
-          }
-          this.filteredCourses = afterDurationFilteredCourses;
-        }
-
-        if (this.languageFilters.Arabic || this.languageFilters.English) {
-          let afterLanguageFilteredCourses = [];
-          for (const key in this.languageFilters) {
-            if (this.languageFilters[key]) {
-              let tempFilteredCourses = this.filteredCourses.filter(
-                (course) => Language[course.language] == key
-              );
-              afterLanguageFilteredCourses.push(...tempFilteredCourses);
-            }
-          }
-          this.filteredCourses = afterLanguageFilteredCourses;
-        }
-
-        if (this.priceFilters.free || this.priceFilters.paid) {
-          let afterPriceFilteredCourses = [];
-          for (const key in this.priceFilters) {
-            if (this.priceFilters[key]) {
-              let tempFilteredCourses: any[] = [];
-              switch (key) {
-                case 'free':
-                  tempFilteredCourses = this.filteredCourses.filter(
-                    (course) => course.price == 0.0
-                  );
-                  break;
-                case 'paid':
-                  tempFilteredCourses = this.filteredCourses.filter(
-                    (course) => course.price > 0.0
-                  );
-                  break;
-              }
-              afterPriceFilteredCourses.push(...tempFilteredCourses);
-            }
-          }
-          this.filteredCourses = afterPriceFilteredCourses;
-        }
-
-        console.log(this.filteredCourses);
       }
     }
+
+    if (
+      this.durationFilters.upTo5Hours ||
+      this.durationFilters.upTo10Hours ||
+      this.durationFilters.upTo15Hours ||
+      this.durationFilters.upTo20Hours ||
+      this.durationFilters.moreThan21Hours
+    ) {
+      let afterDurationFilteredCourses = [];
+      for (let i = 1; i < durationFiltersArr.length; i += 2) {
+        if (durationFiltersArr[i]) {
+          let tempFilteredCourses = this.filteredCourses.filter(
+            (course) =>
+              course.noOfHours >= durationFiltersArr[i - 1] + 1 &&
+              course.noOfHours <= durationFiltersArr[i + 1]
+          );
+          afterDurationFilteredCourses.push(...tempFilteredCourses);
+        }
+      }
+      this.filteredCourses = afterDurationFilteredCourses;
+    }
+
+    for (const key in this.subcategoryFilters) {
+      if (this.subcategoryFilters[key]) {
+        let afterSubCategoriesFilteredCourses = [];
+        for (const key in this.subcategoryFilters) {
+          if (this.subcategoryFilters[key]) {
+            let tempFilteredCourses = this.filteredCourses.filter(
+              (crs) => crs.subCategoryName == key
+            );
+            afterSubCategoriesFilteredCourses.push(...tempFilteredCourses);
+          }
+        }
+        this.filteredCourses = afterSubCategoriesFilteredCourses;
+        break;
+      }
+    }
+
+    if (
+      this.levelFilters.Entry ||
+      this.levelFilters.Intermediate ||
+      this.levelFilters.Expert
+    ) {
+      let afterLevelFilteredCourses = [];
+      for (const key in this.levelFilters) {
+        if (this.levelFilters[key]) {
+          let tempFilteredCourses = this.filteredCourses.filter(
+            (course) => Level[course.level] == key
+          );
+          afterLevelFilteredCourses.push(...tempFilteredCourses);
+        }
+      }
+      this.filteredCourses = afterLevelFilteredCourses;
+    }
+
+    if (this.languageFilters.Arabic || this.languageFilters.English) {
+      let afterLanguageFilteredCourses = [];
+      for (const key in this.languageFilters) {
+        if (this.languageFilters[key]) {
+          let tempFilteredCourses = this.filteredCourses.filter(
+            (course) => Language[course.language] == key
+          );
+          afterLanguageFilteredCourses.push(...tempFilteredCourses);
+        }
+      }
+      this.filteredCourses = afterLanguageFilteredCourses;
+    }
+
+    if (this.priceFilters.free || this.priceFilters.paid) {
+      let afterPriceFilteredCourses = [];
+      for (const key in this.priceFilters) {
+        if (this.priceFilters[key]) {
+          let tempFilteredCourses: any[] = [];
+          switch (key) {
+            case 'free':
+              tempFilteredCourses = this.filteredCourses.filter(
+                (course) => course.price == 0.0
+              );
+              break;
+            case 'paid':
+              tempFilteredCourses = this.filteredCourses.filter(
+                (course) => course.price > 0.0
+              );
+              break;
+          }
+          afterPriceFilteredCourses.push(...tempFilteredCourses);
+        }
+      }
+      this.filteredCourses = afterPriceFilteredCourses;
+    }
+
+    console.log(this.filteredCourses);
   }
 }

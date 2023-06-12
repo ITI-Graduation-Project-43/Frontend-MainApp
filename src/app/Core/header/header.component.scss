@@ -55,7 +55,7 @@
 
   .navbar__register-btn {
     .register-button {
-      @include custom-button($greenColor,$blackColor,$whiteColor,20px);
+      @include custom-button($greenColor,$blackColor,$whiteColor,43px);
     }
   }
 }

@@ -7,7 +7,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Language } from '../Models/Enums/CourseLanguage';
 import { Level } from '../Models/Enums/CourseLevel';
 
-
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -48,6 +47,7 @@ export class CategoryComponent implements OnInit {
   priceFilters: any = { free: false, paid: false }
   levelFilters: any = { Entry: false, Intermediate: false, Expert: false }
   subcategoryFilters: any = {}
+
 
   //ngIf for filtering
   ratingChoices: boolean = true;
@@ -343,5 +343,87 @@ export class CategoryComponent implements OnInit {
     categoryArr.forEach(subCat => {
       this.subcategoryFilters[subCat.name] = false;
     })
+
+    this.apiService.getItemById('Category/Parent', this.CategoryId).subscribe(
+      (data: APIResponseVM) => {
+        this.mainCategory = data.items;
+      },
+      (erorr) => {
+        this.router.navigateByUrl('header');
+      }
+    );
+    //**************************************************************************** */
+
+    //Feature this week
+    this.apiService
+      .getAllItem('Course/featureThisWeek')
+      .subscribe((data: APIResponseVM) => {
+        this.featureThisWeekCourse = data.items as Course[];
+        this.featureThisWeekCourse[0].avgReview = Math.floor(
+          this.featureThisWeekCourse[0].avgReview
+        );
+      });
+
+    //**************************************************************************** */
+
+    //Subcategories
+    this.apiService
+      .getAllItem(`Category/ParentSubCategories/${this.CategoryId}`)
+      .subscribe(
+        (data: APIResponseVM) => {
+          this.subcategories = data.items;
+          this.subcategories.forEach((subCat) => {
+            this.subcategoryFilters[subCat.name] = false;
+          });
+        },
+        (error) => {
+          console.log(error.message);
+        }
+      );
+
+    //***************************************************************************** */
+
+    //Recent Courses
+    this.apiService.getAllItem('course/recent/3').subscribe(
+      (data: APIResponseVM) => {
+        this.latestCourses = data.items;
+        this.latestCourses.forEach((crs) => {
+          crs.avgReview = Math.floor(crs.avgReview);
+        });
+      },
+      (error) => {
+        console.log(error.message);
+      }
+    );
+
+    //******************************************************************************** */
+
+    //Related Courses
+    this.apiService
+      .getAllItem(`Course/category/${this.CategoryId}?PageNumber=1&PageSize=5`)
+      .subscribe((data: APIResponseVM) => {
+        this.relatedCourses = data.items;
+        this.relatedCourses.forEach(
+          (crs) => (crs.avgReview = Math.floor(crs.avgReview))
+        );
+
+        for (let i = 0; i < this.relatedCourses.length; i++) {
+          if (this.relatedCourses[i].level != 0) continue;
+          this.entryLevelCourses.push(this.relatedCourses[i]);
+          if (this.entryLevelCourses.length == 3) break;
+        }
+        this.filteredCourses = this.relatedCourses;
+      });
+
+    //******************************************************************************** */
+
+    //Top 4 Instructors
+    this.apiService
+      .getAllItem('Instructor/TopTenInstructors?topNumber=4')
+      .subscribe((data: APIResponseVM) => {
+        this.topInstructors = data.items;
+      });
+
+    //******************************************************************************** */
   }
 }

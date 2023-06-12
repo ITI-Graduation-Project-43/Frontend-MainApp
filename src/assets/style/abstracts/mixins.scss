@@ -4,7 +4,7 @@
 @mixin custom-button($background, $forground, $shadowColor, $paddingX) {
   font-size: 1.5rem;
   color: $forground;
-  padding: 8px $paddingX;
+  padding: 16px $paddingX;
   border: 1px solid $blackColor;
   background: $background;
   box-shadow: 5px 5px $shadowColor, 5px 5px 0px 1px $blackColor;
@@ -71,7 +71,11 @@
   padding: $padding  $padding2;
   gap: $gap;
 }
-
+@mixin style-display-column-center ($gap, $padding, $padding2:$padding){
+  @extend %flex-column-center;
+  padding: $padding $padding;
+  gap: $gap;
+}
 @mixin style-display-row-center ($gap, $padding, $padding2:$padding){
   @extend %flex-row-center;
   padding: $padding $padding2;

@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Course } from 'src/app/Models/course';
 import { Student } from 'src/app/Models/student';
+import { ShoppingCartService } from 'src/app/Services/cart.service';
+import { NotificationService } from 'src/app/Shared/Services/notification.service';
 
 @Component({
   selector: 'app-course-card',
@@ -12,7 +14,19 @@ export class CourseCardComponent implements OnInit {
   @Input() studentInCourse: Student[] = [];
   @Input() loading: boolean = true;
 
-  constructor() {}
+  constructor(
+    private shoppingCartService: ShoppingCartService,
+    private notificationService: NotificationService
+  ) {}
+
+  addCourseToCart(course: Course): void {
+    try {
+      this.shoppingCartService.addItem(course);
+      this.shoppingCartService.showCart();
+    } catch (error: any) {
+      this.notificationService.notify(error.message, 'error');
+    }
+  }
 
   ngOnInit() {}
 }

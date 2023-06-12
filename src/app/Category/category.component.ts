@@ -11,10 +11,14 @@ import { Level } from '../Models/Enums/CourseLevel';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
-  styleUrls: ['./category.component.scss']
+  styleUrls: ['./category.component.scss'],
 })
 export class CategoryComponent implements OnInit {
-  constructor(private apiService: APIService, private activeRoute: ActivatedRoute, private router: Router) { }
+  constructor(
+    private apiService: APIService,
+    private activeRoute: ActivatedRoute,
+    private router: Router
+  ) { }
 
   //Category Id
   CategoryId: number = -1;
@@ -23,7 +27,7 @@ export class CategoryComponent implements OnInit {
   mainCategory: any;
 
   //Feature this week
-  featureThisWeekCourse:Course[] = [];
+  featureThisWeekCourse: Course[] = [];
 
 
   //Arrays of viewed data
@@ -33,11 +37,10 @@ export class CategoryComponent implements OnInit {
   entryLevelCourses: Course[] = [];
   topInstructors: any[] = [];
 
-
   //filtering objects
   ratingFilters: any = {
     rating: 'all',
-  }
+  };
 
   durationFilters: any = {
     upTo5Hours: false,
@@ -45,7 +48,8 @@ export class CategoryComponent implements OnInit {
     upTo15Hours: false,
     upTo20Hours: false,
     moreThan21Hours: false,
-  }
+  };
+
 
   languageFilters: any = {
     Arabic: false,
@@ -80,18 +84,19 @@ export class CategoryComponent implements OnInit {
   //subcategories
   subcategories: Category[] = [];
 
-
   ngOnInit(): void {
-
     //Main Category
-    this.activeRoute.params.subscribe((route: any) => {
-      if (isNaN(+(route.id)))
-        this.router.navigateByUrl('header');
+    this.activeRoute.params.subscribe(
+      (route: any) => {
+        if (isNaN(+route.id)) this.router.navigateByUrl('header');
 
-      this.CategoryId = route.id;
-    }, (erorr => {
-      this.router.navigateByUrl('header');
-    }))
+        this.CategoryId = route.id;
+      },
+      (erorr) => {
+        this.router.navigateByUrl('header');
+      }
+    );
+
 
     this.apiService.getItemById("Category/Parent", this.CategoryId).subscribe((data: APIResponseVM) => {
       this.mainCategory = data.items;
@@ -101,7 +106,7 @@ export class CategoryComponent implements OnInit {
     //**************************************************************************** */
 
     //Feature this week
-    this.apiService.getAllItem("Course/featureThisWeek").subscribe((data:APIResponseVM)=>{
+    this.apiService.getAllItem("Course/featureThisWeek").subscribe((data: APIResponseVM) => {
       this.featureThisWeekCourse = data.items as Course[];
       this.featureThisWeekCourse[0].avgReview = Math.floor(this.featureThisWeekCourse[0].avgReview);
     })
@@ -122,14 +127,17 @@ export class CategoryComponent implements OnInit {
     //***************************************************************************** */
 
     //Recent Courses
-    this.apiService.getAllItem("course/recent/3").subscribe((data: APIResponseVM) => {
-      this.latestCourses = data.items;
-      this.latestCourses.forEach(crs => {
-        crs.avgReview = Math.floor(crs.avgReview);
-      })
-    }, (error) => {
-      console.log(error.message);
-    })
+    this.apiService.getAllItem('course/recent/3').subscribe(
+      (data: APIResponseVM) => {
+        this.latestCourses = data.items;
+        this.latestCourses.forEach((crs) => {
+          crs.avgReview = Math.floor(crs.avgReview);
+        });
+      },
+      (error) => {
+        console.log(error.message);
+      }
+    );
 
     //******************************************************************************** */
 
@@ -151,9 +159,11 @@ export class CategoryComponent implements OnInit {
     //******************************************************************************** */
 
     //Top 4 Instructors
-    this.apiService.getAllItem("Instructor/TopTenInstructors?topNumber=4").subscribe((data: APIResponseVM) => {
-      this.topInstructors = data.items;
-    })
+    this.apiService
+      .getAllItem('Instructor/TopTenInstructors?topNumber=4')
+      .subscribe((data: APIResponseVM) => {
+        this.topInstructors = data.items;
+      });
 
     //******************************************************************************** */
   }
@@ -161,9 +171,9 @@ export class CategoryComponent implements OnInit {
   filter() {
     this.filteredCourses = this.relatedCourses;
     if (this.ratingFilters.rating != 'all')
-      this.filteredCourses = this.filteredCourses
-        .filter(course => course.avgReview >= +this.ratingFilters.rating);
-
+      this.filteredCourses = this.filteredCourses.filter(
+        (course) => course.avgReview >= +this.ratingFilters.rating
+      );
 
     let durationFiltersArr = [
       -1,
@@ -172,7 +182,20 @@ export class CategoryComponent implements OnInit {
       this.durationFilters.upTo15Hours, 15,
       this.durationFilters.upTo20Hours, 20,
       this.durationFilters.moreThan21Hours, 100
-    ]
+    ];
+
+    let afterDurationFilteredCourses = [];
+    for (let i = 1; i < durationFiltersArr.length; i += 2) {
+      if (durationFiltersArr[i] == true) {
+        let tempFilteredCourses = this.filteredCourses.filter(
+          (course) =>
+            course.noOfHours >= durationFiltersArr[i - 1] &&
+            course.noOfHours <= durationFiltersArr[i + 1]
+        );
+        afterDurationFilteredCourses.push(...tempFilteredCourses);
+      }
+    }
+
 
     if (this.durationFilters.upTo5Hours ||
       this.durationFilters.upTo10Hours ||
@@ -187,6 +210,7 @@ export class CategoryComponent implements OnInit {
               && course.noOfHours <= durationFiltersArr[i + 1]);
           afterDurationFilteredCourses.push(...tempFilteredCourses);
         }
+
       }
       this.filteredCourses = afterDurationFilteredCourses;
     }
@@ -251,5 +275,6 @@ export class CategoryComponent implements OnInit {
     }
 
     console.log(this.filteredCourses);
+
   }
 }

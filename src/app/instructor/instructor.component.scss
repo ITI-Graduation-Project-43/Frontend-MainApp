@@ -23,7 +23,36 @@
       " right";
   }
 }
+/* instructor card */
+.instructor-details-card {
+  @include course-card;
+  position: relative;
+  top: 60px;
+  left: 10px;
+  max-width: 500px;
+  // transform: scale(0.9);
 
+  .course-picture img {
+    max-width: 100%;
+    object-fit: contain;
+  }
+  .course-info {
+    @include style-display-column(16px, 0);
+
+    .course-rating {
+      @include style-display-row(5.6px, 0);
+    }
+  }
+
+  .instructor-action {
+    @include style-display-column(16px, 0);
+    width: 100%;
+    .website {
+      @include custom-button($greenColor, $blackColor, $whiteColor, 63px);
+      width: 100%;
+    }
+  }
+}
 // Instructor Title
 .instructor-description {
   display: flex;
@@ -70,6 +99,8 @@
     .course-card {
       @include course-card;
       max-width: 402px;
+      min-height: 520px;
+      max-height: 550px;
 
       .course-image {
         width: 100%;
@@ -156,6 +187,9 @@
         minmax(200px, 1fr)
       ); /* Responsive grid with minimum item width of 200px */
     }
+    .course-name {
+      @include style-font("Anton", 24px, 124.04%, $blackColor);
+    }
   }
 
   @media (max-width: 767px) {
@@ -171,37 +205,9 @@
     }
     .course-card {
       width: 90%; /* Cards occupy the full width of the container */
-    }
-  }
-}
-
-/* instructor card */
-.instructor-details-card {
-  @include course-card;
-  position: relative;
-  top: 60px;
-  left: 10px;
-  max-width: 500px;
-  // transform: scale(0.9);
-
-  .course-picture img {
-    max-width: 100%;
-    object-fit: contain;
-  }
-  .course-info {
-    @include style-display-column(16px, 0);
-
-    .course-rating {
-      @include style-display-row(5.6px, 0);
-    }
-  }
-
-  .instructor-action {
-    @include style-display-column(16px, 0);
-    width: 100%;
-    .website {
-      @include custom-button($greenColor, $blackColor, $whiteColor, 63px);
-      width: 100%;
+      .course-name {
+        @include style-font("Anton", 16px, 124.04%, $blackColor);
+      }
     }
   }
 }

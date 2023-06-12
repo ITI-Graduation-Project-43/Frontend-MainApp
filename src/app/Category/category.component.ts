@@ -5,6 +5,8 @@ import { Course } from '../Models/course';
 import { Category } from '../Models/category';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Language } from '../Models/Enums/CourseLanguage';
+import { Level } from '../Models/Enums/CourseLevel';
+
 
 @Component({
   selector: 'app-category',
@@ -19,6 +21,9 @@ export class CategoryComponent implements OnInit {
 
   //Main Category
   mainCategory: any;
+
+  //Feature this week
+  featureThisWeekCourse:Course[] = [];
 
 
   //Arrays of viewed data
@@ -51,6 +56,15 @@ export class CategoryComponent implements OnInit {
     free: false,
     paid: false
   }
+
+
+  levelFilters: any = {
+    Entry: false,
+    Intermediate: false,
+    Expert: false
+  }
+
+  subcategoryFilters: any = {}
 
 
 
@@ -86,9 +100,21 @@ export class CategoryComponent implements OnInit {
     }))
     //**************************************************************************** */
 
+    //Feature this week
+    this.apiService.getAllItem("Course/featureThisWeek").subscribe((data:APIResponseVM)=>{
+      this.featureThisWeekCourse = data.items as Course[];
+      this.featureThisWeekCourse[0].avgReview = Math.floor(this.featureThisWeekCourse[0].avgReview);
+    })
+
+    //**************************************************************************** */
+
+
     //Subcategories
     this.apiService.getAllItem(`Category/ParentSubCategories/${this.CategoryId}`).subscribe((data: APIResponseVM) => {
       this.subcategories = data.items;
+      this.subcategories.forEach(subCat => {
+        this.subcategoryFilters[subCat.name] = false;
+      })
     }, (error) => {
       console.log(error.message);
     })
@@ -108,17 +134,16 @@ export class CategoryComponent implements OnInit {
     //******************************************************************************** */
 
     //Related Courses
-    this.apiService.getAllItem(`Course/category/${this.CategoryId}`).subscribe((data: APIResponseVM) => {
+    this.apiService.getAllItem(`Course/category/${this.CategoryId}?PageNumber=1&PageSize=5`).subscribe((data: APIResponseVM) => {
       this.relatedCourses = data.items;
       this.relatedCourses.forEach(crs => crs.avgReview = Math.floor(crs.avgReview));
-      let loops: number = 3;
-      if (this.relatedCourses.length < 3)
-        loops = this.relatedCourses.length;
 
-      for (let i = 0; i < loops; i++) {
+      for (let i = 0; i < this.relatedCourses.length; i++) {
         if (this.relatedCourses[i].level != 0)
           continue;
         this.entryLevelCourses.push(this.relatedCourses[i]);
+        if (this.entryLevelCourses.length == 3)
+          break;
       }
       this.filteredCourses = this.relatedCourses;
     })
@@ -167,6 +192,33 @@ export class CategoryComponent implements OnInit {
     }
 
 
+    for (const key in this.subcategoryFilters) {
+      if (this.subcategoryFilters[key]) {
+        let afterSubCategoriesFilteredCourses = []
+        for (const key in this.subcategoryFilters) {
+          if (this.subcategoryFilters[key]) {
+            let tempFilteredCourses = this.filteredCourses.filter(crs => crs.subCategoryName == key);
+            afterSubCategoriesFilteredCourses.push(...tempFilteredCourses);
+          }
+        }
+        this.filteredCourses = afterSubCategoriesFilteredCourses;
+        break;
+      }
+    }
+
+
+
+
+    if (this.levelFilters.Entry || this.levelFilters.Intermediate || this.levelFilters.Expert) {
+      let afterLevelFilteredCourses = [];
+      for (const key in this.levelFilters) {
+        if (this.levelFilters[key]) {
+          let tempFilteredCourses = this.filteredCourses.filter(course => Level[course.level] == key);
+          afterLevelFilteredCourses.push(...tempFilteredCourses);
+        }
+      }
+      this.filteredCourses = afterLevelFilteredCourses;
+    }
 
     if (this.languageFilters.Arabic || this.languageFilters.English) {
       let afterLanguageFilteredCourses = [];

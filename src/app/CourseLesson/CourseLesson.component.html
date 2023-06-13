@@ -1,0 +1,219 @@
+<div class="lesson-content" *ngIf="lesson && !loading">
+  <div
+    style="
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 80px;
+      gap: 10px;
+      background: #ffffff;
+      border: 3px solid #181818;
+    "
+  >
+    <h2>{{ lesson.title }}</h2>
+    <p>{{ lesson.description }}</p>
+
+    <div *ngIf="lesson.type === LessonType.Article">
+      <p>{{ lesson.article!.content }}</p>
+    </div>
+
+    <div *ngIf="lesson.type === LessonType.Video">
+      <video controls>
+        <source [src]="lesson.video!.videoUrl" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <div *ngIf="lesson.type === LessonType.Quiz && !quizResult">
+      <p>
+        Quiz - {{ lesson.quiz!.id }} ({{ lesson.quiz!.questions.length }}
+        questions)
+      </p>
+      <hr />
+      <form (ngSubmit)="submitQuizAnswers()">
+        <div
+          *ngFor="let question of lesson.quiz!.questions; let i = index"
+          style="margin-bottom: 20px"
+        >
+          <strong>{{ i + 1 }}. {{ question.questionText }}</strong>
+          <div style="padding-left: 20px">
+            <input
+              type="radio"
+              [name]="question.id.toString()"
+              [value]="question.choiceA"
+              [(ngModel)]="quizAnswers[question.id]"
+            />
+            <label>{{ question.choiceA }}</label>
+          </div>
+          <div style="padding-left: 20px">
+            <input
+              type="radio"
+              [name]="question.id.toString()"
+              [value]="question.choiceB"
+              [(ngModel)]="quizAnswers[question.id]"
+            />
+            <label>{{ question.choiceB }}</label>
+          </div>
+          <div style="padding-left: 20px">
+            <input
+              type="radio"
+              [name]="question.id.toString()"
+              [value]="question.choiceC"
+              [(ngModel)]="quizAnswers[question.id]"
+            />
+            <label>{{ question.choiceC }}</label>
+          </div>
+          <div style="padding-left: 20px">
+            <input
+              type="radio"
+              [name]="question.id.toString()"
+              [value]="question.choiceD"
+              [(ngModel)]="quizAnswers[question.id]"
+            />
+            <label>{{ question.choiceD }}</label>
+          </div>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+    <div *ngIf="quizResult">
+      <h3>Your results:</h3>
+      <p>
+        You answered {{ quizResult.correct }} out of
+        {{ quizResult.total }} questions correctly.
+      </p>
+      <ul>
+        <li *ngFor="let question of lesson.quiz!.questions">
+          <p>{{ question.questionText }}</p>
+          <p>Your answer: {{ quizAnswers[question.id] }}</p>
+          <p
+            *ngIf="
+              {
+                A: question.choiceA,
+                B: question.choiceB,
+                C: question.choiceC,
+                D: question.choiceD
+              }[question.correctAnswer] === quizAnswers[question.id]
+            "
+            style="color: green"
+          >
+            Correct!
+          </p>
+          <p
+            *ngIf="
+              {
+                A: question.choiceA,
+                B: question.choiceB,
+                C: question.choiceC,
+                D: question.choiceD
+              }[question.correctAnswer] !== quizAnswers[question.id]
+            "
+            style="color: red"
+          >
+            Incorrect! The correct answer is
+            {{
+              {
+                A: question.choiceA,
+                B: question.choiceB,
+                C: question.choiceC,
+                D: question.choiceD
+              }[question.correctAnswer]
+            }}.
+          </p>
+        </li>
+      </ul>
+      <p *ngIf="quizResult.correct === quizResult.total" style="color: green">
+        Congratulations, you aced the quiz!
+      </p>
+      <p *ngIf="quizResult.correct !== quizResult.total" style="color: red">
+        Don't worry, you can always try again!
+      </p>
+      <button (click)="retryQuiz()">Try again</button>
+    </div>
+
+    <button (click)="goToPreviousLesson()" *ngIf="lessonId !== firstLessonId">
+      Back
+    </button>
+    <button (click)="goToNextLesson()" *ngIf="lessonId !== lastLessonId">
+      Next
+    </button>
+  </div>
+</div>
+
+<div *ngIf="loading; else content" class="course-content-section">
+  <h1>Course Content</h1>
+  <div class="course-content-details skeleton"></div>
+  <div class="course-content-modules">
+    <div class="course-chapter skeleton"></div>
+    <div class="course-chapter skeleton"></div>
+    <div class="course-chapter skeleton"></div>
+  </div>
+</div>
+
+<ng-template #content>
+  <div class="course-content-section">
+    <h1>Course Content</h1>
+    <div class="course-content-details">
+      <div class="course-content-details-item">
+        <img src="../../assets/svg/lecture.svg" alt="lecture-icon" />
+        <div>{{ totalLessonCount }} Lectures</div>
+      </div>
+      <div class="ellipse-seperator"></div>
+      <div class="course-content-details-item">
+        <img src="../../assets/svg/clock.svg" alt="clock icon" />
+        <div>{{ totalHoursCount }} Hours</div>
+      </div>
+      <div class="ellipse-seperator"></div>
+      <div class="course-content-details-item">
+        <img src="../../assets/svg/section.svg" alt="section icon" />
+        <div>{{ chapters.length }} Sections</div>
+      </div>
+    </div>
+    <div class="course-content-modules">
+      <div class="course-chapter" *ngFor="let chapter of chapters">
+        <div class="course-chapter-heading" (click)="toggleChapter(chapter)">
+          <div class="course-chapter-name">
+            <img
+              [src]="
+                chapter.open
+                  ? '../../assets/svg/up arrow.svg'
+                  : '../../assets/svg/down arrow.svg'
+              "
+              alt="arrow"
+            />
+            <h2>{{ chapter.title }}</h2>
+          </div>
+          <div class="chapter-stats">
+            <span>{{ chapter.noOfLessons }} Lesson(s)</span>
+            <div class="ellipse-seperator"></div>
+            <span>{{ chapter.noOfHours }} Hour(s)</span>
+          </div>
+        </div>
+        <div class="course-lessons" *ngIf="chapter.open">
+          <div
+            class="course-lesson"
+            *ngFor="let lesson of chapter.lessons"
+            (click)="displaySelectedLesson(lesson.id)"
+          >
+            <div class="lesson-main-data">
+              <div class="lesson-heading">
+                <img [src]="getIconByType(lesson.type)" alt="icon" />
+                <h3>{{ lesson.title }}</h3>
+              </div>
+              <div
+                *ngIf="lesson.description.length > 0"
+                class="lesson-description"
+              >
+                {{ lesson.description }}
+              </div>
+            </div>
+            <div class="lesson-stats">
+              <span>{{ lesson.noOfHours }} Hour(s)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,7 +20,13 @@ import { SnackbarComponent } from './Shared/snackbar/snackbar.component';
     ShoppingCartComponent,
     SnackbarComponent,
   ],
-  imports: [BrowserModule, HttpClientModule, AppRoutingModule, CommonModule],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    CommonModule,
+    FormsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
   exports: [RouterModule],

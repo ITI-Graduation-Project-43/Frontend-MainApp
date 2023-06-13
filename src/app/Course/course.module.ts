@@ -14,6 +14,7 @@ import { EnrollCardComponent } from './Components/enroll-card/enroll-card.compon
 import { RequirementsCardComponent } from './Components/requirements-card/requirements-card.component';
 import { InstructorDetailsComponent } from './Components/instructor-details/instructor-details.component';
 import { StudentFeedbackComponent } from './Components/student-feedback/student-feedback.component';
+import { SharedModule } from '../Shared/SharedModule/SharedModule.module';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { StudentFeedbackComponent } from './Components/student-feedback/student-
   ],
   imports: [
     CommonModule,
+    //SharedModule,
     RouterModule.forChild([{ path: '', component: CourseComponent }]),
   ],
   exports: [OtherCoursesCardComponent],

@@ -1,0 +1,68 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+
+section {
+  .info {
+    h3 {
+      @include custom-header;
+      background-color: $secondaryColor;
+    }
+    p {
+      @include style-font($font-anton, 48px, 124.04%, $blackColor);
+    }
+    svg {
+      display: block;
+      margin: 35px auto 0;
+      transform: rotate(95deg);
+      -webkit-transform: rotate(95deg);
+      -moz-transform: rotate(95deg);
+      -ms-transform: rotate(95deg);
+      -o-transform: rotate(95deg);
+    }
+  }
+
+  .categories {
+    .category {
+      padding-top: 50px;
+      padding-bottom: 50px;
+      border: 3px solid #ccc;
+      .text {
+        h4 {
+          @include style-font($font-anton, 24px, 124.04%, $blackColor);
+        }
+
+        p {
+          @include style-font($font-cabin, 20px, 124.04%, $blackColor);
+        }
+      }
+      a {
+        @include custom-button($blackColor,$whiteColor,$whiteColor,20px);
+        width: 60px;
+        height: 60px;
+        text-align: center;
+        line-height: 38px;
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+      }
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  section {
+      .info {
+        svg {
+          margin: 0;
+          margin-left: auto;
+          transform: rotate(0deg);
+          -webkit-transform: rotate(0deg);
+          -moz-transform: rotate(0deg);
+          -ms-transform: rotate(0deg);
+          -o-transform: rotate(0deg);
+        }
+      }
+  }
+}

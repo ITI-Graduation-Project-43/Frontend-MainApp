@@ -502,16 +502,16 @@
             </div>
             <nav aria-label="...">
                 <ul class="pagination">
-                  <li class="page-item disabled">
+                  <li class="page-item" (click)="NewCoursesPage('prev')">
                     <a class="page-link"  tabindex="-1">Previous</a>
                   </li>
-                  <li class="page-item active"><a class="page-link">1</a></li>
+                  <li class="page-item" (click)="NewCoursesPage('first')"><a class="page-link">1</a></li>
                   <li class="page-item">
-                    <a class="page-link" >2 </a>
+                    <a class="page-link" (click)="NewCoursesPage('second')">2 </a>
                   </li>
-                  <li class="page-item"><a class="page-link" >3</a></li>
+                  <li class="page-item" (click)="NewCoursesPage('third')"><a class="page-link" >3</a></li>
                   <li class="page-item">
-                    <a class="page-link" >Next</a>
+                    <a class="page-link" (click)="NewCoursesPage('next')">Next</a>
                   </li>
                 </ul>
               </nav>

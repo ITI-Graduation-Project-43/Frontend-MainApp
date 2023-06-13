@@ -1,12 +1,18 @@
 @use "../../../../assets/style/abstracts/variables.scss" as *;
 @use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/placeholders" as *;
+
 
 
 section {
   background-color: $mainColorLight;
-
   h1 {
     @include style-font($font-anton, 48px, 124.04%, $blackColor);
+
+    span {
+      @include custom-header;
+      background-color: $secondaryColor;
+    }
   }
 
   p {
@@ -18,6 +24,34 @@ section {
 
   .search-btn {
     @include custom-button($greenColor,$blackColor,$blackColor,20px);
+  }
+
+  .figure {
+    position: relative;
+
+    svg {
+      position: absolute;
+
+      &.line {
+        bottom: 58px;
+        left: 52px;
+      }
+
+      &.lines {
+        top: 55px;
+        right: 175px;
+      }
+
+      &.triangle {
+        top: 120px;
+        left: 110px;
+      }
+
+      &.rectangle {
+        bottom: 80px;
+        right: 140px;
+      }
+    }
   }
 }
 

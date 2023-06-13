@@ -1,3 +1,4 @@
+@use "./assets/style/abstracts/placeholders" as *;
 @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 
@@ -41,6 +42,3 @@ a {
     background-position: 0 50%;
   }
 }
-
-
-

@@ -1,6 +1,3 @@
-<!-- Header -->
-<!-- waiting for tarek -->
-
 <!-- Category Title -->
 <div class="category-title">
     <div class="main-title">
@@ -38,19 +35,15 @@
     <h1 class="mt-5 mb-2">Feature This Week</h1>
     <div class="weekfeature">
         <div class="image me-1">
-            <img class="featureImg" src="../../assets/images/Category/Rectangle 11.png" alt="">
+            <img class="featureImg" src={{featureThisWeekCourse[0].imageUrl}} alt="">
         </div>
         <div class="details">
             <div class="upsection">
                 <div class="course-rating">
-                    <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-                    <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-                    <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-                    <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-                    <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+                    <img src="../../assets/svg/rating-star.svg" alt="rating-star" *ngFor="let star of [].constructor(featureThisWeekCourse[0].avgReview)">
                 </div>
-                <h6>Web Developement</h6>
-                <h1>Become a back-end developer in 3 months</h1>
+                <h6>{{featureThisWeekCourse[0].subCategoryName}}</h6>
+                <h1>{{featureThisWeekCourse[0].title}}</h1>
                 <div class="course-students">
                     <div class="student-pictures">
                         <img class="course-students-pic" src="../../assets/images/student1.webp"
@@ -67,21 +60,18 @@
             </div>
             <div class="midsection mt-3">
                 <p>
-                    Unlock the world of back-end development and become a proficient web application developer with our
-                    comprehensive course on back-end development. Whether you're a beginner or an experienced front-end
-                    developer looking to expand your skills, this course is designed to provide you with the knowledge
-                    and practical experience needed to excel in the world of server-side programming.
+                    {{featureThisWeekCourse[0].description}}
                 </p>
             </div>
             <div class="downsection">
                 <div class="course-instructor-price">
                     <div class="course-instructor">
                         <div class="instructor-picture">
-                            <img src="../../assets/images/instructor.webp" alt="instructor-picture" />
+                            <img src={{featureThisWeekCourse[0].instructorProfilePicture}} alt="instructor-picture" />
                         </div>
-                        <div class="instructor-name">Chandler Bing</div>
+                        <div class="instructor-name">{{featureThisWeekCourse[0].instructorName}}</div>
                     </div>
-                    <div class="course-price">230 EGP</div>
+                    <div class="course-price">{{featureThisWeekCourse[0].price}} USD</div>
                 </div>
             </div>
         </div>
@@ -273,7 +263,8 @@
                 </div>
                 <div class="checks" *ngIf="!ratingChoices">
                     <div>
-                        <input type="radio" name="rating" class="form-check-input me-1" id="4" value="4" [(ngModel)]="ratingFilters.rating" (ngModelChange)="filter()">
+                        <input type="radio" name="rating" class="form-check-input me-1" id="4" value="4"
+                            [(ngModel)]="ratingFilters.rating" (ngModelChange)="filter()">
                         <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
                         <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
                         <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
@@ -283,7 +274,8 @@
                         <label for="4">4 & UP</label>
                     </div>
                     <div>
-                        <input type="radio" name="rating" class="form-check-input me-1" id="3" value="3" [(ngModel)]="ratingFilters.rating" (ngModelChange)="filter()">
+                        <input type="radio" name="rating" class="form-check-input me-1" id="3" value="3"
+                            [(ngModel)]="ratingFilters.rating" (ngModelChange)="filter()">
                         <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
                         <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
                         <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
@@ -292,7 +284,8 @@
                         <label for="3">3 & UP</label>
                     </div>
                     <div>
-                        <input type="radio" name="rating" class="form-check-input me-1" id="2" value="2" [(ngModel)]="ratingFilters.rating" (ngModelChange)="filter()">
+                        <input type="radio" name="rating" class="form-check-input me-1" id="2" value="2"
+                            [(ngModel)]="ratingFilters.rating" (ngModelChange)="filter()">
                         <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
                         <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
                         <img src="../../assets/svg/NoneFill-RatingStar.svg" alt="non-rating-star" />
@@ -321,23 +314,28 @@
                 </div>
                 <div class="checks" *ngIf="!durationChoices">
                     <div>
-                        <input type="checkbox" class="form-check-input me-1" id="5" [(ngModel)]="durationFilters.upTo5Hours" (ngModelChange)="filter()">
+                        <input type="checkbox" class="form-check-input me-1" id="5"
+                            [(ngModel)]="durationFilters.upTo5Hours" (ngModelChange)="filter()">
                         <label for="5">0-5 Hours</label>
                     </div>
                     <div>
-                        <input type="checkbox" class="form-check-input me-1" id="10" [(ngModel)]="durationFilters.upTo10Hours" (ngModelChange)="filter()">
+                        <input type="checkbox" class="form-check-input me-1" id="10"
+                            [(ngModel)]="durationFilters.upTo10Hours" (ngModelChange)="filter()">
                         <label for="10">6-10 Hours</label>
                     </div>
                     <div>
-                        <input type="checkbox" class="form-check-input me-1" id="15" [(ngModel)]="durationFilters.upTo15Hours" (ngModelChange)="filter()">
+                        <input type="checkbox" class="form-check-input me-1" id="15"
+                            [(ngModel)]="durationFilters.upTo15Hours" (ngModelChange)="filter()">
                         <label for="15">11-15 Hours</label>
                     </div>
                     <div>
-                        <input type="checkbox" class="form-check-input me-1" id="20" [(ngModel)]="durationFilters.upTo20Hours" (ngModelChange)="filter()">
+                        <input type="checkbox" class="form-check-input me-1" id="20"
+                            [(ngModel)]="durationFilters.upTo20Hours" (ngModelChange)="filter()">
                         <label for="20">16-20 Hours</label>
                     </div>
                     <div>
-                        <input type="checkbox" class="form-check-input me-1" id="21" [(ngModel)]="durationFilters.moreThan21Hours" (ngModelChange)="filter()">
+                        <input type="checkbox" class="form-check-input me-1" id="21"
+                            [(ngModel)]="durationFilters.moreThan21Hours" (ngModelChange)="filter()">
                         <label for="21">21+ Hours</label>
                     </div>
                 </div>
@@ -359,7 +357,8 @@
                 </div>
                 <div class="checks" *ngIf="!subCategoryChoices">
                     <div *ngFor="let subCat of subcategories">
-                        <input type="checkbox" class="form-check-input me-1" id={{subCat.name}}>
+                        <input type="checkbox" class="form-check-input me-1" id={{subCat.name}}
+                            [(ngModel)]="subcategoryFilters[subCat.name]" (ngModelChange)="filter()">
                         <label for={{subCat.name}}>{{subCat.name}}</label>
                     </div>
                 </div>
@@ -381,20 +380,19 @@
                 </div>
                 <div class="checks" *ngIf="!levelChoices">
                     <div>
-                        <input type="checkbox" class="form-check-input me-1" id="entry">
+                        <input type="checkbox" class="form-check-input me-1" id="entry" [(ngModel)]="levelFilters.Entry"
+                            (ngModelChange)="filter()">
                         <label for="entry">Entry</label>
                     </div>
                     <div>
-                        <input type="checkbox" class="form-check-input me-1" id="intermediate">
+                        <input type="checkbox" class="form-check-input me-1" id="intermediate"
+                            [(ngModel)]="levelFilters.Intermediate" (ngModelChange)="filter()">
                         <label for="intermediate">Intermediate</label>
                     </div>
                     <div>
-                        <input type="checkbox" class="form-check-input me-1" id="expert">
+                        <input type="checkbox" class="form-check-input me-1" id="expert"
+                            [(ngModel)]="levelFilters.Expert" (ngModelChange)="filter()">
                         <label for="expert">Expert</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" class="form-check-input me-1" id="all">
-                        <label for="all">All</label>
                     </div>
                 </div>
             </section>
@@ -415,11 +413,13 @@
                 </div>
                 <div class="checks" *ngIf="!languageChoices">
                     <div>
-                        <input type="checkbox" class="form-check-input me-1" id="ar">
+                        <input type="checkbox" class="form-check-input me-1" id="ar"
+                            [(ngModel)]="languageFilters.Arabic" (ngModelChange)="filter()">
                         <label for="ar">Arabic</label>
                     </div>
                     <div>
-                        <input type="checkbox" class="form-check-input me-1" id="en">
+                        <input type="checkbox" class="form-check-input me-1" id="en"
+                            [(ngModel)]="languageFilters.English" (ngModelChange)="filter()">
                         <label for="en">English</label>
                     </div>
                 </div>
@@ -441,11 +441,13 @@
                 </div>
                 <div class="checks" *ngIf="!priceChoices">
                     <div>
-                        <input type="checkbox" class="form-check-input me-1" id="paid">
+                        <input type="checkbox" class="form-check-input me-1" id="paid" [(ngModel)]="priceFilters.paid"
+                            (ngModelChange)="filter()">
                         <label for="paid">Paid</label>
                     </div>
                     <div>
-                        <input type="checkbox" class="form-check-input me-1" id="free">
+                        <input type="checkbox" class="form-check-input me-1" id="free" [(ngModel)]="priceFilters.free"
+                            (ngModelChange)="filter()">
                         <label for="free">Free</label>
                     </div>
                 </div>
@@ -498,11 +500,22 @@
                     </div>
                 </div>
             </div>
+            <nav aria-label="...">
+                <ul class="pagination">
+                  <li class="page-item" (click)="NewCoursesPage('prev')">
+                    <a class="page-link"  tabindex="-1">Previous</a>
+                  </li>
+                  <li class="page-item" (click)="NewCoursesPage('first')"><a class="page-link">1</a></li>
+                  <li class="page-item">
+                    <a class="page-link" (click)="NewCoursesPage('second')">2 </a>
+                  </li>
+                  <li class="page-item" (click)="NewCoursesPage('third')"><a class="page-link" >3</a></li>
+                  <li class="page-item">
+                    <a class="page-link" (click)="NewCoursesPage('next')">Next</a>
+                  </li>
+                </ul>
+              </nav>
         </div>
     </div>
 
 </div>
-
-
-<!-- Footer -->
-<!-- waiting for tarek -->

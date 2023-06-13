@@ -1,0 +1,9 @@
+<div
+  *ngIf="message"
+  [class]="type"
+  class="snackbar"
+  [class.fade-in]="fadeIn"
+  [class.fade-out]="!fadeIn"
+>
+  {{ message }}
+</div>

@@ -1,0 +1,64 @@
+<div class="shopping-cart">
+  <div class="cart-header">
+    <div>Cart</div>
+    <div (click)="hideCart()">
+      <img src="../../../assets/svg/x.svg" alt="close icon" />
+    </div>
+  </div>
+  <div class="cart-content">
+    <div *ngIf="cartItems.length === 0">
+      <p class="empty-cart">
+        Your cart is currently empty. Start adding courses!
+      </p>
+    </div>
+    <ng-container *ngIf="cartItems.length > 0">
+      <div class="cart-course" *ngFor="let course of cartItems">
+        <div class="course-image">
+          <img [src]="course.imageUrl" alt="course image" />
+        </div>
+
+        <div class="course-info">
+          <div class="course-main-info">
+            <div class="course-rating">
+              <!-- You can use *ngFor to display the rating stars based on the course rating -->
+              <img
+                *ngFor="
+                  let star of ' '.repeat(course.avgReview).split('');
+                  index as i
+                "
+                src="../../../assets/svg/rating-star.svg"
+                alt="star"
+              />
+            </div>
+            <div class="course-name">{{ course.title }}</div>
+            <div class="course-instructor">
+              <div class="instructor-avatar">
+                <img
+                  [src]="course.instructorProfilePicture"
+                  alt="instructor image"
+                />
+              </div>
+
+              <div class="instructor-name">{{ course.instructorName }}</div>
+            </div>
+          </div>
+          <div class="price-delete-section">
+            <div class="course-price">
+              {{ course.price | currency : "USD" }}
+            </div>
+            <div class="delete-course" (click)="removeItem(course)">
+              <img src="../../../assets/svg/delete.svg" alt="delete icon" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <div class="cart-checkout">
+    <div class="cart-price">
+      <div>Total</div>
+      <div>{{ totalPrice | currency : "EGP" }}</div>
+    </div>
+    <Button>Checkout</Button>
+  </div>
+</div>

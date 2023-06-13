@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { courseStudents } from 'src/app/Models/courseStudents';
 
@@ -16,10 +17,14 @@ export class OtherCoursesCardComponent implements OnInit {
   @Output() loadMore = new EventEmitter();
   @Input() loading: boolean = true;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit() {}
   loadMoreCourses() {
     this.loadMore.emit();
+  }
+
+  navigateToCourseDetails(courseId: number): void {
+    this.router.navigate(['courseDetails', courseId]);
   }
 }

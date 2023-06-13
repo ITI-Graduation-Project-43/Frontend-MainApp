@@ -1,4 +1,4 @@
-import {NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CourseModule } from './Course/course.module';
@@ -11,18 +11,19 @@ const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
     path: 'home',
-    loadChildren: () => import('../app/Home/home.module').then((m) => m.HomeModule),
-    component: HomeComponent
+    loadChildren: () =>
+      import('../app/Home/home.module').then((m) => m.HomeModule),
+    component: HomeComponent,
   },
   {
-    path: 'courseDetails',
+    path: 'courseDetails/:id',
     loadChildren: () =>
       import('../app/Course/course.module').then((m) => m.CourseModule),
   },
   {
     path: 'category/:id',
     loadChildren: () =>
-      import('../app/Category/category.module').then((m) => m.CategoryModule)
+      import('../app/Category/category.module').then((m) => m.CategoryModule),
   },
   {
     path: 'instructorDetails',
@@ -58,4 +59,4 @@ const routes: Routes = [
   imports: [CommonModule, RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

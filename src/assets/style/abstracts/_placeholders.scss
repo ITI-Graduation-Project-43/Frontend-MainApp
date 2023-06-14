@@ -42,6 +42,10 @@
   padding: 0;
 }
 
+%simple-black-border{
+  border:  1px solid $blackColor;
+}
+
 .mt-100 {
   margin-top: 100px;
 }

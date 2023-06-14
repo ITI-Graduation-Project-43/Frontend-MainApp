@@ -1,0 +1,64 @@
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/placeholders" as *;
+
+.wrapper {
+  margin-top: 2rem;
+  @extend %simple-black-border;
+  padding: 1rem;
+  background-color: $whiteColor;
+
+  h5 {
+    font-weight: 700;
+  }
+
+  .code {
+    @extend %flex-row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.2rem;
+
+    input {
+      width: 70%;
+      height: 70px;
+      padding: 0.3rem;
+      @extend %simple-black-border;
+    }
+
+    button {
+      @include custom-button($whiteColor, $blackColor, $blackColor, 0px);
+      padding: 16px 43px;
+    }
+  }
+
+
+  .summary {
+    margin-top: 1rem;
+
+    .money {
+      @extend %flex-row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .total {
+      h6{
+        font-weight: bold;
+      }
+    }
+  }
+
+  .complete{
+    @include custom-button($greenColor, $blackColor, $blackColor, 24px);
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .note{
+    text-align: center;
+    margin-top: 0.8rem;
+    h6{
+      font-weight: 100;
+    }
+  }
+}

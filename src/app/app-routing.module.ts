@@ -65,6 +65,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('../app/Checkout/checkout.module').then((m) => m.CheckoutModule),
   },
+  {
+    path: 'instructorRegister',
+    loadChildren: () =>
+      import('../app/instructorRegister/instructor-reister.module').then(
+        (m) => m.InstructorReisterModule
+      ),
+  },
 ];
 
 @NgModule({

@@ -1,0 +1,64 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/_placeholders.scss" as *;
+
+section {
+  background-color: $mainColorLight;
+  padding: 2rem;
+}
+div:first-of-type:not(form div) {
+  width: 50%;
+  margin: auto;
+  border: 1px solid black;
+  padding: 40px;
+  background-color: white;
+}
+
+h1,
+h3,
+h5 {
+  font-family: $font-anton;
+  font-weight: 400;
+}
+h1 {
+  font-size: $fs-64;
+}
+h5 {
+  font-size: $fs-24;
+  margin-bottom: 20px;
+}
+h3 {
+  font-size: $fs-32;
+}
+p {
+  font-family: $font-cabin;
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+
+form {
+  padding-left: 20px;
+}
+form div {
+  margin: 10px;
+}
+label {
+  font-weight: $font-cabin !important;
+  font-weight: 700;
+}
+button {
+  @include custom-button($greenColor, black, black, 43px);
+  font-size: $fs-24;
+  font-weight: 700;
+  padding: 15px 30px !important;
+  margin-top: 10px;
+}
+button:first-of-type {
+  background-color: $mainColorLight;
+}
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+}

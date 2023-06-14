@@ -1,0 +1,137 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/_placeholders.scss" as *;
+
+section {
+  background-color: $mainColorLight;
+  padding: 2rem;
+}
+.mainSection {
+  background-color: white;
+  padding: 40px;
+  border: 1px solid black;
+  width: 75%;
+  margin: auto;
+}
+h2,
+h5 {
+  font-family: $font-anton;
+}
+h2 {
+  font-size: $fs-64;
+  font-weight: 400;
+}
+h5 {
+  font-size: $fs-24;
+  font-weight: 400;
+}
+
+input,
+select,
+textarea,
+table {
+  width: 100%;
+  padding: 15px;
+}
+input,
+select,
+textarea,
+input::placeholder,
+textarea::placeholder,
+select > option {
+  font-family: $font-cabin;
+  font-weight: 400;
+  font-size: 20px;
+  color: black;
+}
+textarea {
+  resize: none;
+}
+textarea:focus {
+  outline: none;
+}
+div {
+  margin: 30px 0;
+}
+
+input[type="file"] {
+  outline: 0;
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.label:first-of-type {
+  width: 100%;
+  border: 2px dashed black;
+  display: block;
+  padding: 3em;
+  cursor: pointer;
+  text-align: center;
+  background-color: $secondaryColor;
+
+  img {
+    display: block;
+    font-size: 42px;
+    padding-bottom: 16px;
+    margin: auto;
+  }
+
+  i,
+  .title {
+    color: black;
+    font-size: $fs-24;
+    font-weight: 700;
+  }
+}
+
+label {
+  font-size: $fs-24;
+  font-weight: 700;
+  font-family: $font-cabin;
+  margin: 10px;
+}
+.controls {
+  margin: 5px 0;
+  border-bottom: 1px solid black;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 30px;
+  padding: 10px;
+  button {
+    background-color: transparent !important;
+    outline: none !important;
+    border: none;
+  }
+}
+.description {
+  margin: 5px;
+}
+.options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.submission {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border: none;
+  gap: 30px;
+  margin-top: 50px;
+  button {
+    @include custom-button($greenColor, black, black, 30px);
+  }
+  button:first-of-type {
+    background-color: $mainColorLight;
+  }
+}
+
+span {
+  font-size: 16px;
+  font-family: $font-cabin;
+  font-size: 700;
+}

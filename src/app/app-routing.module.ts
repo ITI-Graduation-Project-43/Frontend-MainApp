@@ -72,6 +72,13 @@ const routes: Routes = [
         (m) => m.InstructorReisterModule
       ),
   },
+  {
+    path: 'createCourse',
+    loadChildren: () =>
+      import('../app/CourseUpload/creating-course.module').then(
+        (m) => m.CreatingCourseModule
+      ),
+  },
 ];
 
 @NgModule({

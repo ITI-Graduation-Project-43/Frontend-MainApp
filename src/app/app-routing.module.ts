@@ -21,6 +21,13 @@ const routes: Routes = [
       import('../app/Course/course.module').then((m) => m.CourseModule),
   },
   {
+    path: 'courses/:courseName/:courseId/lesson/:lessonId',
+    loadChildren: () =>
+      import('./CourseLesson/CourseLesson.module').then(
+        (m) => m.CourseLessonModule
+      ),
+  },
+  {
     path: 'category/:id',
     loadChildren: () =>
       import('../app/Category/category.module').then((m) => m.CategoryModule),

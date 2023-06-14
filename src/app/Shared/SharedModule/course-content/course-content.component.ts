@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { Chapter } from 'src/app/Models/chapter';
 import { Course } from 'src/app/Models/course';
 

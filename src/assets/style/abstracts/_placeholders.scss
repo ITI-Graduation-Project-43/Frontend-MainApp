@@ -45,3 +45,28 @@
 %simple-black-border{
   border:  1px solid $blackColor;
 }
+
+.mt-100 {
+  margin-top: 100px;
+}
+
+.py-100 {
+  padding-top: 75px;
+  padding-bottom: 75px;
+}
+
+.bg-mainColorLight {
+  background-color:  $mainColorLight;
+}
+
+.bg-greenColor {
+  background-color:  $greenColor;
+}
+
+.bg-secondaryColor {
+  background-color:  $secondaryColor;
+}
+
+.bg-lightPurpleColor {
+  background-color: $lightPurpleColor;
+}

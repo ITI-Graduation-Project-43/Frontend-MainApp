@@ -6,7 +6,6 @@
   background: $mainColorLight;
 
   .footer-section {
-
     .footer-logo {
       flex: 1;
       .logo-text {
@@ -15,6 +14,7 @@
 
       .logo-desc {
         @include style-font($font-cabin,24px, 29px, $darkGreyColor,400);
+        width: auto;
       }
     }
 
@@ -46,5 +46,11 @@
 
   .footer-copyright {
     @include style-font($font-cabin,16px, 19px, $darkGreyColor,400);
+  }
+}
+
+@media (min-width: 992px) {
+  .logo-desc {
+    width: 420px !important;
   }
 }

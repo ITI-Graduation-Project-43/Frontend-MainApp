@@ -53,6 +53,11 @@ const routes: Routes = [
         (contact) => contact.ContactModule
       ),
   },
+  {
+    path: 'checkout',
+    loadChildren: () =>
+      import('../app/Checkout/checkout.module').then((m) => m.CheckoutModule),
+  },
 ];
 
 @NgModule({

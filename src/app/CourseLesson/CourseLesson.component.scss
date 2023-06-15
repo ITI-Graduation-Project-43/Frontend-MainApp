@@ -5,32 +5,33 @@
 
 
 .lesson-content{
-  .video-wrapper{
-    padding: 88px 100px;
-    position: relative;
+  margin: 80px 40px;
+  .back-btn{
+    @include custom-button($mainColorLight,$blackColor,$blackColor,43px);
+    margin-bottom: 16px;
+  }
+  .next-control{
     width: 100%;
-    height: 0;
-    padding-bottom: 56.25%;
+    @include style-display-column(0, 0);
+    align-items: flex-end;
+    .next-btn{
+      @include custom-button($greenColor,$blackColor,$blackColor,43px);
+      margin-top: 16px;
+    }
+  }
+  .video-wrapper{
+    @include style-display-column(10px, 80px);
+    background: $whiteColor;
+    border: 3px solid $blackColor;
 
     #videoPlayer {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
-      height: 100%;
-  }
-
-  .video-controls {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      display: flex;
-      justify-content: space-between;
+      max-width:  1360px;
   }
   }
   .article-quiz-wrapper{
     @include style-display-column(10px, 80px);
-    margin: 80px 40px;
+
     background: $whiteColor;
     border: 3px solid $blackColor;
     .article-heading{
@@ -43,48 +44,89 @@
     .article-title{
       @include style-font($font-anton,  64px, 79px, $blackColor, 400);
     }
-  }
-  .article-content{
-    @include style-display-column(40px, 0);
-    @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
-  }
-  .quiz-heading{
-    @include style-display-column(40px, 0);
-    .quiz-stats{
-      @include style-font($font-anton, 24px, 36px, $blackColor, 400);
     }
-    .quiz-title{
-      @include style-font($font-anton,  64px, 79px, $blackColor, 400);
-    }
-    .quiz-description{
+    .article-content{
+      @include style-display-column(40px, 0);
       @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
     }
-  }
-  .seperator{
-    border: 1px solid $blackColor;
-    margin: 64px 0;
-  }
-  form{
-    @include style-display-column(64px, 0);
-  }
-  .quiz-questions{
-    .quiz-question{
-      @include style-font($font-cabin,  24px, 29px, $blackColor, 700);
-      margin-bottom: 16px;
+    .quiz-heading{
+      @include style-display-column(40px, 0);
+      .quiz-stats{
+        @include style-font($font-anton, 24px, 36px, $blackColor, 400);
+      }
+      .quiz-title{
+        @include style-font($font-anton,  64px, 79px, $blackColor, 400);
+      }
+      .quiz-description{
+        @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
+      }
     }
-    .quiz-choices{
-      @include style-display-column(16px, 0);
-      @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
-      .quiz-choice{
-        @include style-display-row-center(16px, 0, 48px);
-        input{
-          width: 24px;
-          height: 24px;
-          accent-color:$blackColor
+    .seperator{
+      border: 1px solid $blackColor;
+      margin: 64px 0;
+    }
+    form{
+      @include style-display-column(64px, 0);
+      .check-answers-btn{
+        @include custom-button($secondaryColor,$blackColor,$blackColor,43px);
+      }
+    }
+    .quiz-questions{
+      .quiz-question{
+        @include style-font($font-cabin,  24px, 29px, $blackColor, 700);
+        margin-bottom: 16px;
+      }
+      .quiz-choices{
+        @include style-display-column(16px, 0);
+        @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
+        .quiz-choice{
+          @include style-display-row-center(16px, 0, 48px);
+          input{
+            width: 24px;
+            height: 24px;
+            accent-color:$blackColor
+          }
         }
       }
     }
-  }
+    .quiz-result{
+      .result-heading-section{
+        @include style-display-column(40px, 0);
+      .result-heading{
+        @include style-font($font-anton,  64px, 79px, $blackColor, 400);
+      }
+      .answers-stats{
+        @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
+      }
+    }
+    .seperator{
+      border: 1px solid $blackColor;
+      margin: 64px 0;
+    }
+      .questions-answers-section{
+        @include style-display-column(64px, 0);
+        .question-answers{
+          @include style-display-column(10px, 0);
+        .question-text{
+          @include style-font($font-cabin,  24px, 29px, $blackColor, 700);
+          margin-bottom: 16px;
+        }
+        .user-answer{
+          @include style-display-column(16px, 0);
+          @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
+        }
+        .correct-answer{
+          color:$succes-color;
+        }
+        .wrong-answer{
+          color: $error-color;
+        }
+      }
+      }
+      .try-again-btn{
+        @include custom-button($mainColorLight,$blackColor,$blackColor,43px);
+      }
+    }
   }
 }
 .course-content-section{
@@ -122,6 +164,7 @@
         border: 1px solid $blackColor;
         .course-chapter-name{
           @include style-display-row-center(8px, 0);
+          @include style-font($font-cabin, 24px,124.04%,$blackColor, 700)
         }
         .chapter-stats{
           @include style-display-row-center(10px, 0);
@@ -140,6 +183,7 @@
               @include style-display-row-center(10px, 0);
               h3{
                 margin: 0;
+                @include style-font($font-cabin, 20px,24px,$blackColor, 700)
               }
             }
             .lesson-description{

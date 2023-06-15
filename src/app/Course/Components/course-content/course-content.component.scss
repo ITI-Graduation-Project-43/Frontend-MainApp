@@ -35,6 +35,7 @@
       border: 1px solid $blackColor;
       .course-chapter-name{
         @include style-display-row-center(8px, 0);
+        @include style-font($font-cabin, 24px,124.04%,$blackColor, 700)
       }
       .chapter-stats{
         @include style-display-row-center(10px, 0);
@@ -48,12 +49,14 @@
 
         background: $whiteColor;
         border: 1px solid $blackColor;
+        cursor: pointer;
         .lesson-main-data{
           @include style-display-column(2px, 24px,  32px);
           .lesson-heading{
             @include style-display-row-center(10px, 0);
             h3{
               margin: 0;
+              @include style-font($font-cabin, 20px,24px,$blackColor, 700)
             }
           }
           .lesson-description{

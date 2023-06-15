@@ -52,6 +52,14 @@
     @include custom-button($greenColor, $blackColor, $blackColor, 24px);
     width: 100%;
     margin-top: 1rem;
+
+    &:disabled{
+      background-color: lightgray;
+      color: rgb(160, 160, 160);
+      transform: translate(0px, 0px);
+      box-shadow: 5px 5px black, 5px 5px 0px 1px black;
+
+    }
   }
 
   .note{

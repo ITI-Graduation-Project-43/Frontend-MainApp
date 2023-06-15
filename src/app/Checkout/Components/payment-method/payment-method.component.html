@@ -49,7 +49,7 @@
                 </div>
             </div>
             <div *ngIf="showForm">
-                <div class="reactiveForm" [formGroup]="creditCardReactiveForm">
+                <div class="reactiveForm" [formGroup]="checkoutService.creditCardReactiveForm">
                     <div class="input-sec">
                         <label for="nameOnCard">Name on card</label>
                         <input type="text" id="nameOnCard" placeholder="Name on card" formControlName="nameOnCard">

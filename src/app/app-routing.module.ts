@@ -65,6 +65,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('../app/Checkout/checkout.module').then((m) => m.CheckoutModule),
   },
+  {
+    path: 'mycourses',
+    loadChildren: () =>
+      import('../app/MyCourses/my-courses.module').then((m) => m.MyCoursesModule),
+  },
 ];
 
 @NgModule({

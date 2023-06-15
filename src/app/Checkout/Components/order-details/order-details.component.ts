@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Course } from 'src/app/Models/course';
 
 @Component({
   selector: 'app-order-details',

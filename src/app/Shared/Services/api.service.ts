@@ -56,7 +56,7 @@ export class APIService {
 
   addItem(APIRoute: string, object: any): Observable<APIResponseVM> {
     return this.http
-      .post<APIResponseVM>(`${environment.APIURL}/${APIRoute}`, object)
+      .post<APIResponseVM>(`${environment.APIURL}${APIRoute}`, object)
       .pipe(retry(3), catchError(this.handleError));
   }
 

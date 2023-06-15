@@ -17,13 +17,13 @@ import { CheckoutComponent } from './checkout.component';
     CountryComponent,
     PaymentMethodComponent,
     OrderDetailsComponent,
-    SummaryComponent, 
+    SummaryComponent,
   ],
   imports: [
     CommonModule,
     CheckoutRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ]
 })
 export class CheckoutModule { }

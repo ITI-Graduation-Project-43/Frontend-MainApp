@@ -1,0 +1,18 @@
+<div class="chart-header">
+  <h2>Chart Title</h2>
+  <div class="chart-buttons">
+    <button>Button 1</button>
+    <button>Button 2</button>
+  </div>
+</div>
+<div id="chart">
+    <apx-chart
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [xaxis]="chartOptions.xaxis"
+      [dataLabels]="chartOptions.dataLabels"
+      [grid]="chartOptions.grid"
+      [stroke]="chartOptions.stroke"
+      [title]="chartOptions.title"
+    ></apx-chart>
+  </div>

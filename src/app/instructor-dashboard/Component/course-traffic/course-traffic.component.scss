@@ -1,0 +1,16 @@
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.chart-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+#chart {
+  max-width: 650px;
+  margin: 35px auto;
+}

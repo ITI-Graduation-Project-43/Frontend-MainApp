@@ -1,0 +1,222 @@
+<section>
+  <div class="mainSection">
+    <h5>step 1-3</h5>
+    <h2>Fill out the following information about your course</h2>
+    <form [formGroup]="CreateCourse">
+      <!-------------------- image---------------------------------- -->
+      <div class="form-group .image">
+        <label class="label">
+          <img src="../../../../assets/svg/photo.svg" alt="" />
+          <span class="d-block title">upload course thumbnail</span>
+          <input
+            type="file"
+            accept="image/*"
+            (change)="onFileSelected($event)"
+          />
+        </label>
+      </div>
+      <!-- ----------------------------title------------------------------------------- -->
+      <div>
+        <label for="title">Course Title</label>
+        <input
+          type="text"
+          id="title"
+          formControlName="title"
+          name="title"
+          placeholder="e.g. Learn web development from scratch"
+        />
+        <span>You can change the course name later.</span>
+        <!-- <div *ngIf="title?.invalid && (title?.dirty || title?.touched)">
+          <div *ngIf="title?.errors?.['required']">Title is required.</div>
+          <div *ngIf="title?.errors?.['minlength']">
+            Title must be at least
+            {{ title?.errors?.['minlength'].requiredLength }}
+            characters long.
+          </div>
+          <div *ngIf="title?.errors?.['maxlength']">
+            Title cannot be more than
+            {{ title?.errors?.['maxlength'].requiredLength }}
+            characters long.
+          </div>
+        </div> -->
+      </div>
+      <!-- -------------------------------category----------------------------------- -->
+      <div>
+        <label for="category">Category:</label>
+        <select id="category" formControlName="category" name="category">
+          <option disabled selected value="">Choose a category</option>
+          <option *ngFor="let category of categories" [value]="category.id">
+            {{ category.name }}
+          </option>
+        </select>
+        <span>You can change the category later.</span>
+        <!-- <div *ngIf="category && (category.dirty || category.touched)">
+          <div *ngIf="category.errors?.['required']">Category is required.</div>
+        </div> -->
+      </div>
+      <!-- ----------------------short description-------------------- -->
+      <div>
+        <label for="shortDescription">Short Description</label>
+        <textarea
+          id="shortDescription"
+          formControlName="shortDescription"
+          name="shortDescription"
+          placeholder="Write a short description"
+        ></textarea>
+        <span
+          >You can change the description later. Make sure it is no longer than
+          2-3 sentences.</span
+        >
+        <!-- <div
+          *ngIf="
+            shortDescription?.invalid &&
+            (shortDescription?.dirty || shortDescription?.touched)
+          "
+        >
+          <div *ngIf="shortDescription?.errors?.['required']">
+            Short Description is required.
+          </div>
+          <div *ngIf="shortDescription?.errors?.['minlength']">
+            Short Description must be at least
+            {{ shortDescription?.errors?.['minlength'].requiredLength }}
+            characters long.
+          </div>
+          <div *ngIf="shortDescription?.errors?.['maxlength']">
+            Short Description cannot be more than
+            {{ shortDescription?.errors?.['maxlength'].requiredLength }}
+            characters long.
+          </div>
+        </div> -->
+      </div>
+      <!---------------------------- Description----------------------- -->
+      <div>
+        <label for="description">Description</label>
+        <table border="1">
+          <tbody>
+            <tr>
+              <td>
+                <div class="controls">
+                  <button><i class="fa-sharp fa-solid fa-bold"></i></button>
+                  <button><i class="fa-solid fa-italic"></i></button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="description">
+                  <textarea
+                    style="border: none"
+                    id="description"
+                    formControlName="description"
+                    name="description"
+                    placeholder="Write a description"
+                  ></textarea>
+                  <!-- <div
+                    *ngIf="
+                      description?.invalid &&
+                      (description?.dirty || description?.touched)
+                    "
+                  >
+                    <div *ngIf="description?.errors?.['required']">
+                      Description is required.
+                    </div>
+                    <div *ngIf="description?.errors?.['minlength']">
+                      Description must be at least
+                      {{ description?.errors?.['minlength'].requiredLength }}
+                      characters long.
+                    </div>
+                    <div *ngIf="description?.errors?.['maxlength']">
+                      Description cannot be more than
+                      {{ description?.errors?.['maxlength'].requiredLength }}
+                      characters long.
+                    </div>
+                  </div> -->
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <span>You can change the description later.</span>
+      </div>
+      <!-- ---------------------language price level -->
+      <div class="options">
+        <div>
+          <label for="language">Language:</label>
+          <select id="language" formControlName="language">
+            <option disabled selected value="">Choose language</option>
+            <option *ngFor="let language of languages" [value]="language">
+              {{ language }}
+            </option>
+          </select>
+          <!-- <div *ngIf="language.invalid && (language.dirty || language.touched)">
+          <div *ngIf="language.errors.required">Language is required</div>
+        </div> -->
+        </div>
+        <div>
+          <label for="price">Price:</label>
+          <input
+            type="number"
+            min="0"
+            id="price"
+            formControlName="price"
+            placeholder="in EGP"
+          />
+          <!-- <div *ngIf="price.invalid && (price.dirty || price.touched)">
+          <div *ngIf="price.errors.required">Price is required</div>
+          <div *ngIf="price.errors.min">Price must be at least 0</div>
+        </div> -->
+        </div>
+        <div>
+          <label for="level">Level:</label>
+          <select id="level" formControlName="level">
+            <option disabled selected value="">Choose level</option>
+            <option *ngFor="let level of levels" [value]="level">
+              {{ level }}
+            </option>
+          </select>
+          <!-- <div *ngIf="level.invalid && (level.dirty || level.touched)">
+          <div *ngIf="level.errors.required">Level is required</div>
+        </div>-->
+        </div>
+      </div>
+      <!-- ----------------course Teaching  -->
+      <div>
+        <label for="title">Course Teaching</label>
+        <input
+          type="text"
+          id="CourseTeaching"
+          formControlName="CourseTeaching"
+          name="CourseTeaching"
+          placeholder="What are the main points your course teaches?"
+        />
+      </div>
+      <!-- -------targetStudent -->
+      <div>
+        <label for="title">Target Students</label>
+        <input
+          type="text"
+          id="TargetStudent"
+          formControlName="TargetStudent"
+          name="TargetStudent"
+          placeholder="Who should enroll in this course?"
+        />
+      </div>
+      <!-- -------------------------Course requirement -->
+      <div>
+        <label for="title">Course Requirements</label>
+        <input
+          type="text"
+          id="CourseRequirements"
+          formControlName="CourseRequirements"
+          name="CourseRequirements"
+          placeholder="What are the course’s requirements?"
+        />
+      </div>
+      <!-- controls -->
+      <div class="submission">
+        <button>Back</button>
+        <button type="submit">Continue</button>
+      </div>
+    </form>
+  </div>
+</section>

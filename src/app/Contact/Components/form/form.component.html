@@ -8,8 +8,7 @@
       type="text"
       class="form-control"
       formControlName="name"
-      placeholder="&#xF508;  Name"
-      style="font-family: Arial, FontAwesome"
+      placeholder="  Name"
     />
     <div
       *ngIf="name?.invalid && (name?.dirty || name?.touched)"
@@ -24,8 +23,7 @@
       id="email"
       class="form-control"
       formControlName="email"
-      placeholder="&#xf0e0;  Email"
-      style="font-family: Arial, FontAwesome"
+      placeholder="  Email"
     />
     <div
       *ngIf="email?.invalid && (email?.dirty || email?.touched)"
@@ -41,8 +39,8 @@
       id="message"
       class="form-control"
       formControlName="message"
-      placeholder="&#xf27a;  Message...."
-      style="font-family: Arial, FontAwesome"
+      placeholder="  Message...."
+ 
     ></textarea>
     <div
       *ngIf="message?.invalid && (message?.dirty || message?.touched)"

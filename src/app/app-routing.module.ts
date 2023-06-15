@@ -74,6 +74,20 @@ const routes: Routes = [
       ),
     component: InstructorDashboardComponent,
   },
+  {
+    path: 'instructorRegister',
+    loadChildren: () =>
+      import('../app/instructorRegister/instructor-reister.module').then(
+        (m) => m.InstructorReisterModule
+      ),
+  },
+  {
+    path: 'createCourse',
+    loadChildren: () =>
+      import('../app/CourseUpload/creating-course.module').then(
+        (m) => m.CreatingCourseModule
+      ),
+  },
 ];
 
 @NgModule({

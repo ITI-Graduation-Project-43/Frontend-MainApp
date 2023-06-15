@@ -7,7 +7,7 @@
 .lesson-content{
   margin: 80px 40px;
   .back-btn{
-    @include custom-button($mainColorLight,$blackColor,$blackColor,43px);
+    @include custom-button($greenColor,$blackColor,$blackColor,43px);
     margin-bottom: 16px;
   }
   .next-control{
@@ -20,13 +20,13 @@
     }
   }
   .video-wrapper{
-    @include style-display-column(10px, 80px);
+    @include style-display-column(10px, 0);
     background: $whiteColor;
     border: 3px solid $blackColor;
 
     #videoPlayer {
       width: 100%;
-      max-width:  1360px;
+      // max-width:  1360px;
   }
   }
   .article-quiz-wrapper{

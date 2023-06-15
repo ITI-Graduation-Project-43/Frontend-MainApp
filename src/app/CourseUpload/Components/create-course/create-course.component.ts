@@ -12,10 +12,11 @@ import { Level } from '../../../Models/Enums/CourseLevel';
   styleUrls: ['./create-course.component.scss'],
 })
 export class CreateCourseComponent implements OnInit {
-  // languages!: Language;
-  // levels!: Level;
-  languages = Object.values(Language);
-  levels = Object.values(Level);
+
+  languages = Object.values(Language).filter(
+    (language) => typeof language === 'string'
+  );
+  levels = Object.values(Level).filter((level) => typeof level === 'string');
   CreateCourse: FormGroup;
   categories: Category[] = [];
   constructor(private fb: FormBuilder, private apiService: APIService) {
@@ -52,6 +53,8 @@ export class CreateCourseComponent implements OnInit {
       TargetStudent: ['', [Validators.required]],
       CourseRequirements: ['', [Validators.required]],
     });
+    console.log(this.languages);
+    console.log(this.levels);
   }
   ngOnInit(): void {
     this.apiService.getAllItem('category').subscribe((data: APIResponseVM) => {

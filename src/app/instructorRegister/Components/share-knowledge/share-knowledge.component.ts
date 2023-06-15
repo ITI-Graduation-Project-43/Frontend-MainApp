@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-share-knowledge',
@@ -17,11 +16,7 @@ export class ShareKnowledgeComponent {
     { value: 'other', label: 'Other' },
   ];
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private Cookie: CookieService
-  ) {
+  constructor(private fb: FormBuilder, private router: Router) {
     this.myForm = this.fb.group({
       teaching: ['', Validators.required],
     });
@@ -32,7 +27,7 @@ export class ShareKnowledgeComponent {
       return;
     }
     const selectedValue = this.myForm.get('teaching')?.value;
-    this.Cookie.set('teaching', selectedValue, { expires: 7 });
+    localStorage.setItem('teaching', selectedValue);
     this.router.navigateByUrl('instructorRegister/videoAssessment');
   }
 }

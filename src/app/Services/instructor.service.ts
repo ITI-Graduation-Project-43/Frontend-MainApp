@@ -19,4 +19,10 @@ export class InstructorService extends APIService {
       .get<APIResponseVM>(url)
       .pipe(retry(3), catchError(this.handleError));
   }
+  getAllCourses(instructorId: string): Observable<APIResponseVM> {
+    const url = `${environment.APIURL}Course/instructor/${instructorId}`;
+    return this.http
+      .get<APIResponseVM>(url)
+      .pipe(retry(3), catchError(this.handleError));
+  }
 }

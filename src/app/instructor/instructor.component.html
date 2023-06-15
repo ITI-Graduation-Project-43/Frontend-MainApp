@@ -112,7 +112,13 @@
       </div>
     </div>
 
-    <button class="view-more-btn">View more</button>
+    <button
+      class="view-more-btn"
+      (click)="loadMoreCourses()"
+      *ngIf="instructorCourses.length < totalSize"
+    >
+      View more
+    </button>
   </div>
 </div>
 <!--Course Feedback section-->

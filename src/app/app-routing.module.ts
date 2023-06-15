@@ -6,6 +6,7 @@ import { CategoryComponent } from './Category/category.component';
 import { HomeInstructorComponent } from './HomeInstructor/home-instructor.component';
 import { InstructorComponent } from './instructor/instructor.component';
 import { HomeComponent } from './Home/home.component';
+import { InstructorDashboardComponent } from './instructor-dashboard/instructor-dashboard.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -64,6 +65,14 @@ const routes: Routes = [
     path: 'checkout',
     loadChildren: () =>
       import('../app/Checkout/checkout.module').then((m) => m.CheckoutModule),
+  },
+  {
+    path: 'instructor',
+    loadChildren: () =>
+      import('../app/instructor-dashboard/instructor-dashboard.module').then(
+        (m) => m.InstructorDashboardModule
+      ),
+    component: InstructorDashboardComponent,
   },
 ];
 

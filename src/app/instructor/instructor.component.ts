@@ -17,7 +17,7 @@ export class InstructorComponent implements OnInit {
   pageNumber: number = 1;
   CoursesPageNumber: number = 1;
   pageSize: number = 4;
-  totalSize: number = 3;
+  totalSize!: number;
 
   constructor(
     private instructorService: InstructorService,
@@ -28,6 +28,11 @@ export class InstructorComponent implements OnInit {
   ngOnInit() {
     this.loadInstructorFeedback();
     this.loadInstructorCourses();
+    this.instructorService
+      .getAllCourses(this.instructorId)
+      .subscribe((data: APIResponseVM) => {
+        this.totalSize = data.items.length;
+      });
     this.instructorService
       .getItemById('Instructor', this.instructorId)
       .subscribe(
@@ -45,10 +50,10 @@ export class InstructorComponent implements OnInit {
     window.open(this.instructor[0].accounts.GitHub, '_blank');
   }
   redirectToLinkedin() {
-    window.location.href = this.instructor[0].accounts.Linkedin;
+    window.open(this.instructor[0].accounts.Linkedin, '_blank');
   }
   redirectToTwitter() {
-    window.location.href = this.instructor[0].accounts.Twitter;
+    window.open(this.instructor[0].accounts.Twitter, '_blank');
   }
 
   loadInstructorCourses() {

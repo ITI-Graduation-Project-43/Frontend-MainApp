@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-video-assessment',
@@ -19,7 +18,6 @@ export class VideoAssessmentComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private Cookie: CookieService
   ) {
     this.myForm = this.fb.group({
       assessment: ['', Validators.required],
@@ -33,7 +31,7 @@ export class VideoAssessmentComponent {
       return;
     }
     const selectedValue = this.myForm.get('assessment')?.value;
-    this.Cookie.set('assessment', selectedValue, { expires: 7 });
+    localStorage.setItem('assessment', selectedValue, );
     this.router.navigateByUrl('instructorRegister/expandReach');
   }
 }

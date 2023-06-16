@@ -69,7 +69,7 @@
           </a>
         </span>
         <div *ngIf="login" class="profile">
-          <span (click)="openMenu(options)" class="user-letter" *ngIf="User">{{User.firstName[0].toUpperCase()}}</span>
+          <span (click)="openMenu(options)" class="user-letter" *ngIf="User">{{User[0].toUpperCase()}}</span>
           <ul #options class="options">
             <li>
               <a>My Learning</a>

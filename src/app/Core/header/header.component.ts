@@ -7,8 +7,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Student } from 'src/app/Models/student';
 import { Instructor } from 'src/app/Models/instructor';
 import { APIService } from 'src/app/Shared/Services/api.service';
-import {NotificationService} from './../../Shared/Services/notification.service'
-import {LocalStorageService} from './../../Shared/Helper/local-storage.service'
+import { NotificationService } from './../../Shared/Services/notification.service';
+import { LocalStorageService } from './../../Shared/Helper/local-storage.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -18,13 +18,19 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
   numberOfCourses: number;
-  helper : JwtHelperService = new JwtHelperService();
-  login !: boolean;
-  Id !: string;
-  Role !: string;
-  User !: Student | Instructor;
+  helper: JwtHelperService = new JwtHelperService();
+  login!: boolean;
+  Id!: string;
+  Role!: string;
+  User!: Student | Instructor;
 
-  constructor(private router: Router, private cartService: ShoppingCartService, private http: APIService, private NotificationService: NotificationService, private LocalStorageService: LocalStorageService) {
+  constructor(
+    private router: Router,
+    private cartService: ShoppingCartService,
+    private http: APIService,
+    private NotificationService: NotificationService,
+    private LocalStorageService: LocalStorageService
+  ) {
     this.numberOfCourses = this.cartService.getItems().length;
     this.getUser();
   }
@@ -32,22 +38,21 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     let obvserverLogin = {
       next: (data: any) => {
-        if(data.message == "login"){
+        if (data.message == 'login') {
           this.getUser();
           this.router.navigateByUrl('/home');
         }
       },
-      complete: () => {
-      },
+      complete: () => {},
       error: (error: Error) => {
         console.log(error);
-      }
-    }
+      },
+    };
     this.NotificationService.notifications.subscribe(obvserverLogin);
 
     let obvserver = {
       next: (newCourse: Course) => {
-        if(newCourse) {
+        if (newCourse) {
           this.numberOfCourses = this.cartService.getItems().length;
           this.ngAfterViewInit();
         }
@@ -57,40 +62,39 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       },
       error: (error: Error) => {
         console.log(error);
-      }
-    }
-    this.cartService.getNewItem().subscribe(obvserver)
+      },
+    };
+    this.cartService.getNewItem().subscribe(obvserver);
   }
 
   ngAfterViewInit(): void {
-    let spin = document.querySelector(".numberOfItems");
-    if(spin != null) {
+    let spin = document.querySelector('.numberOfItems');
+    if (spin != null) {
       spin.textContent = this.numberOfCourses.toString();
     }
-    if(this.numberOfCourses > 0) {
-      spin?.classList.add("active");
+    if (this.numberOfCourses > 0) {
+      spin?.classList.add('active');
     }
   }
 
   getUser(): void {
     this.login = this.LocalStorageService.checkTokenExpiration();
-    if(this.login) {
+    if (this.login) {
       let user = this.LocalStorageService.decodeToken();
       this.Id = user.Id;
       this.Role = user.Role;
       let obvserver = {
         next: (data: any) => {
-          if(data) {
+          if (data) {
             this.User = data.items[0];
           }
         },
-        complete: () => {
-        },
+        complete: () => {},
         error: (error: Error) => {
           console.log(error);
-        }
-      }
-      this.http.getItemById(`${this.Role}`, this.Id).subscribe(obvserver)
+        },
+      };
+      this.http.getItemById(`${this.Role}`, this.Id).subscribe(obvserver);
     }
   }
 
@@ -99,12 +103,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   openMenu(options: any) {
-    options.classList.toggle("active");
+    options.classList.toggle('active');
   }
 
   signout() {
     this.login = false;
-    localStorage.removeItem("MindMission");
-    this.router.navigateByUrl("/home");
+    localStorage.removeItem('MindMission');
+    this.router.navigateByUrl('/home');
   }
 }

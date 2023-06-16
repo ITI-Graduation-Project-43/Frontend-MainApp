@@ -9,11 +9,11 @@ export class TimeTrackingService {
   constructor(private http: HttpClient) {}
 
   recordStartTime(studentId: string, courseId: number) {
-    const url = `${environment.APIURL}/timetracking/start`;
-    return this.http.post(url, { studentId, courseId });
+    const url = `${environment.APIURL}/timetracking/course/${courseId}/student/${studentId}`;
+    return this.http.post<any>(url, {});
   }
   recordEndTime(studentId: string, courseId: number) {
-    const url = `${environment.APIURL}/timetracking/end`;
-    return this.http.post(url, { studentId, courseId });
+    const url = `${environment.APIURL}/timetracking/course/${courseId}/student/${studentId}`;
+    return this.http.put<any>(url, {});
   }
 }

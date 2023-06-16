@@ -1,25 +1,37 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HomeComponent } from './home.component';
 import { HeroSectionComponent } from './Components/hero-section/hero-section.component';
-import { TrustedSectionComponent } from './Components/trusted-section/trusted-section.component';
+import { HomeComponent } from './home.component';
+import { HomeRoutingModule } from './home-routing.module';
 import { CategorySectionComponent } from './Components/category-section/category-section.component';
 import { TopRatedSectionComponent } from './Components/top-rated-section/top-rated-section.component';
-import { CourseModule } from "../Course/course.module";
+import { TrustedSectionComponent } from './Components/trusted-section/trusted-section.component';
+import { StatisticsSectionComponent } from './Components/statistics-section/statistics-section.component';
+import { NewInSectionComponent } from './Components/new-in-section/new-in-section.component';
+import { NumberPlusPipe } from '../Pipes/number-plus.pipe';
+import { CourseCardComponent } from './Components/course-card/course-card.component';
+import { TestimonialsSectionComponent } from './Components/testimonials-section/testimonials-section.component';
+import { InstructorsSectionComponent } from './Components/instructors-section/instructors-section.component';
 
 
 
 @NgModule({
-    declarations: [
-        HomeComponent,
-        HeroSectionComponent,
-        TrustedSectionComponent,
-        CategorySectionComponent,
-        TopRatedSectionComponent,
-    ],
-    imports: [
-        CommonModule,
-        CourseModule
-    ]
+  declarations: [
+    HomeComponent,
+    HeroSectionComponent,
+    CategorySectionComponent,
+    TopRatedSectionComponent,
+    TrustedSectionComponent,
+    StatisticsSectionComponent,
+    NewInSectionComponent,
+    NumberPlusPipe,
+    CourseCardComponent,
+    TestimonialsSectionComponent,
+    InstructorsSectionComponent,
+  ],
+  imports: [
+    CommonModule,
+    HomeRoutingModule
+  ]
 })
 export class HomeModule { }

@@ -6,17 +6,16 @@
     </div>
   </div>
   <div class="cart-content">
-    <div *ngIf="cartItems.length === 0">
+    <div *ngIf="totalCourses === 0">
       <p class="empty-cart">
         Your cart is currently empty. Start adding courses!
       </p>
     </div>
-    <ng-container *ngIf="cartItems.length > 0">
-      <div class="cart-course" *ngFor="let course of cartItems">
-        <div class="course-image">
-          <img [src]="course.imageUrl" alt="course image" />
-        </div>
-
+    <ng-container *ngIf="totalCourses !== 0">
+    <div class="cart-course" *ngFor="let course of cartItems | async">
+      <div class="course-image">
+        <img [src]="course.imageUrl" alt="course image" />
+      </div>
         <div class="course-info">
           <div class="course-main-info">
             <div class="course-rating">
@@ -57,7 +56,7 @@
   <div class="cart-checkout">
     <div class="cart-price">
       <div>Total</div>
-      <div>{{ totalPrice | currency : "EGP" }}</div>
+      <div>{{ totalPrice | currency }}</div>
     </div>
     <Button>Checkout</Button>
   </div>

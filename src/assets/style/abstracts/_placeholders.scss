@@ -1,4 +1,5 @@
 @use "../abstracts/variables.scss" as *;
+@use "../abstracts/mixins.scss" as *;
 
 %flex-column {
   display: flex;
@@ -49,9 +50,28 @@
 .mt-100 {
   margin-top: 100px;
 }
+.mb-100 {
+  margin-bottom: 100px;
+}
 
-.py-100 {
+.px-40 {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.py-40 {
+  padding-top: 40px !important;
+  padding-bottom: 40px !important;
+}
+
+.py-75 {
   padding-top: 75px;
+  padding-bottom: 75px;
+}
+.pt-75 {
+  padding-top: 75px;
+}
+.pb-75 {
   padding-bottom: 75px;
 }
 
@@ -69,4 +89,15 @@
 
 .bg-lightPurpleColor {
   background-color: $lightPurpleColor;
+}
+
+.bg-whiteColor {
+  background-color: $whiteColor;
+}
+
+@media (min-width: 992px) {
+  .px-lg-40 {
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+  }
 }

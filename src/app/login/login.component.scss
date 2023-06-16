@@ -1,0 +1,132 @@
+@use "../../assets/style/abstracts/variables.scss" as *;
+@use "../../assets/style/abstracts/mixins.scss" as *;
+
+
+section {
+  .login-container {
+    width: 100%;
+    padding: 20px;
+    border: 1px solid $blackColor;
+    box-shadow: 5px 5px $blackColor, 5px 5px 0px 1px $blackColor;
+    h2 {
+      @include style-font($font-anton,48px,124.04%,$blackColor);
+      margin-bottom: 50px;
+    }
+    form {
+      input {
+        width: 100%;
+        padding: 15px;
+        border: 2px solid $blackColor;
+        font-size: 18px;
+
+        &::placeholder {
+          color: $blackColor
+        }
+      }
+      .login {
+        @include custom-button($greenColor,$blackColor,$blackColor,22px);
+        padding: 7px 22px;
+      }
+      .forget-password {
+        @include style-font($font-cabin,16px,124.04%,$blackColor);
+        font-weight: bold;
+        text-decoration: underline;
+      }
+    }
+
+    .or {
+      margin: 50px 0;
+      text-align: center;
+      position: relative;
+      width: 100%;
+      height: 20px;
+
+      &::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background-color: $blackColor;
+        top: 50%;
+        left: 0;
+        z-index: 0;
+        transform: translateY(-50%);
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+      }
+
+      &::after {
+        content: "Or";
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        z-index: 2;
+        background-color: white;
+        text-align: center;
+        @include style-font($font-cabin,24px,124.04%,$blackColor);
+        line-height: 50px;
+        font-weight: bold;
+        top: 50%;
+        left: 50%;
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+        transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+      }
+    }
+
+    .external-login {
+      > div {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 15px;
+        font-family: 'cabin';
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 28px;
+        cursor: pointer;
+        white-space: nowrap;
+        svg {
+          width: 20px;
+        }
+
+        &.google {
+          border: 1px solid $blackColor;
+          color: rgba(0, 0, 0, 0.54)
+        }
+
+        &.apple {
+          margin: 15px 0;
+          background-color: $blackColor;
+          color: $whiteColor;
+        }
+
+        &.facebook {
+          svg {
+            color: white;
+          }
+          background-color: #1877F2;
+          color: $whiteColor;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  section {
+    .login-container {
+      width: 45%;
+      padding: 40px;
+    }
+  }
+}

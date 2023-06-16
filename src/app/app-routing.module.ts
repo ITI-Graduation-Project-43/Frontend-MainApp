@@ -1,12 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { CourseModule } from './Course/course.module';
-import { CategoryComponent } from './Category/category.component';
-import { HomeInstructorComponent } from './HomeInstructor/home-instructor.component';
-import { InstructorComponent } from './instructor/instructor.component';
-import { HomeComponent } from './Home/home.component';
-import { InstructorDashboardComponent } from './instructor-dashboard/instructor-dashboard.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -14,7 +8,6 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () =>
       import('../app/Home/home.module').then((m) => m.HomeModule),
-    component: HomeComponent,
   },
   {
     path: 'courseDetails/:id',
@@ -39,7 +32,6 @@ const routes: Routes = [
       import('../app/instructor/instructor.module').then(
         (m) => m.InstructorModule
       ),
-    component: InstructorComponent,
   },
   {
     path: 'about',
@@ -52,7 +44,6 @@ const routes: Routes = [
       import('../app/HomeInstructor/home-instructor.module').then(
         (m) => m.HomeInstructorModule
       ),
-    component: HomeInstructorComponent,
   },
   {
     path: 'contact',
@@ -62,9 +53,21 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'login',
+    loadChildren: () =>
+      import('../app/login/login.module').then((m) => m.LoginModule),
+  },
+  {
     path: 'checkout',
     loadChildren: () =>
       import('../app/Checkout/checkout.module').then((m) => m.CheckoutModule),
+  },
+  {
+    path: 'mycourses',
+    loadChildren: () =>
+      import('../app/MyCourses/my-courses.module').then(
+        (m) => m.MyCoursesModule
+      ),
   },
   {
     path: 'instructor',

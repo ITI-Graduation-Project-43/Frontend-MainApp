@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   login!: boolean;
   Id!: string;
   Role!: string;
-  User!: Student | Instructor;
+  User!: any;
 
   constructor(
     private router: Router,
@@ -83,18 +83,21 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       let user = this.LocalStorageService.decodeToken();
       this.Id = user.Id;
       this.Role = user.Role;
-      let obvserver = {
-        next: (data: any) => {
-          if (data) {
-            this.User = data.items[0];
-          }
-        },
-        complete: () => {},
-        error: (error: Error) => {
-          console.log(error);
-        },
-      };
-      this.http.getItemById(`${this.Role}`, this.Id).subscribe(obvserver);
+      this.User = user.FullName;
+      console.log(this.User);
+      // let obvserver = {
+      //   next: (data: any) => {
+      //     if(data) {
+      //       this.User = data.items[0];
+      //     }
+      //   },
+      //   complete: () => {
+      //   },
+      //   error: (error: Error) => {
+      //     console.log(error);
+      //   }
+      // }
+      // this.http.getItemById(`${this.Role}`, this.Id).subscribe(obvserver)
     }
   }
 

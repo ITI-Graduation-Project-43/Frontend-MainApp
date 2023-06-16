@@ -1,4 +1,4 @@
-<section class="mt-100 bg-mainColorLight py-100">
+<section class="bg-mainColorLight px-lg-40 py-75 px-2">
   <div class="container-fluid">
     <div class="title">
       <h3>Top-Rated</h3>
@@ -15,17 +15,7 @@
       </h2>
       <p>Join thousands of learners who have already benefited from our top-rated and highly sought-after courses by our star instructors.</p>
     </div>
-    <div>
-      <!-- <other-courses-card
-      [title]="''"
-      [courses]="relatedCourses"
-      [coursesTotalCount]="relatedCoursesTotalCount"
-      [pageNumber]="pageNumber"
-      [pageSize]="pageSize"
-      (loadMore)="loadMoreCourses()"
-      [loading]="loading"
-    >
-    </other-courses-card> -->
-    </div>
+    <app-course-card [courses]="courses"></app-course-card>
+    <button class="view-more" (click)="viewMore()">View more</button>
   </div>
 </section>

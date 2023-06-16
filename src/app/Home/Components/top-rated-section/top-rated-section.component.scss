@@ -3,18 +3,7 @@
 
 section {
   .title {
-    text-align: center;
-    h3 {
-      @include custom-header;
-      background-color: $secondaryColor;
-      margin: auto;
-    }
     h2 {
-      position: relative;
-      @include style-font($font-anton, 48px, 124.04%, $blackColor);
-      letter-spacing: -1.5px;
-      margin: 15px auto;
-      width: fit-content;
       svg {
         display: none;
         position: absolute;
@@ -28,10 +17,11 @@ section {
         }
       }
     }
-    p {
-      margin: 0 auto;
-      @include style-font($font-cabin, 24px, 124.04%, $blackColor);
-    }
+  }
+  .view-more {
+    @include custom-button($greenColor,$blackColor,$blackColor,43px);
+    display: block;
+    margin: 30px auto;
   }
 }
 
@@ -42,9 +32,6 @@ section {
         svg {
           display: block;
         }
-      }
-      p {
-        width: 50%;
       }
     }
   }

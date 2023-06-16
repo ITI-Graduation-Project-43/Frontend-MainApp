@@ -1,0 +1,82 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/placeholders" as *;
+
+section {
+  .header {
+    flex: 1;
+    position: relative;
+    height: fit-content;
+    h3 {
+      @include custom-header;
+      background-color: $mainColorLight;
+    }
+
+    h2 {
+      @include style-font($font-anton, 48px, 124.04%, $blackColor);
+    }
+
+    p {
+      @include style-font($font-cabin, 24px, 124.04%, $blackColor);
+    }
+
+    svg {
+      position: relative;
+      bottom: 0px;
+      right: 0px;
+    }
+  }
+  .testimonials {
+    flex: 2;
+
+    .testimonial {
+      padding: 24px;
+      border: 2px solid #ccc;
+      min-height: 250px;
+
+      .text {
+        h4 {
+          background-color: $mainColorLight;
+          font-size: 16px;
+          width: fit-content;
+          padding: 10px 20px;
+          margin: 20px 0;
+          border: 2px solid $blackColor;
+          border-radius: 22px;
+          -webkit-border-radius: 22px;
+          -moz-border-radius: 22px;
+          -ms-border-radius: 22px;
+          -o-border-radius: 22px;
+        }
+
+        p {
+          height: 100px;
+          overflow: hidden;
+        }
+      }
+
+      img {
+        //display: block;
+        border: 1px solid #ccc;
+        width: 50px;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+}
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  section {
+    .header {
+      svg {
+        position: absolute;
+        bottom: -20px;
+        right: 0px;
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+@use "../abstracts/variables.scss" as *;
+@use "../abstracts/mixins.scss" as *;
+
+.title {
+  text-align: center;
+  h3 {
+    @include custom-header;
+    background-color: $secondaryColor;
+    margin: auto;
+    font-weight: bold;
+  }
+  h2 {
+    position: relative;
+    @include style-font($font-anton, 48px, 124.04%, $blackColor);
+    letter-spacing: -1.5px;
+    margin: 15px auto;
+    width: fit-content;
+  }
+  p {
+    margin: 0 auto;
+    @include style-font($font-cabin, 24px, 124.04%, $blackColor);
+  }
+}
+
+@media (min-width: 992px) {
+  section {
+    .title {
+      p {
+        width: 50%;
+      }
+    }
+  }
+}

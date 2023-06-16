@@ -70,6 +70,20 @@ const routes: Routes = [
     loadChildren: () =>
       import('../app/MyCourses/my-courses.module').then((m) => m.MyCoursesModule),
   },
+  {
+    path: 'instructorRegister',
+    loadChildren: () =>
+      import('../app/instructorRegister/instructor-reister.module').then(
+        (m) => m.InstructorReisterModule
+      ),
+  },
+  {
+    path: 'createCourse',
+    loadChildren: () =>
+      import('../app/CourseUpload/creating-course.module').then(
+        (m) => m.CreatingCourseModule
+      ),
+  },
 ];
 
 @NgModule({

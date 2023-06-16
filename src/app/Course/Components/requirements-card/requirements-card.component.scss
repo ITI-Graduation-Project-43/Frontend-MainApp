@@ -5,7 +5,9 @@
 /* Course Requirements Card */
 .requirements-card {
   @include details-card(820px);
-
+  .card-title{
+    @include style-font($font-anton, 32px,124.04%,$blackColor, 400)
+  }
   .requirements-items {
     @include style-display-column(16px, 0);
 

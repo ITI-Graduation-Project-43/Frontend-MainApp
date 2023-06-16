@@ -1,93 +1,120 @@
 <div class="lesson-content" *ngIf="lesson && !loading">
+  <button
+    class="back-btn"
+    (click)="goToPreviousLesson()"
+    *ngIf="lessonId !== firstLessonId"
+  >
+    Previous Lesson
+  </button>
+  <div class="video-wrapper" *ngIf="lesson.type === LessonType.Video">
+    <video id="videoPlayer" controls>
+      <source [src]="lesson.video!.videoUrl" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  </div>
   <div
-    style="
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 80px;
-      gap: 10px;
-      background: #ffffff;
-      border: 3px solid #181818;
+    class="article-quiz-wrapper"
+    *ngIf="
+      lesson.type === LessonType.Article || lesson.type === LessonType.Quiz
     "
   >
-    <h2>{{ lesson.title }}</h2>
-    <p>{{ lesson.description }}</p>
-
     <div *ngIf="lesson.type === LessonType.Article">
-      <p>{{ lesson.article!.content }}</p>
-    </div>
+      <div class="article-heading">
+        <span class="article-description">{{ lesson.description }}</span>
+        <h2 class="article-title">{{ lesson.title }}</h2>
+      </div>
 
-    <div *ngIf="lesson.type === LessonType.Video">
-      <video controls>
-        <source [src]="lesson.video!.videoUrl" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+      <div class="article-content">{{ lesson.article!.content }}</div>
     </div>
 
     <div *ngIf="lesson.type === LessonType.Quiz && !quizResult">
-      <p>
-        Quiz - {{ lesson.quiz!.id }} ({{ lesson.quiz!.questions.length }}
-        questions)
-      </p>
-      <hr />
+      <div class="quiz-heading">
+        <div class="quiz-stats">
+          Quiz {{ lesson.quiz!.id }} - ({{ lesson.quiz!.questions.length }}
+          questions)
+        </div>
+        <h1 class="quiz-title">Test your knowledge on {{ lesson.title }}</h1>
+        <span class="quiz-description"
+          >Test your knowledge about the {{ lesson.description }}by answering
+          the following multiple-choice questions based on the previous
+          learning.</span
+        >
+      </div>
+      <div class="seperator"></div>
       <form (ngSubmit)="submitQuizAnswers()">
         <div
+          class="quiz-questions"
           *ngFor="let question of lesson.quiz!.questions; let i = index"
-          style="margin-bottom: 20px"
         >
-          <strong>{{ i + 1 }}. {{ question.questionText }}</strong>
-          <div style="padding-left: 20px">
-            <input
-              type="radio"
-              [name]="question.id.toString()"
-              [value]="question.choiceA"
-              [(ngModel)]="quizAnswers[question.id]"
-            />
-            <label>{{ question.choiceA }}</label>
+          <div class="quiz-question">
+            {{ i + 1 }}. {{ question.questionText }}
           </div>
-          <div style="padding-left: 20px">
-            <input
-              type="radio"
-              [name]="question.id.toString()"
-              [value]="question.choiceB"
-              [(ngModel)]="quizAnswers[question.id]"
-            />
-            <label>{{ question.choiceB }}</label>
-          </div>
-          <div style="padding-left: 20px">
-            <input
-              type="radio"
-              [name]="question.id.toString()"
-              [value]="question.choiceC"
-              [(ngModel)]="quizAnswers[question.id]"
-            />
-            <label>{{ question.choiceC }}</label>
-          </div>
-          <div style="padding-left: 20px">
-            <input
-              type="radio"
-              [name]="question.id.toString()"
-              [value]="question.choiceD"
-              [(ngModel)]="quizAnswers[question.id]"
-            />
-            <label>{{ question.choiceD }}</label>
+          <div class="quiz-choices">
+            <div class="quiz-choice">
+              <input
+                type="radio"
+                [name]="question.id.toString()"
+                [value]="question.choiceA"
+                [(ngModel)]="quizAnswers[question.id]"
+              />
+              <label>{{ question.choiceA }}</label>
+            </div>
+            <div class="quiz-choice">
+              <input
+                type="radio"
+                [name]="question.id.toString()"
+                [value]="question.choiceB"
+                [(ngModel)]="quizAnswers[question.id]"
+              />
+              <label>{{ question.choiceB }}</label>
+            </div>
+            <div class="quiz-choice">
+              <input
+                type="radio"
+                [name]="question.id.toString()"
+                [value]="question.choiceC"
+                [(ngModel)]="quizAnswers[question.id]"
+              />
+              <label>{{ question.choiceC }}</label>
+            </div>
+            <div class="quiz-choice">
+              <input
+                type="radio"
+                [name]="question.id.toString()"
+                [value]="question.choiceD"
+                [(ngModel)]="quizAnswers[question.id]"
+              />
+              <label>{{ question.choiceD }}</label>
+            </div>
           </div>
         </div>
-        <button type="submit">Submit</button>
+        <button class="check-answers-btn" type="submit">Check answers</button>
       </form>
     </div>
-    <div *ngIf="quizResult">
-      <h3>Your results:</h3>
-      <p>
-        You answered {{ quizResult.correct }} out of
-        {{ quizResult.total }} questions correctly.
-      </p>
-      <ul>
-        <li *ngFor="let question of lesson.quiz!.questions">
-          <p>{{ question.questionText }}</p>
-          <p>Your answer: {{ quizAnswers[question.id] }}</p>
-          <p
+    <div class="quiz-result" *ngIf="quizResult">
+      <div class="result-heading-section">
+        <h3 class="result-heading">Your results:</h3>
+        <p class="answers-stats">
+          You answered <Strong>{{ quizResult.correct }} </Strong> out of<Strong>
+            {{ quizResult.total }}</Strong
+          >
+          questions correctly.
+        </p>
+      </div>
+      <div class="seperator"></div>
+      <div class="questions-answers-section">
+        <div
+          class="question-answers"
+          *ngFor="let question of lesson.quiz!.questions; let i = index"
+        >
+          <div class="question-text">
+            {{ i + 1 }}. {{ question.questionText }}
+          </div>
+          <div class="user-answer">
+            Your answer: {{ quizAnswers[question.id] }}
+          </div>
+          <div
+            class="correct-answer"
             *ngIf="
               {
                 A: question.choiceA,
@@ -96,11 +123,11 @@
                 D: question.choiceD
               }[question.correctAnswer] === quizAnswers[question.id]
             "
-            style="color: green"
           >
             Correct!
-          </p>
-          <p
+          </div>
+          <div
+            class="wrong-answer"
             *ngIf="
               {
                 A: question.choiceA,
@@ -109,7 +136,6 @@
                 D: question.choiceD
               }[question.correctAnswer] !== quizAnswers[question.id]
             "
-            style="color: red"
           >
             Incorrect! The correct answer is
             {{
@@ -120,23 +146,19 @@
                 D: question.choiceD
               }[question.correctAnswer]
             }}.
-          </p>
-        </li>
-      </ul>
-      <p *ngIf="quizResult.correct === quizResult.total" style="color: green">
-        Congratulations, you aced the quiz!
-      </p>
-      <p *ngIf="quizResult.correct !== quizResult.total" style="color: red">
-        Don't worry, you can always try again!
-      </p>
-      <button (click)="retryQuiz()">Try again</button>
+          </div>
+        </div>
+        <button class="try-again-btn" (click)="retryQuiz()">Try again</button>
+      </div>
     </div>
-
-    <button (click)="goToPreviousLesson()" *ngIf="lessonId !== firstLessonId">
-      Back
-    </button>
-    <button (click)="goToNextLesson()" *ngIf="lessonId !== lastLessonId">
-      Next
+  </div>
+  <div class="next-control">
+    <button
+      class="next-btn"
+      (click)="goToNextLesson()"
+      *ngIf="lessonId !== lastLessonId"
+    >
+      Next Lesson
     </button>
   </div>
 </div>

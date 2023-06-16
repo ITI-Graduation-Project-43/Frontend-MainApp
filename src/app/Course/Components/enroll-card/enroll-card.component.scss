@@ -5,7 +5,9 @@
 /* Who Should Enroll Card */
 .enroll-card {
   @include details-card(820px);
-
+  .card-title{
+    @include style-font($font-anton, 32px,124.04%,$blackColor, 400)
+  }
   .enroll-items {
     @include style-display-column(16px, 0);
     .enroll-item{

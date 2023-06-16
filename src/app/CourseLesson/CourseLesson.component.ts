@@ -9,6 +9,7 @@ import { LessonType } from '../Models/Enums/LessonType';
 import { Lesson } from '../Models/lesson';
 import { QuizService } from '../Services/quiz.service';
 import { CourseContentNavigationService } from '../Services/course-content-navigation.service';
+import { NotificationService } from 'src/app/Shared/Services/notification.service';
 
 const CHAPTER_BY_COURSE = 'Chapter/byCourse';
 const LESSON_API_ROUTE = 'Lesson';
@@ -41,7 +42,8 @@ export class CourseLessonComponent implements OnInit {
     private route: ActivatedRoute,
     private courseService: CourseService,
     private navigationService: CourseContentNavigationService,
-    private quizService: QuizService
+    private quizService: QuizService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit() {
@@ -87,14 +89,21 @@ export class CourseLessonComponent implements OnInit {
   }
 
   submitQuizAnswers() {
-    this.quizResult = this.quizService.calculateQuizResults(
-      this.lesson.quiz!.questions,
-      this.quizAnswers
-    );
-    this.incorrectAnswers = this.quizService.getIncorrectAnswers(
-      this.lesson.quiz!.questions,
-      this.quizAnswers
-    );
+    if (Object.keys(this.quizAnswers).length === 0) {
+      this.notificationService.notify(
+        'Please answer at least one question before submitting the quiz.',
+        'error'
+      );
+    } else {
+      this.quizResult = this.quizService.calculateQuizResults(
+        this.lesson.quiz!.questions,
+        this.quizAnswers
+      );
+      this.incorrectAnswers = this.quizService.getIncorrectAnswers(
+        this.lesson.quiz!.questions,
+        this.quizAnswers
+      );
+    }
   }
 
   goToNextLesson() {

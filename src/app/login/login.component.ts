@@ -36,9 +36,9 @@ export class LoginComponent {
     let observer = {
       next: (data: any) => {
         let decodedToken = this.helper.decodeToken(data.items[0].token);
+        let encryptedToken = CryptoJS.AES.encrypt(data.items[0].token, environment.secretKey).toString();
+        localStorage.setItem('MindMission', encryptedToken);
         if (decodedToken && decodedToken.Role == "Student") {
-          let encryptedToken = CryptoJS.AES.encrypt(data.items[0].token, environment.secretKey).toString();
-          localStorage.setItem('MindMission', encryptedToken);
         }
         if(decodedToken && decodedToken.Role == "Instructor") {
         }

@@ -1,0 +1,43 @@
+<section>
+  <div>
+    <h5>step 2 of 3</h5>
+    <h1>Create a course</h1>
+    <p>
+      Over the years we’ve helped thousands of instructors learn how to record
+      at home. No matter your experience level, you can become a video pro too.
+      We’ll equip you with the latest resources, tips, and support to help you
+      succeed.
+    </p>
+    <h3>How much of a video “pro” are you?</h3>
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+      <fieldset class="form-group">
+        <div class="form-check" *ngFor="let option of options">
+          <label class="form-check-label">
+            <input
+              type="radio"
+              formControlName="assessment"
+              [value]="option.value"
+            />
+            {{ option.label }}
+          </label>
+        </div>
+        <div
+          *ngIf="
+            myForm.get('assessment')?.invalid &&
+            (myForm.get('assessment')?.dirty ||
+              myForm.get('assessment')?.touched)
+          "
+          class="text-danger"
+        >
+          <div *ngIf="myForm.get('assessment')?.errors?.['required']">
+            Please select an option.
+          </div>
+        </div>
+      </fieldset>
+      <div class="controls">
+        <button (click)="goback()">Back</button>
+        <button type="submit" [disabled]="myForm.invalid">Continue</button>
+      </div>
+    </form>
+  </div>
+</section>

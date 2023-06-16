@@ -1,0 +1,30 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/_placeholders.scss" as *;
+
+
+.course-card{
+    @extend %simple-black-border;
+    @extend %flex-column;
+    padding: 1.5rem;
+
+    .image{
+        img{
+            max-width: 100%;
+        }
+    }
+
+    .course-name{
+        h1{
+            font-family: 'Anton';
+        }
+    }
+
+    .action{
+        width: 100%;
+        button{
+            @include custom-button($greenColor,$blackColor,$blackColor,24px);
+            width: 100%;
+        }
+    }
+}

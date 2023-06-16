@@ -10,6 +10,9 @@
   @include details-card(820px);
   position: relative;
 
+  .card-title{
+    @include style-font($font-anton, 32px,124.04%,$blackColor, 400)
+  }
   .learn-items {
     position: relative;
     margin-bottom: 20px;

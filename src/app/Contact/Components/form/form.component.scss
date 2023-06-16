@@ -20,11 +20,31 @@ input {
   border-radius: 3px;
   margin-bottom: 15px;
   position: relative;
+  text-indent: 30px;
+}
+input::placeholder,
+textarea::placeholder {
+  color: black;
+  font-size: $fs-24;
+  font-family: $font-cabin;
+}
+/*check for pesudo elements and use svg insted of place holder*/
+input[type="text"]:first-of-type::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  background: url(../../../../assets/svg/usericon.svg) no-repeat center center;
+  background-size: contain;
 }
 textarea {
   resize: none;
   position: relative;
   margin-bottom: 15px;
+  text-indent: 30px;
 }
 button {
   @include custom-button($greenColor, black, black, 20);

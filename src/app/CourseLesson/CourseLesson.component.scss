@@ -1,0 +1,218 @@
+@use "../../assets/style/abstracts/mixins.scss" as *;
+@use "../../assets/style/abstracts/variables.scss" as *;
+@use "../../assets/style/abstracts/_placeholders.scss" as *;
+
+
+
+.lesson-content{
+  margin: 80px 40px;
+  .back-btn{
+    @include custom-button($greenColor,$blackColor,$blackColor,43px);
+    margin-bottom: 16px;
+  }
+  .next-control{
+    width: 100%;
+    @include style-display-column(0, 0);
+    align-items: flex-end;
+    .next-btn{
+      @include custom-button($greenColor,$blackColor,$blackColor,43px);
+      margin-top: 16px;
+    }
+  }
+  .video-wrapper{
+    @include style-display-column(10px, 0);
+    background: $whiteColor;
+    border: 3px solid $blackColor;
+
+    #videoPlayer {
+      width: 100%;
+      // max-width:  1360px;
+  }
+  }
+  .article-quiz-wrapper{
+    @include style-display-column(10px, 80px);
+
+    background: $whiteColor;
+    border: 3px solid $blackColor;
+    .article-heading{
+      @include style-display-column(16px, 0);
+      margin-bottom: 32px;
+    .article-description{
+      @include style-font($font-anton, 24px, 36px, $blackColor, 400);
+      margin-bottom: 0;
+    }
+    .article-title{
+      @include style-font($font-anton,  64px, 79px, $blackColor, 400);
+    }
+    }
+    .article-content{
+      @include style-display-column(40px, 0);
+      @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
+    }
+    .quiz-heading{
+      @include style-display-column(40px, 0);
+      .quiz-stats{
+        @include style-font($font-anton, 24px, 36px, $blackColor, 400);
+      }
+      .quiz-title{
+        @include style-font($font-anton,  64px, 79px, $blackColor, 400);
+      }
+      .quiz-description{
+        @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
+      }
+    }
+    .seperator{
+      border: 1px solid $blackColor;
+      margin: 64px 0;
+    }
+    form{
+      @include style-display-column(64px, 0);
+      .check-answers-btn{
+        @include custom-button($secondaryColor,$blackColor,$blackColor,43px);
+      }
+    }
+    .quiz-questions{
+      .quiz-question{
+        @include style-font($font-cabin,  24px, 29px, $blackColor, 700);
+        margin-bottom: 16px;
+      }
+      .quiz-choices{
+        @include style-display-column(16px, 0);
+        @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
+        .quiz-choice{
+          @include style-display-row-center(16px, 0, 48px);
+          input{
+            width: 24px;
+            height: 24px;
+            accent-color:$blackColor
+          }
+        }
+      }
+    }
+    .quiz-result{
+      .result-heading-section{
+        @include style-display-column(40px, 0);
+      .result-heading{
+        @include style-font($font-anton,  64px, 79px, $blackColor, 400);
+      }
+      .answers-stats{
+        @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
+      }
+    }
+    .seperator{
+      border: 1px solid $blackColor;
+      margin: 64px 0;
+    }
+      .questions-answers-section{
+        @include style-display-column(64px, 0);
+        .question-answers{
+          @include style-display-column(10px, 0);
+        .question-text{
+          @include style-font($font-cabin,  24px, 29px, $blackColor, 700);
+          margin-bottom: 16px;
+        }
+        .user-answer{
+          @include style-display-column(16px, 0);
+          @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
+        }
+        .correct-answer{
+          color:$succes-color;
+        }
+        .wrong-answer{
+          color: $error-color;
+        }
+      }
+      }
+      .try-again-btn{
+        @include custom-button($mainColorLight,$blackColor,$blackColor,43px);
+      }
+    }
+  }
+}
+.course-content-section{
+  @include style-display-column(32px, 0);
+  margin: 80px 40px;
+  .ellipse-seperator{
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: $blackColor;
+  }
+  h1{
+    @include style-font($font-anton, 48px, 124.04%, $blackColor, 400);
+  }
+  .course-content-details{
+    @include style-display-row-center(32px, 0);
+
+    .course-content-details-item{
+      @include style-display-row-center(16px, 0);
+
+    }
+
+  }
+
+  .course-content-modules{
+    @include style-display-column(0, 0);
+    width: 100%;
+    .course-chapter{
+      width: 100%;
+      .course-chapter-heading{
+        @include style-display-row-center(24px, 24px, 32px);
+        width: 100%;
+        justify-content: space-between;
+        background: $mainColorLight;
+        border: 1px solid $blackColor;
+        .course-chapter-name{
+          @include style-display-row-center(8px, 0);
+          @include style-font($font-cabin, 24px,124.04%,$blackColor, 700)
+        }
+        .chapter-stats{
+          @include style-display-row-center(10px, 0);
+        }
+      }
+      .course-lessons{
+        .course-lesson{
+          @include style-display-row-center(10px, 0px,  32px);
+          justify-content: space-between;
+          cursor: pointer;
+          background: $whiteColor;
+          border: 1px solid $blackColor;
+          .lesson-main-data{
+            @include style-display-column(2px, 24px,  32px);
+            .lesson-heading{
+              @include style-display-row-center(10px, 0);
+              h3{
+                margin: 0;
+                @include style-font($font-cabin, 20px,24px,$blackColor, 700)
+              }
+            }
+            .lesson-description{
+              margin-left: 34px;
+              @include style-font($font-cabin,20px,24px,$darkGreyColor)
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.incorrect-answer {
+  color: red;
+}
+
+.correct-answer {
+  color: green;
+}
+
+/* Skeleton Loading Styles */
+.course-content-details.skeleton{
+  height: 3rem;
+}
+.course-chapter.skeleton{
+  height: 5rem;
+}
+
+
+

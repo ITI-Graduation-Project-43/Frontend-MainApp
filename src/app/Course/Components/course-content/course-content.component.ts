@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { Chapter } from 'src/app/Models/chapter';
 import { Course } from 'src/app/Models/course';
 
@@ -12,7 +14,8 @@ export class CourseContentComponent implements OnInit {
   @Input() chapters: Chapter[] = [];
   @Input() loading: boolean = true;
 
-  constructor() {}
+  isLoggedIn: boolean = true;
+  constructor(private router: Router) {}
 
   ngOnInit() {}
 
@@ -30,6 +33,17 @@ export class CourseContentComponent implements OnInit {
         return '../../assets/svg/article.svg';
       default:
         return '';
+    }
+  }
+
+  goToContentPage(lessonId: number): void {
+    if (this.isLoggedIn) {
+      this.router.navigate([
+        `/courses/${this.course.title}/${this.course.id}/lesson/${lessonId}`,
+      ]);
+    } else {
+      alert('You must be signed in to view this content');
+      this.router.navigate(['/sign-in']);
     }
   }
 }

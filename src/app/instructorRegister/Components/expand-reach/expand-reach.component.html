@@ -1,0 +1,42 @@
+<section>
+  <div>
+    <h5>step 3 of 3</h5>
+    <h1>Expand your reach</h1>
+    <p>
+      Once you publish your course, you can grow your student audience and make
+      an impact with the support of MindMission's marketplace promotions and
+      also through your own marketing efforts. Together, we’ll help the right
+      students discover your course.
+    </p>
+    <h3>Do you have an audience to share your course with?</h3>
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+      <fieldset class="form-group">
+        <div class="form-check" *ngFor="let option of options">
+          <label class="form-check-label">
+            <input
+              type="radio"
+              formControlName="reach"
+              [value]="option.value"
+            />
+            {{ option.label }}
+          </label>
+        </div>
+        <div
+          *ngIf="
+            myForm.get('reach')?.invalid &&
+            (myForm.get('reach')?.dirty || myForm.get('reach')?.touched)
+          "
+          class="text-danger"
+        >
+          <div *ngIf="myForm.get('reach')?.errors?.['required']">
+            Please select an option.
+          </div>
+        </div>
+      </fieldset>
+      <div class="controls">
+        <button (click)="goback()">Back</button>
+        <button type="submit" [disabled]="myForm.invalid">Continue</button>
+      </div>
+    </form>
+  </div>
+</section>

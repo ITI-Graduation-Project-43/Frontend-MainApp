@@ -1,0 +1,32 @@
+<div class="wrapper">
+  <h1>Discounts</h1>
+  <h5>Code</h5>
+  <div class="code">
+    <input type="text">
+    <button class="submit">Submit</button>
+  </div>
+
+  <div class="summary">
+    <h1>Summary</h1>
+    <section class="original-price money">
+      <h6>Original price</h6>
+      <h6>250 USD</h6>
+    </section>
+
+    <section class="discounts money">
+      <h6>Discounts</h6>
+      <h6>-50 USD</h6>
+    </section>
+
+    <section class="total money">
+      <h6>Total</h6>
+      <h6>200 USD</h6>
+    </section>
+  </div>
+
+  <button class="complete" [disabled]="service.creditCardReactiveForm.invalid" (click)="completeCheckout()">Complete Checkout</button>
+  <div class="note">
+    <h6>By completing checkout you agree to these terms of service</h6>
+  </div>
+
+</div>

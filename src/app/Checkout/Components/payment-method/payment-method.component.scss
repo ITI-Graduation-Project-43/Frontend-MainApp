@@ -1,0 +1,92 @@
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/placeholders" as *;
+
+
+.wrapper {
+    font-family: Cabin;
+
+    .header {
+        @extend %flex-row;
+        align-items: center;
+        justify-content: space-between;
+
+        h1 {
+            @include style-font('Cabin', 15, 124.04%, $blackColor, 600);
+            font-size: 24px;
+        }
+
+        h6 {
+            @extend %flex-row;
+            align-items: center;
+            gap: 0.4rem;
+        }
+    }
+
+    .methods-container {
+        background: $whiteColor;
+
+        .showed-methods {
+            @extend %flex-row;
+            @extend %simple-black-border;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+
+            .radio-method {
+                @extend %flex-row;
+                align-items: center;
+                gap: 0.4rem;
+
+                label {
+                    cursor: pointer;
+                }
+            }
+
+            .logos {
+                @extend %flex-row;
+                gap: 0.4rem;
+            }
+        }
+
+    }
+
+    .credit-debit-card {
+        .reactiveForm {
+            width: 100%;
+            @extend %simple-black-border;
+            padding: 1rem;
+
+            .input-sec {
+                @extend %flex-column;
+                margin-top: 1rem;
+                font-weight: 700;
+
+                input {
+                    width: 100%;
+                    padding: 0.4rem;
+                }
+            }
+
+            .date-cvc {
+                @extend %flex-row;
+                justify-content: space-between;
+                align-items: center;
+                gap: 0.4rem;
+
+                .input-sec {
+                    width: 50%;
+                }
+            }
+
+            .saveCard {
+                @extend %flex-row;
+                justify-content: flex-start;
+                align-items: center;
+                gap: 0.4rem;
+                margin-top:1rem;
+                margin-bottom: 1rem;
+            }
+        }
+    }
+}

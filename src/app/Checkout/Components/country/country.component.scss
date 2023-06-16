@@ -1,0 +1,23 @@
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/placeholders" as *;
+.wrapper{
+    background-color: $mainColorLight;
+    width: 100%;
+    margin-bottom: 2rem;
+
+    h1{
+      @include style-font('Cabin', 15, 124.04%, $blackColor,600);
+      font-size: 24px;
+    }
+
+    h3{
+        font-size: 36px;
+    }
+    select{
+        padding: 1rem;
+        font-family: Cabin;
+        font-weight: 500;
+        width: 100%;
+    }
+}

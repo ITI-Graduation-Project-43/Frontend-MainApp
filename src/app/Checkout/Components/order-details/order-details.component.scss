@@ -1,0 +1,71 @@
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/placeholders" as *;
+
+.order-container {
+    background-color: #FDF6EB;
+  
+    .course-rating {
+      @include style-display-row(5.6px, 0);
+      width: 10rem;
+    }
+  
+    h1 {
+      @include style-font('Cabin', 15, 124.04%, $blackColor,600);
+      margin-bottom: 0;
+      font-size: 24px;
+      margin-bottom: 2rem
+    }
+  
+    .order-course {
+      @extend %flex-row;
+      box-sizing: border-box;
+      padding: 24px;
+      gap: 10px;
+      background: #FFFFFF;
+      border: 1px solid #181818;
+      order: 1;
+  
+      .image{
+        .order-img {
+          border: 1px solid #181818;
+          width: 15rem;
+          height: 12rem;
+        }
+      }
+      
+    }
+  
+    .course-instructor-price {
+      @include style-display-row-center(0, 0);
+      justify-content: space-between;
+      width: 100%;
+  
+      .course-instructor {
+        @include style-display-row-center(16px, 0);
+  
+        .instructor-picture {
+          img {
+            @include make-avatar(42px, 42px);
+          }
+        }
+  
+        .instructor-name {
+          @include style-font('Cabin', 16px, 19px, $darkGreyColor, 700);
+        }
+  
+      }
+  
+      .course-price {
+        @include style-display-column(10px, 15px, 24px);
+  
+  
+        background: $greenColor;
+        border: 2px solid $blackColor;
+        border-radius: 33px;
+  
+  
+        @include style-font('Cabin', 16px, 19px, $darkGreyColor, 700);
+      }
+    }
+  }

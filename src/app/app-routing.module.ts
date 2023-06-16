@@ -15,6 +15,13 @@ const routes: Routes = [
       import('../app/Course/course.module').then((m) => m.CourseModule),
   },
   {
+    path: 'courses/:courseName/:courseId/lesson/:lessonId',
+    loadChildren: () =>
+      import('./CourseLesson/CourseLesson.module').then(
+        (m) => m.CourseLessonModule
+      ),
+  },
+  {
     path: 'category/:id',
     loadChildren: () =>
       import('../app/Category/category.module').then((m) => m.CategoryModule),
@@ -50,6 +57,30 @@ const routes: Routes = [
     loadChildren: () =>
       import('../app/login/login.module').then(
         (m) => m.LoginModule
+      )
+  },
+  {
+    path: 'checkout',
+    loadChildren: () =>
+      import('../app/Checkout/checkout.module').then((m) => m.CheckoutModule),
+  },
+  {
+    path: 'mycourses',
+    loadChildren: () =>
+      import('../app/MyCourses/my-courses.module').then((m) => m.MyCoursesModule),
+  },
+  {
+    path: 'instructorRegister',
+    loadChildren: () =>
+      import('../app/instructorRegister/instructor-reister.module').then(
+        (m) => m.InstructorReisterModule
+      ),
+  },
+  {
+    path: 'createCourse',
+    loadChildren: () =>
+      import('../app/CourseUpload/creating-course.module').then(
+        (m) => m.CreatingCourseModule
       ),
   },
 ];

@@ -1,0 +1,41 @@
+<section>
+  <div>
+    <h5>step 1 of 3</h5>
+    <h1>Share you knowledge</h1>
+    <p>
+      MindMission courses are video-based experiences that give students the
+      chance to learn actionable skills. Whether you have experience teaching,
+      or it’s your first time, we’ll help you package your knowledge into an
+      online course that improves student lives.
+    </p>
+    <h3>What kind of teaching have you done before?</h3>
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+      <fieldset class="form-group">
+        <div class="form-check" *ngFor="let option of options">
+          <label class="form-check-label">
+            <input
+              type="radio"
+              formControlName="teaching"
+              [value]="option.value"
+            />
+            {{ option.label }}
+          </label>
+        </div>
+        <div
+          *ngIf="
+            myForm.get('teaching')?.invalid &&
+            (myForm.get('teaching')?.dirty || myForm.get('teaching')?.touched)
+          "
+          class="text-danger"
+        >
+          <div *ngIf="myForm.get('teaching')?.errors?.['required']">
+            Please select an option.
+          </div>
+        </div>
+      </fieldset>
+      <div class="controls">
+        <button type="submit" [disabled]="myForm.invalid">Continue</button>
+      </div>
+    </form>
+  </div>
+</section>

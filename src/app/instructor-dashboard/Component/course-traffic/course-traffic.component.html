@@ -1,18 +1,37 @@
-<div class="chart-header">
-  <h2>Chart Title</h2>
-  <div class="chart-buttons">
-    <button>Button 1</button>
-    <button>Button 2</button>
+<div class="chart-wrapper">
+  <h1>Chart Title</h1>
+  <div class="course-choice">
+    <select name="course" id="">
+      <!-- <option value="{{ country }}" *ngFor="let country of countries">
+        {{ country }}
+      </option> -->
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+    </select>
+  </div>
+  <div class="hour-choice">
+    <select name="hour" id="">
+      <!-- <option value="{{ country }}" *ngFor="let country of countries">
+        {{ country }}
+      </option> -->
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+    </select>
   </div>
 </div>
 <div id="chart">
-    <apx-chart
-      [series]="chartOptions.series"
-      [chart]="chartOptions.chart"
-      [xaxis]="chartOptions.xaxis"
-      [dataLabels]="chartOptions.dataLabels"
-      [grid]="chartOptions.grid"
-      [stroke]="chartOptions.stroke"
-      [title]="chartOptions.title"
-    ></apx-chart>
-  </div>
+  <apx-chart
+    [series]="chartOptions.series"
+    [chart]="chartOptions.chart"
+    [stroke]="chartOptions.stroke"
+    [xaxis]="chartOptions.xaxis"
+    [yaxis]="chartOptions.yaxis"
+    [grid]="chartOptions.grid"
+  ></apx-chart>
+</div>
+<!-- [fill]="chartOptions.fill" -->
+<!-- [title]="chartOptions.title" [markers]="chartOptions.markers" -->

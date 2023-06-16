@@ -72,7 +72,6 @@ const routes: Routes = [
       import('../app/instructor-dashboard/instructor-dashboard.module').then(
         (m) => m.InstructorDashboardModule
       ),
-    component: InstructorDashboardComponent,
   },
   {
     path: 'instructorRegister',

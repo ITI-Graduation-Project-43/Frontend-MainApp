@@ -7,6 +7,9 @@ import { InstructorHeaderComponent } from './Component/instructor-header/instruc
 import { OverviewComponent } from './Component/overview/overview.component';
 import { DashboardComponent } from './Component/dashboard/dashboard.component';
 import { CourseTrafficComponent } from './Component/course-traffic/course-traffic.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -16,6 +19,13 @@ import { CourseTrafficComponent } from './Component/course-traffic/course-traffi
     DashboardComponent,
     CourseTrafficComponent,
   ],
-  imports: [CommonModule, InstructorDashboardRoutingModule],
+  imports: [
+    CommonModule,
+    InstructorDashboardRoutingModule,
+    NgApexchartsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+  ],
 })
 export class InstructorDashboardModule {}

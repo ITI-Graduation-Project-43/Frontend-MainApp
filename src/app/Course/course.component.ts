@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-
 import { CourseService } from '../Services/course.service';
 import { Course } from '../Models/course';
 import { APIResponseVM } from '../Shared/ViewModels/apiresponse-vm';

@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CourseComponent } from './course.component';
-import { RouterModule } from '@angular/router';
-
 import { OtherCoursesCardComponent } from './Components/other-courses-card/other-courses-card.component';
 import { CourseTitleComponent } from './Components/course-title/course-title.component';
 import { BreadcrumbNavigationComponent } from './Components/breadcrumb-navigation/breadcrumb-navigation.component';
@@ -14,7 +12,7 @@ import { EnrollCardComponent } from './Components/enroll-card/enroll-card.compon
 import { RequirementsCardComponent } from './Components/requirements-card/requirements-card.component';
 import { InstructorDetailsComponent } from './Components/instructor-details/instructor-details.component';
 import { StudentFeedbackComponent } from './Components/student-feedback/student-feedback.component';
-import { SharedModule } from '../Shared/SharedModule/SharedModule.module';
+import { CourseRoutingModule } from './course-routing.module';
 
 @NgModule({
   declarations: [
@@ -33,8 +31,7 @@ import { SharedModule } from '../Shared/SharedModule/SharedModule.module';
   ],
   imports: [
     CommonModule,
-    //SharedModule,
-    RouterModule.forChild([{ path: '', component: CourseComponent }]),
+    CourseRoutingModule
   ],
   exports: [OtherCoursesCardComponent],
 })

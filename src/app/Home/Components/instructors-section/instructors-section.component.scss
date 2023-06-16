@@ -1,0 +1,46 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/placeholders" as *;
+
+section {
+  .instructor-imgs {
+    position: relative;
+    gap: 40px;
+    padding: 0 100px;
+    margin: 50px 0;
+    img {
+      display: block;
+      width: 150px;
+      height: 150px;
+      border: 2px solid black;
+      border-radius: 50%;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      -ms-border-radius: 50%;
+      -o-border-radius: 50%;
+    }
+
+    svg {
+      position: absolute;
+
+      &.lines {
+        top: -50px;
+        right: 100px;
+      }
+
+      &.arrow {
+        bottom: -80px;
+        right: calc(50% - 200px);
+      }
+
+      &.wavy {
+        bottom: -50px;
+        left: 120px;
+      }
+    }
+}
+
+  .be-instructor {
+    @include custom-button($greenColor,$blackColor,$blackColor,20px);
+  }
+}

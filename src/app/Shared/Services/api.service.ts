@@ -62,7 +62,7 @@ export class APIService {
 
   updateItem(APIRoute: string, object: any): Observable<APIResponseVM> {
     return this.http
-      .patch<APIResponseVM>(`${environment.APIURL}/${APIRoute}`, object)
+      .patch<APIResponseVM>(`${environment.APIURL}${APIRoute}`, object)
       .pipe(retry(3), catchError(this.handleError));
   }
 
@@ -72,13 +72,13 @@ export class APIService {
     object: any
   ): Observable<APIResponseVM> {
     return this.http
-      .put<APIResponseVM>(`${environment.APIURL}/${APIRoute}/${id}`, object)
+      .put<APIResponseVM>(`${environment.APIURL}${APIRoute}/${id}`, object)
       .pipe(retry(3), catchError(this.handleError));
   }
 
   deleteItem(APIRoute: string): Observable<APIResponseVM> {
     return this.http
-      .delete<APIResponseVM>(`${environment.APIURL}/${APIRoute}`)
+      .delete<APIResponseVM>(`${environment.APIURL}${APIRoute}`)
       .pipe(retry(3), catchError(this.handleError));
   }
 }

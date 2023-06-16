@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { Category } from 'src/app/Models/category';
+import { APIService } from 'src/app/Shared/Services/api.service';
+import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
 
 @Component({
   selector: 'app-category-section',
@@ -6,5 +10,27 @@ import { Component } from '@angular/core';
   styleUrls: ['./category-section.component.scss']
 })
 export class CategorySectionComponent {
+  categories: any[] = [];
+  public myVariable = 'world';
+  constructor(private http: APIService, private router: Router) {
+      let obvserver = {
+        next: (data: APIResponseVM) => {
+          if(data) {
+            for(let i = 0; i < 4; i++) {
+              this.categories[i] = data.items[i];
+            }
+          }
+        },
+        complete: () => {
+        },
+        error: (error: Error) => {
+          console.log(error);
+        }
+      }
+      this.http.getAllItem("category").subscribe(obvserver)
+  }
 
+  goToCategory(id: number) {
+    this.router.navigateByUrl(`/category/${id}`)
+  }
 }

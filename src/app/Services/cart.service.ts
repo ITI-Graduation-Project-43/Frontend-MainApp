@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Course } from '../Models/course';
 
 @Injectable({
   providedIn: 'root',
 })
+
+
 export class ShoppingCartService {
   private cartItems: Course[] = [];
   private show = new BehaviorSubject<boolean>(false);
+  private dataSubject = new Subject<Course>();
 
   constructor() {
     this.loadCartData();
@@ -29,24 +32,32 @@ export class ShoppingCartService {
     return [...this.cartItems]; // Return a copy to prevent external mutation
   }
 
+  getNewItem(): any {
+    return this.dataSubject.asObservable(); // to make adding new course in the cart real-time
+  }
+
   addItem(item: Course): void {
-    const existingItemIndex = this.cartItems.findIndex(
-      (course) => course.id === item.id
-    );
-    if (existingItemIndex >= 0) {
-      throw new Error('The course is already in the cart.');
+    const existingItemIndex = this.cartItems.findIndex(course => course.id === item.id);
+    if (existingItemIndex == -1) {
+      this.cartItems.push(item);
+      this.dataSubject.next(item); //send the updates to the cart
+      this.saveCartData();
     }
-    this.cartItems.push(item);
-    this.saveCartData();
   }
 
   removeItem(item: Course): void {
-    const index = this.cartItems.findIndex((course) => course.id === item.id);
+    const spin = document.querySelector(".numberOfItems");
+
+    const index = this.cartItems.findIndex(course => course.id === item.id);
     if (index > -1) {
       this.cartItems.splice(index, 1);
       this.saveCartData();
-    } else {
-      throw new Error('The course is not in the cart.');
+      if(spin != null) {
+        spin.textContent = this.cartItems.length.toFixed();
+      }
+      if(this.cartItems.length == 0) {
+        document.querySelector(".numberOfItems")?.classList.remove("active");
+      }
     }
   }
 
@@ -58,13 +69,8 @@ export class ShoppingCartService {
     const storedCartData = localStorage.getItem('cart');
     if (storedCartData) {
       const parsedData: Course[] = JSON.parse(storedCartData);
-      if (
-        Array.isArray(parsedData) &&
-        parsedData.every((course) => 'id' in course && 'price' in course)
-      ) {
+      if (Array.isArray(parsedData) && parsedData.every((course) => 'id' in course && 'price' in course)) {
         this.cartItems = parsedData;
-      } else {
-        throw new Error('Invalid data in the cart storage.');
       }
     }
   }

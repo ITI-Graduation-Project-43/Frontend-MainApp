@@ -1,19 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { CourseModule } from './Course/course.module';
-import { CategoryComponent } from './Category/category.component';
-import { HomeInstructorComponent } from './HomeInstructor/home-instructor.component';
-import { InstructorComponent } from './instructor/instructor.component';
-import { HomeComponent } from './Home/home.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
     path: 'home',
     loadChildren: () =>
-      import('../app/Home/home.module').then((m) => m.HomeModule),
-    component: HomeComponent,
+      import('../app/Home/home.module').then((m) => m.HomeModule)
   },
   {
     path: 'courseDetails/:id',
@@ -37,8 +31,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('../app/instructor/instructor.module').then(
         (m) => m.InstructorModule
-      ),
-    component: InstructorComponent,
+      )
   },
   {
     path: 'about',
@@ -50,8 +43,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('../app/HomeInstructor/home-instructor.module').then(
         (m) => m.HomeInstructorModule
-      ),
-    component: HomeInstructorComponent,
+      )
   },
   {
     path: 'contact',
@@ -59,6 +51,13 @@ const routes: Routes = [
       import('../app/Contact/contact.module').then(
         (contact) => contact.ContactModule
       ),
+  },
+  {
+    path: 'login',
+    loadChildren: () =>
+      import('../app/login/login.module').then(
+        (m) => m.LoginModule
+      )
   },
   {
     path: 'checkout',

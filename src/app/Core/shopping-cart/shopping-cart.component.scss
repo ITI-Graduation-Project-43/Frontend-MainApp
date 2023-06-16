@@ -18,6 +18,9 @@
     :first-child{
       @include style-font($font-anton, 32px, 124.04%, $whiteColor,400);
     }
+    :last-child {
+      cursor: pointer;
+    }
   }
   .cart-content{
     grid-row: 2;
@@ -96,6 +99,7 @@
           .delete-course{
             width: 16px;
             height: 16px;
+            cursor: pointer;
           }
         }
 

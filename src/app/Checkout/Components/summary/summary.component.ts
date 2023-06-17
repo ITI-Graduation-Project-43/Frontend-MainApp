@@ -23,38 +23,47 @@ export class SummaryComponent implements OnInit {
 
   setPaymentObj() {
     let paymentObj: Payment = {
-      name: "Ahmed",
-      email: "ouf902@gmail.com",
+      name: "MindMission",
+      email: this.service.studentMail,
       expirationMonth: this.service.creditCardReactiveForm.value.expireDate.split('/')[0],
       expirationYear: this.service.creditCardReactiveForm.value.expireDate.split('/')[1],
       nameOnCard: this.service.creditCardReactiveForm.value.nameOnCard,
       cardNumber: this.service.creditCardReactiveForm.value.cardNumber,
       cvc: this.service.creditCardReactiveForm.value.cvc,
       description: "successfull payment process",
-      coursesIds: [15, 16]
+      coursesIds: this.service.orderCourses.map(crs=>crs.id)
     }
     return paymentObj;
   }
 
+
   performEnrollmentProcess(){
-    forkJoin({
-      payment: this.apiService.addItem("Payment", this.setPaymentObj()),
-      enrollment: this.apiService.addItem("Enrollment",{
-        enrollmentDate: "2023-06-16T16:13:06.945Z",
-        courseId: 11,
-        studentId: "550db4e5-928d-49f9-8b2e-b3c3853e9b40"
-      })
-    }).subscribe((data)=>{
-      alert("successss");
-      console.log(data.enrollment)
-      console.log(data.payment)
-    },(error)=>{
-      alert(error);
+    this.service.orderCourses.forEach(crs=>{
+      this.apiService.addItem("Enrollment",{
+        enrollmentDate: new Date(),
+        courseId: crs.id,
+        studentId: this.service.studentId
+      }).subscribe((data)=>{
+        console.log(`Enroll to course ${crs.title}`)
+      },(error=>{
+        console.log(error);
+        return;
+      }))
     })
   }
 
 
+  performPaymentProcess(){
+    this.apiService.addItem("Payment", this.setPaymentObj()).subscribe((data)=>{
+      console.log(data);
+      this.performEnrollmentProcess();
+    },(error)=>{
+      console.log(error);
+      return;
+    })
+  }
+
   completeCheckout() {
-    this.performEnrollmentProcess();
+    this.performPaymentProcess();
   }
 }

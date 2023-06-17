@@ -1,5 +1,5 @@
-@use "../../../../assets/style/abstracts/mixins.scss" as *;
-@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../../assets/style/abstracts/variables.scss" as *;
 .chart-wrapper {
   display: grid;
   grid-template-columns: "3fr 2fr 1fr";

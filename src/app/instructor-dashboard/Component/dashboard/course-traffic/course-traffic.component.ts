@@ -134,6 +134,14 @@ export class CourseTrafficComponent implements OnInit {
           const count: number = item.count;
           this.countArray[hour] = count;
         });
+        this.chartOptions.series = [
+          {
+            name: '',
+            data: this.countArray,
+          },
+        ];
+
+        this.chart.updateOptions(this.chartOptions);
       });
   }
 }

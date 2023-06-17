@@ -11,13 +11,13 @@ import { Router } from '@angular/router';
 })
 export class InstructorComponent implements OnInit {
   instructorId: string = '4ae72bce-ddd7-45da-ac42-780deb784c9d';
-  instructor: any;
+  instructor: any[] = [];
   instructorFeedbacks: any[] = [];
   instructorCourses: any[] = [];
   pageNumber: number = 1;
   CoursesPageNumber: number = 1;
   pageSize: number = 4;
-  totalSize: number = 3;
+  totalSize!: number;
 
   constructor(
     private instructorService: InstructorService,
@@ -29,11 +29,16 @@ export class InstructorComponent implements OnInit {
     this.loadInstructorFeedback();
     this.loadInstructorCourses();
     this.instructorService
+      .getAllCourses(this.instructorId)
+      .subscribe((data: APIResponseVM) => {
+        this.totalSize = data.items.length;
+      });
+    this.instructorService
       .getItemById('Instructor', this.instructorId)
       .subscribe(
         (data: APIResponseVM) => {
           this.instructor = data.items;
-          console.log(this.instructor);
+          console.log(this.instructor[0]);
         },
         (error) => {
           this.router.navigateByUrl('');
@@ -45,10 +50,10 @@ export class InstructorComponent implements OnInit {
     window.open(this.instructor[0].accounts.GitHub, '_blank');
   }
   redirectToLinkedin() {
-    window.location.href = this.instructor[0].accounts.Linkedin;
+    window.open(this.instructor[0].accounts.Linkedin, '_blank');
   }
   redirectToTwitter() {
-    window.location.href = this.instructor[0].accounts.Twitter;
+    window.open(this.instructor[0].accounts.Twitter, '_blank');
   }
 
   loadInstructorCourses() {

@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 
 import { ShoppingCartService } from './Services/cart.service';
 import { ShoppingCartComponent } from './Core/shopping-cart/shopping-cart.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,7 @@ import { ShoppingCartComponent } from './Core/shopping-cart/shopping-cart.compon
 })
 export class AppComponent implements OnDestroy {
   title = 'MindMission';
-
+  public router: Router;
   // ViewChild decorator to get a reference to the view container
   // where the ShoppingCartComponent will be injected
   @ViewChild('cartContainer', { read: ViewContainerRef })
@@ -28,8 +29,10 @@ export class AppComponent implements OnDestroy {
 
   constructor(
     private cartService: ShoppingCartService,
-    private resolver: ComponentFactoryResolver
+    private resolver: ComponentFactoryResolver,
+    private _router: Router
   ) {
+    this.router = _router;
     // Subscribe to the BehaviorSubject in the shopping cart service.
     // Whenever the BehaviorSubject emits a value, the callback function is called.
     this.subscription = this.cartService.show$.subscribe((show) => {

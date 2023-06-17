@@ -1,0 +1,71 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+
+.navbar {
+  background-color: $mainColorLight;
+  font-size: $fs-24;
+
+  .navbar-brand {
+    .navbar__brand-logo {
+      &__brand-name {
+        font-family: "Anton";
+        font-size: 36px;
+        line-height: 124.04%;
+      }
+    }
+  }
+
+  .navbar-toggler {
+    box-shadow: none;
+  }
+
+  .nav-item {
+    a {
+      width: fit-content;
+      position: relative;
+
+      &::after {
+        content: "";
+        position: absolute;
+        width: 0%;
+        height: 2px;
+        left: 50%;
+        bottom: 5px;
+        background-color: $blackColor;
+        transform: translateX(-50%);
+        -webkit-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+        transition: 0.3s;
+        -webkit-transition: 0.3s;
+        -moz-transition: 0.3s;
+        -ms-transition: 0.3s;
+        -o-transition: 0.3s;
+      }
+
+      &.active,
+      &:hover {
+        &::after {
+          width: 70%;
+        }
+      }
+    }
+  }
+
+  .profile-name {
+    width: 56px;
+    height: 56px;
+    background-color: $blackColor;
+    color: $mainColorLight;
+    border: 2px solid $mainColorLight;
+    border-radius: 50%;
+    font-family: "Cabin";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    padding: 11px 10px;
+  }
+}

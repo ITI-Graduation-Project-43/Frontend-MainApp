@@ -1,21 +1,16 @@
 <div class="chart-wrapper">
   <h1>Chart Title</h1>
   <div class="course-choice">
-    <select name="course" id="">
-      <!-- <option value="{{ country }}" *ngFor="let country of countries">
-        {{ country }}
-      </option> -->
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
+    <select name="course" id="" (change)="onCourseIdChange($event)">
+      <option value="null" disabled selected hidden>Select Course</option>
+      <option value="{{ course.id }}" *ngFor="let course of instructorCourses">
+        {{ course.title }}
+      </option>
     </select>
   </div>
   <div class="hour-choice">
     <select name="hour" id="">
-      <!-- <option value="{{ country }}" *ngFor="let country of countries">
-        {{ country }}
-      </option> -->
+      <option value="" disabled selected hidden>Hours</option>
       <option value="1">1</option>
       <option value="2">2</option>
       <option value="3">3</option>

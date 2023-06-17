@@ -1,4 +1,10 @@
-import { Component, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import {
   ChartComponent,
   ApexAxisChartSeries,
@@ -10,6 +16,9 @@ import {
   ApexMarkers,
   ApexYAxis,
 } from 'ng-apexcharts';
+import { InstructorService } from 'src/app/Services/instructor.service';
+import { TimeTrackingService } from 'src/app/Services/time-tracking.service';
+import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -26,19 +35,26 @@ export type ChartOptions = {
   templateUrl: './course-traffic.component.html',
   styleUrls: ['./course-traffic.component.scss'],
 })
-export class CourseTrafficComponent {
+export class CourseTrafficComponent implements OnInit {
+  instructorId: string = '4ae72bce-ddd7-45da-ac42-780deb784c9d';
+  courseId!: number;
+  countArray: number[] = new Array(24).fill(0);
+  @Output() courseIdChanged = new EventEmitter<number>();
+  hourCount: any[] = [];
+  instructorCourses: any[] = [];
+
   @ViewChild('chart') chart: ChartComponent | any;
   public chartOptions: ChartOptions;
 
-  constructor() {
+  constructor(
+    private instructorService: InstructorService,
+    private timeTrackingService: TimeTrackingService
+  ) {
     this.chartOptions = {
       series: [
         {
           name: '',
-          data: [
-            4, 3, 10, 9, 13, 10, 12, 9, 12, 7, 14, 5, 13, 9, 12, 2, 7, 5, 5, 7,
-            8, 9, 8, 7,
-          ],
+          data: this.countArray,
         },
       ],
       chart: {
@@ -97,5 +113,27 @@ export class CourseTrafficComponent {
         show: false,
       },
     };
+  }
+  ngOnInit() {
+    this.instructorService
+      .getAllCourses(this.instructorId)
+      .subscribe((data: APIResponseVM) => {
+        this.instructorCourses = data.items;
+      });
+  }
+
+  onCourseIdChange(event: any) {
+    this.countArray = new Array(24).fill(0);
+    this.courseId = Number(event.target.value);
+    this.courseIdChanged.emit(this.courseId);
+    this.timeTrackingService
+      .GetCourseVisitCount(this.courseId)
+      .subscribe((data: any) => {
+        data.forEach((item: { hour: number; count: number }) => {
+          const hour: number = item.hour;
+          const count: number = item.count;
+          this.countArray[hour] = count;
+        });
+      });
   }
 }

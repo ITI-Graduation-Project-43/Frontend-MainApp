@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class InstructorComponent implements OnInit {
   instructorId: string = '4ae72bce-ddd7-45da-ac42-780deb784c9d';
-  instructor: any;
+  instructor: any[] = [];
   instructorFeedbacks: any[] = [];
   instructorCourses: any[] = [];
   pageNumber: number = 1;
@@ -38,7 +38,7 @@ export class InstructorComponent implements OnInit {
       .subscribe(
         (data: APIResponseVM) => {
           this.instructor = data.items;
-          console.log(this.instructor);
+          console.log(this.instructor[0]);
         },
         (error) => {
           this.router.navigateByUrl('');

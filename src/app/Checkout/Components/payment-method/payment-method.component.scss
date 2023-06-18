@@ -5,6 +5,11 @@
 
 .wrapper {
     font-family: Cabin;
+    input[type="radio"]{
+        width: 24px;
+        height: 24px;
+        accent-color:$blackColor
+      }
 
     .header {
         @extend %flex-row;
@@ -57,6 +62,8 @@
             @extend %simple-black-border;
             padding: 1rem;
 
+            
+
             .input-sec {
                 @extend %flex-column;
                 margin-top: 1rem;
@@ -79,12 +86,26 @@
                 }
             }
 
+            .error-messages {
+                justify-content: flex-start;
+                gap: 3rem;
+
+                .exp-date{
+                    width:50%
+                }
+
+                .cvc{
+                    width: 50%;
+                    margin-left: -2rem;
+                }
+            }
+
             .saveCard {
                 @extend %flex-row;
                 justify-content: flex-start;
                 align-items: center;
                 gap: 0.4rem;
-                margin-top:1rem;
+                margin-top: 1rem;
                 margin-bottom: 1rem;
             }
         }

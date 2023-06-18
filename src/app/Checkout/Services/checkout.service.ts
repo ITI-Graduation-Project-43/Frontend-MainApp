@@ -18,6 +18,11 @@ export class CheckoutService {
 
   credentials = this.localStorageService.decodeToken();
   studentId:string = this.credentials.Id;
+  studentName:string = this.credentials.FullName;
   studentMail:string = this.credentials.Email;
+
+
+
+
 
 }

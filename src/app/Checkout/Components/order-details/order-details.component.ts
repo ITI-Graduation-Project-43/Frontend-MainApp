@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Course } from 'src/app/Models/course';
 import { CheckoutService } from '../../Services/checkout.service';
-import { APIService } from 'src/app/Shared/Services/api.service';
 
 @Component({
   selector: 'app-order-details',

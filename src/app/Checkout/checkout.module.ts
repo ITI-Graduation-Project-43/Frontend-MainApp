@@ -8,6 +8,8 @@ import { PaymentMethodComponent } from './Components/payment-method/payment-meth
 import { OrderDetailsComponent } from './Components/order-details/order-details.component';
 import { SummaryComponent } from './Components/summary/summary.component';
 import { CheckoutComponent } from './checkout.component';
+import { RouterModule } from '@angular/router';
+
 
 
 
@@ -24,6 +26,8 @@ import { CheckoutComponent } from './checkout.component';
     CheckoutRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    RouterModule
+
   ]
 })
 export class CheckoutModule { }

@@ -7,5 +7,6 @@ export interface Payment{
   expirationMonth: string,
   cvc: string,
   description: string,
-  coursesIds: number[] 
+  coursesIds: number[],
+  coupon: string
 }

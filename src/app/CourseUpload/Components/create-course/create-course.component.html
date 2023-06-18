@@ -180,37 +180,76 @@
         </div>
       </div>
       <!-- ----------------course Teaching  -->
-      <div>
+      <div formArrayName="courseTeaching">
         <label for="title">Course Teaching</label>
-        <input
-          type="text"
-          id="CourseTeaching"
-          formControlName="CourseTeaching"
-          name="CourseTeaching"
-          placeholder="What are the main points your course teaches?"
-        />
+        <div
+          class="input-container"
+          *ngFor="let courseTeaching of CourseTeachings.controls; let i = index"
+        >
+          <input
+            type="text"
+            [formControlName]="i"
+            name="courseTeaching"
+            placeholder="What are the main points your course teaches?"
+            (input)="checkCourseTeachings($event)"
+          />
+        </div>
+        <button
+          class="add-field"
+          [disabled]="addCourseTeachingButton"
+          (click)="addCourseTeachingInput()"
+        >
+          +&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; Add new point
+        </button>
       </div>
       <!-- -------targetStudent -->
-      <div>
-        <label for="title">Target Students</label>
-        <input
-          type="text"
-          id="TargetStudent"
-          formControlName="TargetStudent"
-          name="TargetStudent"
-          placeholder="Who should enroll in this course?"
-        />
+      <div formArrayName="targetStudent">
+        <label for="title">Target Student</label>
+        <div
+          class="input-container"
+          *ngFor="let targetStudent of TargetStudents.controls; let i = index"
+        >
+          <input
+            type="text"
+            [formControlName]="i"
+            name="TargetStudent"
+            placeholder="Who should enroll in this course?"
+            (input)="checkTargetStudents($event)"
+          />
+        </div>
+        <button
+          class="add-field"
+          [disabled]="addTargetStudentButton"
+          (click)="addTargetStudentInput()"
+        >
+          +&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; Add new point
+        </button>
       </div>
       <!-- -------------------------Course requirement -->
-      <div>
-        <label for="title">Course Requirements</label>
-        <input
-          type="text"
-          id="CourseRequirements"
-          formControlName="CourseRequirements"
-          name="CourseRequirements"
-          placeholder="What are the course’s requirements?"
-        />
+      <div formArrayName="courseRequirement">
+        <label for="title">Course Requirement</label>
+        <div
+          class="input-container"
+          *ngFor="
+            let courseRequirement of CourseRequirements.controls;
+            let i = index
+          "
+        >
+          <input
+            type="text"
+            [formControlName]="i"
+            name="courseRequirement"
+            placeholder="What are the course’s requirements?"
+            (input)="checkCourseRequirement($event)"
+          />
+        </div>
+        <button
+          class="add-field"
+          [disabled]="addCourseRequirementButton"
+          (click)="addCourseRequirmentInput()"
+        >
+          +&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; Add new point
+        </button>
       </div>
       <!-- controls -->
       <div class="submission">
@@ -219,4 +258,6 @@
       </div>
     </form>
   </div>
+
+  <p>{{ CreateCourse.value | json }}</p>
 </section>

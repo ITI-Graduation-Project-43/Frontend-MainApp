@@ -135,3 +135,18 @@ span {
   font-family: $font-cabin;
   font-size: 700;
 }
+.input-container {
+  margin: 0;
+}
+.add-field {
+  width: 100%;
+  background-color: $secondaryColor;
+  border-radius: 50px;
+  text-align: start;
+  padding: 5px;
+  margin-top: 5px;
+  text-indent: 30px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: $font-cabin;
+}

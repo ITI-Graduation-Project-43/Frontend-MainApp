@@ -7,7 +7,7 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () =>
-      import('../app/Home/home.module').then((m) => m.HomeModule)
+      import('../app/Home/home.module').then((m) => m.HomeModule),
   },
   {
     path: 'courseDetails/:id',
@@ -31,7 +31,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('../app/instructor/instructor.module').then(
         (m) => m.InstructorModule
-      )
+      ),
   },
   {
     path: 'about',
@@ -43,7 +43,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('../app/HomeInstructor/home-instructor.module').then(
         (m) => m.HomeInstructorModule
-      )
+      ),
   },
   {
     path: 'contact',
@@ -55,9 +55,7 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () =>
-      import('../app/login/login.module').then(
-        (m) => m.LoginModule
-      )
+      import('../app/login/login.module').then((m) => m.LoginModule),
   },
   {
     path: 'checkout',
@@ -67,7 +65,16 @@ const routes: Routes = [
   {
     path: 'mycourses',
     loadChildren: () =>
-      import('../app/MyCourses/my-courses.module').then((m) => m.MyCoursesModule),
+      import('../app/MyCourses/my-courses.module').then(
+        (m) => m.MyCoursesModule
+      ),
+  },
+  {
+    path: 'instructor',
+    loadChildren: () =>
+      import('../app/instructor-dashboard/instructor-dashboard.module').then(
+        (m) => m.InstructorDashboardModule
+      ),
   },
   {
     path: 'instructorRegister',

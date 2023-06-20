@@ -9,12 +9,10 @@
     </select>
   </div>
   <div class="hour-choice">
-    <select name="hour" id="">
-      <option value="" disabled selected hidden>Hours</option>
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
+    <select name="hour" id="" (change)="onStatusChange($event)">
+      <option value="Hours" selected>Hours</option>
+      <option value="Days">Days</option>
+      <option value="Months">Months</option>
     </select>
   </div>
 </div>

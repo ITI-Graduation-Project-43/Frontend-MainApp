@@ -9,6 +9,8 @@ import { environment } from 'src/environments/environment';
 export class LocalStorageService {
   helper : JwtHelperService = new JwtHelperService();
   data !: string | null;
+  decryptedData !: string;
+  user !: any;
   encryptedToken !: string;
 
   constructor() {
@@ -18,7 +20,8 @@ export class LocalStorageService {
   private decryptLocalStorageData() {
     this.data = localStorage.getItem('MindMission');
     if(this.data) {
-      this.encryptedToken = CryptoJS.AES.decrypt(this.data, environment.secretKey).toString(CryptoJS.enc.Utf8)
+      this.decryptedData = CryptoJS.AES.decrypt(this.data, environment.secretKey).toString(CryptoJS.enc.Utf8);
+      this.encryptedToken = JSON.parse(this.decryptedData).Token;
     }
   }
 
@@ -32,6 +35,10 @@ export class LocalStorageService {
 
   decodeToken() {
     this.decryptLocalStorageData()
-    return this.helper.decodeToken(this.encryptedToken);
+    return this.helper.decodeToken(this.encryptedToken)
+  }
+
+  getUserInfo(): any {
+    return JSON.parse(this.decryptedData).User;
   }
 }

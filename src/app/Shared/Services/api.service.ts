@@ -21,12 +21,6 @@ export class APIService {
     };
   }
 
-  // private handleError(err: HttpErrorResponse) {
-  //   return throwError(function () {
-  //     return new Error('Error occur, please try again!');
-  //   });
-  // }
-
   protected handleError(error: HttpErrorResponse) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
@@ -36,7 +30,7 @@ export class APIService {
       // Server-side error
       errorMessage = `Server returned code: ${error.status}, error message is: ${error.message}`;
     }
-    console.error(errorMessage);
+    // console.error(errorMessage);
     return throwError(errorMessage);
   }
 

@@ -5,11 +5,11 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class NotificationService {
-  notifications = new Subject<{ message: string; type: string }>();
+  notifications = new Subject<{ message: any; type: string }>();
 
   constructor() {}
 
-  notify(message: string, type: string = 'success') {
+  notify(message: any, type: string = 'success') {
     this.notifications.next({ message, type });
   }
 }

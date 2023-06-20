@@ -18,32 +18,25 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
   numberOfCourses: number;
-  helper: JwtHelperService = new JwtHelperService();
-  login!: boolean;
-  Id!: string;
-  Role!: string;
-  User!: any;
+  helper : JwtHelperService = new JwtHelperService();
+  login !: boolean;
+  Id !: string;
+  Role !: string;
+  User : any;
 
-  constructor(
-    private router: Router,
-    private cartService: ShoppingCartService,
-    private http: APIService,
-    private NotificationService: NotificationService,
-    private LocalStorageService: LocalStorageService
-  ) {
+  constructor(private router: Router, private cartService: ShoppingCartService, private http: APIService, private NotificationService: NotificationService, private LocalStorageService: LocalStorageService) {
     this.numberOfCourses = this.cartService.getItems().length;
-    this.getUser();
+    this.checkLogin();
   }
 
   ngOnInit(): void {
     let obvserverLogin = {
       next: (data: any) => {
-        if (data.message == 'login') {
-          this.getUser();
+        if(data.message == "login"){
+          this.checkLogin();
           this.router.navigateByUrl('/home');
         }
       },
-      complete: () => {},
       error: (error: Error) => {
         console.log(error);
       },
@@ -67,6 +60,16 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.cartService.getNewItem().subscribe(obvserver);
   }
 
+  checkLogin() {
+    this.login = this.LocalStorageService.checkTokenExpiration();
+    if(this.login) {
+      let user = this.LocalStorageService.decodeToken();
+      this.Id = user.Id;
+      this.Role = user.Role;
+      this.User = user.FullName;
+    }
+  }
+
   ngAfterViewInit(): void {
     let spin = document.querySelector('.numberOfItems');
     if (spin != null) {
@@ -74,30 +77,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     }
     if (this.numberOfCourses > 0) {
       spin?.classList.add('active');
-    }
-  }
-
-  getUser(): void {
-    this.login = this.LocalStorageService.checkTokenExpiration();
-    if (this.login) {
-      let user = this.LocalStorageService.decodeToken();
-      this.Id = user.Id;
-      this.Role = user.Role;
-      this.User = user.FullName;
-      console.log(this.User);
-      // let obvserver = {
-      //   next: (data: any) => {
-      //     if(data) {
-      //       this.User = data.items[0];
-      //     }
-      //   },
-      //   complete: () => {
-      //   },
-      //   error: (error: Error) => {
-      //     console.log(error);
-      //   }
-      // }
-      // this.http.getItemById(`${this.Role}`, this.Id).subscribe(obvserver)
     }
   }
 

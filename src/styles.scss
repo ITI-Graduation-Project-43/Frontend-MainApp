@@ -36,6 +36,11 @@ a {
   background-color: #ade2bf;
   border: 6px solid transparent;
   background-clip: content-box;
+  border-radius: 22px;
+  -webkit-border-radius: 22px;
+  -moz-border-radius: 22px;
+  -ms-border-radius: 22px;
+  -o-border-radius: 22px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background-color: #9bcbab;

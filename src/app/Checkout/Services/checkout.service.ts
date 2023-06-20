@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Course } from 'src/app/Models/course';
+import { CourseCoupon } from 'src/app/Models/courseCoupon';
 import { Payment } from 'src/app/Models/payment';
 import { LocalStorageService } from 'src/app/Shared/Helper/local-storage.service';
 
@@ -14,6 +15,7 @@ export class CheckoutService {
   paymentObj!:Payment;
   originalPrice:number = 0;
   orderCourses: Course[] = [];
+  courseCoupons:CourseCoupon[] = [];
 
 
   credentials = this.localStorageService.decodeToken();

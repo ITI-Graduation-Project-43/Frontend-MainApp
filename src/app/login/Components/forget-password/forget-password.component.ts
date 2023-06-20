@@ -12,8 +12,9 @@ export class ForgetPasswordComponent {
   forgetPasswordForm !: FormGroup;
   load : boolean = false;
   constructor(private http: APIService, private fb: FormBuilder, private router: Router) {
+    let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     this.forgetPasswordForm = fb.group({
-      Email: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9+_.-]+@(.+)$')]]
+      Email: ['', [Validators.required, Validators.pattern(emailRegex)]]
     })
   }
 

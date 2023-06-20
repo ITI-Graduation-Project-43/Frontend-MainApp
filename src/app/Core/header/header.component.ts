@@ -14,13 +14,19 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
   numberOfCourses: number;
-  helper : JwtHelperService = new JwtHelperService();
-  login !: boolean;
-  Id !: string;
-  Role !: string;
-  User : any;
+  helper: JwtHelperService = new JwtHelperService();
+  login!: boolean;
+  Id!: string;
+  Role!: string;
+  User: any;
 
-  constructor(private router: Router, private cartService: ShoppingCartService, private http: APIService, private NotificationService: NotificationService, private LocalStorageService: LocalStorageService) {
+  constructor(
+    private router: Router,
+    private cartService: ShoppingCartService,
+    private http: APIService,
+    private NotificationService: NotificationService,
+    private LocalStorageService: LocalStorageService
+  ) {
     this.numberOfCourses = this.cartService.getItems().length;
     this.checkLogin();
   }
@@ -28,12 +34,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     let obvserverLogin = {
       next: (data: any) => {
-        if(data.message == "login"){
+        if (data.message == 'login') {
           this.checkLogin();
-          if(this.Role == "Student") {
+          if (this.Role == 'Student') {
             this.router.navigateByUrl('/home');
           }
-          if(this.Role == "Instructor") {
+          if (this.Role == 'Instructor') {
             this.router.navigateByUrl('/instructor');
           }
         }
@@ -63,7 +69,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   checkLogin() {
     this.login = this.LocalStorageService.checkTokenExpiration();
-    if(this.login) {
+    if (this.login) {
       let user = this.LocalStorageService.decodeToken();
       this.Id = user.Id;
       this.Role = user.Role;

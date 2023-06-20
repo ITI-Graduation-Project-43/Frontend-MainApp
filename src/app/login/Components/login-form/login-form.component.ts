@@ -45,9 +45,6 @@ export class LoginFormComponent {
             this.getUser(token);
           }
         },
-        complete: () => {
-          this.NotificationService.notify("login");
-        },
         error: () => {
           alert("error");
         }
@@ -65,6 +62,7 @@ export class LoginFormComponent {
         if(data) {
           let encryptedUserData = CryptoJS.AES.encrypt(JSON.stringify({User: data.items[0], Token: token}), environment.secretKey).toString();
           localStorage.setItem('MindMission', encryptedUserData);
+          this.NotificationService.notify("login");
         }
       },
       error: (error: Error) => {

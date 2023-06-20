@@ -24,13 +24,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   Role !: string;
   User : any;
 
-  constructor(
-    private router: Router,
-    private cartService: ShoppingCartService,
-    private http: APIService,
-    private NotificationService: NotificationService,
-    private LocalStorageService: LocalStorageService
-  ) {
+  constructor(private router: Router, private cartService: ShoppingCartService, private http: APIService, private NotificationService: NotificationService, private LocalStorageService: LocalStorageService) {
     this.numberOfCourses = this.cartService.getItems().length;
     this.checkLogin();
   }

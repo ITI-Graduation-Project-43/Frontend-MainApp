@@ -58,6 +58,11 @@ const routes: Routes = [
       import('../app/login/login.module').then((m) => m.LoginModule),
   },
   {
+    path: 'register',
+    loadChildren: () =>
+      import('../app/register/register.module').then((m) => m.RegisterModule),
+  },
+  {
     path: 'checkout',
     loadChildren: () =>
       import('../app/Checkout/checkout.module').then((m) => m.CheckoutModule),

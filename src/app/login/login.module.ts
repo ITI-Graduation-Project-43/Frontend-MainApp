@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginComponent } from './login.component';
 import { LoginRoutingModule } from './login-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ForgetPasswordComponent } from './Components/forget-password/forget-password.component';
@@ -10,7 +9,6 @@ import { ResetPasswordComponent } from './Components/reset-password/reset-passwo
 
 @NgModule({
   declarations: [
-    LoginComponent,
     ForgetPasswordComponent,
     LoginFormComponent,
     ResetPasswordComponent

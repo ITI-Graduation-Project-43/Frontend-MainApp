@@ -20,8 +20,8 @@ import { AboutModule } from '../About/about.module';
   ],
   imports: [
     CommonModule,
+    HomeInstructorRoutingModule,
     AboutModule,
-    HomeInstructorRoutingModule
   ],
 })
 export class HomeInstructorModule {}

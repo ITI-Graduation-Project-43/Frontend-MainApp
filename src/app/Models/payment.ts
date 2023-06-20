@@ -1,3 +1,5 @@
+import { CourseCoupon } from "./courseCoupon";
+
 export interface Payment{
   name: string,
   email: string,
@@ -8,5 +10,6 @@ export interface Payment{
   cvc: string,
   description: string,
   coursesIds: number[],
-  siteCoupon: string
+  siteCoupon: string,
+  coursesCoupons: CourseCoupon[]
 }

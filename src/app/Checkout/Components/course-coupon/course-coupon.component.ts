@@ -3,6 +3,7 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { APIService } from 'src/app/Shared/Services/api.service';
 import { NotificationService } from 'src/app/Shared/Services/notification.service';
 import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
+import { CheckoutService } from '../../Services/checkout.service';
 
 
 
@@ -16,12 +17,13 @@ export class CourseCouponComponent {
   code!: string;
   @Input() courseId!: number;
   @Input() courseTitle!: string;
-  
+
 
 
   constructor(private modalService: NgbModal,
     private apiService: APIService,
-    private notification: NotificationService) { }
+    private notification: NotificationService,
+    private checkoutService: CheckoutService) { }
 
   open(content: any) {
     this.modalService.open(content,
@@ -45,13 +47,14 @@ export class CourseCouponComponent {
 
   checkCoupon() {
     this.apiService.getAllItem(`Coupon/course/${this.code}?courseId=${this.courseId}`).subscribe((data: APIResponseVM) => {
+      if (this.checkoutService.courseCoupons.indexOf({ courseId: this.courseId, couponCode: this.code }) != -1)
+        this.checkoutService.courseCoupons.push({ courseId: this.courseId, couponCode: this.code });
       this.notification.notify("valid coupon");
       this.modalService.dismissAll();
-
+      console.log(this.checkoutService.paymentObj);
     }, (error) => {
       this.notification.notify("Invalid coupon");
       this.modalService.dismissAll();
-
     })
   }
 

@@ -1,11 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Course } from 'src/app/Models/course';
 import { ShoppingCartService } from 'src/app/Services/cart.service';
-import * as CryptoJS from 'crypto-js';
-import { environment } from 'src/environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Student } from 'src/app/Models/student';
-import { Instructor } from 'src/app/Models/instructor';
 import { APIService } from 'src/app/Shared/Services/api.service';
 import { NotificationService } from './../../Shared/Services/notification.service';
 import { LocalStorageService } from './../../Shared/Helper/local-storage.service';
@@ -34,7 +30,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       next: (data: any) => {
         if(data.message == "login"){
           this.checkLogin();
-          this.router.navigateByUrl('/home');
+          if(this.Role == "Student") {
+            this.router.navigateByUrl('/home');
+          }
+          if(this.Role == "Instructor") {
+            this.router.navigateByUrl('/instructor');
+          }
         }
       },
       error: (error: Error) => {
@@ -90,6 +91,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   signout() {
     this.login = false;
+    this.Id = this.Role = '';
     localStorage.removeItem('MindMission');
     this.router.navigateByUrl('/home');
   }

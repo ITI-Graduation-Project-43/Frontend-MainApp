@@ -1,0 +1,550 @@
+<div class="upload-course-wrapper">
+  <div class="upload-course-sec">
+    <div class="upload-heading">
+      <div class="steps">Step 2 of 3</div>
+      <div class="heading">Upload your course</div>
+    </div>
+    <div class="upload-main">
+      <div class="chapters" cdkDropList (cdkDropListDropped)="drop($event)">
+        <div
+          *ngFor="let chapter of chapters; let i = index"
+          class="chapter-lesson"
+          cdkDrag
+        >
+          <div class="chapter-heading">
+            <div class="chapter-data">
+              <span class="main-title">Chapter {{ i + 1 }}:</span>
+              <ng-container *ngIf="!chapter.editMode; else editChapterInput">
+                {{ chapter.name }}
+              </ng-container>
+              <ng-template #editChapterInput>
+                <input [(ngModel)]="chapter.name" placeholder="Chapter name" />
+              </ng-template>
+            </div>
+            <div class="chapter-actions">
+              <button (click)="toggleEditMode(i)">
+                <img
+                  *ngIf="!this.chapters[i].editMode"
+                  src="../../../../assets/svg/edit.svg"
+                  alt="edit icon"
+                />
+                <img
+                  *ngIf="this.chapters[i].editMode"
+                  src="../../../../assets/svg/tick.svg"
+                  alt="save changes icon"
+                />
+              </button>
+              <button>
+                <img
+                  src="../../../../assets/svg/delete-ico.svg"
+                  alt="delete icon"
+                  (click)="deleteChapter(i)"
+                /></button
+              ><button>
+                <img src="../../../../assets/svg/menu.svg" alt="darg icon" />
+              </button>
+            </div>
+          </div>
+          <div class="chapter-body">
+            <div class="chapter-lessons">
+              <div
+                *ngFor="let lesson of chapter.lessons; let j = index"
+                class="lesson"
+              >
+                {{ lesson.name }}
+                <img
+                  src="../../../../assets/svg/delete-ico.svg"
+                  alt="delete icon"
+                  (click)="deleteLesson(i, j)"
+                />
+              </div>
+
+              <div
+                class="add-new-lesson"
+                *ngIf="showAddNewLesson && newLessonType === 'Article'"
+              >
+                <div class="add-new-lesson-heading-title">
+                  <div class="add-new-lesson-heading">
+                    <div class="main-title">Lesson Title</div>
+                    <div class="delete-content">
+                      <button (click)="cancelAddLesson()">
+                        <img src="../../../../assets/svg/x-icon.svg" alt="" />
+                      </button>
+                    </div>
+                  </div>
+                  <div class="lesson-title">
+                    <input
+                      [(ngModel)]="newLessonName"
+                      type="text"
+                      placeholder="Give this lesson a title"
+                    />
+                  </div>
+                </div>
+                <div class="lesson-action">
+                  <button (click)="saveLesson(i)">Add</button>
+                </div>
+              </div>
+
+              <button
+                class="add-lesson-btn"
+                (click)="showAddLessonOptions = true"
+                *ngIf="!showAddLessonOptions"
+              >
+                <div class="button-content">
+                  <img
+                    src="../../../../assets/svg/plus.svg"
+                    alt="plus icon"
+                  />Add a lesson
+                </div>
+              </button>
+              <div class="add-lesson-actions" *ngIf="showAddLessonOptions">
+                <button (click)="showAddLessonOptions = false">
+                  <img
+                    src="../../../../assets/svg/down arrow.svg"
+                    alt="arrow"
+                  />
+                </button>
+                <button
+                  (click)="
+                    newLessonType = 'Video';
+                    showAddNewLesson = true;
+                    showAddLessonOptions = false
+                  "
+                >
+                  Video
+                </button>
+                <button
+                  (click)="
+                    newLessonType = 'Quiz';
+                    showAddNewLesson = true;
+                    showAddLessonOptions = false
+                  "
+                >
+                  Quiz
+                </button>
+                <button
+                  (click)="
+                    newLessonType = 'Article';
+                    showAddNewLesson = true;
+                    showAddLessonOptions = false
+                  "
+                >
+                  Article
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="add-new-chapter" *ngIf="showAddNewChapter">
+          <div class="add-new-chapter-heading-title">
+            <div class="add-new-chapter-heading">
+              <div class="main-title">Chapter Title</div>
+              <div class="delete-content">
+                <button (click)="cancelAddChapter()">
+                  <img src="../../../../assets/svg/x-icon.svg" alt="" />
+                </button>
+              </div>
+            </div>
+            <div class="chapter-title">
+              <input
+                [(ngModel)]="newChapterName"
+                type="text"
+                placeholder="Give this chapter a title"
+              />
+            </div>
+          </div>
+          <div class="chapter-action">
+            <button (click)="saveChapter()">Add</button>
+          </div>
+        </div>
+        <button
+          class="add-chapter-btn"
+          *ngIf="!showAddNewChapter"
+          (click)="showAddNewChapter = true"
+        >
+          <div class="button-content">
+            <img src="../../../../assets/svg/plus.svg" alt="plus icon" />Add a
+            chapter
+          </div>
+        </button>
+      </div>
+      <div class="create-course-actions">
+        <button class="back-btn">Back</button>
+        <button class="continue-btn">Continue</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="upload-ourse-wrapper">
+  <div class="upload-heading">
+    <div class="steps">step 2 of 3</div>
+    <div class="heading">Upload your course</div>
+  </div>
+  <div class="upload-main">
+    <div class="chapter-lesson-sec">
+      <div class="chapter-heading">
+        <div class="chapter-data">
+          <span class="main-title">Chapter 1: </span> Introduction
+        </div>
+        <div class="chapter-actions">
+          <img src="../../../../assets/svg/edit.svg" alt="edit icon" />
+          <img
+            src="../../../../assets/svg/delete-ico.svg"
+            alt="delete icon"
+          />
+          <img src="../../../../assets/svg/menu.svg" alt="collapse icon" />
+        </div>
+      </div>
+      <div class="chapter-body">
+        <div class="chapter-lessons">
+          <div class="lesson">
+            <div class="lesson-heading">
+              <div class="lesson-data">
+                <span class="main-title">Lesson 1: </span> Introduction
+              </div>
+              <div class="chapter-actions">
+                <img src="../../../../assets/svg/edit.svg" alt="edit icon" />
+                <img
+                  src="../../../../assets/svg/delete-ico.svg"
+                  alt="delete icon"
+                />
+                <img
+                  src="../../../../assets/svg/menu.svg"
+                  alt="collapse icon"
+                />
+              </div>
+            </div>
+            <div class="lesson-body">
+              <div class="article">
+                <div class="Title">
+                  <div class="title-heading">
+                    <div class="main-title">Article Title</div>
+                    <div class="delete-content">
+                      <img src="../../../../assets/svg/x-icon.svg" alt="" />
+                    </div>
+                  </div>
+                  <div class="title-data">
+                    <input
+                      type="text"
+                      name="title"
+                      id="1"
+                      placeholder="Give this article a title"
+                    />
+                  </div>
+                </div>
+                <div class="description">
+                  <div class="description-heading">
+                    <div class="main-title">Article Description</div>
+                  </div>
+                  <div class="description-data">
+                    <input
+                      type="text"
+                      name="title"
+                      id="1"
+                      placeholder="Give this article a title"
+                    />
+                  </div>
+                </div>
+                <div class="lesson-content">
+                  <div class="lesson-content-heading">
+                    <div class="main-title">Article Body</div>
+                  </div>
+                  <div class="lesson-content-data">
+                    <div class="article-body-controls">
+                      <span class="controls bold">B</span>
+                      <span class="controls italic">I</span>
+                    </div>
+                    <textarea
+                      style="border: none"
+                      id="description"
+                      name="description"
+                      placeholder="Write a description"
+                    ></textarea>
+                  </div>
+                  <div class="add-lesson-button">
+                    <button>Add</button>
+                  </div>
+                </div>
+                <div class="attachment">
+                  <Button
+                    ><img
+                      src="../../../../assets/svg/plus.svg"
+                      alt="plus icon"
+                    />Add an attachment</Button
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="lesson">
+            <div class="lesson-heading">
+              <div class="lesson-data">
+                <span class="main-title">Lesson 2: </span> Introduction
+              </div>
+              <div class="chapter-actions">
+                <img src="../../../../assets/svg/edit.svg" alt="edit icon" />
+                <img
+                  src="../../../../assets/svg/delete-ico.svg"
+                  alt="delete icon"
+                />
+                <img
+                  src="../../../../assets/svg/menu.svg"
+                  alt="collapse icon"
+                />
+              </div>
+            </div>
+            <div class="lesson-body">
+              <div class="video">
+                <div class="Title">
+                  <div class="title-heading">
+                    <div class="main-title">Lesson Title</div>
+                    <div class="delete-content">
+                      <img src="../../../../assets/svg/x-icon.svg" alt="" />
+                    </div>
+                  </div>
+                  <div class="title-data">
+                    <input
+                      type="text"
+                      name="title"
+                      id="1"
+                      placeholder="Give this lesson a title"
+                    />
+                  </div>
+                </div>
+                <div class="description">
+                  <div class="description-heading">
+                    <div class="main-title">Lesson Description</div>
+                  </div>
+                  <div class="description-data">
+                    <input
+                      type="text"
+                      name="title"
+                      id="1"
+                      placeholder="Give this leeson a title"
+                    />
+                  </div>
+                </div>
+                <div class="lesson-content">
+                  <div class="lesson-content-heading">
+                    <div class="main-title">Upload Video</div>
+                  </div>
+                  <div class="lesson-content-data">
+                    <input type="file" name="video" id="1" />
+                  </div>
+                </div>
+                <div class="attachment">
+                  <Button
+                    ><img
+                      src="../../../../assets/svg/plus.svg"
+                      alt="plus icon"
+                    />Add an attachment</Button
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="lesson">
+            <div class="lesson-heading">
+              <div class="lesson-data">
+                <span class="main-title">Lesson 2: </span> Introduction
+              </div>
+              <div class="chapter-actions">
+                <img src="../../../../assets/svg/edit.svg" alt="edit icon" />
+                <img
+                  src="../../../../assets/svg/delete-ico.svg"
+                  alt="delete icon"
+                />
+                <img
+                  src="../../../../assets/svg/menu.svg"
+                  alt="collapse icon"
+                />
+              </div>
+            </div>
+            <div class="lesson-body">
+              <div class="Quiz">
+                <div class="Title">
+                  <div class="title-heading">
+                    <div class="main-title">Quiz Title</div>
+                    <div class="delete-content">
+                      <img src="../../../../assets/svg/x-icon.svg" alt="" />
+                    </div>
+                  </div>
+                  <div class="title-data">
+                    <input
+                      type="text"
+                      name="title"
+                      id="1"
+                      placeholder="Give this lesson a title"
+                    />
+                  </div>
+                </div>
+                <div class="description">
+                  <div class="description-heading">
+                    <div class="main-title">Quiz Description</div>
+                  </div>
+                  <div class="description-data">
+                    <input
+                      type="text"
+                      name="title"
+                      id="1"
+                      placeholder="Give this leeson a title"
+                    />
+                  </div>
+                </div>
+                <div class="lesson-content">
+                  <div class="lesson-content-heading">
+                    <div class="question-heading">
+                      <div class="main-title">Question 1</div>
+                      <button>
+                        <img
+                          src="../../../../assets/svg/plus.svg"
+                          alt="plus icon"
+                        />
+                      </button>
+                    </div>
+                    <div class="question-text">
+                      <input
+                        type="text"
+                        name="title"
+                        id="1"
+                        placeholder="Enter question 1"
+                      />
+                    </div>
+                  </div>
+                  <div class="lesson-content-data">
+                    <div class="question-choices-heading">
+                      Question 1 Choices
+                    </div>
+                    <div class="question-choices">
+                      <div class="question-choice">
+                        <input type="radio" /><input
+                          type="text"
+                          name="choice1"
+                          id=""
+                        />
+                      </div>
+                      <div class="question-choice">
+                        <input type="radio" /><input
+                          type="text"
+                          name="choice2"
+                          id=""
+                        />
+                      </div>
+                      <div class="question-choice">
+                        <input type="radio" /><input
+                          type="text"
+                          name="choice3"
+                          id=""
+                        />
+                      </div>
+                      <div class="question-choice">
+                        <input type="radio" /><input
+                          type="text"
+                          name="choice4"
+                          id=""
+                        />
+                      </div>
+
+                      <div>Make sure to select the correct answer.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="attachment">
+                  <Button
+                    ><img
+                      src="../../../../assets/svg/plus.svg"
+                      alt="plus icon"
+                    />Add an attachment</Button
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="lesson">
+            <div class="lesson-heading">
+              <div class="lesson-data">
+                <span class="main-title">Lesson 3: </span> Introduction
+              </div>
+              <div class="chapter-actions">
+                <img src="../../../../assets/svg/edit.svg" alt="edit icon" />
+                <img
+                  src="../../../../assets/svg/delete-ico.svg"
+                  alt="delete icon"
+                />
+                <img
+                  src="../../../../assets/svg/menu.svg"
+                  alt="collapse icon"
+                />
+              </div>
+            </div>
+            <div class="lesson-body">
+              <div class="article">
+                <div class="Title">
+                  <div class="title-heading">
+                    <div class="main-title">Article Title</div>
+                    <div class="delete-content">
+                      <img src="../../../../assets/svg/x-icon.svg" alt="" />
+                    </div>
+                  </div>
+                  <div class="title-data">
+                    <input
+                      type="text"
+                      name="title"
+                      id="1"
+                      placeholder="Give this article a title"
+                    />
+                  </div>
+                </div>
+                <div class="description">
+                  <div class="description-heading">
+                    <div class="main-title">Article Description</div>
+                  </div>
+                  <div class="description-data">
+                    <input
+                      type="text"
+                      name="title"
+                      id="1"
+                      placeholder="Give this article a title"
+                    />
+                  </div>
+                </div>
+                <div class="lesson-content">
+                  <div class="lesson-content-heading">
+                    <div class="main-title">Article Body</div>
+                  </div>
+                  <div class="lesson-content-data">
+                    <div class="article-body-controls">
+                      <span class="controls bold">B</span>
+                      <span class="controls italic">I</span>
+                    </div>
+                    <textarea
+                      style="border: none"
+                      id="description"
+                      name="description"
+                      placeholder="Write a description"
+                    ></textarea>
+                  </div>
+                </div>
+                <div class="attachment">
+                  <Button
+                    ><img
+                      src="../../../../assets/svg/plus.svg"
+                      alt="plus icon"
+                    />Add an attachment</Button
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <button>Add a lesson</button>
+        </div>
+      </div>
+      <button>Add a chapter</button>
+    </div>
+    <div class="actions">
+      <button>Back</button>
+      <button>Continue</button>
+    </div>
+  </div>
+</div> -->

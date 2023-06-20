@@ -17,10 +17,13 @@ export class LoginFormComponent {
   Id !: string;
   Role !: string;
   showed : boolean = true;
+  loging: boolean = false;
+  wrongEmailOrPassword : boolean = false;
 
   constructor(private http: APIService, private fb: FormBuilder, private NotificationService: NotificationService) {
+    let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     this.loginForm = fb.group({
-      email: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9+_.-]+@(.+)$')]],
+      email: ['', [Validators.required, Validators.pattern(emailRegex)]],
       password: ['', [Validators.required]]
     })
   }
@@ -32,9 +35,11 @@ export class LoginFormComponent {
     return this.loginForm.get('password')
   }
 
-  login(e: Event) {
+  login(e: Event, submit: HTMLElement) {
     e.preventDefault();
-    if(this.loginForm.valid) {
+    if(this.loginForm.valid && !this.loging) {
+      submit.classList.add("send");
+      this.loging = true;
       let observer = {
         next: (data: any) => {
           if(data.success) {
@@ -43,10 +48,15 @@ export class LoginFormComponent {
             this.Id = decodedToken.Id;
             this.Role = decodedToken.Role;
             this.getUser(token);
+            submit.classList.remove("send");
+            this.loging = false;
           }
         },
         error: () => {
-          alert("error");
+          this.wrongEmailOrPassword = true;
+          this.loginForm.markAllAsTouched();
+          submit.classList.remove("send");
+          this.loging = false;
         }
       }
       this.http.addItem("User/login", this.loginForm.value).subscribe(observer);

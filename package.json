@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "o":"npm install && ng serve --o"
   },
   "private": true,
   "dependencies": {
@@ -19,6 +20,8 @@
     "@angular/platform-browser-dynamic": "^15.2.0",
     "@angular/router": "^15.2.0",
     "@auth0/angular-jwt": "^5.1.2",
+    "@ng-bootstrap/ng-bootstrap": "^14.2.0",
+    "@popperjs/core": "^2.11.6",
     "angular-crypto-js": "^1.0.7",
     "apexcharts": "^3.41.0",
     "bootstrap": "^5.3.0",
@@ -33,6 +36,7 @@
     "@angular-devkit/build-angular": "^15.2.5",
     "@angular/cli": "~15.2.5",
     "@angular/compiler-cli": "^15.2.0",
+    "@angular/localize": "^15.2.0",
     "@types/crypto-js": "^4.1.1",
     "@types/jasmine": "~4.3.0",
     "@types/js-cookie": "^3.0.3",

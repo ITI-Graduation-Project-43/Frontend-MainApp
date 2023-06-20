@@ -7,7 +7,8 @@
         <div class="details">
             <div class="upsection">
                 <div class="course-rating">
-                    <img src="../../../../assets/svg/rating-star.svg" alt="rating-star" *ngFor="let star of ' '.repeat(course.avgReview).split('')">
+                    <img src="../../../../assets/svg/rating-star.svg" alt="rating-star"
+                        *ngFor="let star of ' '.repeat(course.avgReview).split('')">
                 </div>
                 <h6>{{course.subCategoryName}}</h6>
                 <h1>{{course.title}}</h1>
@@ -21,6 +22,9 @@
                         <div class="instructor-name">{{course.instructorName}}</div>
                     </div>
                     <div class="course-price">{{course.price}} USD</div>
+                </div>
+                <div class="use-coupon">
+                    <app-course-coupon class="mt-1" [courseId]="course.id" [courseTitle]="course.title"></app-course-coupon>
                 </div>
             </div>
         </div>

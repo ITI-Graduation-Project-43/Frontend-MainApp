@@ -10,6 +10,7 @@ import { HeaderComponent } from './Core/header/header.component';
 import { FooterComponent } from './Core/footer/footer.component';
 import { ShoppingCartComponent } from './Core/shopping-cart/shopping-cart.component';
 import { SnackbarComponent } from './Shared/snackbar/snackbar.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { SnackbarComponent } from './Shared/snackbar/snackbar.component';
     AppRoutingModule,
     CommonModule,
     FormsModule,
+    NgbModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

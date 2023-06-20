@@ -18,6 +18,10 @@ import { AboutModule } from '../About/about.module';
     InstructorComponent,
     MilestoneComponent,
   ],
-  imports: [CommonModule,HomeInstructorRoutingModule, AboutModule],
+  imports: [
+    CommonModule,
+    HomeInstructorRoutingModule,
+    AboutModule,
+  ],
 })
 export class HomeInstructorModule {}

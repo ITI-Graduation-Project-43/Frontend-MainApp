@@ -22,6 +22,12 @@ export class CheckoutService {
   studentMail:string = this.credentials.Email;
 
 
+  setOrderdItems() {
+    var cart = localStorage.getItem('cart');
+    if (cart !== null)
+      this.orderCourses = JSON.parse(cart);
+  }
+
 
 
 

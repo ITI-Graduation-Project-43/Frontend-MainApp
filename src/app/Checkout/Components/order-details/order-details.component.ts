@@ -11,17 +11,14 @@ export class OrderDetailsComponent implements OnInit {
   constructor(public service: CheckoutService) { }
 
   ngOnInit(): void {
-    this.setOrderdItems();
+    this.service.setOrderdItems();
     this.calcOriginalPrice();
   }
-  setOrderdItems() {
-    var cart = localStorage.getItem('cart');
-    if (cart !== null)
-      this.service.orderCourses = JSON.parse(cart);
-  }
+
   calcOriginalPrice() {
     this.service.orderCourses.forEach(crs => {
       this.service.originalPrice += crs.price;
     })
+    this.service.originalPrice = +(this.service.originalPrice.toPrecision(5));  
   }
 }

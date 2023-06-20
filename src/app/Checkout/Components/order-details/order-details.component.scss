@@ -14,7 +14,7 @@
     @include style-font('Cabin', 15, 124.04%, $blackColor, 600);
     margin-bottom: 0;
     font-size: 24px;
-    margin-bottom: 2rem
+    margin-bottom: 1rem
   }
 
   .order-course {
@@ -22,14 +22,14 @@
     box-sizing: border-box;
     padding: 24px;
     gap: 10px;
-    background: #FFFFFF;
-    border: 1px solid #181818;
+    background: $whiteColor;
+    @extend %simple-black-border;
     order: 1;
     margin-top: 1rem;
 
     .image {
       .order-img {
-        border: 1px solid #181818;
+        @extend %simple-black-border;
         width: 15rem;
         height: 12rem;
       }
@@ -62,14 +62,15 @@
 
       .course-price {
         @include style-display-column(10px, 15px, 24px);
-
-
         background: $greenColor;
         border: 2px solid $blackColor;
         border-radius: 33px;
-
-
         @include style-font('Cabin', 16px, 19px, $darkGreyColor, 700);
+      }
+
+      .use-coupon{
+        display: flex;
+        align-items: flex-start;
       }
     }
   }

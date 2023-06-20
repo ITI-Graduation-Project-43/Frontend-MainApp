@@ -8,5 +8,5 @@ export interface Payment{
   cvc: string,
   description: string,
   coursesIds: number[],
-  coupon: string
+  siteCoupon: string
 }

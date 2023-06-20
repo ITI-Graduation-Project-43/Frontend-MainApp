@@ -21,7 +21,7 @@ export class LocalStorageService {
     this.data = localStorage.getItem('MindMission');
     if(this.data) {
       this.decryptedData = CryptoJS.AES.decrypt(this.data, environment.secretKey).toString(CryptoJS.enc.Utf8);
-      this.encryptedToken = JSON.parse(this.decryptedData).Token;
+      this.encryptedToken = (JSON.parse(this.decryptedData)).Token;
     }
   }
 

@@ -37,7 +37,8 @@ export class SummaryComponent implements OnInit {
       cvc: this.service.creditCardReactiveForm.value.cvc,
       description: "successfull payment process",
       coursesIds: this.service.orderCourses.map(crs => crs.id),
-      siteCoupon: this.code
+      siteCoupon: this.code,
+      coursesCoupons: this.service.courseCoupons
     }
     return paymentObj;
   }

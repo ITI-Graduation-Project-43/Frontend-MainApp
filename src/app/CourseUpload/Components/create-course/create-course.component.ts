@@ -57,9 +57,9 @@ export class CreateCourseComponent implements OnInit {
       language: ['', [Validators.required]],
       price: ['', [Validators.required, Validators.min(0)]],
       level: ['', [Validators.required]],
-      courseTeaching: fb.array(['']),
+      courseTeaching: fb.array([{ title: '', description: '' }]),
       targetStudent: fb.array(['']),
-      courseRequirement: fb.array(['']),
+      courseRequirement: fb.array([{ title: '', description: '' }]),
     });
   }
   ngOnInit(): void {

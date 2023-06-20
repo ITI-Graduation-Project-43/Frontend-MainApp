@@ -144,7 +144,10 @@
           <label for="language">Language:</label>
           <select id="language" formControlName="language">
             <option disabled selected value="">Choose language</option>
-            <option *ngFor="let language of languages" [value]="language">
+            <option
+              *ngFor="let language of languages; let i = index"
+              [value]="i"
+            >
               {{ language }}
             </option>
           </select>
@@ -170,7 +173,7 @@
           <label for="level">Level:</label>
           <select id="level" formControlName="level">
             <option disabled selected value="">Choose level</option>
-            <option *ngFor="let level of levels" [value]="level">
+            <option *ngFor="let level of levels; let i = index" [value]="i">
               {{ level }}
             </option>
           </select>
@@ -186,6 +189,7 @@
           class="input-container"
           *ngFor="let courseTeaching of CourseTeachings.controls; let i = index"
         >
+          <input type="text" />
           <input
             type="text"
             [formControlName]="i"

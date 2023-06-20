@@ -40,7 +40,7 @@
         <div class="details">
             <div class="upsection">
                 <div class="course-rating">
-                    <img src="../../assets/svg/rating-star.svg" alt="rating-star" *ngFor="let star of [].constructor(featureThisWeekCourse[0].avgReview)">
+                    <img src="../../assets/svg/rating-star.svg" alt="rating-star" *ngFor="let star of ' '.repeat(featureThisWeekCourse[0].avgReview).split('')">
                 </div>
                 <h6>{{featureThisWeekCourse[0].subCategoryName}}</h6>
                 <h1>{{featureThisWeekCourse[0].title}}</h1>
@@ -98,7 +98,7 @@
                 <div class="course-info">
                     <div class="course-rating">
                         <img src="../../assets/svg/rating-star.svg" alt="rating-star"
-                            *ngFor="let star of [].constructor(course.avgReview)" />
+                            *ngFor="let star of ' '.repeat(course.avgReview).split('')" />
                     </div>
                     <div class="course-category">{{course.categoryName}}</div>
                     <div class="course-name">{{course.title}}</div>
@@ -206,7 +206,7 @@
                 <div class="course-info">
                     <div class="course-rating">
                         <img src="../../assets/svg/rating-star.svg" alt="rating-star"
-                            *ngFor="let star of [].constructor(course.avgReview)" />
+                            *ngFor="let star of ' '.repeat(course.avgReview).split('')" />
                     </div>
                     <div class="course-category">{{course.categoryName}}</div>
                     <div class="course-name">{{course.title}}</div>
@@ -463,7 +463,7 @@
                         <div class="upsection">
                             <div class="course-rating">
                                 <img src="../../assets/svg/rating-star.svg" alt="rating-star"
-                                    *ngFor="let star of [].constructor(course.avgReview)" />
+                                    *ngFor="let star of ' '.repeat(course.avgReview).split('')" />
                             </div>
                             <h6>{{course.subCategoryName}}</h6>
                             <h1>{{course.title}}</h1>

@@ -7,8 +7,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Student } from 'src/app/Models/student';
 import { Instructor } from 'src/app/Models/instructor';
 import { APIService } from 'src/app/Shared/Services/api.service';
-import {NotificationService} from './../../Shared/Services/notification.service'
-import {LocalStorageService} from './../../Shared/Helper/local-storage.service'
+import { NotificationService } from './../../Shared/Services/notification.service';
+import { LocalStorageService } from './../../Shared/Helper/local-storage.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -24,7 +24,13 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   Role !: string;
   User : any;
 
-  constructor(private router: Router, private cartService: ShoppingCartService, private http: APIService, private NotificationService: NotificationService, private LocalStorageService: LocalStorageService) {
+  constructor(
+    private router: Router,
+    private cartService: ShoppingCartService,
+    private http: APIService,
+    private NotificationService: NotificationService,
+    private LocalStorageService: LocalStorageService
+  ) {
     this.numberOfCourses = this.cartService.getItems().length;
     this.checkLogin();
   }
@@ -39,13 +45,13 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       },
       error: (error: Error) => {
         console.log(error);
-      }
-    }
+      },
+    };
     this.NotificationService.notifications.subscribe(obvserverLogin);
 
     let obvserver = {
       next: (newCourse: Course) => {
-        if(newCourse) {
+        if (newCourse) {
           this.numberOfCourses = this.cartService.getItems().length;
           this.ngAfterViewInit();
         }
@@ -55,9 +61,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       },
       error: (error: Error) => {
         console.log(error);
-      }
-    }
-    this.cartService.getNewItem().subscribe(obvserver)
+      },
+    };
+    this.cartService.getNewItem().subscribe(obvserver);
   }
 
   checkLogin() {
@@ -71,12 +77,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    let spin = document.querySelector(".numberOfItems");
-    if(spin != null) {
+    let spin = document.querySelector('.numberOfItems');
+    if (spin != null) {
       spin.textContent = this.numberOfCourses.toString();
     }
-    if(this.numberOfCourses > 0) {
-      spin?.classList.add("active");
+    if (this.numberOfCourses > 0) {
+      spin?.classList.add('active');
     }
   }
 
@@ -85,12 +91,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   openMenu(options: any) {
-    options.classList.toggle("active");
+    options.classList.toggle('active');
   }
 
   signout() {
     this.login = false;
-    localStorage.removeItem("MindMission");
-    this.router.navigateByUrl("/home");
+    localStorage.removeItem('MindMission');
+    this.router.navigateByUrl('/home');
   }
 }

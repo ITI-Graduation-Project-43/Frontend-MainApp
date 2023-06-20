@@ -1,0 +1,38 @@
+@use "../../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../../assets/style/abstracts/variables.scss" as *;
+.chart-wrapper {
+  display: grid;
+  grid-template-columns: "3fr 2fr 1fr";
+  gap: 30px;
+  align-self: center;
+  margin-bottom: 20px;
+  padding: 7px 72px;
+  width: 90%;
+  margin-bottom: 2rem;
+  h1 {
+    @include style-font("Anton", 36px, 44.65px, $blackColor);
+    font-weight: 400;
+    font-size: 24px;
+    grid-column: 1;
+  }
+  .course-choice {
+    grid-column: 2;
+  }
+  .hour-choice {
+    grid-column: 3;
+  }
+}
+
+#chart {
+  max-width: 100%;
+  background-color: $whiteColor;
+  border: 2px solid $blackColor;
+  margin: 7px 72px;
+}
+
+select {
+  padding: 1rem;
+  font-family: Cabin;
+  font-weight: 500;
+  width: 100%;
+}

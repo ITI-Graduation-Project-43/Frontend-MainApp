@@ -14,8 +14,8 @@
         justify-content: space-between;
         gap: 1rem;
 
-        .right-side{
-            flex-grow: 1;
+        .right-side, .left-side{
+            width:50%;
         }
     }
 }

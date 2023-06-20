@@ -262,7 +262,6 @@ export class CategoryComponent implements OnInit {
       .getAllItem(`Course/category/${this.CategoryId}?PageNumber=${pageNumber}&PageSize=${pageSize}`)
       .toPromise();
     this.relatedCourses = data?.items ?? [];
-    this.FlooringReview(this.relatedCourses);
     this.filteredCourses = this.relatedCourses;
     return this.relatedCourses;
   }
@@ -306,7 +305,6 @@ export class CategoryComponent implements OnInit {
     this.apiService.getAllItem('course/recent/3').subscribe(
       (data: APIResponseVM) => {
         this.latestCourses = data.items;
-        this.FlooringReview(this.latestCourses);
       },
       (error) => {
         console.log(error.message);
@@ -317,16 +315,11 @@ export class CategoryComponent implements OnInit {
   loadFeatureThisWeek() {
     this.apiService.getAllItem("Course/featureThisWeek").subscribe((data: APIResponseVM) => {
       this.featureThisWeekCourse = data.items as Course[];
-      this.featureThisWeekCourse[0].avgReview = Math.floor(this.featureThisWeekCourse[0].avgReview);
     })
   }
 
 
   ///////////////Helper Methodes
-  FlooringReview(CourseArr: Course[]) {
-    CourseArr.forEach(crs => crs.avgReview = Math.floor(crs.avgReview));
-  }
-
   checkCategoryId() {
     this.activeRoute.params.subscribe(
       (route: any) => {

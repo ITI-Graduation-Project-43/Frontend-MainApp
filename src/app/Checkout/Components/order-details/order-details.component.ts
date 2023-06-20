@@ -7,19 +7,21 @@ import { CheckoutService } from '../../Services/checkout.service';
   templateUrl: './order-details.component.html',
   styleUrls: ['./order-details.component.scss']
 })
-export class OrderDetailsComponent implements OnInit{
-  constructor(private service:CheckoutService){}
+export class OrderDetailsComponent implements OnInit {
+  constructor(public service: CheckoutService) { }
+
   ngOnInit(): void {
     this.setOrderdItems();
+    this.calcOriginalPrice();
   }
-  orderCourses: Course[] = [];
   setOrderdItems() {
     var cart = localStorage.getItem('cart');
     if (cart !== null)
-      this.orderCourses = JSON.parse(cart);
-      this.orderCourses.forEach(crs=>{
-        crs.avgReview = Math.floor(crs.avgReview);
-        this.service.originalPrice += crs.price;
-      })
+      this.service.orderCourses = JSON.parse(cart);
+  }
+  calcOriginalPrice() {
+    this.service.orderCourses.forEach(crs => {
+      this.service.originalPrice += crs.price;
+    })
   }
 }

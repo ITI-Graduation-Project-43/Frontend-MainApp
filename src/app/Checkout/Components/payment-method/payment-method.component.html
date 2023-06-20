@@ -88,32 +88,38 @@
 
                     <div class="date-cvc">
                         <div class="input-sec">
-                            <label for="expDate">Expire date</label>
-                            <input type="text" id="expDate" placeholder="MM/YY" formControlName="expireDate">
-                            <div *ngIf="expireDate?.invalid && expireDate?.touched" class="text-danger">
-                                <span *ngIf="expireDate?.errors?.['required']">Expire date is required</span>
-                                <span *ngIf="expireDate?.errors?.['pattern']">Invalid Expire date, 
-                                    must be like 'MM/YY'</span>
-                            </div>
+                            <label for="expDate">Expiry date</label>
+                            <input type="text" id="expDate" placeholder="MM/YY" formControlName="expiryDate">
+
                         </div>
 
                         <div class="input-sec">
                             <label for="cvc">CVV/CVC</label>
                             <input type="text" id="cvc" placeholder="000" formControlName="cvc">
-                            <div *ngIf="cvc?.invalid && cvc?.touched" class="text-danger">
-                                <span *ngIf="cvc?.errors?.['required']">CVC is required</span>
-                                <span *ngIf="cvc?.errors?.['onlyDigits']">CVC
-                                    must consist of only numbers</span>
-                                <span
-                                    *ngIf="(cvc?.errors?.['minlength'] || cvc?.errors?.['maxlength'])&&!(cvc?.errors?.['onlyDigits'])">CVC
-                                    must be of 3 digits
-                                </span>
-                            </div>
-                        </div>
 
+                        </div>
+                    </div>
+                    <div class="date-cvc error-messages">
+                        <span *ngIf="expiryDate?.errors && !expiryDate?.touched" class="w-50"></span>
+                        <span *ngIf="!expiryDate?.errors && expiryDate?.touched" class="w-50"></span>
+                        <div *ngIf="expiryDate?.invalid && expiryDate?.touched" class="text-danger exp-date">
+                            <span *ngIf="expiryDate?.errors?.['required']">Expiry date is required</span>
+                            <span *ngIf="expiryDate?.errors?.['pattern']">Expiry date
+                                must be like 'MM/YY'</span>
+                            <span *ngIf="expiryDate?.errors?.['checkExpiryDate'] && !expiryDate?.errors?.['pattern'] && !expiryDate?.errors?.['required']">Expired credit card</span>
+                        </div>
+                        <div *ngIf="cvc?.invalid && cvc?.touched" class="text-danger cvc">
+                            <span *ngIf="cvc?.errors?.['required']">CVC is required</span>
+                            <span *ngIf="cvc?.errors?.['onlyDigits']">CVC
+                                must consist of only numbers</span>
+                            <span
+                                *ngIf="(cvc?.errors?.['minlength'] || cvc?.errors?.['maxlength'])&&!(cvc?.errors?.['onlyDigits'])">CVC
+                                must be of 3 digits
+                            </span>
+                        </div>
                     </div>
                     <div class="saveCard">
-                        <input type="checkbox" id="saveCard">
+                        <input type="checkbox" id="saveCard" formControlName="saveCard">
                         <label for="saveCard">Save this card for future purposes</label>
                     </div>
                 </div>

@@ -1,0 +1,98 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+.Dashboard-body {
+  background-color: $mainColorLight;
+}
+
+.upload-container {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  margin: 40px 72px;
+  color: $blackColor;
+  padding: 24px;
+  border: 1px solid $blackColor;
+  background: $secondaryColor;
+  box-shadow: 5px 5px $blackColor, 5px 5px 0px 1px $blackColor;
+  font-weight: 700;
+  font-size: $fs-24;
+  line-height: 29px;
+  max-width: 100%;
+  justify-self: center;
+  .new-course-text {
+    @include style-font("Anton", 36px, 124.04%, $blackColor);
+    text-align: left;
+    font-weight: 400;
+  }
+  .upload-btn {
+    @include custom-button($greenColor, $blackColor, $blackColor, 43px);
+    max-width: 150px;
+    position: absolute;
+    right: 24px;
+    bottom: 12px;
+  }
+  @media (max-width: 767px) {
+    .upload-container {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+}
+.course-student {
+  display: grid;
+  grid-template-areas: "left left left right right";
+  padding: 24px;
+  .course-traffic {
+    grid-area: left;
+  }
+  .recent-student {
+    grid-area: right;
+    margin: 1rem;
+    h1 {
+      @include style-font("Anton", 36px, 44.65px, $blackColor);
+      font-weight: 400;
+      font-size: 24px;
+      grid-column: 1;
+    }
+    .Recent-Students {
+      background-color: $whiteColor;
+      border: 2px solid $blackColor;
+      width: 300px;
+      height: 370px;
+      margin: 38px 0px;
+      .recent {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        padding: 24px;
+        gap: 10px;
+        border: 2px solid $blackColor;
+        height: 92px;
+        padding: 24px;
+        .student-picture {
+          img {
+            @include make-avatar(48px, 48px);
+          }
+        }
+        .student-name {
+          @include style-font("Cabin", 24px, 29.77px, $blackColor);
+          font-weight: 700;
+        }
+        .student-title {
+          @include style-font("Cabin", 16px, 19.44px, $blackColor);
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 999px) {
+  .course-student {
+    display: grid;
+    align-items: center;
+    grid-template-areas:
+      " left"
+      " right";
+  }
+}

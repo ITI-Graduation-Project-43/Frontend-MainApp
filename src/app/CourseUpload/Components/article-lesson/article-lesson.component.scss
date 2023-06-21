@@ -1,0 +1,123 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/_placeholders.scss" as *;
+
+
+
+
+.add-new-heading-title{
+  @include style-display-column(16px, 0px);
+  width: 100%;
+  .add-new-heading{
+    @include style-display-row-center(0px, 0px);
+    justify-content: space-between;
+    width: 100%;
+    .main-title{
+      @include style-font($font-cabin,  24px, 36px, $blackColor, 700);
+    }
+    button {
+      border: none;
+      background-color: inherit;
+    }
+  }
+  .title-data{
+    width: 100%;
+
+    input{
+      width: 100%;
+      padding: 20px 24px;
+      background: $whiteColor;
+      border: 1px solid $blackColor;
+      @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
+    }
+  }
+}
+.description , .lesson-content{
+  width: 100%;
+  @include style-display-column(16px, 0px);
+  > * {
+    width: 100%;
+  }
+  .lesson-content-heading{
+    @include style-display-column(16px, 0px);
+  }
+  .lesson-content-data{
+    width: 100%;
+    background: $whiteColor;
+    border: 1px solid $blackColor;
+
+
+    .article-body-controls{
+      @include style-display-row(24px, 20px, 24px);
+      width: 100%;
+      border-bottom: 1px solid $blackColor;
+      .controls{
+        @include style-font($font-cabin,  24px, 29px, $blackColor, 700);
+      }
+      .italic{
+        font-family: 'Times New Roman';
+        font-style: italic;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 28px;
+
+      }
+    }
+    textarea{
+      width: 100%;
+      min-height: 200px;
+      resize: none;
+      border: none;
+      outline: none;
+    }
+  }
+}
+.add-new-action{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  button{
+    @include custom-button($greenColor, $blackColor, $blackColor, 43px);
+  }
+}
+
+
+.add-new-lesson {
+  background: $lightPurpleColor;
+}
+.input-style{
+  width: 100%;
+  padding: 20px 24px;
+  background: $whiteColor;
+  border: 1px solid $blackColor;
+  @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
+}
+.input-title-style{
+  @include style-font($font-cabin,  24px, 29px, $blackColor, 700);
+}
+.add-new-heading{
+  @include style-display-row-center(0px, 0px);
+  justify-content: space-between;
+  width: 100%;
+  button {
+    border: none;
+    background-color: inherit;
+  }
+}
+
+
+.add-lesson-actions{
+  @include style-display-row(16px, 0px);
+  button{
+    padding: 10px 32px;
+    border: 1px solid $blackColor;
+    border-radius: 36px;
+  }
+  :first-child{
+    background: $lightPurpleColor;
+  }
+  :not(:first-child){
+    background: $blackColor;
+    color: $whiteColor;
+  }
+}

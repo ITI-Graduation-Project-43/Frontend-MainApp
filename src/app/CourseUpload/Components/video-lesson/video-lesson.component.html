@@ -1,0 +1,60 @@
+<div class="add-new-heading-title">
+  <div class="add-new-heading">
+    <div class="main-title">Video Title</div>
+
+    <button (click)="onCancel()">
+      <img src="../../../../assets/svg/x-icon.svg" alt="" />
+    </button>
+  </div>
+  <div class="title-data">
+    <input
+      [(ngModel)]="video.title"
+      type="text"
+      placeholder="Give this video a title"
+    />
+  </div>
+</div>
+<div class="description">
+  <div class="description-heading">
+    <div class="input-title-style">Video Description</div>
+  </div>
+  <div class="description-data">
+    <input
+      [(ngModel)]="video.description"
+      class="input-style"
+      type="text"
+      placeholder="Give this video a description"
+    />
+  </div>
+</div>
+<div class="lesson-content">
+  <div class="lesson-content-heading">
+    <div class="input-title-style">Upload Video</div>
+  </div>
+  <div class="lesson-content-data">
+    <div class="dropzone-wrapper" *ngIf="!videoUrl">
+      <div
+        class="dropzone-desc"
+        [style.background-color]="getProgressBarColor()"
+      >
+        <img src="../../../../assets/svg/video-placeholder.svg" alt="" />
+        <input
+          type="file"
+          (change)="onVideoSelected($event)"
+          class="dropzone"
+          accept="video/*,video/x-matroska"
+        />
+      </div>
+    </div>
+    <div class="video-wrapper" *ngIf="videoUrl">
+      <video [src]="videoUrl" controls></video>
+      <button (click)="onDeleteVideo()">
+        <img src="../../../../assets/svg/delete-ico.svg" alt="delete icon" />
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="add-new-action">
+  <button (click)="onSave()">{{ editMode ? "Save" : "Add" }}</button>
+</div>

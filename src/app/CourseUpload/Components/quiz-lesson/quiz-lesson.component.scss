@@ -1,0 +1,129 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/_placeholders.scss" as *;
+
+
+
+.add-new-heading-title{
+  @include style-display-column(16px, 0px);
+  width: 100%;
+  .add-new-heading{
+    @include style-display-row-center(0px, 0px);
+    justify-content: space-between;
+    width: 100%;
+    .main-title{
+      @include style-font($font-cabin,  24px, 36px, $blackColor, 700);
+    }
+    button {
+      border: none;
+      background-color: inherit;
+    }
+  }
+  .title-data{
+    width: 100%;
+
+    input{
+      width: 100%;
+      padding: 20px 24px;
+      background: $whiteColor;
+      border: 1px solid $blackColor;
+      @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
+    }
+  }
+}
+.description , .lesson-content{
+  width: 100%;
+  @include style-display-column(16px, 0px);
+  > * {
+    width: 100%;
+  }
+  .lesson-content-heading{
+    @include style-display-column(16px, 0px);
+    .question-heading{
+      @include style-display-row-center(0px, 0px);
+      justify-content: space-between;
+      width: 100%;
+      .main-title{
+        @include style-font($font-cabin,  24px, 36px, $blackColor, 700);
+      }
+      button {
+        border: none;
+        background-color: inherit;
+        img{
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+    .question-text{
+      width: 100%;
+    }
+  }
+  .lesson-content-data{
+    width: 100%;
+    background: $whiteColor;
+    border: 1px solid $blackColor;
+
+    .question-choices{
+      width: 100%;
+      @include style-display-column(8px, 0px);
+      .question-choice{
+        @include style-display-row-center(16px, 20px,58px);
+        background: $whiteColor;
+        border: 1px solid $blackColor;
+        width: 100%;
+
+        input[type='radio'] {
+          width: 24px;
+          height: 24px;
+          accent-color: $blackColor;
+        }
+        input[type='text'] {
+          border: none;
+          outline: none;
+          width: 100%;
+          @include style-font($font-cabin, 24px, 29px, $blackColor, 400);
+        }
+        button{
+          border: none;
+          background: inherit;
+        }
+      }
+    }
+  }
+  .quiz-content-data{
+    background-color: inherit;
+    border: none;
+    @include style-display-column(16px, 0px);
+    .question-text-heading{
+      @include style-display-row-center(0px, 0px);
+      justify-content: space-between;
+      width: 100%;
+      button{
+        border: none;
+        background: inherit;
+      }
+    }
+  }
+}
+.add-new-action{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  button{
+    @include custom-button($greenColor, $blackColor, $blackColor, 43px);
+  }
+}
+.input-style{
+  width: 100%;
+  padding: 20px 24px;
+  background: $whiteColor;
+  border: 1px solid $blackColor;
+  @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
+}
+.input-title-style{
+  @include style-font($font-cabin,  24px, 29px, $blackColor, 700);
+}
+
+
+

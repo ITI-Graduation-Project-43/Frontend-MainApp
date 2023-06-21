@@ -4,7 +4,7 @@
 section {
   .statistics {
     h2 {
-      @include style-font($font-anton, 2.5rem, 124.04%, $blackColor);
+      @include style-font($font-anton, 3.5rem, 124.04%, $blackColor);
     }
     span {
       font-weight: bold;

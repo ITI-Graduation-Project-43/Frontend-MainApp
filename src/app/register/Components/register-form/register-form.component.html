@@ -4,7 +4,7 @@
       <h2>Register</h2>
       <form (submit)="register($event, submit)" [formGroup]="this.registerForm">
         <div class="d-flex flex-column flex-lg-row gap-0 gap-lg-2">
-          <div>
+          <div class="flex-grow-1">
             <div class="form-outline mb-4">
               <input type="text" placeholder="First Name" formControlName="firstName" [readOnly]="registering"/>
             </div>
@@ -13,7 +13,7 @@
               <span *ngIf="firstName?.errors?.['pattern']">Should be between 3 to 10 characters</span>
             </div>
           </div>
-          <div>
+          <div class="flex-grow-1">
             <div class="form-outline mb-4">
               <input type="text" placeholder="Last Name" formControlName="lastName" [readOnly]="registering"/>
             </div>

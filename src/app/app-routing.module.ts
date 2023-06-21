@@ -1,6 +1,7 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HomeInstructorComponent } from './HomeInstructor/home-instructor.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -31,6 +32,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('../app/instructor/instructor.module').then(
         (m) => m.InstructorModule
+      ),
+  },
+  {
+    path: 'studentDetails',
+    loadChildren: () =>
+      import('../app/student-details/student-details.module').then(
+        (m) => m.StudentDetailsModule
       ),
   },
   {
@@ -93,6 +101,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('../app/CourseUpload/creating-course.module').then(
         (m) => m.CreatingCourseModule
+      ),
+  },
+
+  {
+    path: 'instructorCourses',
+    loadChildren: () =>
+      import('../app/InstructorCourses/instructor-courses.module').then(
+        (m) => m.InstructorCoursesModule
       ),
   },
 ];

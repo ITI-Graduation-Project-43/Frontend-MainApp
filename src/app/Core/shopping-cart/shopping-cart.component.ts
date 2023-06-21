@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ShoppingCartService } from '../../Services/cart.service';
 import { Course } from 'src/app/Models/course';
-import { Observable, merge, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-shopping-cart',

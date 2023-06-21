@@ -12,6 +12,7 @@ import { NumberPlusPipe } from '../Pipes/number-plus.pipe';
 import { CourseCardComponent } from './Components/course-card/course-card.component';
 import { TestimonialsSectionComponent } from './Components/testimonials-section/testimonials-section.component';
 import { InstructorsSectionComponent } from './Components/instructors-section/instructors-section.component';
+import { RouterLink } from '@angular/router';
 
 
 
@@ -31,6 +32,7 @@ import { InstructorsSectionComponent } from './Components/instructors-section/in
   ],
   imports: [
     CommonModule,
+    RouterLink,
     HomeRoutingModule
   ]
 })

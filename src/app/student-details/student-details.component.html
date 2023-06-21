@@ -1,0 +1,110 @@
+<!-- Instructor Title -->
+<div class="grid-container-sub-header">
+  <app-student-card class="item1" [student]="student"></app-student-card>
+  <div class="instructor-description item2">
+    <div class="instructor-name">
+      {{ student[0]?.firstName }} {{ student[0]?.lastName }}
+    </div>
+    <div class="description">{{ student[0]?.description }}</div>
+  </div>
+</div>
+
+<!--instructor's courses-->
+<div class="courses-section">
+  <h1>{{ student[0]?.firstName }}'s Courses</h1>
+
+  <div class="suggested-courses-section">
+    <div
+      class="course-card"
+      *ngFor="let course of studentCourses; let i = index"
+    >
+      <img
+        [src]="course?.courseImageUrl"
+        alt="{{ course?.courseTitle + ' image' }}"
+        class="course-image"
+      />
+      <div class="course-info">
+        <div class="course-rating">
+          <img
+            *ngFor="let star of [1, 2, 3, 4, 5]"
+            [src]="'../../assets/svg/rating-star.svg'"
+            alt="rating-star"
+            [class.highlighted]="star <= course?.courseAvgReview"
+          />
+        </div>
+        <div class="course-category">{{ course?.categoryName }}</div>
+        <div class="course-name">{{ course?.courseTitle }}</div>
+        <div class="course-students">
+          <div class="student-pictures">
+            <img
+              class="course-students-pic"
+              src="../../assets/images/student1.webp"
+              alt="student-picture"
+            />
+            <img
+              class="course-students-pic"
+              src="../../assets/images/student2.webp"
+              alt="student-picture"
+            />
+            <img
+              class="course-students-pic"
+              src="../../assets/images/student3.webp"
+              alt="student-picture"
+            />
+            <img
+              class="course-students-pic"
+              src="../../assets/images/student4.webp"
+              alt="student-picture"
+            />
+          </div>
+          <div
+            class="enrollments-number"
+            *ngIf="course?.courseNoOfEnrollment < 1000"
+          >
+            {{ course?.courseNoOfEnrollment }} enrolled
+          </div>
+          <div
+            class="enrollments-number"
+            *ngIf="
+              course?.courseNoOfEnrollment >= 1000 &&
+              course?.courseNoOfEnrollment < 1000000
+            "
+          >
+            {{ course?.courseNoOfEnrollment / 1000 | number : "1.0-2" }}K
+            enrolled
+          </div>
+          <div
+            class="enrollments-number"
+            *ngIf="course?.courseNoOfEnrollment >= 1000000"
+          >
+            {{ course?.courseNoOfEnrollment / 1000000 | number : "1.0-4" }}M
+            enrolled
+          </div>
+        </div>
+      </div>
+
+      <div class="course-instructor-price">
+        <div class="course-instructor">
+          <div class="instructor-picture">
+            <img
+              [src]="course?.instructorProfilePicture"
+              alt="instructor-picture"
+            />
+          </div>
+          <div class="instructor-name">
+            {{ course?.instructorName }}
+          </div>
+        </div>
+        <div class="course-price">{{ course?.coursePrice }}</div>
+      </div>
+    </div>
+
+    <button
+      class="view-more-btn"
+      (click)="loadMoreCourses()"
+      *ngIf="studentCourses.length < totalSize"
+    >
+      View more
+    </button>
+  </div>
+</div>

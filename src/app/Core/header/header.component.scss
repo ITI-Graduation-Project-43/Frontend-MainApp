@@ -18,7 +18,9 @@
   .navbar-toggler {
     box-shadow: none;
   }
-
+  a {
+    text-decoration: none;
+  }
   .nav-item {
     a {
       width: fit-content;

@@ -1,0 +1,30 @@
+@use "../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../assets/style/abstracts/_placeholders.scss" as *;
+
+.instructor-details-card {
+  @include course-card;
+  max-width: 500px;
+  // transform: scale(0.9);
+
+  .course-picture img {
+    max-width: 100%;
+    object-fit: contain;
+  }
+  .course-info {
+    @include style-display-column(16px, 0);
+
+    .course-rating {
+      @include style-display-row(5.6px, 0);
+    }
+  }
+
+  .instructor-action {
+    @include style-display-column(16px, 0);
+    width: 100%;
+    .website {
+      @include custom-button($greenColor, $blackColor, $whiteColor, 63px);
+      width: 100%;
+    }
+  }
+}

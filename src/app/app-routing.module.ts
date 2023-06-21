@@ -35,6 +35,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'studentDetails',
+    loadChildren: () =>
+      import('../app/student-details/student-details.module').then(
+        (m) => m.StudentDetailsModule
+      ),
+  },
+  {
     path: 'about',
     loadChildren: () =>
       import('../app/About/about.module').then((m) => m.AboutModule),

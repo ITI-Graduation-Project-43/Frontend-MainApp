@@ -1,27 +1,9 @@
 <!-- Instructor Title -->
 <div class="grid-container-sub-header">
-  <div class="instructor-details-card item1">
-    <div class="course-picture">
-      <img [src]="instructor[0].profilePicture" alt="instructor image" />
-    </div>
-    <div class="course-info">
-      <div class="course-rating">
-        <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
-        <span> {{ instructor[0].avgRating }} Instructor Rating</span>
-      </div>
-      <div class="course-students">
-        <div class="enrollments-number">
-          {{ instructor[0].noOfStudents }} Students |
-          {{ instructor[0].noOfCources }} Courses
-        </div>
-      </div>
-    </div>
-    <div class="instructor-action">
-      <button class="website" (click)="redirectToGitHub()">GitHub</button>
-      <button class="website" (click)="redirectToLinkedin()">LinkedIn</button>
-      <button class="website" (click)="redirectToTwitter()">Twitter</button>
-    </div>
-  </div>
+  <app-instructor-card
+    class="item1"
+    [instructor]="instructor"
+  ></app-instructor-card>
   <div class="instructor-description item2">
     <div class="instructor-name">
       {{ instructor[0].firstName }} {{ instructor[0].lastName }}
@@ -123,7 +105,7 @@
 </div>
 <!--Course Feedback section-->
 <div class="Review-section">
-  <h1>Alaa's Reviews</h1>
+  <h1>{{ instructor[0].firstName }}'s Reviews</h1>
   <div class="student-feedback-section">
     <div class="students-feedback">
       <div

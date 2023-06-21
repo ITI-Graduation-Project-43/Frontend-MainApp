@@ -7,7 +7,7 @@
   </div>
   <div class="title-data">
     <input
-      [(ngModel)]="quiz.title"
+      [(ngModel)]="editedQuiz.title"
       type="text"
       placeholder="Give this quiz a title"
     />
@@ -19,7 +19,7 @@
   </div>
   <div class="description-data">
     <input
-      [(ngModel)]="quiz.description"
+      [(ngModel)]="editedQuiz.description"
       class="input-style"
       type="text"
       placeholder="Give this quiz a description"
@@ -28,7 +28,7 @@
 </div>
 <div
   class="lesson-content"
-  *ngFor="let question of quiz.questions; let qIndex = index"
+  *ngFor="let question of editedQuiz.questions; let qIndex = index"
 >
   <div class="lesson-content-heading">
     <div class="question-heading">

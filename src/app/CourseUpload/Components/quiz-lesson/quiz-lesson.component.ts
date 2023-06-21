@@ -16,15 +16,20 @@ export class QuizLessonComponent implements OnInit {
   @Output() addChoice = new EventEmitter<any>();
   @Output() deleteChoice = new EventEmitter<{ question: any; index: number }>();
 
+  editedQuiz: Lesson = {} as Lesson;
+
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.editedQuiz = JSON.parse(JSON.stringify(this.quiz));
+  }
 
   onCancel(): void {
     this.cancel.emit();
   }
 
   onSave(): void {
+    this.quiz = JSON.parse(JSON.stringify(this.editedQuiz));
     this.save.emit(this.quiz);
   }
 

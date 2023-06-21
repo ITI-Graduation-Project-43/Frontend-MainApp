@@ -171,10 +171,12 @@
                   [editMode]="lesson.editMode"
                   (cancel)="cancelEditLesson(i, j)"
                   (save)="saveEditedLesson(i, j)"
-                  (addQuestion)="addQuestion()"
-                  (deleteQuestion)="deleteQuestion($event)"
-                  (addChoice)="addChoice($event)"
-                  (deleteChoice)="deleteChoice($event.question, $event.index)"
+                  (addQuestion)="addQuestion(i)"
+                  (deleteQuestion)="deleteQuestion(i, $event)"
+                  (addChoice)="addChoice(i, $event)"
+                  (deleteChoice)="
+                    deleteChoice(i, $event.question, $event.index)
+                  "
                 ></app-quiz-lesson>
               </div>
 
@@ -184,7 +186,7 @@
                 <app-article-lesson
                   class="add-new add-new-lesson"
                   *ngIf="newLessonType[i] === 'Article'"
-                  [article]="newArticle"
+                  [(article)]="newArticles[i]"
                   [editMode]="editLessonMode"
                   (cancel)="cancelAddLesson(i)"
                   (save)="saveLesson(i, articleType)"
@@ -194,7 +196,7 @@
                 <app-video-lesson
                   class="add-new add-new-lesson"
                   *ngIf="newLessonType[i] === 'Video'"
-                  [video]="newVideo"
+                  [video]="newVideos[i]"
                   [editMode]="editLessonMode"
                   (cancel)="cancelAddLesson(i)"
                   (save)="saveLesson(i, videoType)"
@@ -204,14 +206,16 @@
                 <app-quiz-lesson
                   class="add-new add-new-lesson"
                   *ngIf="newLessonType[i] === 'Quiz'"
-                  [quiz]="newQuiz"
+                  [quiz]="newQuizzes[i]"
                   [editMode]="editLessonMode"
                   (cancel)="cancelAddLesson(i)"
                   (save)="saveLesson(i, quizType)"
-                  (addQuestion)="addQuestion()"
-                  (deleteQuestion)="deleteQuestion($event)"
-                  (addChoice)="addChoice($event)"
-                  (deleteChoice)="deleteChoice($event.question, $event.index)"
+                  (addQuestion)="addQuestion(i)"
+                  (deleteQuestion)="deleteQuestion(i, $event)"
+                  (addChoice)="addChoice(i, $event)"
+                  (deleteChoice)="
+                    deleteChoice(i, $event.question, $event.index)
+                  "
                 ></app-quiz-lesson>
               </ng-container>
               <!--Add lesson-->

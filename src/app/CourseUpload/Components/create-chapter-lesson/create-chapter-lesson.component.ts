@@ -14,29 +14,10 @@ export class CreateChapterLessonComponent implements OnInit {
   articleType = LessonType.Article;
   videoType = LessonType.Video;
   quizType = LessonType.Quiz;
-  newArticle: Lesson = {
-    title: '',
-    description: '',
-    type: this.articleType,
-    content: '',
-    attachment: null,
-  };
-  newVideo: Lesson = {
-    title: '',
-    description: '',
-    type: this.videoType,
-    videoFile: new File([], ''),
-    attachment: null,
-  };
-  newQuiz: Lesson = {
-    title: '',
-    description: '',
-    type: this.quizType,
-    questions: [
-      { questionText: '', choices: ['', '', '', ''], correctAnswer: '' },
-    ],
-    attachment: null,
-  };
+
+  newArticles: Lesson[] = [];
+  newVideos: Lesson[] = [];
+  newQuizzes: Lesson[] = [];
 
   showAddNewChapter: boolean = false;
   newChapterName: string = '';
@@ -133,9 +114,9 @@ export class CreateChapterLessonComponent implements OnInit {
     let newLesson: Lesson;
     switch (type) {
       case LessonType.Article:
-        if (this.validateLesson(this.newArticle)) {
-          newLesson = { ...this.newArticle };
-          this.newArticle = {
+        if (this.validateLesson(this.newArticles[chapterIndex])) {
+          newLesson = { ...this.newArticles[chapterIndex] };
+          this.newArticles[chapterIndex] = {
             title: '',
             description: '',
             type: this.articleType,
@@ -148,11 +129,11 @@ export class CreateChapterLessonComponent implements OnInit {
         break;
       case LessonType.Quiz:
         if (
-          this.validateLesson(this.newQuiz) &&
-          this.validateQuiz(this.newQuiz)
+          this.validateLesson(this.newQuizzes[chapterIndex]) &&
+          this.validateQuiz(this.newQuizzes[chapterIndex])
         ) {
-          newLesson = { ...this.newQuiz };
-          this.newQuiz = {
+          newLesson = { ...this.newQuizzes[chapterIndex] };
+          this.newQuizzes[chapterIndex] = {
             title: '',
             description: '',
             type: this.quizType,
@@ -171,11 +152,11 @@ export class CreateChapterLessonComponent implements OnInit {
         break;
       case LessonType.Video:
         if (
-          this.validateLesson(this.newVideo) &&
-          this.validateVideoFile(this.newVideo.videoFile!)
+          this.validateLesson(this.newVideos[chapterIndex]) &&
+          this.validateVideoFile(this.newVideos[chapterIndex].videoFile!)
         ) {
-          newLesson = { ...this.newVideo };
-          this.newVideo = {
+          newLesson = { ...this.newVideos[chapterIndex] };
+          this.newVideos[chapterIndex] = {
             title: '',
             description: '',
             type: this.videoType,
@@ -228,6 +209,18 @@ export class CreateChapterLessonComponent implements OnInit {
     this.newLessonType[index] = type;
     this.showAddNewLesson[index] = true;
     this.addLessonChapterIndex = index;
+
+    switch (type) {
+      case 'Article':
+        this.newArticles[index] = this.createNewArticleLesson();
+        break;
+      case 'Video':
+        this.newVideos[index] = this.createNewVideoLesson();
+        break;
+      case 'Quiz':
+        this.newQuizzes[index] = this.createNewQuizLesson();
+        break;
+    }
   }
 
   dropLesson(event: CdkDragDrop<Lesson[]>, chapterIndex: number): void {
@@ -243,16 +236,17 @@ export class CreateChapterLessonComponent implements OnInit {
   // #endregion
 
   // #region Add Quiz
-  addQuestion() {
-    this.newQuiz.questions?.push({
+  addQuestion(chapterIndex: number) {
+    this.newQuizzes[chapterIndex].questions?.push({
       questionText: '',
       choices: ['', '', '', ''],
       correctAnswer: '',
     });
   }
-  deleteQuestion(index: number) {
-    if (this.newQuiz.questions!.length > 1) {
-      this.newQuiz.questions?.splice(index, 1);
+
+  deleteQuestion(chapterIndex: number, questionIndex: number) {
+    if (this.newQuizzes[chapterIndex].questions!.length > 1) {
+      this.newQuizzes[chapterIndex].questions?.splice(questionIndex, 1);
     } else {
       this.notificationService.notify(
         'You should have at least one question',
@@ -261,13 +255,22 @@ export class CreateChapterLessonComponent implements OnInit {
     }
   }
 
-  deleteChoice(question: any, index: number) {
-    question.choices.splice(index, 1);
+  deleteChoice(
+    chapterIndex: number,
+    questionIndex: number,
+    choiceIndex: number
+  ) {
+    this.newQuizzes[chapterIndex].questions![questionIndex].choices.splice(
+      choiceIndex,
+      1
+    );
   }
 
-  addChoice(question: any) {
-    if (question.choices.length < 4) {
-      question.choices.push('');
+  addChoice(chapterIndex: number, questionIndex: number) {
+    const choices =
+      this.newQuizzes[chapterIndex].questions![questionIndex].choices;
+    if (choices.length < 4) {
+      choices.push('');
     }
   }
 
@@ -295,6 +298,39 @@ export class CreateChapterLessonComponent implements OnInit {
 
   // #endregion
 
+  // #region Lesson helper fn
+  createNewArticleLesson(): Lesson {
+    return {
+      title: '',
+      description: '',
+      type: this.articleType,
+      content: '',
+      attachment: null,
+    };
+  }
+
+  createNewVideoLesson(): Lesson {
+    return {
+      title: '',
+      description: '',
+      type: this.videoType,
+      videoFile: new File([], ''),
+      attachment: null,
+    };
+  }
+
+  createNewQuizLesson(): Lesson {
+    return {
+      title: '',
+      description: '',
+      type: this.quizType,
+      questions: [
+        { questionText: '', choices: ['', '', '', ''], correctAnswer: '' },
+      ],
+      attachment: null,
+    };
+  }
+  // #endregion
   // #region Validate inputs
 
   isValidFile(file: File): boolean {

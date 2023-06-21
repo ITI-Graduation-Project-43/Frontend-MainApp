@@ -8,18 +8,24 @@ import { Lesson } from '../create-chapter-lesson/create-chapter-lesson.component
 export class ArticleLessonComponent implements OnInit {
   @Input() editMode: boolean = false;
   @Input() article: Lesson = {} as Lesson;
+  @Output() articleChange = new EventEmitter<Lesson>();
   @Output() cancel = new EventEmitter<void>();
   @Output() save = new EventEmitter<any>();
 
+  public editedArticle: Lesson = {} as Lesson;
+
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.editedArticle = JSON.parse(JSON.stringify(this.article));
+  }
 
   onCancel(): void {
     this.cancel.emit();
   }
 
   onSave(): void {
-    this.save.emit(this.article);
+    this.articleChange.emit(this.editedArticle);
+    this.save.emit();
   }
 }

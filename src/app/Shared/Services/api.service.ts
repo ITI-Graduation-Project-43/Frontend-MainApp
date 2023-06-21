@@ -17,6 +17,7 @@ export class APIService {
     this.httpOption = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
+        // '  Content-Type': ' multipart/form-data',
       }),
     };
   }

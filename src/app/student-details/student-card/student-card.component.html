@@ -1,10 +1,10 @@
 <div class="instructor-details-card">
   <div class="course-picture">
-    <img [src]="student[0].profilePicture" alt="instructor image" />
+    <img [src]="student[0]?.profilePicture" alt="instructor image" />
   </div>
   <div class="course-info">
     <div class="course-students">
-      <div class="enrollments-number">{{ student[0].numCourses }} Courses</div>
+      <div class="enrollments-number">{{ student[0]?.numCourses }} Courses</div>
     </div>
   </div>
   <div class="instructor-action">

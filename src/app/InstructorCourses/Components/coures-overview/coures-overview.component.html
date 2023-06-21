@@ -1,0 +1,65 @@
+<section>
+  <div class="main-container">
+    <h2>Live</h2>
+    <div class="image">
+      <img [src]="course[0]?.imageUrl" alt="Course Header" />
+    </div>
+    <div class="course-title">
+      <h5>Course Title</h5>
+      <p>{{ course[0]?.title }}</p>
+    </div>
+    <div class="category">
+      <h5>Category</h5>
+      <p>{{ course[0]?.categoryName }}</p>
+    </div>
+    <div class="short-description">
+      <h5>Short Description</h5>
+      <p>{{ course[0]?.shortDescription }}</p>
+    </div>
+    <div class="description">
+      <h5>Description</h5>
+      <p>{{ course[0]?.description }}</p>
+    </div>
+    <div class="number">
+      <div class="info">
+        <h5>language</h5>
+        <span>{{ course[0]?.language }}</span>
+      </div>
+      <div class="info">
+        <h5>price</h5>
+        <span>{{ course[0]?.price }}</span>
+      </div>
+      <div class="info">
+        <h5>level</h5>
+        <span>{{ course[0]?.level }}</span>
+      </div>
+    </div>
+    <div class="courseTeaching">
+      <h5>Course Teaching</h5>
+      <ul>
+        <li *ngFor="let item of course[0]?.learningItems">
+          {{ item?.description }}
+        </li>
+      </ul>
+    </div>
+    <div class="TargetStudent">
+      <h5>Target Student</h5>
+      <ul>
+        <li *ngFor="let item of course[0]?.enrollmentItems">
+          {{ item?.description }}
+        </li>
+      </ul>
+    </div>
+    <div class="Course Requirment">
+      <h5>Course Requirements</h5>
+      <ul>
+        <li *ngFor="let item of course[0]?.courseRequirements">
+          {{ item?.description }}
+        </li>
+      </ul>
+    </div>
+    <a class="d-block" routerLink="/instructorCourses/Edit/{{ course[0]?.id }}"
+      >Edit</a
+    >
+  </div>
+</section>

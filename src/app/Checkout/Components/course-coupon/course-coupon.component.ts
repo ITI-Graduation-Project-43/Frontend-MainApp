@@ -4,6 +4,7 @@ import { APIService } from 'src/app/Shared/Services/api.service';
 import { NotificationService } from 'src/app/Shared/Services/notification.service';
 import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
 import { CheckoutService } from '../../Services/checkout.service';
+import { Course } from 'src/app/Models/course';
 
 
 
@@ -17,6 +18,8 @@ export class CourseCouponComponent {
   code!: string;
   @Input() courseId!: number;
   @Input() courseTitle!: string;
+  @Input() coursePrice!: number;
+  
 
 
 
@@ -46,21 +49,22 @@ export class CourseCouponComponent {
   }
 
   checkCoupon() {
-    this.apiService.getAllItem(`Coupon/course/${this.code}?courseId=${this.courseId}`).subscribe((data: APIResponseVM) => {
-      if (this.checkoutService.courseCoupons.indexOf({ courseId: this.courseId, couponCode: this.code }) != -1)
+    this.apiService.getAllItem(`Coupon/course/${this.code}?courseId=${this.courseId}`).subscribe((data: APIResponseVM | any) => {
+      if (!this.checkoutService.courseCoupons.some(c => c.courseId == this.courseId && c.couponCode == this.code))
         this.checkoutService.courseCoupons.push({ courseId: this.courseId, couponCode: this.code });
       this.notification.notify("valid coupon");
+      this.checkoutService.specificCard = this.courseId;
+      this.checkoutService.courseDiscount = data.items[0]?.discount;
+      this.checkoutService.discount += +((this.coursePrice * (1 - this.checkoutService.courseDiscount/100)).toPrecision(5));
       this.modalService.dismissAll();
-      console.log(this.checkoutService.paymentObj);
+      console.log(this.checkoutService.courseCoupons);
     }, (error) => {
       this.notification.notify("Invalid coupon");
       this.modalService.dismissAll();
     })
   }
 
-  editCourseDiscount() {
-    this.apiService.updateItem("Course", {}).subscribe((data: APIResponseVM) => {
+  editCourseDiscount(courseDiscount:number) {
 
-    })
   }
 }

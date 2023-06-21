@@ -1,11 +1,10 @@
 <!-- Category Title -->
 <div class="category-title">
     <div class="main-title">
-        Developement Courses
+        {{mainCategory?.name}} Courses
     </div>
     <div class="description">
-        The process of creating and maintaining websites and web applications. It involves a wide range of tasks,
-        including design, coding, testing, and deployment.
+        This is a long discription for {{mainCategory?.name}} category
     </div>
 </div>
 
@@ -13,7 +12,7 @@
 <nav aria-label="subcategory" class="subcategory">
     <ol>
         <li class="subcategory__item subcategory__item--active">
-            <a href="#" class="subcategory__link">{{mainCategory[0]?.name}}</a>
+            <a href="#" class="subcategory__link">{{mainCategory?.name}}</a>
             <!-- Separator (SVG) -->
             <div class="subcategory__separator">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1" height="70" viewBox="0 0 1 77" fill="none">
@@ -31,47 +30,47 @@
 
 
 <!-- Feature this week -->
-<div class="featurecontainer">
+<app-loader *ngIf="loadFeature"></app-loader>
+<div *ngIf="!loadFeature" class="featurecontainer">
     <h1 class="mt-5 mb-2">Feature This Week</h1>
-    <div class="weekfeature">
+    <div class="weekfeature" routerLink="/courseDetails/{{featureThisWeekCourse?.id}}">
         <div class="image me-1">
-            <img class="featureImg" src={{featureThisWeekCourse[0].imageUrl}} alt="">
+            <img class="featureImg" src={{featureThisWeekCourse?.imageUrl}} alt="">
         </div>
         <div class="details">
             <div class="upsection">
                 <div class="course-rating">
-                    <img src="../../assets/svg/rating-star.svg" alt="rating-star" *ngFor="let star of ' '.repeat(featureThisWeekCourse[0].avgReview).split('')">
+                    <img src="../../assets/svg/rating-star.svg" alt="rating-star"
+                        *ngFor="let star of ' '.repeat(3.5).split('')">
                 </div>
-                <h6>{{featureThisWeekCourse[0].subCategoryName}}</h6>
-                <h1>{{featureThisWeekCourse[0].title}}</h1>
+                <h6>{{featureThisWeekCourse?.subCategoryName}}</h6>
+                <h1>{{featureThisWeekCourse?.title}}</h1>
                 <div class="course-students">
                     <div class="student-pictures">
                         <img class="course-students-pic" src="../../assets/images/student1.webp"
                             alt="student-picture" />
-                        <img class="course-students-pic" src="../../assets/images/student2.webp"
+                        <img class="course-students-pic" src="../../assets/images/student1.webp"
                             alt="student-picture" />
-                        <img class="course-students-pic" src="../../assets/images/student3.webp"
-                            alt="student-picture" />
-                        <img class="course-students-pic" src="../../assets/images/student4.webp"
+                        <img class="course-students-pic" src="../../assets/images/student1.webp"
                             alt="student-picture" />
                     </div>
-                    <div class="enrollments-number">+3K enrolled</div>
+                    <div class="enrollments-number">{{featureThisWeekCourse?.noOfStudents}} enrolled</div>
                 </div>
             </div>
             <div class="midsection mt-3">
                 <p>
-                    {{featureThisWeekCourse[0].description}}
+                    {{featureThisWeekCourse?.description}}
                 </p>
             </div>
             <div class="downsection">
                 <div class="course-instructor-price">
                     <div class="course-instructor">
                         <div class="instructor-picture">
-                            <img src={{featureThisWeekCourse[0].instructorProfilePicture}} alt="instructor-picture" />
+                            <img src={{featureThisWeekCourse?.instructorProfilePicture}} alt="instructor-picture" />
                         </div>
-                        <div class="instructor-name">{{featureThisWeekCourse[0].instructorName}}</div>
+                        <div class="instructor-name">{{featureThisWeekCourse?.instructorName}}</div>
                     </div>
-                    <div class="course-price">{{featureThisWeekCourse[0].price}} USD</div>
+                    <div class="course-price">{{featureThisWeekCourse?.price}} USD</div>
                 </div>
             </div>
         </div>
@@ -82,7 +81,7 @@
 <!-- Learning Journey -->
 <div class="learning-journey">
     <div>
-        <button class="get-started mt-5">Get Started</button>
+        <h5 class="get-started mt-5">Get Started</h5>
     </div>
     <div>
         <h1>Begin Your Learning Journey</h1>
@@ -100,7 +99,7 @@
 
     <div class="popular-instructors mt-5">
         <div class="section-title">
-            <button class="mb-2">Popular Instructors</button>
+            <h5 class="mb-2">Popular Instructors</h5>
             <h1>Learn from Renowned Experts </h1>
         </div>
 
@@ -108,13 +107,13 @@
         <div class="first-two-cards">
             <div class="Instructor-card first">
                 <div>
-                    <img src={{topInstructors[0].profilePicture}} alt="">
+                    <img src={{topInstructors?.profilePicture}} alt="">
                 </div>
                 <section>
-                    <p>{{topInstructors[0].avgRating}} Instructor Rating</p>
-                    <h1>{{topInstructors[0].firstName}} {{topInstructors[0].lastName}}</h1>
-                    <p>{{topInstructors[0].title}}</p>
-                    <p>{{topInstructors[0].noOfStudents}} Students | {{topInstructors[0].noOfCourses}} Courses</p>
+                    <p>{{topInstructors?.avgRating}} Instructor Rating</p>
+                    <h1>{{topInstructors?.firstName}} {{topInstructors?.lastName}}</h1>
+                    <p>{{topInstructors?.title}}</p>
+                    <p>{{topInstructors?.noOfStudents}} Students | {{topInstructors?.noOfCourses}} Courses</p>
                 </section>
             </div>
             <div class="Instructor-card second">
@@ -159,7 +158,7 @@
 <!-- Discover The Latest Course -->
 <div class="latest-courses">
     <div>
-        <button class="get-started mt-5">New In</button>
+        <h5 class="get-started mt-5">New In</h5>
     </div>
     <div>
         <h1>Discover the Latest Courses</h1>
@@ -176,7 +175,7 @@
 
 <!-- All Developement Courses -->
 <div class="all-courses">
-    <h1 class="mt-5 mb-2">All {{mainCategory[0].name}} Courses</h1>
+    <h1 class="mt-5 mb-2">All {{mainCategory?.name}} Courses</h1>
     <div class="control-container">
         <div class="controls">
             <section>
@@ -389,7 +388,7 @@
         </div>
         <div class="search-results">
             <div class="search-result-container" *ngFor="let course of filteredCourses">
-                <div class="weekfeature">
+                <div class="weekfeature" routerLink="/courseDetails/{{course.id}}">
                     <div class="image me-1">
                         <img class="featureImg" src={{course.imageUrl}} alt="">
                     </div>
@@ -412,7 +411,7 @@
                                     <img class="course-students-pic" src="../../assets/images/student4.webp"
                                         alt="student-picture" />
                                 </div>
-                                <div class="enrollments-number">+3K enrolled</div>
+                                <div class="enrollments-number">{{course.noOfStudents}} enrolled</div>
                             </div>
                         </div>
                         <div class="midsection mt-3">
@@ -434,21 +433,9 @@
                     </div>
                 </div>
             </div>
-            <nav aria-label="...">
-                <ul class="pagination">
-                  <li class="page-item" (click)="NewCoursesPage('prev')">
-                    <a class="page-link"  tabindex="-1">Previous</a>
-                  </li>
-                  <li class="page-item" (click)="NewCoursesPage('first')"><a class="page-link">1</a></li>
-                  <li class="page-item">
-                    <a class="page-link" (click)="NewCoursesPage('second')">2 </a>
-                  </li>
-                  <li class="page-item" (click)="NewCoursesPage('third')"><a class="page-link" >3</a></li>
-                  <li class="page-item">
-                    <a class="page-link" (click)="NewCoursesPage('next')">Next</a>
-                  </li>
-                </ul>
-              </nav>
+            <div class="view-more">
+                <button (click)="viewMore()">View more</button>
+            </div>
         </div>
     </div>
 

@@ -1,6 +1,6 @@
 <div class="course-card">
     <div class="image">
-        <img src={{course.courseImageUrl}} alt="">
+        <img src={{course.courseImageUrl}} alt="" routerLink="/courseDetails/{{course.courseId}}">
     </div>
     <div class="rating">
         <img src="../../assets/svg/rating-star.svg" alt="rating-star" *ngFor="let star of ' '.repeat(course.courseAvgReview).split('')">
@@ -9,12 +9,12 @@
         <h3>{{course.categoryName}}</h3>
     </div>
     <div class="course-name">
-        <h1>{{course.courseTitle}}</h1>
+        <h1>{{course.courseTitle | truncate}}</h1>
     </div>
     <div class="description">
         <p>{{course.courseDescription}}</p>
     </div>
-    <div class="action">
-        <button>Get started</button>
-    </div>
+</div>
+<div class="action">
+    <button (click)="chooseAction(buttonText, course)">{{buttonText}}</button>
 </div>

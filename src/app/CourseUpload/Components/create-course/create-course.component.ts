@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -11,6 +11,7 @@ import { APIService } from 'src/app/Shared/Services/api.service';
 import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
 import { Language } from '../../../Models/Enums/CourseLanguage';
 import { Level } from '../../../Models/Enums/CourseLevel';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-course',
@@ -24,11 +25,19 @@ export class CreateCourseComponent implements OnInit {
   levels = Object.values(Level).filter((level) => typeof level === 'string');
   CreateCourse: FormGroup;
   categories: Category[] = [];
+  file: any = null;
+  CourseImage: any = null;
   addCourseTeachingButton: boolean = true;
   addTargetStudentButton: boolean = true;
   addCourseRequirementButton: boolean = true;
-  constructor(private fb: FormBuilder, private apiService: APIService) {
+  constructor(
+    private fb: FormBuilder,
+    private apiService: APIService,
+    private router: Router
+  ) {
     this.CreateCourse = this.fb.group({
+      instructorId: ['43e4ac2d-03c4-4f6a-b554-4567810fbf7e'],
+      imageUrl: [null],
       title: [
         '',
         [
@@ -37,7 +46,7 @@ export class CreateCourseComponent implements OnInit {
           Validators.maxLength(100),
         ],
       ],
-      category: ['', Validators.required],
+      categoryId: ['', Validators.required],
       shortDescription: [
         '',
         [
@@ -57,9 +66,19 @@ export class CreateCourseComponent implements OnInit {
       language: ['', [Validators.required]],
       price: ['', [Validators.required, Validators.min(0)]],
       level: ['', [Validators.required]],
-      courseTeaching: fb.array([{ title: '', description: '' }]),
-      targetStudent: fb.array(['']),
-      courseRequirement: fb.array([{ title: '', description: '' }]),
+      learningItems: fb.array([
+        this.fb.group({
+          title: ['', Validators.required],
+          description: ['', Validators.required],
+        }),
+      ]),
+      enrollmentItems: fb.array(['']),
+      courseRequirements: fb.array([
+        this.fb.group({
+          title: ['', Validators.required],
+          description: ['', Validators.required],
+        }),
+      ]),
     });
   }
   ngOnInit(): void {
@@ -72,7 +91,7 @@ export class CreateCourseComponent implements OnInit {
     return this.CreateCourse.get('title');
   }
   get category() {
-    return this.CreateCourse.get('category');
+    return this.CreateCourse.get('categoryId');
   }
   get shortDescription() {
     return this.CreateCourse.get('shortDescription');
@@ -90,17 +109,21 @@ export class CreateCourseComponent implements OnInit {
     return this.CreateCourse.get('level');
   }
   get CourseTeachings() {
-    return this.CreateCourse.get('courseTeaching') as FormArray;
+    return this.CreateCourse.get('learningItems') as FormArray;
   }
   get TargetStudents() {
-    return this.CreateCourse.get('targetStudent') as FormArray;
+    return this.CreateCourse.get('enrollmentItems') as FormArray;
   }
   get CourseRequirements() {
-    return this.CreateCourse.get('courseRequirement') as FormArray;
+    return this.CreateCourse.get('courseRequirements') as FormArray;
   }
 
   addCourseTeachingInput() {
-    this.CourseTeachings.push(new FormControl(''));
+    const newForm = this.fb.group({
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+    });
+    this.CourseTeachings.push(newForm);
     this.addCourseTeachingButton = true;
   }
   addTargetStudentInput() {
@@ -108,9 +131,14 @@ export class CreateCourseComponent implements OnInit {
     this.addTargetStudentButton = true;
   }
   addCourseRequirmentInput() {
-    this.CourseRequirements.push(new FormControl(''));
+    const newForm = this.fb.group({
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+    });
+    this.CourseRequirements.push(newForm);
     this.addCourseRequirementButton = true;
   }
+
   checkCourseTeachings(event: any): boolean {
     if (event.target.value.trim() == '') {
       this.addCourseTeachingButton = true;
@@ -139,16 +167,34 @@ export class CreateCourseComponent implements OnInit {
     }
   }
 
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        // Do something with the image data, such as displaying it in an <img> tag
-        const imageData = reader.result;
-        console.log(imageData);
-      };
+  onFileSelected($event: any) {
+    this.file = $event.target.files[0];
+
+    const reader = new FileReader();
+    reader.onload = (e) => (this.CourseImage = reader.result);
+
+    reader.readAsDataURL(this.file);
+  }
+
+  CreateCourseSubmit() {
+    if (this.CreateCourse.invalid) return;
+    const form = new FormData();
+    if (this.file) {
+      form.append('imageUrl', this.file, this.file?.name);
     }
+    form.append('name', this.title?.value);
+    const observer = {
+      next: (result: any) => {
+        this.router.navigate(['createCourse/step2']);
+      },
+      error: (err: any) => {
+        console.log(err.message);
+      },
+    };
+
+    this.apiService
+      .addItem('Course', this.CreateCourse.value)
+      .subscribe(observer);
+    console.log(this.CreateCourse.value);
   }
 }

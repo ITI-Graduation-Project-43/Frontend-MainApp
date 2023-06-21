@@ -103,6 +103,14 @@ const routes: Routes = [
         (m) => m.CreatingCourseModule
       ),
   },
+
+  {
+    path: 'instructorCourses',
+    loadChildren: () =>
+      import('../app/InstructorCourses/instructor-courses.module').then(
+        (m) => m.InstructorCoursesModule
+      ),
+  },
 ];
 
 @NgModule({

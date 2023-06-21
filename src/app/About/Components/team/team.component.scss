@@ -73,5 +73,9 @@
 }
 .contact button {
   @include custom-button($greenColor, $blackColor, $blackColor, 43px);
-  font-family: $secondaryFontFamily;
+  a {
+    font-family: $secondaryFontFamily;
+    font-size: $fs-24;
+    font-weight: 700;
+  }
 }

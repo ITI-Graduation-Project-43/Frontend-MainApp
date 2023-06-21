@@ -9,6 +9,7 @@ import { TeamComponent } from './Components/team/team.component';
 import { TrustedByComponent } from './Components/trusted-by/trusted-by.component';
 import { GetStartedComponent } from './Components/get-started/get-started.component';
 import { AboutRoutingModule } from './about-routing.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -21,10 +22,7 @@ import { AboutRoutingModule } from './about-routing.module';
     TrustedByComponent,
     GetStartedComponent,
   ],
-  imports: [
-    CommonModule,
-    AboutRoutingModule
-  ],
+  imports: [CommonModule, AboutRoutingModule, RouterModule],
   exports: [GetStartedComponent],
 })
 export class AboutModule {}

@@ -6,8 +6,12 @@
             <button (click)="swap()">{{btnTitle}}</button>
         </div>
         <div class="grid-view row">
+            <app-loader class="loader" *ngIf="loading"></app-loader>
+            <div class="empty" *ngIf="empty">
+                <button routerLink="/home">Browse courses now</button>
+            </div>
             <div class="one col-12 col-md-4 mb-4" *ngFor="let course of list">
-                <app-course-card [course]="course"></app-course-card>
+                <app-course-card [course]="course" [buttonText]="buttonText"></app-course-card>
             </div>
         </div>
     </div>

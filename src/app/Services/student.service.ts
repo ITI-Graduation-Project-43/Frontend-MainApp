@@ -20,4 +20,21 @@ export class StudentService extends APIService {
       .get<APIResponseVM>(url)
       .pipe(retry(3), catchError(this.handleError));
   }
+
+  getCourses(
+    studentId: string,
+    pageNumber: number = 1,
+    pageSize: number = 4
+  ): Observable<APIResponseVM> {
+    const url = `${environment.APIURL}Enrollment/Student/${studentId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+    return this.http
+      .get<APIResponseVM>(url)
+      .pipe(retry(3), catchError(this.handleError));
+  }
+  getAllCourses(studentId: string): Observable<APIResponseVM> {
+    const url = `${environment.APIURL}Enrollment/Student/${studentId}`;
+    return this.http
+      .get<APIResponseVM>(url)
+      .pipe(retry(3), catchError(this.handleError));
+  }
 }

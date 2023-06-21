@@ -1,0 +1,15 @@
+<div class="instructor-details-card">
+  <div class="course-picture">
+    <img [src]="student[0].profilePicture" alt="instructor image" />
+  </div>
+  <div class="course-info">
+    <div class="course-students">
+      <div class="enrollments-number">{{ student[0].numCourses }} Courses</div>
+    </div>
+  </div>
+  <div class="instructor-action">
+    <button class="website" (click)="redirectToGitHub()">GitHub</button>
+    <button class="website" (click)="redirectToLinkedin()">LinkedIn</button>
+    <button class="website" (click)="redirectToTwitter()">Twitter</button>
+  </div>
+</div>

@@ -36,6 +36,7 @@ export class CreateCourseComponent implements OnInit {
     private router: Router
   ) {
     this.CreateCourse = this.fb.group({
+      instructorId: ['43e4ac2d-03c4-4f6a-b554-4567810fbf7e'],
       imageUrl: [null],
       title: [
         '',
@@ -45,7 +46,7 @@ export class CreateCourseComponent implements OnInit {
           Validators.maxLength(100),
         ],
       ],
-      category: ['', Validators.required],
+      categoryId: ['', Validators.required],
       shortDescription: [
         '',
         [
@@ -90,7 +91,7 @@ export class CreateCourseComponent implements OnInit {
     return this.CreateCourse.get('title');
   }
   get category() {
-    return this.CreateCourse.get('category');
+    return this.CreateCourse.get('categoryId');
   }
   get shortDescription() {
     return this.CreateCourse.get('shortDescription');
@@ -137,6 +138,7 @@ export class CreateCourseComponent implements OnInit {
     this.CourseRequirements.push(newForm);
     this.addCourseRequirementButton = true;
   }
+
   checkCourseTeachings(event: any): boolean {
     if (event.target.value.trim() == '') {
       this.addCourseTeachingButton = true;
@@ -190,7 +192,9 @@ export class CreateCourseComponent implements OnInit {
       },
     };
 
-    this.apiService.addItem('Course', this.CreateCourse.value).subscribe(observer);
+    this.apiService
+      .addItem('Course', this.CreateCourse.value)
+      .subscribe(observer);
     console.log(this.CreateCourse.value);
   }
 }

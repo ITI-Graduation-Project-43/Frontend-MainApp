@@ -44,7 +44,7 @@
       <!-- -------------------------------category----------------------------------- -->
       <div>
         <label for="category">Category:</label>
-        <select id="category" formControlName="category" name="category">
+        <select id="category" formControlName="categoryId" name="category">
           <option disabled selected value="">Choose a category</option>
           <option *ngFor="let category of categories" [value]="category.id">
             {{ category.name }}

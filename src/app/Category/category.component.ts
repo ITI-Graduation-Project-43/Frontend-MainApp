@@ -6,6 +6,7 @@ import { Category } from '../Models/category';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Language } from '../Models/Enums/CourseLanguage';
 import { Level } from '../Models/Enums/CourseLevel';
+import { Instructor } from '../Models/instructor';
 
 @Component({
   selector: 'app-category',
@@ -22,23 +23,28 @@ export class CategoryComponent implements OnInit {
 
   //Pagination
   currentPageNumber: number = 1;
-  pageSize: number = 10;
+  pageSize: number = 3;
 
   //Category Id
   CategoryId: number = -1;
 
   //Main Category
-  mainCategory: any;
+  mainCategoryItems: any;
+
+  mainCategory!: Category | undefined;
 
   //Feature this week
-  featureThisWeekCourse: Course[] = [];
+  featureThisWeekItems: Course[] = [];
+  featureThisWeekCourse!: Course | undefined;
+  loadFeature : boolean = true;
 
   //Arrays of viewed data
   latestCourses: Course[] = [];
   relatedCourses: Course[] = [];
   filteredCourses: any[] = [];
   entryLevelCourses: Course[] = [];
-  topInstructors: any[] = [];
+  topInstructorsItems: Instructor[] = [];
+  topInstructors!: Instructor | undefined;
 
   //filtering objects
   ratingFilters: any = { rating: 'all' };
@@ -57,6 +63,7 @@ export class CategoryComponent implements OnInit {
   languageChoices: boolean = true;
   priceChoices: boolean = true;
 
+
   //subcategories
   subcategories: Category[] = [];
 
@@ -68,7 +75,7 @@ export class CategoryComponent implements OnInit {
 
     //Main Category
     this.checkCategoryId();
-    this.loadMainCategory();
+    this.loadMainCategoryItems();
 
     //**************************************************************************** */
     //Feature this week
@@ -230,30 +237,13 @@ export class CategoryComponent implements OnInit {
 
 
   ///////////////Loading Data
-  NewCoursesPage(direction: string) {
-    switch (direction) {
-      case 'prev':
-        this.currentPageNumber -= 1;
-        if (!this.currentPageNumber) return;
-        break;
-
-      case 'first':
-        this.currentPageNumber = 1;
-        break;
-
-      case 'second':
-        this.currentPageNumber = 2;
-        break;
-
-      case 'third':
-        this.currentPageNumber = 3;
-        break;
-
-      case 'next':
-        this.currentPageNumber += 1;
-        break;
-    }
-    this.loadCoursesPage(this.currentPageNumber, this.pageSize);
+  viewMore() {
+    let newPage = ++this.currentPageNumber;
+    this.apiService.getAllItem(`Course/category/${this.CategoryId}?PageNumber=${newPage}&PageSize=${this.pageSize}`)
+      .subscribe((data: APIResponseVM) => {
+        let coursesItems: Course[] = data.items;
+        this.relatedCourses.push(...coursesItems);
+      })
     this.filter();
   }
 
@@ -261,16 +251,17 @@ export class CategoryComponent implements OnInit {
     const data: APIResponseVM | undefined = await this.apiService
       .getAllItem(`Course/category/${this.CategoryId}?PageNumber=${pageNumber}&PageSize=${pageSize}`)
       .toPromise();
-    this.relatedCourses = data?.items ?? [];
+    this.relatedCourses = await data?.items ?? [];
     this.filteredCourses = this.relatedCourses;
     return this.relatedCourses;
   }
 
-  loadMainCategory() {
+  loadMainCategoryItems() {
     this.apiService.getItemById("Category/Parent", this.CategoryId).subscribe((data: APIResponseVM) => {
-      this.mainCategory = data.items;
+      this.mainCategoryItems = data.items;
+      this.mainCategory = this.mainCategoryItems[0] as Category;
     }, (erorr => {
-      this.router.navigateByUrl('header');
+      console.log(erorr);
     }))
   }
 
@@ -282,22 +273,28 @@ export class CategoryComponent implements OnInit {
     })
   }
 
-  async loadEntryLevelCourses(): Promise<void> {
-    let courseArr: Course[] = await this.loadCoursesPage(this.currentPageNumber, this.pageSize);
-    for (let i = 0; i < courseArr.length; i++) {
-      if (courseArr[i].level != 0)
-        continue;
-      this.entryLevelCourses.push(courseArr[i]);
-      if (this.entryLevelCourses.length == 3)
-        break;
-    }
+  async loadEntryLevelCourses() {
+
+    this.apiService.getAllItem(`Course/category/${this.CategoryId}?PageNumber=1&PageSize=10`)
+      .subscribe((data: APIResponseVM) => {
+        let courseArr: Course[] = data.items;
+        for (let i = 0; i < courseArr.length; i++) {
+          if (courseArr[i].level != 0)
+            continue;
+          console.log(courseArr[i])
+          this.entryLevelCourses.push(courseArr[i]);
+          if (this.entryLevelCourses.length == 3)
+            break;
+        }
+      })
   }
 
   loadTop4Instructors() {
     this.apiService
       .getAllItem('Instructor/TopTenInstructors?topNumber=4')
       .subscribe((data: APIResponseVM) => {
-        this.topInstructors = data.items;
+        this.topInstructorsItems = data.items as Instructor[];
+        this.topInstructors = this.topInstructorsItems[0] as Instructor;
       });
   }
 
@@ -314,7 +311,9 @@ export class CategoryComponent implements OnInit {
 
   loadFeatureThisWeek() {
     this.apiService.getAllItem("Course/featureThisWeek").subscribe((data: APIResponseVM) => {
-      this.featureThisWeekCourse = data.items as Course[];
+      this.featureThisWeekItems = data.items as Course[];
+      this.featureThisWeekCourse = this.featureThisWeekItems[0] as Course;
+      this.loadFeature = false;
     })
   }
 
@@ -327,7 +326,7 @@ export class CategoryComponent implements OnInit {
         this.CategoryId = route.id;
       },
       (erorr) => {
-        this.router.navigateByUrl('header');
+        console.log(erorr);
       }
     );
   }
@@ -339,84 +338,11 @@ export class CategoryComponent implements OnInit {
 
     this.apiService.getItemById('Category/Parent', this.CategoryId).subscribe(
       (data: APIResponseVM) => {
-        this.mainCategory = data.items;
+        this.mainCategoryItems = data.items;
       },
       (erorr) => {
-        this.router.navigateByUrl('header');
+        console.log(erorr);
       }
     );
-    //**************************************************************************** */
-
-    //Feature this week
-    this.apiService
-      .getAllItem('Course/featureThisWeek')
-      .subscribe((data: APIResponseVM) => {
-        this.featureThisWeekCourse = data.items as Course[];
-        this.featureThisWeekCourse[0].avgReview = Math.floor(
-          this.featureThisWeekCourse[0].avgReview
-        );
-      });
-
-    //**************************************************************************** */
-
-    //Subcategories
-    this.apiService
-      .getAllItem(`Category/ParentSubCategories/${this.CategoryId}`)
-      .subscribe(
-        (data: APIResponseVM) => {
-          this.subcategories = data.items;
-          this.subcategories.forEach((subCat) => {
-            this.subcategoryFilters[subCat.name] = false;
-          });
-        },
-        (error) => {
-          console.log(error.message);
-        }
-      );
-
-    //***************************************************************************** */
-
-    //Recent Courses
-    this.apiService.getAllItem('course/recent/3').subscribe(
-      (data: APIResponseVM) => {
-        this.latestCourses = data.items;
-        this.latestCourses.forEach((crs) => {
-          crs.avgReview = Math.floor(crs.avgReview);
-        });
-      },
-      (error) => {
-        console.log(error.message);
-      }
-    );
-
-    //******************************************************************************** */
-
-    //Related Courses
-    this.apiService
-      .getAllItem(`Course/category/${this.CategoryId}?PageNumber=1&PageSize=5`)
-      .subscribe((data: APIResponseVM) => {
-        this.relatedCourses = data.items;
-        this.relatedCourses.forEach(
-          (crs) => (crs.avgReview = Math.floor(crs.avgReview))
-        );
-
-        for (let i = 0; i < this.relatedCourses.length; i++) {
-          if (this.relatedCourses[i].level != 0) continue;
-          this.entryLevelCourses.push(this.relatedCourses[i]);
-          if (this.entryLevelCourses.length == 3) break;
-        }
-        this.filteredCourses = this.relatedCourses;
-      });
-
-    //******************************************************************************** */
-
-    //Top 4 Instructors
-    this.apiService
-      .getAllItem('Instructor/TopTenInstructors?topNumber=4')
-      .subscribe((data: APIResponseVM) => {
-        this.topInstructors = data.items;
-      });
-
-    //******************************************************************************** */
   }
 }

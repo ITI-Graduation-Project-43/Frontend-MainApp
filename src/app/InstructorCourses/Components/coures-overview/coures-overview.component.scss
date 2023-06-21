@@ -1,0 +1,62 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/_placeholders.scss" as *;
+
+section {
+  background-color: $mainColorLight;
+  padding: 72px;
+  .main-container {
+    border: 1px solid black;
+    background-color: white;
+    padding: 40px;
+    h2 {
+      @include custom-header();
+      background-color: $secondaryColor;
+    }
+    > div {
+      margin: 40px 0;
+      h5 {
+        font-size: $fs-24;
+        font-weight: 700;
+        font-family: $font-cabin;
+      }
+      p {
+        font-size: 32px;
+        font-weight: 700;
+        font-family: $font-cabin;
+      }
+    }
+  }
+}
+
+.image {
+  border: 2px solid black;
+  img {
+    width: 100%;
+    height: 300px;
+  }
+}
+
+.number {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 300px;
+  span {
+    font-size: 32px;
+    font-weight: 700;
+    font-family: $font-cabin;
+  }
+}
+
+li {
+  font-size: 32px;
+  font-weight: 700;
+  font-family: $font-cabin;
+}
+
+a {
+  @include custom-button($greenColor, black, black, 36px);
+  width: fit-content;
+  text-align: center;
+}

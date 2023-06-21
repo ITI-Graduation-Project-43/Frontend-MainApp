@@ -14,7 +14,6 @@ import { InstructorService } from '../Services/instructor.service';
 export class InstructorCoursesComponent implements OnInit {
   constructor(
     private apiService: InstructorService,
-    private localStorageService: LocalStorageService
   ) {}
   ngOnInit(): void {
     this.getWishList('4ae72bce-ddd7-45da-ac42-780deb784c9d');

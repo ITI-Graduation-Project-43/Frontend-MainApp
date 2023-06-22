@@ -63,18 +63,24 @@
     <div class="question-choices">
       <div
         class="question-choice"
-        *ngFor="let choice of question.choices; let cIndex = index"
+        *ngFor="
+          let choice of question.choices;
+          let cIndex = index;
+          trackBy: trackByFn
+        "
       >
         <input
           type="radio"
           name="correctChoice{{ qIndex }}"
-          [(ngModel)]="question.correctAnswer"
-          [value]="choice"
+          [(ngModel)]="selectedRadioIndices[qIndex]"
+          [value]="cIndex"
+          (ngModelChange)="onRadioChange(question, cIndex)"
         />
         <input
           [(ngModel)]="question.choices[cIndex]"
           type="text"
-          name="choice{{ cIndex }}"
+          name="choice{{ qIndex }}{{ cIndex }}"
+          id="choice{{ qIndex }}{{ cIndex }}"
           placeholder="choice {{ cIndex + 1 }}"
         />
         <button

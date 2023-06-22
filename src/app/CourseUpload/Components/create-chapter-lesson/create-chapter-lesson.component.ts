@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NotificationService } from 'src/app/Shared/Services/notification.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { Question } from '../../../Models/lesson';
 
 @Component({
   selector: 'app-create-chapter-lesson',
@@ -33,6 +34,8 @@ export class CreateChapterLessonComponent implements OnInit {
   isCollapsed: boolean[] = [];
   isChapterCollapsed: boolean[] = [];
 
+  videoURL: string | null = null;
+
   constructor(private notificationService: NotificationService) {}
 
   ngOnInit() {
@@ -47,8 +50,12 @@ export class CreateChapterLessonComponent implements OnInit {
     this.showAddLessonOptions = new Array(this.chapters.length).fill(false);
   }
 
-  getVideoURL(file: File): string {
-    return file ? URL.createObjectURL(file) : '';
+  handleVideoUrlChange(newUrl: string | null) {
+    this.videoURL = newUrl;
+  }
+
+  getVideoURL(): string {
+    return this.videoURL || '';
   }
 
   // #region Chapter fns
@@ -241,47 +248,6 @@ export class CreateChapterLessonComponent implements OnInit {
 
   // #endregion
 
-  // #region Add Quiz
-  addQuestion(chapterIndex: number) {
-    this.newQuizzes[chapterIndex].questions?.push({
-      questionText: '',
-      choices: ['', '', '', ''],
-      correctAnswer: '',
-    });
-  }
-
-  deleteQuestion(chapterIndex: number, questionIndex: number) {
-    if (this.newQuizzes[chapterIndex].questions!.length > 1) {
-      this.newQuizzes[chapterIndex].questions?.splice(questionIndex, 1);
-    } else {
-      this.notificationService.notify(
-        'You should have at least one question',
-        'error'
-      );
-    }
-  }
-
-  deleteChoice(
-    chapterIndex: number,
-    questionIndex: number,
-    choiceIndex: number
-  ) {
-    this.newQuizzes[chapterIndex].questions![questionIndex].choices.splice(
-      choiceIndex,
-      1
-    );
-  }
-
-  addChoice(chapterIndex: number, questionIndex: number) {
-    const choices =
-      this.newQuizzes[chapterIndex].questions![questionIndex].choices;
-    if (choices.length < 4) {
-      choices.push('');
-    }
-  }
-
-  // #endregion
-
   // #region Attachment
   onFileInputClick(chapterIndex: number, lessonIndex: number): void {
     this.editLessonIndex = lessonIndex;
@@ -331,12 +297,13 @@ export class CreateChapterLessonComponent implements OnInit {
       description: '',
       type: this.quizType,
       questions: [
-        { questionText: '', choices: ['', '', '', ''], correctAnswer: '' },
+        { questionText: '', choices: ['', '', '', ''], correctAnswer: null },
       ],
       attachment: null,
     };
   }
   // #endregion
+
   // #region Validate inputs
 
   isValidFile(file: File): boolean {
@@ -423,12 +390,27 @@ export class CreateChapterLessonComponent implements OnInit {
       const nonBlankChoices = question.choices.filter(
         (choice) => choice.trim() !== ''
       );
+
+      const uniqueChoices = Array.from(
+        new Set(
+          nonBlankChoices.map((choice) => choice.replace(/\s+/g, ' ').trim())
+        )
+      );
+
+      if (uniqueChoices.length !== nonBlankChoices.length) {
+        alert('All choices must be unique for each question.');
+        return false;
+      }
+
       if (nonBlankChoices.length < 2) {
         alert('Every question must have at least two non-blank options.');
         return false;
       }
-
-      if (!nonBlankChoices.includes(question.correctAnswer)) {
+      if (!question.correctAnswer) {
+        alert('Please make sure to choose an answer first.');
+        return false;
+      }
+      if (!nonBlankChoices.includes(question.correctAnswer!)) {
         alert('The correct answer must be one of the choices provided.');
         return false;
       }
@@ -475,5 +457,5 @@ export enum LessonType {
 export interface QuizQuestion {
   questionText: string;
   choices: string[];
-  correctAnswer: string;
+  correctAnswer: string | null;
 }

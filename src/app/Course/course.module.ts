@@ -13,6 +13,7 @@ import { RequirementsCardComponent } from './Components/requirements-card/requir
 import { InstructorDetailsComponent } from './Components/instructor-details/instructor-details.component';
 import { StudentFeedbackComponent } from './Components/student-feedback/student-feedback.component';
 import { CourseRoutingModule } from './course-routing.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { CourseRoutingModule } from './course-routing.module';
   ],
   imports: [
     CommonModule,
-    CourseRoutingModule
+    CourseRoutingModule,
+    RouterModule
   ],
   exports: [OtherCoursesCardComponent],
 })

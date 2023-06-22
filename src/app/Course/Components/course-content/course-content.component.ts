@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { Chapter } from 'src/app/Models/chapter';
 import { Course } from 'src/app/Models/course';
+import { CourseService } from 'src/app/Services/course.service';
 
 @Component({
   selector: 'app-course-content',
@@ -15,7 +16,7 @@ export class CourseContentComponent implements OnInit {
   @Input() loading: boolean = true;
 
   isLoggedIn: boolean = true;
-  constructor(private router: Router) {}
+  constructor(private router: Router, private courseService:CourseService) {}
 
   ngOnInit() {}
 
@@ -37,13 +38,15 @@ export class CourseContentComponent implements OnInit {
   }
 
   goToContentPage(lessonId: number): void {
-    if (this.isLoggedIn) {
+    if (this.courseService.loggedIn && this.courseService.enrolledIn) {
       this.router.navigate([
         `/courses/${this.course.title}/${this.course.id}/lesson/${lessonId}`,
       ]);
-    } else {
+    } else if(!this.courseService.loggedIn){
       alert('You must be signed in to view this content');
-      this.router.navigate(['/sign-in']);
+      this.router.navigate(['/login']);
+    }else{
+      alert('You must enroll to course to view this content');
     }
   }
 }

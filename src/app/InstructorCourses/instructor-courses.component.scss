@@ -2,33 +2,44 @@
 @use "../../assets/style/abstracts/mixins.scss" as *;
 @use "../../assets/style/abstracts/_placeholders.scss" as *;
 
-.wrapper {
+.wrapper{
   background-color: $mainColorLight;
-  padding: 30px;
+  padding: 1rem;
+  
   .box {
-    padding: 1rem;
-    margin: 1rem;
-    border: 2px solid $blackColor;
-    background-color: $whiteColor;
-
-    h1 {
-      @include style-font("Anton", 48px, 80px, $blackColor);
-    }
-
-    .controls {
-      @extend %flex-row;
-      gap: 0.4rem;
-      margin-bottom: 1rem;
-
-      header,
-      button {
-        @include custom-header();
+      padding: 2rem;
+      margin: 1rem;
+      border: 2px solid $blackColor;
+      background-color: $whiteColor;
+  
+      h1 {
+          @include style-font('Anton', 48px, 80px, $blackColor)
+      }
+  
+      .controls {
+          @extend %flex-row;
+          gap: 0.4rem;
+          margin-bottom: 1rem;
+  
+          header,
+          button {
+              @include custom-header();
+          }
+  
+          button{
+              box-shadow: none;
+              background-color: $mainColorLight;
+          }
       }
 
-      button {
-        box-shadow: none;
-        background-color: $mainColorLight;
+      .empty{
+          button{
+              @include custom-button($greenColor, $blackColor, $blackColor, 24px);
+              position: relative;
+              margin-left: calc(50% - 9rem);
+              width: 18rem;
+              margin-bottom: 1rem;
+          }
       }
-    }
   }
 }

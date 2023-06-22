@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Course } from '../Models/course';
+import { CheckoutService } from '../Checkout/Services/checkout.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class ShoppingCartService {
   private show = new BehaviorSubject<boolean>(false);
   private dataSubject = new Subject<Course>();
 
-  constructor() {
+  constructor(private checkoutService:CheckoutService) {
     this.loadCartData();
   }
 
@@ -65,7 +66,7 @@ export class ShoppingCartService {
     return this.cartItems.reduce((total, course) => total + course.price, 0);
   }
 
-  private loadCartData(): void {
+  loadCartData(): void {
     const storedCartData = localStorage.getItem('cart');
     if (storedCartData) {
       const parsedData: Course[] = JSON.parse(storedCartData);
@@ -77,5 +78,6 @@ export class ShoppingCartService {
 
   private saveCartData(): void {
     localStorage.setItem('cart', JSON.stringify(this.cartItems));
+    this.checkoutService.setOrderdItems();
   }
 }

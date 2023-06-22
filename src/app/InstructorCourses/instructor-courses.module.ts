@@ -6,6 +6,8 @@ import { InstructorCoursesComponent } from './instructor-courses.component';
 import { CourseCardComponent } from './Components/course-card/course-card.component';
 import { CouresOverviewComponent } from './Components/coures-overview/coures-overview.component';
 import { EditCourseComponent } from './Components/edit-course/edit-course.component';
+import { TruncatePipe } from './Pipes/truncate.pipe';
+import { LoaderComponent } from './Components/loader/loader.component';
 
 
 @NgModule({
@@ -13,7 +15,9 @@ import { EditCourseComponent } from './Components/edit-course/edit-course.compon
     InstructorCoursesComponent,
     CourseCardComponent,
     CouresOverviewComponent,
-    EditCourseComponent
+    EditCourseComponent,
+    TruncatePipe,
+    LoaderComponent
   ],
   imports: [
     CommonModule,

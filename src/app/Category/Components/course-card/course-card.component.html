@@ -1,4 +1,4 @@
-<div class="courses mt-5">
+<div class="courses">
     <div class="course d-flex flex-column justify-content-between" *ngFor="let course of courses">
       <div class="image">
         <img [src]="course.imageUrl" [alt]="course.title + 'courseimage'">
@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="course-details d-flex flex-column justify-content-between">
-        <div class="info">
+        <div class="info" routerLink="/courseDetails/{{course.id}}">
           <h4>This Course includes: </h4>
           <ul>
             <li>

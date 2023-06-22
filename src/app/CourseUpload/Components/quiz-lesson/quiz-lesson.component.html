@@ -1,0 +1,93 @@
+<div class="add-new-heading-title">
+  <div class="add-new-heading">
+    <div class="main-title">Quiz Title</div>
+    <button (click)="onCancel()">
+      <img src="../../../../assets/svg/x-icon.svg" alt="" />
+    </button>
+  </div>
+  <div class="title-data">
+    <input
+      [(ngModel)]="editedQuiz.title"
+      type="text"
+      placeholder="Give this quiz a title"
+    />
+  </div>
+</div>
+<div class="description">
+  <div class="description-heading">
+    <div class="input-title-style">Quiz Description</div>
+  </div>
+  <div class="description-data">
+    <input
+      [(ngModel)]="editedQuiz.description"
+      class="input-style"
+      type="text"
+      placeholder="Give this quiz a description"
+    />
+  </div>
+</div>
+<div
+  class="lesson-content"
+  *ngFor="let question of editedQuiz.questions; let qIndex = index"
+>
+  <div class="lesson-content-heading">
+    <div class="question-heading">
+      <div class="main-title">Question {{ qIndex + 1 }}</div>
+      <div>
+        <button (click)="onAddQuestion()">
+          <img src="../../../../assets/svg/plus.svg" alt="plus icon" />
+        </button>
+        <button (click)="onDeleteQuestion(qIndex)">
+          <img src="../../../../assets/svg/delete.svg" alt="delete icon" />
+        </button>
+      </div>
+    </div>
+    <div class="question-text">
+      <input
+        [(ngModel)]="question.questionText"
+        class="input-style"
+        placeholder="Enter question {{ qIndex + 1 }}"
+      />
+    </div>
+  </div>
+  <div class="lesson-content-data quiz-content-data">
+    <div class="question-text-heading">
+      <div class="input-title-style">Question {{ qIndex + 1 }} Choices</div>
+      <button
+        *ngIf="question.choices.length < 4"
+        (click)="onAddChoice(question)"
+      >
+        <img src="../../../../assets/svg/plus.svg" alt="plus icon" />
+      </button>
+    </div>
+    <div class="question-choices">
+      <div
+        class="question-choice"
+        *ngFor="let choice of question.choices; let cIndex = index"
+      >
+        <input
+          type="radio"
+          name="correctChoice{{ qIndex }}"
+          [(ngModel)]="question.correctAnswer"
+          [value]="choice"
+        />
+        <input
+          [(ngModel)]="question.choices[cIndex]"
+          type="text"
+          name="choice{{ cIndex }}"
+          placeholder="choice {{ cIndex + 1 }}"
+        />
+        <button
+          *ngIf="question.choices.length > 2"
+          (click)="onDeleteChoice(question, cIndex)"
+        >
+          <img src="../../../../assets/svg/delete.svg" alt="delete icon" />
+        </button>
+      </div>
+    </div>
+    <div>Make sure to select the correct answer.</div>
+  </div>
+</div>
+<div class="add-new-action">
+  <button (click)="onSave()">{{ editMode ? "Save" : "Add" }}</button>
+</div>

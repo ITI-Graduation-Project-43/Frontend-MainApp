@@ -68,9 +68,20 @@
         @include style-font('Cabin', 16px, 19px, $darkGreyColor, 700);
       }
 
-      .use-coupon{
-        display: flex;
-        align-items: flex-start;
+      
+    }
+    .use-coupon {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.6rem;
+
+      .course-discount {
+        @include style-display-column(10px, 15px, 24px);
+        background: #ffce51;
+        border: 2px solid $blackColor;
+        border-radius: 33px;
+        @include style-font('Cabin', 16px, 19px, $darkGreyColor, 700);
       }
     }
   }

@@ -1,0 +1,149 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/_placeholders.scss" as *;
+
+
+
+
+.add-new-heading-title{
+  @include style-display-column(16px, 0px);
+  width: 100%;
+  .add-new-heading{
+    @include style-display-row-center(0px, 0px);
+    justify-content: space-between;
+    width: 100%;
+    .main-title{
+      @include style-font($font-cabin,  24px, 36px, $blackColor, 700);
+    }
+    button {
+      border: none;
+      background-color: inherit;
+    }
+  }
+  .title-data{
+    width: 100%;
+
+    input{
+      width: 100%;
+      padding: 20px 24px;
+      background: $whiteColor;
+      border: 1px solid $blackColor;
+      @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
+    }
+  }
+}
+.description , .lesson-content{
+  width: 100%;
+  @include style-display-column(16px, 0px);
+  > * {
+    width: 100%;
+  }
+  .lesson-content-heading{
+    @include style-display-column(16px, 0px);
+  }
+  .lesson-content-data{
+    width: 100%;
+    background: $whiteColor;
+    border: 1px solid $blackColor;
+
+
+    .dropzone-wrapper {
+      border: 1px dashed $blackColor;
+      position: relative;
+      height: 150px;
+      .dropzone-desc {
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: center;
+        top: 65px;
+      }
+
+      .dropzone,
+      .dropzone:focus {
+        position: absolute;
+        outline: none !important;
+        width: 100%;
+        height: 150px;
+        cursor: pointer;
+        opacity: 0;
+        left: 0;
+        top: -65px;
+      }
+      &:hover,
+      .dropzone-wrapper.dragover {
+        background: #ecf0f5;
+      }
+
+    }
+  }
+}
+.add-new-action{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  button{
+    @include custom-button($greenColor, $blackColor, $blackColor, 43px);
+  }
+}
+
+
+.add-new-lesson {
+  background: $lightPurpleColor;
+}
+.input-style{
+  width: 100%;
+  padding: 20px 24px;
+  background: $whiteColor;
+  border: 1px solid $blackColor;
+  @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
+}
+.input-title-style{
+  @include style-font($font-cabin,  24px, 29px, $blackColor, 700);
+}
+.add-new-heading{
+  @include style-display-row-center(0px, 0px);
+  justify-content: space-between;
+  width: 100%;
+  button {
+    border: none;
+    background-color: inherit;
+  }
+}
+
+
+.add-lesson-actions{
+  @include style-display-row(16px, 0px);
+  button{
+    padding: 10px 32px;
+    border: 1px solid $blackColor;
+    border-radius: 36px;
+  }
+  :first-child{
+    background: $lightPurpleColor;
+  }
+  :not(:first-child){
+    background: $blackColor;
+    color: $whiteColor;
+  }
+}
+
+
+.video-wrapper{
+  position: relative;
+  max-width: 100%;
+  @include style-display-row-center(16px, 0px);
+  border: 1px solid $blackColor;
+  max-height: 600px;
+  video{
+    width: 100%;
+    object-fit: contain;
+  }
+  button{
+    position: absolute;
+    border: none;
+    background-color: inherit;
+    top: -40px;
+    right: 0;
+  }
+}

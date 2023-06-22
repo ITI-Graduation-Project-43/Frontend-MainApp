@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PaymentMethodComponent } from '../payment-method/payment-method.component';
 import { CheckoutService } from '../../Services/checkout.service';
 import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
 import { APIService } from 'src/app/Shared/Services/api.service';
 import { Payment } from 'src/app/Models/payment';
 import { NotificationService } from 'src/app/Shared/Services/notification.service';
 import { SiteCoupon } from 'src/app/Models/siteCoupon';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-summary',
@@ -13,18 +13,18 @@ import { SiteCoupon } from 'src/app/Models/siteCoupon';
   styleUrls: ['./summary.component.scss']
 })
 export class SummaryComponent implements OnInit {
-  constructor(public service: CheckoutService, private apiService: APIService, private notification: NotificationService) { }
-  discount: number = 0;
-  totalPrice!: number;
+  constructor(public service: CheckoutService,
+    private apiService: APIService,
+    private notification: NotificationService,
+    private navigator: Router) { }
   code!: string;
+  siteCouponDisable: boolean = false;
 
   ngOnInit(): void {
-    this.calcTotalPrice();
+    this.service.calcTotalPrice();
   }
 
-  calcTotalPrice() {
-    this.totalPrice = +((this.service.originalPrice - this.discount).toPrecision(5));
-  }
+
 
   setPaymentObj() {
     let paymentObj: Payment = {
@@ -40,6 +40,7 @@ export class SummaryComponent implements OnInit {
       siteCoupon: this.code,
       coursesCoupons: this.service.courseCoupons
     }
+    console.log(paymentObj);
     return paymentObj;
   }
 
@@ -51,7 +52,7 @@ export class SummaryComponent implements OnInit {
         courseId: crs.id,
         studentId: this.service.studentId
       }).subscribe((data) => {
-        console.log(`Enroll to course ${crs.title}`)
+        console.log(`Enroll to course ${crs.title}`);
       }, (error => {
         console.log(error);
         return;
@@ -77,9 +78,10 @@ export class SummaryComponent implements OnInit {
   checkCoupon() {
     this.apiService.getItemById("SiteCoupon", this.code).subscribe((data: APIResponseVM) => {
       let coupon: SiteCoupon[] = data.items;
-      this.discount = +(coupon[0].discount/100 * this.totalPrice).toPrecision(5);
-      this.calcTotalPrice();
+      this.service.discount += +(coupon[0].discount / 100 * this.service.totalPrice).toPrecision(5);
+      this.service.calcTotalPrice();
       this.notification.notify("Valid Coupon!");
+      this.siteCouponDisable = true;
     }, (error) => {
       this.notification.notify("Invalid Coupon!");
     })
@@ -101,9 +103,9 @@ export class SummaryComponent implements OnInit {
     localStorage.setItem('cart', JSON.stringify([]));
   }
 
-  resetSummaryForm(){
+  resetSummaryForm() {
     this.code = '';
-    this.service.originalPrice = this.discount = this.totalPrice = 0.00;
+    this.service.originalPrice = this.service.discount = this.service.totalPrice = 0.00;
   }
 
   completeCheckout() {

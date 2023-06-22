@@ -1,0 +1,190 @@
+@use "../../assets/style/abstracts/variables.scss" as *;
+@use "../../assets/style/abstracts/mixins.scss" as *;
+@use "../../assets/style/abstracts/_placeholders.scss" as *;
+
+.item1 {
+  grid-area: left;
+  position: relative;
+  top: 60px;
+  left: 10px;
+}
+.item2 {
+  grid-area: right;
+}
+.grid-container-sub-header {
+  display: grid;
+  grid-template-areas: " left left right right right";
+  gap: 10px;
+  background-color: $blackColor;
+  padding: 10px;
+}
+@media (max-width: 900px) {
+  .grid-container-sub-header {
+    grid-template-areas:
+      " left"
+      " right";
+  }
+}
+
+// Instructor Title
+.instructor-description {
+  display: flex;
+  flex-direction: column;
+  left: 300px;
+  padding: 5rem;
+  gap: 24px;
+  background-color: $blackColor;
+  color: $whiteColor;
+  max-width: 844px;
+  .instructor-title {
+    @include style-font("Anton", 24px, 36px, $whiteColor);
+  }
+  .instructor-name {
+    @include style-font("Anton", 64px, 79px, $whiteColor);
+  }
+  .About-me {
+    @include style-font("Cabin", 24px, 29px, $whiteColor);
+  }
+  .description {
+    @include style-font("Anton", 24px, 29px, $whiteColor);
+  }
+}
+/* Instructor other courses section */
+.courses-section {
+  margin: 60px;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr; /* Two columns: left and right */
+  grid-gap: 20px; /* Spacing between the columns */
+  // @include style-display-column(32px, 0);
+  h1 {
+    @include style-font("Anton", 48px, 124.04%, $blackColor);
+    text-align: left; /* Center the header text */
+    grid-column: 2;
+  }
+  .suggested-courses-section {
+    align-items: center;
+    //@include style-display-column(32px, 0);
+    grid-column: 2; /* Right section occupies the second column */
+
+    // @include style-display-row(24px, 0);
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(200px, 1fr)
+    ); /* Responsive grid with minimum item width of 200px */
+    grid-gap: 20px; /* Spacing between the cards */
+    .course-card {
+      @include course-card;
+      max-width: 402px;
+      min-height: 520px;
+      max-height: 550px;
+
+      .course-image {
+        width: 100%;
+      }
+
+      .course-info {
+        @include style-display-column(16px, 0);
+        .course-rating {
+          @include style-display-row(5.6px, 0);
+        }
+
+        .course-name {
+          @include style-font("Anton", 32px, 124.04%, $blackColor);
+        }
+      }
+
+      .course-students {
+        @include style-display-row-center(8px, 0);
+
+        .student-pictures {
+          @include style-display-row(0, 0);
+          max-height: 24px;
+          img {
+            @include make-avatar(24px, 24px);
+            margin-left: -6px;
+          }
+        }
+
+        .enrollments-number {
+          @include style-font("Cabin", 16px, 19px, $darkGreyColor, 700);
+        }
+      }
+      .course-instructor-price {
+        @include style-display-row-center(0, 0);
+        justify-content: space-between;
+        width: 100%;
+
+        .course-instructor {
+          @include style-display-row-center(16px, 0);
+
+          .instructor-picture {
+            img {
+              @include make-avatar(42px, 42px);
+            }
+          }
+
+          .instructor-name {
+            @include style-font("Cabin", 16px, 19px, $darkGreyColor, 700);
+          }
+        }
+
+        .course-price {
+          @include style-display-column(10px, 15px, 24px);
+
+          background: $greenColor;
+          border: 2px solid $blackColor;
+          border-radius: 33px;
+
+          @include style-font("Cabin", 16px, 19px, $darkGreyColor, 700);
+        }
+      }
+    }
+    .view-more-btn {
+      @include custom-button($greenColor, $blackColor, $blackColor, 43px);
+      grid-column: span 2;
+      max-width: 200px;
+      justify-self: center;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .suggested-courses-section {
+      grid-template-columns: repeat(
+        2,
+        1fr
+      ); /* Two cards in each row for large and xlarge screens */
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    .suggested-courses-section {
+      grid-template-columns: repeat(
+        auto-fit,
+        minmax(200px, 1fr)
+      ); /* Responsive grid with minimum item width of 200px */
+    }
+    .course-name {
+      @include style-font("Anton", 24px, 124.04%, $blackColor);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .courses-section {
+      grid-template-columns: 1fr 1fr; /* Single column layout for medium, small, and xsmall screens */
+      h1 {
+        text-align: left; /* Center the header text */
+        grid-column: span 2;
+      }
+    }
+    .suggested-courses-section {
+      grid-column: 1; /* Right section occupies the single column */
+    }
+    .course-card {
+      width: 90%; /* Cards occupy the full width of the container */
+      .course-name {
+        @include style-font("Anton", 16px, 124.04%, $blackColor);
+      }
+    }
+  }
+}

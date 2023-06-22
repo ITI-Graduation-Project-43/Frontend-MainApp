@@ -24,7 +24,8 @@
                     <div class="course-price">{{course.price}} USD</div>
                 </div>
                 <div class="use-coupon">
-                    <app-course-coupon class="mt-1" [courseId]="course.id" [courseTitle]="course.title"></app-course-coupon>
+                    <app-course-coupon *ngIf="service.couponBtn && service.specificCard != course.id" [courseId]="course.id" [coursePrice]="course.price" [courseTitle]="course.title"></app-course-coupon>
+                    <div *ngIf="!(service.couponBtn && service.specificCard != course.id)" class="course-discount">-{{service.courseDiscount}} %</div>
                 </div>
             </div>
         </div>

@@ -1,0 +1,22 @@
+<div class="instructor-details-card">
+  <div class="course-picture">
+    <img [src]="instructor[0].profilePicture" alt="instructor image" />
+  </div>
+  <div class="course-info">
+    <div class="course-rating">
+      <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+      <span> {{ instructor[0].avgRating }} Instructor Rating</span>
+    </div>
+    <div class="course-students">
+      <div class="enrollments-number">
+        {{ instructor[0].noOfStudents }} Students |
+        {{ instructor[0].noOfCources }} Courses
+      </div>
+    </div>
+  </div>
+  <div class="instructor-action">
+    <button class="website" (click)="redirectToGitHub()">GitHub</button>
+    <button class="website" (click)="redirectToLinkedin()">LinkedIn</button>
+    <button class="website" (click)="redirectToTwitter()">Twitter</button>
+  </div>
+</div>

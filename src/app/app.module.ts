@@ -30,6 +30,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  exports: [RouterModule],
+  exports: [SnackbarComponent, RouterModule],
 })
 export class AppModule {}

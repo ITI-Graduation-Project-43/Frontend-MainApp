@@ -46,16 +46,6 @@ export class InstructorComponent implements OnInit {
       );
   }
 
-  redirectToGitHub() {
-    window.open(this.instructor[0].accounts.GitHub, '_blank');
-  }
-  redirectToLinkedin() {
-    window.open(this.instructor[0].accounts.Linkedin, '_blank');
-  }
-  redirectToTwitter() {
-    window.open(this.instructor[0].accounts.Twitter, '_blank');
-  }
-
   loadInstructorCourses() {
     this.instructorService
       .getCourses(this.instructorId, this.CoursesPageNumber, this.pageSize)

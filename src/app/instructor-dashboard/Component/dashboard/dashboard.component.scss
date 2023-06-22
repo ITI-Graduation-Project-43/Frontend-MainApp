@@ -7,7 +7,7 @@
 .upload-container {
   display: flex;
   flex-direction: row;
-  position: relative;
+  justify-content: space-between;
   margin: 40px 72px;
   color: $blackColor;
   padding: 24px;
@@ -27,9 +27,7 @@
   .upload-btn {
     @include custom-button($greenColor, $blackColor, $blackColor, 43px);
     max-width: 150px;
-    position: absolute;
-    right: 24px;
-    bottom: 12px;
+   
   }
   @media (max-width: 767px) {
     .upload-container {

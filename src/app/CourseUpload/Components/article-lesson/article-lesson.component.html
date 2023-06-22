@@ -1,0 +1,49 @@
+<div class="add-new-heading-title">
+  <div class="add-new-heading">
+    <div class="main-title">Article Title</div>
+
+    <button (click)="onCancel()">
+      <img src="../../../../assets/svg/x-icon.svg" alt="" />
+    </button>
+  </div>
+  <div class="title-data">
+    <input
+      [(ngModel)]="editedArticle.title"
+      type="text"
+      placeholder="Give this article a title"
+    />
+  </div>
+</div>
+<div class="description">
+  <div class="description-heading">
+    <div class="input-title-style">Article Description</div>
+  </div>
+  <div class="description-data">
+    <input
+      [(ngModel)]="editedArticle.description"
+      class="input-style"
+      type="text"
+      placeholder="Give this article a description"
+    />
+  </div>
+</div>
+<div class="lesson-content">
+  <div class="lesson-content-heading">
+    <div class="input-title-style">Article Body</div>
+  </div>
+  <div class="lesson-content-data">
+    <div class="article-body-controls">
+      <span class="controls bold">B</span>
+      <span class="controls italic">I</span>
+    </div>
+    <textarea
+      class="input-style"
+      [(ngModel)]="editedArticle.content"
+      placeholder="Write a description"
+    ></textarea>
+  </div>
+</div>
+
+<div class="add-new-action">
+  <button (click)="onSave()">{{ editMode ? "Save" : "Add" }}</button>
+</div>

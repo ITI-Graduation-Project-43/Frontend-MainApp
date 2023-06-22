@@ -6,7 +6,7 @@ import { TruncatePipe } from './Pipes/truncate.pipe';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [CourseContentComponent,TruncatePipe],
+  declarations: [CourseContentComponent, TruncatePipe],
   exports: [CourseContentComponent, TruncatePipe],
 })
 export class SharedModule {}

@@ -2,9 +2,11 @@
 @use "../../assets/style/abstracts/mixins.scss" as *;
 @use "../../assets/style/abstracts/_placeholders.scss" as *;
 
-//
 .item1 {
   grid-area: left;
+  position: relative;
+  top: 60px;
+  left: 10px;
 }
 .item2 {
   grid-area: right;
@@ -23,36 +25,7 @@
       " right";
   }
 }
-/* instructor card */
-.instructor-details-card {
-  @include course-card;
-  position: relative;
-  top: 60px;
-  left: 10px;
-  max-width: 500px;
-  // transform: scale(0.9);
 
-  .course-picture img {
-    max-width: 100%;
-    object-fit: contain;
-  }
-  .course-info {
-    @include style-display-column(16px, 0);
-
-    .course-rating {
-      @include style-display-row(5.6px, 0);
-    }
-  }
-
-  .instructor-action {
-    @include style-display-column(16px, 0);
-    width: 100%;
-    .website {
-      @include custom-button($greenColor, $blackColor, $whiteColor, 63px);
-      width: 100%;
-    }
-  }
-}
 // Instructor Title
 .instructor-description {
   display: flex;

@@ -2,8 +2,8 @@
   <h1>Discounts</h1>
   <h5>Code</h5>
   <div class="code">
-    <input type="text" [(ngModel)]="code">
-    <button class="submit" (click)="checkCoupon()">Submit</button>
+    <input type="text" [(ngModel)]="code" [disabled]="siteCouponDisable">
+    <button class="submit" (click)="checkCoupon()" [disabled]="siteCouponDisable">Submit</button>
   </div>
 
   <div class="summary">
@@ -15,12 +15,12 @@
 
     <section class="discounts money">
       <h6>Discounts</h6>
-      <h6>{{discount}} USD</h6>
+      <h6>{{service.discount}} USD</h6>
     </section>
 
     <section class="total money">
       <h6>Total</h6>
-      <h6>{{totalPrice}} USD</h6>
+      <h6>{{service.totalPrice}} USD</h6>
     </section>
   </div>
 

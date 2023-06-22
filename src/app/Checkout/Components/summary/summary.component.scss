@@ -22,12 +22,20 @@
       width: 70%;
       height: 70px;
       padding: 0.3rem;
+      font-size: 25px;
       @extend %simple-black-border;
     }
 
     button {
       @include custom-button($whiteColor, $blackColor, $blackColor, 0px);
       padding: 16px 43px;
+
+      &:disabled {
+        background-color: lightgray;
+        color: rgb(160, 160, 160);
+        transform: translate(0px, 0px);
+        box-shadow: 5px 5px black, 5px 5px 0px 1px black;
+      }
     }
   }
 
@@ -42,18 +50,18 @@
     }
 
     .total {
-      h6{
+      h6 {
         font-weight: bold;
       }
     }
   }
 
-  .complete{
+  .complete {
     @include custom-button($greenColor, $blackColor, $blackColor, 24px);
     width: 100%;
     margin-top: 1rem;
 
-    &:disabled{
+    &:disabled {
       background-color: lightgray;
       color: rgb(160, 160, 160);
       transform: translate(0px, 0px);
@@ -62,10 +70,11 @@
     }
   }
 
-  .note{
+  .note {
     text-align: center;
     margin-top: 0.8rem;
-    h6{
+
+    h6 {
       font-weight: 100;
     }
   }

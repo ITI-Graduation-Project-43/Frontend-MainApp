@@ -1,6 +1,8 @@
 import {Component, Input } from '@angular/core';
 import { Course } from 'src/app/Models/course';
 import { ShoppingCartService } from 'src/app/Services/cart.service';
+import {LocalStorageService} from '../../../Shared/Helper/local-storage.service'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-course-card',
@@ -10,7 +12,7 @@ import { ShoppingCartService } from 'src/app/Services/cart.service';
 export class CourseCardComponent {
   @Input()courses !: Course[];
   cart !: Course[];
-  constructor(private shopCart : ShoppingCartService) {
+  constructor(private shopCart : ShoppingCartService, private router: Router, private LocalStorageService: LocalStorageService) {
   }
 
   rating(number: number): number[] {
@@ -19,5 +21,14 @@ export class CourseCardComponent {
 
   AddToCart(course: Course) {
     this.shopCart.addItem(course);
+  }
+
+  AddToWishlist(course: Course) {
+    if(this.LocalStorageService.checkTokenExpiration()) {
+      //call API
+    }
+    else {
+      this.router.navigateByUrl("/login");
+    }
   }
 }

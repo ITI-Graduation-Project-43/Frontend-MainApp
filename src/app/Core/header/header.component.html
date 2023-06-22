@@ -87,17 +87,17 @@
           <span (click)="openMenu(options)" class="user-letter" *ngIf="User">{{User[0].toUpperCase()}}</span>
           <ul #options class="options">
               <li *ngIf="Role != 'Instructor'">
-                <a>My Learning</a>
+                <a routerLink="/" (click)="closeMenu(options)">My Learning</a>
               </li>
               <li *ngIf="Role != 'Instructor'">
-                <a>My Cart</a>
+                <a routerLink="/" (click)="closeMenu(options)">My Cart</a>
               </li>
               <li *ngIf="Role != 'Instructor'"><hr></li>
               <li>
-                <a>Account settings</a>
+                <a routerLink="/setting" (click)="closeMenu(options)">Account settings</a>
               </li>
               <li>
-                <a (click)="signout()">Signout</a>
+                <a routerLink="/home" (click)="signout()">Signout</a>
               </li>
           </ul>
         </div>

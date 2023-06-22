@@ -1,0 +1,66 @@
+<section>
+  <form (submit)="save($event, submit)" [formGroup]="this.informationForm">
+    <div class="basics">
+      <h2>Information</h2>
+      <h4>Basics</h4>
+      <div class="form-outline mb-4">
+        <input type="text" placeholder="First Name" formControlName="firstName" [readOnly]="saving"/>
+      </div>
+      <div *ngIf="firstName?.invalid && firstName?.touched" style="color: red; font-size: 15px; margin-top: -20px;" class="mb-1">
+        <span *ngIf="firstName?.errors?.['required']">Firstname is required</span>
+        <span *ngIf="firstName?.errors?.['pattern']">Should be between 3 to 10 characters</span>
+      </div>
+      <div class="form-outline mb-4">
+        <input type="text" placeholder="Last Name" formControlName="lastName" [readOnly]="saving"/>
+      </div>
+      <div *ngIf="lastName?.invalid && lastName?.touched" style="color: red; font-size: 15px; margin-top: -20px;" class="mb-1">
+        <span *ngIf="lastName?.errors?.['required']">LastName is required</span>
+        <span *ngIf="lastName?.errors?.['pattern']">Should be between 3 to 10 characters</span>
+      </div>
+      <!-- <div class="form-outline mb-4">
+        <input type="text" placeholder="Professional Headline" formControlName="professionalHeadline" [readOnly]="saving"/>
+      </div> -->
+      <!-- <div *ngIf="professionalHeadline?.invalid && professionalHeadline?.touched" style="color: red; font-size: 15px; margin-top: -20px;" class="mb-1">
+        <span *ngIf="professionalHeadline?.errors?.['required']">LastName is required</span>
+        <span *ngIf="professionalHeadline?.errors?.['pattern']">Should be between 3 to 10 characters</span>
+      </div> -->
+      <div class="form-outline mb-4 d-flex flex-column">
+        <div>
+          <span>B</span>
+          <span>I</span>
+        </div>
+        <textarea placeholder="Personal biology">{{this.bio}}</textarea>
+      </div>
+    </div>
+    <hr>
+    <div class="links">
+      <h2>Personal Links</h2>
+      <h4>Links</h4>
+      <div class="form-outline mb-4">
+        <input type="text" placeholder="Website (http(s)://...)" formControlName="firstName"/>
+      </div>
+      <div class="form-outline mb-4">
+        <span>http://twitter.com/</span>
+        <input type="text" placeholder="Twitter profile" formControlName="firstName"/>
+      </div>
+      <div class="form-outline mb-4">
+        <span>http://www.Facebook.com/</span>
+        <input type="text" placeholder="Facebook profile" formControlName="firstName"/>
+      </div>
+      <div class="form-outline mb-4">
+        <span>http://www.Linkedin.com/</span>
+        <input type="text" placeholder="Linkedin profile" formControlName="firstName"/>
+      </div>
+      <div class="form-outline mb-4">
+        <span>http://www.Youtube.com/</span>
+        <input type="text" placeholder="Youtube profile" formControlName="firstName"/>
+      </div>
+    </div>
+    <div class="btns">
+      <a routerLink="/home" class="profile">View public profile</a>
+      <button #submit type="submit" class="save">
+        <span>Save</span>
+      </button>
+    </div>
+  </form>
+</section>

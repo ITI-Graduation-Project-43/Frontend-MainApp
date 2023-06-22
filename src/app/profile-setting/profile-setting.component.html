@@ -1,0 +1,44 @@
+<section class="bg-mainColorLight px-3 py-75">
+  <div class="container-fluid bg-white p-4">
+    <h1>Setting</h1>
+    <div class="d-flex gap-4 align-items-start">
+      <aside>
+        <picture>
+          <img [src]="User.profilePicture" alt="">
+          <span class="overlayer">
+            <svg width="28" height="23" viewBox="0 0 28 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 7.5C16 7.10444 16.1173 6.71776 16.3371 6.38886C16.5568 6.05996 16.8692 5.80362 17.2346 5.65224C17.6001 5.50087 18.0022 5.46126 18.3902 5.53843C18.7781 5.6156 19.1345 5.80608 19.4142 6.08579C19.6939 6.36549 19.8844 6.72186 19.9616 7.10982C20.0387 7.49778 19.9991 7.89991 19.8478 8.26537C19.6964 8.63082 19.44 8.94318 19.1111 9.16294C18.7822 9.3827 18.3956 9.5 18 9.5C17.4696 9.5 16.9609 9.28929 16.5858 8.91421C16.2107 8.53914 16 8.03043 16 7.5ZM27.5 2.5V20.5C27.5 21.163 27.2366 21.7989 26.7678 22.2678C26.2989 22.7366 25.663 23 25 23H3C2.33696 23 1.70107 22.7366 1.23223 22.2678C0.763392 21.7989 0.5 21.163 0.5 20.5V2.5C0.5 1.83696 0.763392 1.20107 1.23223 0.732233C1.70107 0.263392 2.33696 0 3 0H25C25.663 0 26.2989 0.263392 26.7678 0.732233C27.2366 1.20107 27.5 1.83696 27.5 2.5ZM3.5 3V12.965L7.7325 8.7325C8.20132 8.26382 8.83709 8.00053 9.5 8.00053C10.1629 8.00053 10.7987 8.26382 11.2675 8.7325L16.4137 13.875L18.5613 11.7288C19.0301 11.2601 19.6658 10.9968 20.3288 10.9968C20.9917 10.9968 21.6274 11.2601 22.0963 11.7288L24.5 14.1362V3H3.5ZM3.5 20H18.2925L9.5 11.2075L3.5 17.2075V20ZM24.5 20V18.375L20.3288 14.2038L18.535 16L22.535 20H24.5Z" fill="white"/>
+            </svg>
+            Upload Image
+          </span>
+        </picture>
+        <ul>
+          <li>
+            <a routerLink="profile" routerLinkActive="active">Profile</a>
+          </li>
+          <li>
+            <a routerLink="security" routerLinkActive="active">Security</a>
+          </li>
+          <!-- <li>
+            <a routerLink="payment" routerLinkActive="active">Payment</a>
+          </li> -->
+          <li>
+            <a routerLink="privacy" routerLinkActive="active">Privacy</a>
+          </li>
+          <li>
+            <a routerLink="notifications" routerLinkActive="active">Notifications</a>
+          </li>
+          <!-- <li>
+            <a routerLink="deactivateaccount" routerLinkActive="active">Deactivate Account</a>
+          </li>
+          <li>
+            <a routerLink="closeaccount" routerLinkActive="active">Close Account</a>
+          </li> -->
+        </ul>
+      </aside>
+      <div>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</section>

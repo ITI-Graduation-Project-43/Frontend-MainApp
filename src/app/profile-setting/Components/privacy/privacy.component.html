@@ -1,0 +1,19 @@
+<section>
+  <h2>Privacy</h2>
+  <h4>Profile page settings</h4>
+  <form>
+    <div>
+      <input type="checkbox" id="show-profile" [checked]="showProfile" #showProfilee>
+      <label for="show-profile">Show your profile to logged-in users</label>
+    </div>
+    <div>
+      <input type="checkbox" id="show-courses" [checked]="showCourses" #showCoursess>
+      <label for="show-courses">Show courses you're taking on your profile page</label>
+    </div>
+    <div class="btns">
+      <button (click)="save($event, showProfilee, showCoursess)" type="submit" [ngClass]="{'save': true}">
+        <span>Save</span>
+      </button>
+    </div>
+  </form>
+</section>

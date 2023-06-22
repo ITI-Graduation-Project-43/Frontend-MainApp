@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ProfileSettingComponent } from './profile-setting/profile-setting.component';
+import { AuthenticationGuard } from './Guards/authentication.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -61,6 +63,12 @@ const routes: Routes = [
     path: 'register',
     loadChildren: () =>
       import('../app/register/register.module').then((m) => m.RegisterModule),
+  },
+  {
+    path: 'setting',
+    loadChildren: () =>
+      import('../app/profile-setting/profile-setting.module').then((m) => m.ProfileSettingModule),
+    canActivate: [AuthenticationGuard]
   },
   {
     path: 'checkout',

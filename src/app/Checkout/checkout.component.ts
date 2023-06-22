@@ -3,6 +3,7 @@ import { LocalStorageService } from '../Shared/Helper/local-storage.service';
 import { Router } from '@angular/router';
 import { CheckoutService } from './Services/checkout.service';
 import { ShoppingCartService } from '../Services/cart.service';
+import { NotificationService } from '../Shared/Services/notification.service';
 
 @Component({
   selector: 'app-checkout',
@@ -10,14 +11,17 @@ import { ShoppingCartService } from '../Services/cart.service';
   styleUrls: ['./checkout.component.scss']
 })
 export class CheckoutComponent implements OnInit {
-  constructor(private localStorageService: LocalStorageService, private router: Router, private shoppingSerive:ShoppingCartService) { }
+  constructor(private localStorageService: LocalStorageService, 
+    private router: Router, 
+    private shoppingSerive: ShoppingCartService,
+    private notification: NotificationService) { }
 
   ngOnInit(): void {
     if (!this.localStorageService.checkTokenExpiration()) {
-      alert("You have to sign in first");
+      this.notification.notify("You have to sign in first");
       this.router.navigateByUrl('/login');
     } else if (!this.shoppingSerive.calculateTotal()) {
-      alert("You have to add courses to your cart first");
+      this.notification.notify("You have to add courses to your cart first");
       this.router.navigateByUrl('/home');
     }
   }

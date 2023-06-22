@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Chapter } from 'src/app/Models/chapter';
 import { Course } from 'src/app/Models/course';
 import { CourseService } from 'src/app/Services/course.service';
+import { NotificationService } from 'src/app/Shared/Services/notification.service';
 
 @Component({
   selector: 'app-course-content',
@@ -16,7 +17,7 @@ export class CourseContentComponent implements OnInit {
   @Input() loading: boolean = true;
 
   isLoggedIn: boolean = true;
-  constructor(private router: Router, private courseService:CourseService) {}
+  constructor(private router: Router, private courseService:CourseService, private notification:NotificationService) {}
 
   ngOnInit() {}
 
@@ -43,10 +44,10 @@ export class CourseContentComponent implements OnInit {
         `/courses/${this.course.title}/${this.course.id}/lesson/${lessonId}`,
       ]);
     } else if(!this.courseService.loggedIn){
-      alert('You must be signed in to view this content');
+      this.notification.notify("You have to sign in first");
       this.router.navigate(['/login']);
     }else{
-      alert('You must enroll to course to view this content');
+      this.notification.notify("You must enroll to course to view this content");
     }
   }
 }

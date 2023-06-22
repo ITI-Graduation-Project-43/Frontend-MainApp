@@ -27,6 +27,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CommonModule,
     FormsModule,
     NgbModule,
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent],

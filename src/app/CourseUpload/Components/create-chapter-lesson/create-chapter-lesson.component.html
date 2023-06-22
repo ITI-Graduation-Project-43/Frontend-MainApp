@@ -154,7 +154,7 @@
                   [article]="lesson"
                   [editMode]="lesson.editMode"
                   (cancel)="cancelEditLesson(i, j)"
-                  (save)="saveEditedLesson(i, j)"
+                  (save)="saveEditedLesson(i, j, $event)"
                 ></app-article-lesson>
                 <app-video-lesson
                   class="add-new add-new-lesson"
@@ -162,7 +162,7 @@
                   [video]="lesson"
                   [editMode]="lesson.editMode"
                   (cancel)="cancelEditLesson(i, j)"
-                  (save)="saveEditedLesson(i, j)"
+                  (save)="saveEditedLesson(i, j, $event)"
                 ></app-video-lesson>
                 <app-quiz-lesson
                   class="add-new add-new-lesson"
@@ -170,7 +170,7 @@
                   [quiz]="lesson"
                   [editMode]="lesson.editMode"
                   (cancel)="cancelEditLesson(i, j)"
-                  (save)="saveEditedLesson(i, j)"
+                  (save)="saveEditedLesson(i, j, $event)"
                   (addQuestion)="addQuestion(i)"
                   (deleteQuestion)="deleteQuestion(i, $event)"
                   (addChoice)="addChoice(i, $event)"
@@ -196,7 +196,7 @@
                 <app-video-lesson
                   class="add-new add-new-lesson"
                   *ngIf="newLessonType[i] === 'Video'"
-                  [video]="newVideos[i]"
+                  [(video)]="newVideos[i]"
                   [editMode]="editLessonMode"
                   (cancel)="cancelAddLesson(i)"
                   (save)="saveLesson(i, videoType)"
@@ -206,7 +206,7 @@
                 <app-quiz-lesson
                   class="add-new add-new-lesson"
                   *ngIf="newLessonType[i] === 'Quiz'"
-                  [quiz]="newQuizzes[i]"
+                  [(quiz)]="newQuizzes[i]"
                   [editMode]="editLessonMode"
                   (cancel)="cancelAddLesson(i)"
                   (save)="saveLesson(i, quizType)"

@@ -26,6 +26,6 @@ export class ArticleLessonComponent implements OnInit {
 
   onSave(): void {
     this.articleChange.emit(this.editedArticle);
-    this.save.emit();
+    this.save.emit(this.editedArticle);
   }
 }

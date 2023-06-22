@@ -9,6 +9,7 @@ import { Lesson } from '../create-chapter-lesson/create-chapter-lesson.component
 export class VideoLessonComponent implements OnInit {
   @Input() editMode: boolean = false;
   @Input() video: Lesson = {} as Lesson;
+  @Output() videoChange = new EventEmitter<Lesson>();
   @Output() cancel = new EventEmitter<void>();
   @Output() save = new EventEmitter<any>();
 
@@ -17,17 +18,18 @@ export class VideoLessonComponent implements OnInit {
 
   progress = 0;
   videoUrl: string | null = null;
-
   constructor() {}
 
   ngOnInit() {
     // Deep copy the video data when the component is initialized
     this.editedVideo = JSON.parse(JSON.stringify(this.video));
     // Save the original file
-    this.originalFile = this.video.videoFile;
-    if (this.originalFile) {
-      // Create a URL for the original file
-      this.videoUrl = URL.createObjectURL(this.originalFile);
+    if (this.editMode) {
+      this.originalFile = this.video.videoFile;
+      if (this.originalFile) {
+        // Create a URL for the original file
+        this.videoUrl = URL.createObjectURL(this.originalFile);
+      }
     }
   }
 
@@ -62,8 +64,11 @@ export class VideoLessonComponent implements OnInit {
   }
 
   onSave(): void {
-    this.video = JSON.parse(JSON.stringify(this.editedVideo));
-    this.video.videoFile = this.editedVideo.videoFile;
-    this.save.emit(this.video);
+    // this.video = JSON.parse(JSON.stringify(this.editedVideo));
+    // this.video.videoFile = this.editedVideo.videoFile;
+    // this.save.emit(this.video);
+
+    this.videoChange.emit(this.editedVideo);
+    this.save.emit(this.editedVideo);
   }
 }

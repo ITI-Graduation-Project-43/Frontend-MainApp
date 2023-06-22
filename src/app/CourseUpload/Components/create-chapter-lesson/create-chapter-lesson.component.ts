@@ -180,7 +180,13 @@ export class CreateChapterLessonComponent implements OnInit {
     this.showAddNewLesson[chapterIndex] = false;
     this.toggleAddLessonOptions(chapterIndex);
   }
-  saveEditedLesson(chapterIndex: number, lessonIndex: number = 0) {
+
+  saveEditedLesson(
+    chapterIndex: number,
+    lessonIndex: number,
+    updatedLesson: Lesson
+  ) {
+    this.chapters[chapterIndex].lessons[lessonIndex] = updatedLesson;
     this.chapters[chapterIndex].lessons[lessonIndex].editMode = false;
   }
   editLesson(chapterIndex: number, lessonIndex: number) {

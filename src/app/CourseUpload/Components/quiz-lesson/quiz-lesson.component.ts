@@ -16,6 +16,8 @@ export class QuizLessonComponent implements OnInit {
   @Output() addChoice = new EventEmitter<any>();
   @Output() deleteChoice = new EventEmitter<{ question: any; index: number }>();
 
+  @Output() quizChange = new EventEmitter<Lesson>();
+
   editedQuiz: Lesson = {} as Lesson;
 
   constructor() {}
@@ -29,8 +31,8 @@ export class QuizLessonComponent implements OnInit {
   }
 
   onSave(): void {
-    this.quiz = JSON.parse(JSON.stringify(this.editedQuiz));
-    this.save.emit(this.quiz);
+    this.quizChange.emit(this.editedQuiz);
+    this.save.emit(this.editedQuiz);
   }
 
   onAddQuestion(): void {

@@ -29,14 +29,16 @@
     margin-left: 1.2rem;
   }
   // Styles for breadcrumb links
-  &__link {
-    text-decoration: none;
-    color: inherit;
-
-    &:hover {
-      font-weight: bold;
+   
+    &__link:not(:first-child){
+      text-decoration: none;
+      color: inherit;
+      cursor: default;
     }
-  }
+    // &:hover {
+    //   font-weight: bold;
+    // }
+  
 }
 
 

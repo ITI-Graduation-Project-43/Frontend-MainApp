@@ -32,8 +32,8 @@ export type ChartOptions = {
 };
 @Component({
   selector: 'app-course-traffic',
-  templateUrl: './course-traffic.component.html',
-  styleUrls: ['./course-traffic.component.scss'],
+  templateUrl: 'course-traffic.component.html',
+  styleUrls: ['course-traffic.component.scss'],
 })
 export class CourseTrafficComponent implements OnInit {
   instructorId: string = '4ae72bce-ddd7-45da-ac42-780deb784c9d';

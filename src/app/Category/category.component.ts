@@ -281,7 +281,6 @@ export class CategoryComponent implements OnInit {
         for (let i = 0; i < courseArr.length; i++) {
           if (courseArr[i].level != 0)
             continue;
-          console.log(courseArr[i])
           this.entryLevelCourses.push(courseArr[i]);
           if (this.entryLevelCourses.length == 3)
             break;

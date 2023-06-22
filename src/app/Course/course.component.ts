@@ -49,11 +49,12 @@ export class CourseComponent implements OnInit {
     private courseService: CourseService,
     private studentService: StudentService,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
       this.courseId = +params['id'];
+      this.courseService.courseId = this.courseId;
       this.loadData();
     });
   }

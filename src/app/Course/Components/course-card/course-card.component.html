@@ -60,10 +60,11 @@
       </div>
     </div>
     <div class="course-action">
-      <button class="add-to-cart" (click)="addCourseToCart(course)">
+      <button class="add-to-cart" (click)="addCourseToCart(course)" *ngIf="!courseService.enrolledIn">
         Add to Cart
       </button>
-      <button class="add-to-wishlist">Add to Wishlist</button>
+      <button class="add-to-wishlist" *ngIf="!courseService.enrolledIn">Add to Wishlist</button>
+      <button class="go-to-course" *ngIf="courseService.enrolledIn" routerLink="/courses/{{course.title}}/{{course.id}}/lesson/3">Go to course</button>
     </div>
     <div class="course-details">
       <h2>This course includes:</h2>

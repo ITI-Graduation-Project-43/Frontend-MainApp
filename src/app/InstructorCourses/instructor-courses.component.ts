@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { APIService } from '../Shared/Services/api.service';
 import { LocalStorageService } from '../Shared/Helper/local-storage.service';
 import { Course } from '../Models/course';
 import { APIResponseVM } from '../Shared/ViewModels/apiresponse-vm';
@@ -14,35 +13,41 @@ import { InstructorService } from '../Services/instructor.service';
 export class InstructorCoursesComponent implements OnInit {
   constructor(
     private apiService: InstructorService,
+    private localStorage: LocalStorageService
   ) {}
+
+  empty: boolean = false;
+  loading: boolean = true;
+
+
   ngOnInit(): void {
-    this.getWishList('4ae72bce-ddd7-45da-ac42-780deb784c9d');
-    this.getMyCourses('4ae72bce-ddd7-45da-ac42-780deb784c9d');
+    this.getWaitList(this.localStorage.decodeToken().Id);
+    this.getMyCourses(this.localStorage.decodeToken().Id);
   }
+
   // InstructorId: string = this.localStorageService.decodeToken().Id;
-  wishList: WishList[] = [];
-  MyCourses: Course[] = [];
+  waitList: WishList[] = [];
+  myCourses: Course[] = [];
   list: any[] = [];
 
-  btnTitle: string = 'Wishlist';
+  btnTitle: string = 'Waitlist';
   mainTitle: string = 'Live';
   currentMainTitle: string = '';
 
   getMyCourses(id: string) {
-    this.apiService.getAllCourses(id).subscribe((data: APIResponseVM) => {
-      this.MyCourses = data.items;
-      this.list = this.MyCourses;
-      console.log(this.list);
+    this.apiService.getItemById("Course/instructor/approved",id).subscribe((data: APIResponseVM) => {
+      this.myCourses = data.items;
+      this.list = this.myCourses;
+      this.loading = false;
     });
   }
-  getWishList(id: string) {
-    // this.apiService
-    //   .getItemById('Wishlist/Student', id)
-    //   .subscribe((data: APIResponseVM) => {
-    //     this.wishList = data.items;
-    //     console.log(this.wishList);
-    //   });
+
+  getWaitList(id: string) {
+    this.apiService.getItemById("Course/instructor/waiting",id).subscribe((data: APIResponseVM) => {
+      this.waitList = data.items;
+    });
   }
+
   swap() {
     this.swapListsNames();
     this.swapListsContent();
@@ -56,12 +61,22 @@ export class InstructorCoursesComponent implements OnInit {
 
   swapListsContent() {
     switch (this.mainTitle) {
-      case 'Wishlist':
-        this.list = this.wishList;
+      case 'Waitlist':
+        this.list = this.waitList;
+        this.checkEmptyList(this.list);
         break;
-      case 'My courses':
-        this.list = this.MyCourses;
+      case 'Live':
+        this.list = this.myCourses;
+        this.checkEmptyList(this.list);
         break;
+    }
+  }
+
+  checkEmptyList(list:any[]){
+    if(list.length == 0){
+      this.empty = true;
+    }else{
+      this.empty = false;
     }
   }
 }

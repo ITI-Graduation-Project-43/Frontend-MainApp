@@ -1,11 +1,15 @@
 <div class="wrapper">
   <div class="box">
-    <h1>My lCourses</h1>
+    <h1>My Courses</h1>
     <div class="controls">
       <header>{{ mainTitle }}</header>
       <button (click)="swap()">{{ btnTitle }}</button>
     </div>
     <div class="grid-view row">
+      <app-loader class="loader" *ngIf="loading"></app-loader>
+      <div class="empty" *ngIf="empty">
+        <button routerLink="/createCourse">Upload courses now</button>
+      </div>
       <div class="one col-12 col-md-4 mb-4" *ngFor="let course of list">
         <app-course-card [course]="course"></app-course-card>
       </div>

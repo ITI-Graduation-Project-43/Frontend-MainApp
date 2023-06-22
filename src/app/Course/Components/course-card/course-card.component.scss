@@ -38,7 +38,7 @@
   .course-action{
       @include style-display-column(16px, 0);
       width: 100%;
-      .add-to-cart{
+      .add-to-cart, .go-to-course{
         @include custom-button($greenColor,$blackColor,$whiteColor,63px);
         width: 100%;
       }

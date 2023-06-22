@@ -6,6 +6,7 @@ import { Payment } from 'src/app/Models/payment';
 import { NotificationService } from 'src/app/Shared/Services/notification.service';
 import { SiteCoupon } from 'src/app/Models/siteCoupon';
 import { Router } from '@angular/router';
+import { ShoppingCartService } from 'src/app/Services/cart.service';
 
 @Component({
   selector: 'app-summary',
@@ -16,8 +17,10 @@ export class SummaryComponent implements OnInit {
   constructor(public service: CheckoutService,
     private apiService: APIService,
     private notification: NotificationService,
-    private navigator: Router) { }
-  code!: string;
+    private navigator: Router,
+    private shoppingService:ShoppingCartService) { }
+
+  code: string = '';
   siteCouponDisable: boolean = false;
 
   ngOnInit(): void {
@@ -40,7 +43,6 @@ export class SummaryComponent implements OnInit {
       siteCoupon: this.code,
       coursesCoupons: this.service.courseCoupons
     }
-    console.log(paymentObj);
     return paymentObj;
   }
 
@@ -62,6 +64,7 @@ export class SummaryComponent implements OnInit {
 
 
   performPaymentProcess() {
+    console.log(this.setPaymentObj());
     this.apiService.addItem("Payment", this.setPaymentObj()).subscribe((data) => {
       this.performEnrollmentProcess();
       this.resetCardForm();
@@ -69,6 +72,9 @@ export class SummaryComponent implements OnInit {
       this.resetSummaryForm();
       this.service.setOrderdItems();
       this.notification.notify("Successful Enrollment Process");
+      setTimeout(() => {
+        this.navigator.navigateByUrl('/mycourses');
+      }, 500);
     }, (error) => {
       this.notification.notify("Payment Process has been failed, Please check your card details again");
       return;
@@ -76,15 +82,17 @@ export class SummaryComponent implements OnInit {
   }
 
   checkCoupon() {
-    this.apiService.getItemById("SiteCoupon", this.code).subscribe((data: APIResponseVM) => {
-      let coupon: SiteCoupon[] = data.items;
-      this.service.discount += +(coupon[0].discount / 100 * this.service.totalPrice).toPrecision(5);
-      this.service.calcTotalPrice();
-      this.notification.notify("Valid Coupon!");
-      this.siteCouponDisable = true;
-    }, (error) => {
-      this.notification.notify("Invalid Coupon!");
-    })
+    if (this.code.length > 0) {
+      this.apiService.getItemById("SiteCoupon", this.code).subscribe((data: APIResponseVM) => {
+        let coupon: SiteCoupon[] = data.items;
+        this.service.discount += +(coupon[0].discount / 100 * this.service.totalPrice).toPrecision(5);
+        this.service.calcTotalPrice();
+        this.notification.notify("Valid Coupon!");
+        this.siteCouponDisable = true;
+      }, (error) => {
+        this.notification.notify("Invalid Coupon!");
+      })
+    }
   }
 
   saveCardDetails() {
@@ -101,6 +109,7 @@ export class SummaryComponent implements OnInit {
 
   resetCart() {
     localStorage.setItem('cart', JSON.stringify([]));
+    this.shoppingService.loadCartData();
   }
 
   resetSummaryForm() {

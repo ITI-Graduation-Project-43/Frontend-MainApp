@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import {NotificationService} from './../../../Shared/Services/notification.service'
 import { APIService } from 'src/app/Shared/Services/api.service';
-import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 
 
@@ -20,7 +18,7 @@ export class RegisterFormComponent {
   showedConfirmPass : boolean = true;
   passwordCheckMessage !: string;
 
-  constructor(private http: APIService, private router: Router , private fb: FormBuilder, private NotificationService: NotificationService) {
+  constructor(private http: APIService, private router: Router , private fb: FormBuilder) {
     this.registerForm = fb.group({
       firstName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]{3,10}$/)]],
       lastName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]{3,10}$/)]],

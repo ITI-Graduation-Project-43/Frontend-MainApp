@@ -1,0 +1,25 @@
+<section>
+  <h2>Notifications</h2>
+  <h4>Email</h4>
+  <form>
+    <p>I’d like to receive:</p>
+    <div>
+      <input type="checkbox" id="show-profile" [checked]="promotions" #promotion>
+      <label for="show-profile">Promotions, course recommendations, and helpful resources from MindMission.</label>
+    </div>
+    <div>
+      <input type="checkbox" id="show-courses" [checked]="announcements" #announcement>
+      <label for="show-courses">Announcements from instructors whose course(s) I’m enrolled in.</label>
+    </div>
+    <hr>
+    <div>
+      <input type="checkbox" id="show-courses" [checked]="dontSend" #dontSendd>
+      <label for="show-courses">Don't send me any promotional emails.</label>
+    </div>
+    <div class="btns">
+      <button (click)="save($event, promotion, announcement, dontSendd)" type="submit" [ngClass]="{'save': true}">
+        <span>Save</span>
+      </button>
+    </div>
+  </form>
+</section>

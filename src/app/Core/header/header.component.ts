@@ -95,10 +95,13 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     options.classList.toggle('active');
   }
 
+  closeMenu(options: any) {
+    options.classList.remove('active');
+  }
+
   signout() {
     this.login = false;
     this.Id = this.Role = '';
     localStorage.removeItem('MindMission');
-    this.router.navigateByUrl('/home');
   }
 }

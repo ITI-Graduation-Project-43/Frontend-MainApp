@@ -7,12 +7,7 @@
   background-color: $mainColorLight;
   padding: 88px 0;
   .upload-course-sec{
-
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 40px;
-    gap: 64px;
+    @include style-display-column(64px, 40px);
 
     margin: 88px auto;
     max-width:  924px;
@@ -21,87 +16,44 @@
     border: 2px solid $blackColor;
     .upload-heading {
       .steps{
-
-        font-family: 'Anton';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 24px;
-        line-height: 36px;
-
-        color: #181818;
+        @include style-font($font-anton, 24px, 36px, $blackColor, 400);
         }
         .heading{
-          font-family: 'Anton';
-          font-style: normal;
-          font-weight: 400;
-          font-size: 64px;
-          line-height: 79px;
-
-          color: #181818;
+          @include style-font($font-anton,  64px, 79px, $blackColor, 400);
         }
     }
     .upload-main{
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 0px;
-      gap: 16px;
+      @include style-display-column(16px, 0px);
       width: 100%;
       .add-chapter-btn{
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 10px 32px;
-        gap: 10px;
+        @include style-display-column(10px, 10px, 32px);
 
-        background: #FDF6EB;
-        border: 1px solid #181818;
+
+        background: $mainColorLight;
+        border: 1px solid $blackColor;
         border-radius: 36px;
         .button-content{
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          padding: 0px;
-          gap: 16px;
-          font-family: 'Cabin';
-          font-style: normal;
-          font-weight: 700;
-          font-size: 16px;
-          line-height: 19px;
-
-          color: #181818;
+          @include style-display-row-center(16px, 0px);
+          @include style-font($font-cabin,  16px, 19px, $blackColor, 700);
         }
       }
       .chapters{
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 0px;
-        gap: 16px;
+        @include style-display-column(16px, 0px);
         width: 100%;
         .chapter-lesson{
           width: 100%;
-          background: #FDF6EB;
-          border: 1px solid #181818;
+          background: $mainColorLight;
+          border: 1px solid $blackColor;
 
           .chapter-heading{
-            width: 100%;
-            display: flex;
-            align-items: center;
+            @include style-display-row-center(0px, 24px, 40px);
             justify-content: space-between;
-            border-bottom: 1px solid #181818;
-            padding: 24px 40px;
-            .chapter-data{
-              font-family: 'Cabin';
-              font-style: normal;
-              font-weight: 400;
-              font-size: 24px;
-              line-height: 29px;
+            width: 100%;
+            border-bottom: 1px solid $blackColor;
 
-              color: #181818;
-              display: flex;
-              align-items: center;
-              gap: 10px;
+            .chapter-data{
+              @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
+              @include style-display-row-center(10px, 0px);
               .main-title{
                 font-weight: 700;
               }
@@ -110,11 +62,8 @@
               }
             }
             .chapter-actions{
-              display: flex;
-              flex-direction: row;
-              align-items: center;
-              padding: 0px;
-              gap: 8px;
+              @include style-display-row-center(8px, 0px);
+
               button{
                 border: none;
                 background-color: inherit;
@@ -126,28 +75,14 @@
 
             .chapter-lessons{
               .add-lesson-btn{
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 10px 32px;
-                gap: 10px;
+                @include style-display-column(10px, 10px, 32px);
 
-                background: #D8D6FB;
-                border: 1px solid #181818;
+                background: $lightPurpleColor;
+                border: 1px solid $blackColor;
                 border-radius: 36px;
                 .button-content{
-                  display: flex;
-                  flex-direction: row;
-                  align-items: center;
-                  padding: 0px;
-                  gap: 16px;
-                  font-family: 'Cabin';
-                  font-style: normal;
-                  font-weight: 700;
-                  font-size: 16px;
-                  line-height: 19px;
-
-                  color: #181818;
+                  @include style-display-row-center(16px, 0px);
+                  @include style-font($font-cabin,  16px, 19px, $blackColor, 700);
                 }
               }
             }
@@ -157,12 +92,9 @@
       }
     }
     .create-course-actions{
-      display: flex;
-      flex-direction: row;
-      width: 100%;
+      @include style-display-row-center(24px, 0px);
       justify-content: flex-end;
-      padding: 0px;
-      gap: 24px;
+      width: 100%;
       .back-btn{
         @include custom-button($mainColorLight, $blackColor, $blackColor, 43px);
       }
@@ -176,68 +108,311 @@
 }
 
 
-.add-new-chapter{
+.add-new{
+  @include style-display-column(24px, 24px, 40px);
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 24px 40px;
-  gap: 24px;
+  background: $mainColorLight;
+  border: 1px solid  $blackColor;
 
-  width: 844px;
-
-  background: #FDF6EB;
-  border: 1px solid #181818;
-  .add-new-chapter-heading-title{
+  .add-new-heading-title{
+    @include style-display-column(16px, 0px);
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0px;
-    gap: 16px;
-    .add-new-chapter-heading{
-      width: 100%;
-      display: flex;
+    .add-new-heading{
+      @include style-display-row-center(0px, 0px);
       justify-content: space-between;
-      align-items: center;
+      width: 100%;
       .main-title{
-        font-family: 'Cabin';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 24px;
-        line-height: 124.04%;
-        color: #181818;
+        @include style-font($font-cabin,  24px, 36px, $blackColor, 700);
       }
-      .delete-content button {
+      button {
         border: none;
         background-color: inherit;
       }
     }
-    .chapter-title{
+    .title-data{
       width: 100%;
 
       input{
         width: 100%;
         padding: 20px 24px;
-        background: #FFFFFF;
-        border: 1px solid #181818;
-        font-family: 'Cabin';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 24px;
-        line-height: 29px;
-
-        color: #181818;
+        background: $whiteColor;
+        border: 1px solid $blackColor;
+        @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
       }
     }
   }
+  .description , .lesson-content{
+    width: 100%;
+    @include style-display-column(16px, 0px);
+    > * {
+      width: 100%;
+    }
+    .lesson-content-heading{
+      @include style-display-column(16px, 0px);
+      .question-heading{
+        @include style-display-row-center(0px, 0px);
+        justify-content: space-between;
+        width: 100%;
+        .main-title{
+          @include style-font($font-cabin,  24px, 36px, $blackColor, 700);
+        }
+        button {
+          border: none;
+          background-color: inherit;
+          img{
+            width: 16px;
+            height: 16px;
+          }
+        }
+      }
+      .question-text{
+        width: 100%;
+      }
+    }
+    .lesson-content-data{
+      width: 100%;
+      background: $whiteColor;
+      border: 1px solid $blackColor;
+      .article-body-controls{
+        @include style-display-row(24px, 20px, 24px);
+        width: 100%;
+        border-bottom: 1px solid $blackColor;
+        .controls{
+          @include style-font($font-cabin,  24px, 29px, $blackColor, 700);
+        }
+        .italic{
+          font-family: 'Times New Roman';
+          font-style: italic;
+          font-weight: 700;
+          font-size: 24px;
+          line-height: 28px;
 
-  .chapter-action{
+        }
+      }
+      textarea{
+        width: 100%;
+        min-height: 200px;
+        resize: none;
+        border: none;
+        outline: none;
+      }
+
+      .dropzone-wrapper {
+        border: 1px dashed $blackColor;
+        position: relative;
+        height: 150px;
+        .dropzone-desc {
+          position: absolute;
+          left: 0;
+          right: 0;
+          text-align: center;
+          top: 65px;
+        }
+
+        .dropzone,
+        .dropzone:focus {
+          position: absolute;
+          outline: none !important;
+          width: 100%;
+          height: 150px;
+          cursor: pointer;
+          opacity: 0;
+          left: 0;
+          top: -65px;
+        }
+        &:hover,
+        .dropzone-wrapper.dragover {
+          background: #ecf0f5;
+        }
+
+      }
+
+      .question-choices{
+        width: 100%;
+        @include style-display-column(8px, 0px);
+        .question-choice{
+          @include style-display-row-center(16px, 20px,58px);
+          background: $whiteColor;
+          border: 1px solid $blackColor;
+          width: 100%;
+
+          input[type='radio'] {
+            width: 24px;
+            height: 24px;
+            accent-color: $blackColor;
+          }
+          input[type='text'] {
+            border: none;
+            outline: none;
+            width: 100%;
+            @include style-font($font-cabin, 24px, 29px, $blackColor, 400);
+          }
+          button{
+            border: none;
+            background: inherit;
+          }
+        }
+      }
+    }
+    .quiz-content-data{
+      background-color: inherit;
+      border: none;
+      @include style-display-column(16px, 0px);
+      .question-text-heading{
+        @include style-display-row-center(0px, 0px);
+        justify-content: space-between;
+        width: 100%;
+        button{
+          border: none;
+        background: inherit;
+        }
+      }
+    }
+  }
+  .add-new-action{
     width: 100%;
     display: flex;
     justify-content: flex-end;
     button{
       @include custom-button($greenColor, $blackColor, $blackColor, 43px);
     }
+  }
+}
+
+.add-new-lesson {
+  background: $lightPurpleColor;
+}
+.input-style{
+  width: 100%;
+  padding: 20px 24px;
+  background: $whiteColor;
+  border: 1px solid $blackColor;
+  @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
+}
+.input-title-style{
+  @include style-font($font-cabin,  24px, 29px, $blackColor, 700);
+}
+.add-new-heading{
+  @include style-display-row-center(0px, 0px);
+  justify-content: space-between;
+  width: 100%;
+  button {
+    border: none;
+    background-color: inherit;
+  }
+}
+
+.add-lesson-actions{
+  @include style-display-row-center(16px, 0px);
+  button{
+    min-width: 80px;
+    padding: 10px 32px;
+    border: 1px solid $blackColor;
+    border-radius: 36px;
+    display: flex;
+    align-items: center !important;
+
+  }
+  :first-child{
+    background: $lightPurpleColor;
+  }
+  :not(:first-child){
+    background: $blackColor;
+    color: $whiteColor;
+  }
+}
+
+.chapter-lessons{
+  @include style-display-column(16px, 0);
+  .lesson-sec{
+    width: 100%;
+    .lesson{
+      width: 100%;
+      background: $lightPurpleColor;
+      border: 1px solid $blackColor;
+      .lesson-heading{
+        @include style-display-row-center(0px, 24px, 40px);
+        justify-content: space-between;
+        width: 100%;
+        border-bottom: 1px solid $blackColor;
+
+        .lesson-data{
+          @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
+          @include style-display-row-center(10px, 0px);
+          .main-title{
+            font-weight: 700;
+          }
+          input{
+            padding: 2px 10px;
+          }
+        }
+        .lesson-actions{
+          @include style-display-row-center(8px, 0px);
+
+          button{
+            border: none;
+            background-color: inherit;
+          }
+        }
+      }
+      .lesson-body{
+        @include style-display-column(16px, 24px, 40px);
+        @include style-font($font-cabin, 16px, 19px, $blackColor, 700);
+
+          .add-lesson-btn{
+            @include style-display-column(10px, 10px, 32px);
+
+            background: $lightPurpleColor;
+            border: 1px solid $blackColor;
+            border-radius: 36px;
+            .button-content{
+              @include style-display-row-center(16px, 0px);
+              @include style-font($font-cabin,  16px, 19px, $blackColor, 700);
+            }
+          }
+      }
+    }
+  }
+}
+
+
+.attachment button {
+  @include style-display-row-center(10px, 10px, 32px);
+  @include style-font($font-cabin, 16px, 19px, $blackColor, 700);
+  background: $secondaryColor;
+  border: 1px solid $blackColor;
+  border-radius: 36px;
+}
+.uploaded-attachment{
+  width: 100%;
+  @include style-display-row-center(0,  0);
+  padding-top: 24px;
+  justify-content: space-between;
+  @include style-font($font-cabin, 16px, 19px, $blackColor, 700);
+  border-top: 1px solid $blackColor;
+
+  button{
+    border: none;
+    background-color: inherit;
+  }
+}
+
+
+
+.word-wrap {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+
+.video-wrapper{
+  max-width: 100%;
+  @include style-display-row-center(16px, 0px);
+  border: 1px solid $blackColor;
+  max-height: 600px;
+  video{
+    width: 100%;
+    object-fit: contain;
   }
 }

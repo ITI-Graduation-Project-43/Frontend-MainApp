@@ -35,14 +35,18 @@
   gap: 24px;
   background-color: $blackColor;
   color: $whiteColor;
-
+  max-width: 844px;
+  .instructor-title {
+    @include style-font("Anton", 24px, 36px, $whiteColor);
+  }
   .instructor-name {
-    max-width: 844px;
     @include style-font("Anton", 64px, 79px, $whiteColor);
   }
-  .description {
-    max-width: 844px;
+  .About-me {
     @include style-font("Cabin", 24px, 29px, $whiteColor);
+  }
+  .description {
+    @include style-font("Anton", 24px, 29px, $whiteColor);
   }
 }
 /* Instructor other courses section */

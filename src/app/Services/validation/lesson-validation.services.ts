@@ -11,6 +11,7 @@ export class ChapterValidationService {
     'application/msword',
     'application/vnd.ms-excel',
     'application/zip',
+    'application/vnd.rar',
     'application/text',
     'text/plain',
   ];

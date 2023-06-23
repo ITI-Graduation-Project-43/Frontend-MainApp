@@ -429,3 +429,8 @@
   color: $succes-color;
   font-weight: 700;
 }
+
+img{
+  max-width:100%;
+  object-fit: cover;
+}

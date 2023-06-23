@@ -12,6 +12,7 @@ import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
 import { Language } from '../../../Models/Enums/CourseLanguage';
 import { Level } from '../../../Models/Enums/CourseLevel';
 import { Router } from '@angular/router';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-create-course',
@@ -90,7 +91,7 @@ export class CreateCourseComponent implements OnInit {
   get title() {
     return this.CreateCourse.get('title');
   }
-  get category() {
+  get categoryId() {
     return this.CreateCourse.get('categoryId');
   }
   get shortDescription() {
@@ -169,20 +170,19 @@ export class CreateCourseComponent implements OnInit {
 
   onFileSelected($event: any) {
     this.file = $event.target.files[0];
-
     const reader = new FileReader();
     reader.onload = (e) => (this.CourseImage = reader.result);
-
     reader.readAsDataURL(this.file);
+    
   }
 
   CreateCourseSubmit() {
     if (this.CreateCourse.invalid) return;
     const form = new FormData();
     if (this.file) {
-      form.append('imageUrl', this.file, this.file?.name);
+      form.append('CourseImage', this.file, this.file?.name);
     }
-    form.append('name', this.title?.value);
+
     const observer = {
       next: (result: any) => {
         this.router.navigate(['createCourse/step2']);

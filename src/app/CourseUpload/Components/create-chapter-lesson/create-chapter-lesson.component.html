@@ -98,7 +98,7 @@
                   </div>
                   <div class="lesson-body" *ngIf="!isCollapsed[j]">
                     <div *ngIf="lesson.type == articleType">
-                      <div class="word-wrap">{{ lesson.content }}</div>
+                      <div class="word-wrap" [innerHTML]="lesson.content"></div>
                     </div>
                     <div
                       class="video-wrapper"

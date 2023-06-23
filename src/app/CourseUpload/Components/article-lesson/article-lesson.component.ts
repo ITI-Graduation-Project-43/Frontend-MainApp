@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import 'quill-emoji';
+
 import { Lesson } from '../create-chapter-lesson/create-chapter-lesson.component';
 import { NotificationService } from '../../../Shared/Services/notification.service';
 import { ChapterValidationService } from 'src/app/Services/validation/lesson-validation.services';
@@ -19,13 +21,44 @@ export class ArticleLessonComponent implements OnInit {
 
   saveAttempted: boolean = false;
   touchedFields: any = {};
+  quillConfig: any = {};
+  isBold: boolean = false;
+  isItalic: boolean = false;
 
   errorMessages = ERROR_MESSAGES;
 
   constructor(
     private notificationService: NotificationService,
     private chapterValidationService: ChapterValidationService
-  ) {}
+  ) {
+    this.quillConfig = {
+      'emoji-shortname': true,
+      'emoji-textarea': false,
+      'emoji-toolbar': true,
+      toolbar: {
+        container: [
+          ['bold', 'italic', 'underline', 'strike'],
+          ['blockquote', 'code-block'],
+
+          [{ header: 1 }, { header: 2 }],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          [{ script: 'sub' }, { script: 'super' }],
+          [{ indent: '-1' }, { indent: '+1' }],
+          [{ direction: 'rtl' }],
+
+          [{ size: ['small', false, 'large', 'huge'] }],
+          [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+          [{ color: [] }, { background: [] }],
+          [{ align: [] }],
+
+          ['link', 'image', 'video'],
+          ['emoji'],
+        ],
+        handlers: { emoji: function () {} },
+      },
+    };
+  }
 
   ngOnInit() {
     this.editedArticle = JSON.parse(JSON.stringify(this.article));
@@ -47,6 +80,12 @@ export class ArticleLessonComponent implements OnInit {
       );
     }
   }
+
+  blur($event: any) {
+    this.touchedFields.articleContent = true;
+  }
+
+  // #region Validation
 
   isInvalidArticleTitle(): string | null {
     if (
@@ -109,8 +148,6 @@ export class ArticleLessonComponent implements OnInit {
         !this.chapterValidationService.validateSentenceLength(content, 100)
       ) {
         return this.errorMessages.sentenceLength(fieldName, 100);
-      } else if (!this.chapterValidationService.validateWordLength(content)) {
-        return this.errorMessages.wordLength;
       }
     }
     return null;
@@ -125,4 +162,6 @@ export class ArticleLessonComponent implements OnInit {
     }
     return true;
   }
+
+  //#endregion
 }

@@ -267,7 +267,6 @@ export class CreateChapterLessonComponent implements OnInit {
       description: '',
       type: this.articleType,
       content: '',
-      contentHTML: '',
       attachment: null,
     };
   }
@@ -311,7 +310,6 @@ export interface Lesson {
   description: string;
   type: LessonType;
   content?: string;
-  contentHTML?: string;
   videoFile?: File;
   questions?: QuizQuestion[];
   attachment?: File | null;

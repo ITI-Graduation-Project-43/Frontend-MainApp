@@ -42,16 +42,13 @@
     <div class="input-title-style">Article Body</div>
   </div>
   <div class="lesson-content-data">
-    <div class="article-body-controls">
-      <span class="controls bold">B</span>
-      <span class="controls italic">I</span>
-    </div>
-    <textarea
-      class="input-style"
+    <quill-editor
       [(ngModel)]="editedArticle.content"
-      placeholder="Write a description"
-      (blur)="touchedFields.articleContent = true"
-    ></textarea>
+      [modules]="quillConfig"
+      (onBlur)="blur($event)"
+      placeholder="Enter article body"
+      [styles]="{ minHeight: '200px' }"
+    ></quill-editor>
   </div>
   <!-- Error message for Article Content -->
   <div *ngIf="isInvalidArticleContent()" class="error-message error">

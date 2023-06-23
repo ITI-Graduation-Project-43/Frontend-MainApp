@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { QuillModule } from 'ngx-quill';
 
 import { CreatingCourseRoutingModule } from './creating-course-routing.module';
 import { CreateCourseComponent } from './Components/create-course/create-course.component';
@@ -28,6 +29,7 @@ import { ChapterComponent } from './Components/chapter/chapter.component';
     MatTooltipModule,
     CreatingCourseRoutingModule,
     ReactiveFormsModule,
+    QuillModule.forRoot(),
   ],
 })
 export class CreatingCourseModule {}

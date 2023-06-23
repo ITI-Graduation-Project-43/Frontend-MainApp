@@ -124,11 +124,4 @@
 .input-title-style{
   @include style-font($font-cabin,  24px, 29px, $blackColor, 700);
 }
-.errors-sec{
-  @include style-display-column(8px, 0px);
-}
-.error-message{
-  color: $error-color;
-
-}
 

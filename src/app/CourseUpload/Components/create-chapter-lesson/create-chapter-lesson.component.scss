@@ -416,3 +416,16 @@
     object-fit: contain;
   }
 }
+
+
+.width100{
+  width: 100%;
+}
+.choice-style{
+  font-weight: 400;
+
+}
+.correct-answer {
+  color: $succes-color;
+  font-weight: 700;
+}

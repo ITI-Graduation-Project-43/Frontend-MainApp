@@ -1,0 +1,28 @@
+<div class="add-new">
+  <div class="add-new-heading-title">
+    <div class="add-new-heading">
+      <div class="main-title">{{ editMode ? "Edit" : "Add" }} Chapter</div>
+      <div class="delete-content">
+        <button (click)="onCancel()">
+          <img src="../../../../assets/svg/x-icon.svg" alt="" />
+        </button>
+      </div>
+    </div>
+    <div class="title-data">
+      <input
+        [(ngModel)]="chapterName"
+        type="text"
+        placeholder="Give this chapter a title"
+        (blur)="touchedFields.chapterTitle = true"
+        (input)="onChapterNameChange()"
+      />
+      <!-- Error message for Chapter Title -->
+      <div *ngIf="isInvalidChapterTitle()" class="error-message error">
+        {{ isInvalidChapterTitle() }}
+      </div>
+    </div>
+  </div>
+  <div class="add-new-action">
+    <button (click)="onSave()">{{ editMode ? "Save" : "Add" }}</button>
+  </div>
+</div>

@@ -11,7 +11,12 @@
       [(ngModel)]="editedVideo.title"
       type="text"
       placeholder="Give this video a title"
+      (blur)="touchedFields.videoTitle = true"
     />
+    <!-- Error message for Video Title -->
+    <div *ngIf="isInvalidVideoTitle()" class="error-message error">
+      {{ isInvalidVideoTitle() }}
+    </div>
   </div>
 </div>
 <div class="description">
@@ -24,7 +29,12 @@
       class="input-style"
       type="text"
       placeholder="Give this video a description"
+      (blur)="touchedFields.videoDescription = true"
     />
+    <!-- Error message for VideoDescription -->
+    <div *ngIf="isInvalidVideoDescription()" class="error-message error">
+      {{ isInvalidVideoDescription() }}
+    </div>
   </div>
 </div>
 <div class="lesson-content">
@@ -43,12 +53,17 @@
         />
       </div>
     </div>
+
     <div class="video-wrapper" *ngIf="videoUrl">
       <video [src]="videoUrl" controls></video>
       <button (click)="onDeleteVideo()">
         <img src="../../../../assets/svg/delete-ico.svg" alt="delete icon" />
       </button>
     </div>
+  </div>
+  <!-- Error message for Quiz Description -->
+  <div *ngIf="isInvalidVideoFile()" class="error-message error">
+    {{ isInvalidVideoFile() }}
   </div>
 </div>
 

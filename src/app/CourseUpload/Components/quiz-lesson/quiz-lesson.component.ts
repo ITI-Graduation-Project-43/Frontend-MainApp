@@ -1,9 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
 import {
   Lesson,
   QuizQuestion,
 } from '../create-chapter-lesson/create-chapter-lesson.component';
 import { NotificationService } from '../../../Shared/Services/notification.service';
+import { ChapterValidationService } from 'src/app/Services/validation/lesson-validation.services';
+import { ERROR_MESSAGES } from '../../../Shared/Helper/error-messages';
 
 @Component({
   selector: 'app-quiz-lesson',
@@ -15,7 +18,6 @@ export class QuizLessonComponent implements OnInit {
   @Input() quiz: Lesson = {} as Lesson;
   @Output() cancel = new EventEmitter<void>();
   @Output() save = new EventEmitter<any>();
-
   @Output() quizChange = new EventEmitter<Lesson>();
 
   editedQuiz: Lesson = {} as Lesson;
@@ -25,26 +27,15 @@ export class QuizLessonComponent implements OnInit {
   quizValid: boolean = true;
   touchedFields: any = {};
 
-  errorMessages: any = {
-    quizTitle: 'Please enter a title with at least five characters.',
-    quizDescription: 'Please enter a description with at least 10 characters.',
-    questionText: 'Please enter a question with at least 10 characters.',
-    questionChoices: 'Each question should have at least two options.',
-    correctAnswer: 'Please choose a valid answer.',
-    wordLength: 'Each word should be up to 20 characters long.',
-    minimumQuestions: 'Please add at least one question.',
-    emptyQuestionText: 'Please provide a question text.',
-    uniqueChoices: 'Please ensure all choices are unique.',
-    minimumChoices: 'Each question should have at least two options.',
-    chooseAnswer: 'Please select an answer.',
-    validAnswer: 'The correct answer must be one of the provided options.',
-    generalValidation: 'Please address the validation errors before saving.',
-  };
+  errorMessages = ERROR_MESSAGES;
 
-  constructor(private notificationService: NotificationService) {}
+  constructor(
+    private notificationService: NotificationService,
+    private chapterValidationService: ChapterValidationService
+  ) {}
 
   ngOnInit() {
-    this.editedQuiz = JSON.parse(JSON.stringify(this.quiz));
+    this.editedQuiz = { ...this.quiz };
     if (!this.editedQuiz.questions) {
       this.editedQuiz.questions = [
         {
@@ -109,7 +100,8 @@ export class QuizLessonComponent implements OnInit {
   }
 
   onSave(): void {
-    if (this.validateQuiz(this.editedQuiz)) {
+    this.saveAttempted = true;
+    if (this.isQuizValid()) {
       this.quizChange.emit(this.editedQuiz);
       this.save.emit(this.editedQuiz);
     } else {
@@ -120,61 +112,134 @@ export class QuizLessonComponent implements OnInit {
     }
   }
 
-  isInvalidQuizTitle(): boolean {
-    return (
-      (this.touchedFields.quizTitle || this.editMode) &&
-      (!this.validateWordLength(this.editedQuiz.title) ||
-        this.editedQuiz.title.length < 5)
-    );
-  }
-
-  isInvalidQuizDescription(): boolean {
-    return (
-      (this.touchedFields.quizDescription || this.editMode) &&
-      (!this.validateWordLength(this.editedQuiz.description) ||
-        this.editedQuiz.description.length < 10)
-    );
-  }
-
-  isInvalidQuestionText(question: QuizQuestion): boolean {
-    return (
-      (this.touchedFields['questionText_' + question.questionText] ||
-        this.editMode) &&
-      (!question.questionText || question.questionText.trim() === '')
-    );
-  }
-
-  isInvalidQuestionChoices(question: QuizQuestion): boolean {
-    return (
-      (this.touchedFields['questionChoices_' + question.questionText] ||
-        this.editMode) &&
-      (question.choices.length < 2 ||
-        question.choices.some((choice) => choice.trim() === ''))
-    );
-  }
-
-  isInvalidCorrectAnswer(question: QuizQuestion): boolean {
-    return (
-      (this.touchedFields['correctAnswer_' + question.questionText] ||
-        this.editMode) &&
-      question.correctAnswer === null
-    );
-  }
-
-  validateWordLength(input: string): boolean {
-    const words = input.split(' ');
-
-    for (let word of words) {
-      if (word.length > 20) {
-        return false;
+  isInvalidQuizTitle(): string | null {
+    if (this.touchedFields.quizTitle || this.editMode || this.saveAttempted) {
+      const { title } = this.editedQuiz;
+      const fieldName = 'title';
+      if (!title) {
+        return this.errorMessages.requiredField(fieldName);
+      } else if (
+        !this.chapterValidationService.validateSentenceLength(title, 5, 100)
+      ) {
+        return this.errorMessages.sentenceLength(fieldName, 5, 100);
+      } else if (!this.chapterValidationService.validateWordLength(title)) {
+        return this.errorMessages.wordLength;
       }
     }
-
-    return true;
+    return null;
   }
 
-  validateQuiz(quiz: Lesson): boolean {
-    if (quiz.questions!.length === 0) {
+  isInvalidQuizDescription(): string | null {
+    if (
+      this.touchedFields.quizDescription ||
+      this.editMode ||
+      this.saveAttempted
+    ) {
+      const { description } = this.editedQuiz;
+      const fieldName = 'description';
+      if (!description) {
+        return this.errorMessages.requiredField(fieldName);
+      } else if (
+        !this.chapterValidationService.validateSentenceLength(
+          description,
+          10,
+          500
+        )
+      ) {
+        return this.errorMessages.sentenceLength(fieldName, 10, 500);
+      } else if (
+        !this.chapterValidationService.validateWordLength(description)
+      ) {
+        return this.errorMessages.wordLength;
+      }
+    }
+    return null;
+  }
+
+  isInvalidQuestionText(question: QuizQuestion): string | null {
+    if (
+      this.touchedFields['questionText_' + question.questionText] ||
+      this.editMode ||
+      this.saveAttempted
+    ) {
+      const { questionText } = question;
+      const fieldName = 'question text';
+      if (!questionText) {
+        return this.errorMessages.requiredField(fieldName);
+      } else if (
+        !this.chapterValidationService.validateSentenceLength(
+          questionText,
+          10,
+          150
+        )
+      ) {
+        return this.errorMessages.sentenceLength(fieldName, 10, 150);
+      } else if (
+        !this.chapterValidationService.validateWordLength(questionText)
+      ) {
+        return this.errorMessages.wordLength;
+      }
+    }
+    return null;
+  }
+
+  isInvalidQuestionChoices(question: QuizQuestion): string | null {
+    if (
+      this.touchedFields['questionChoices_' + question.questionText] ||
+      this.editMode ||
+      this.saveAttempted
+    ) {
+      if (!this.chapterValidationService.hasEnoughChoices(question.choices)) {
+        return this.errorMessages.minimumChoices;
+      }
+    }
+    return null;
+  }
+
+  isInvalidCorrectAnswer(question: QuizQuestion): string | null {
+    if (
+      this.touchedFields['correctAnswer_' + question.questionText] ||
+      this.editMode ||
+      this.saveAttempted
+    ) {
+      if (!question.correctAnswer) {
+        return this.errorMessages.chooseAnswer;
+      }
+    }
+    return null;
+  }
+
+  isInvalidUniqueChoices(question: QuizQuestion): string | null {
+    if (
+      this.touchedFields['uniqueChoices_' + question.questionText] ||
+      this.editMode ||
+      this.saveAttempted
+    ) {
+      if (!this.chapterValidationService.areChoicesUnique(question.choices)) {
+        return this.errorMessages.uniqueChoices;
+      }
+    }
+    return null;
+  }
+
+  isInvalidField(question: QuizQuestion): boolean {
+    return (
+      !!this.isInvalidQuestionText(question) ||
+      !!this.isInvalidQuestionChoices(question) ||
+      !!this.isInvalidCorrectAnswer(question) ||
+      !!this.isInvalidUniqueChoices(question)
+    );
+  }
+
+  isQuizValid(): boolean {
+    if (
+      this.isInvalidQuizTitle() !== null ||
+      this.isInvalidQuizDescription() !== null
+    ) {
+      return false;
+    }
+    const { questions } = this.editedQuiz;
+    if (questions!.length === 0) {
       this.notificationService.notify(
         this.errorMessages.minimumQuestions,
         'error'
@@ -182,53 +247,8 @@ export class QuizLessonComponent implements OnInit {
       return false;
     }
 
-    for (let question of quiz.questions!) {
-      if (!question.questionText) {
-        this.notificationService.notify(
-          this.errorMessages.emptyQuestionText,
-          'error'
-        );
-        return false;
-      }
-
-      const nonBlankChoices = question.choices.filter(
-        (choice) => choice.trim() !== ''
-      );
-
-      const uniqueChoices = Array.from(
-        new Set(
-          nonBlankChoices.map((choice) => choice.replace(/\s+/g, ' ').trim())
-        )
-      );
-      if (uniqueChoices.length !== nonBlankChoices.length) {
-        this.notificationService.notify(
-          this.errorMessages.uniqueChoices,
-          'error'
-        );
-        return false;
-      }
-
-      if (nonBlankChoices.length < 2) {
-        this.notificationService.notify(
-          this.errorMessages.minimumChoices,
-          'error'
-        );
-        return false;
-      }
-
-      if (!question.correctAnswer) {
-        this.notificationService.notify(
-          this.errorMessages.chooseAnswer,
-          'error'
-        );
-        return false;
-      }
-
-      if (!nonBlankChoices.includes(question.correctAnswer!)) {
-        this.notificationService.notify(
-          this.errorMessages.validAnswer,
-          'error'
-        );
+    for (let question of questions!) {
+      if (this.isInvalidField(question)) {
         return false;
       }
     }

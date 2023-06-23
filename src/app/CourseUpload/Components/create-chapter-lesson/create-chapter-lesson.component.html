@@ -11,15 +11,12 @@
           class="chapter-lesson"
           cdkDrag
         >
-          <div class="chapter-heading">
+          <div class="chapter-heading" *ngIf="!chapter.editMode">
             <div class="chapter-data">
               <span class="input-title-style">Chapter {{ i + 1 }}:</span>
-              <ng-container *ngIf="!chapter.editMode; else editChapterInput">
+              <ng-container>
                 {{ chapter.name }}
               </ng-container>
-              <ng-template #editChapterInput>
-                <input [(ngModel)]="chapter.name" placeholder="Chapter name" />
-              </ng-template>
             </div>
             <div class="chapter-actions">
               <button (click)="toggleEditMode(i)">
@@ -49,7 +46,10 @@
               </button>
             </div>
           </div>
-          <div class="chapter-body" *ngIf="!isChapterCollapsed[i]">
+          <div
+            class="chapter-body"
+            *ngIf="!isChapterCollapsed[i] && !chapter.editMode"
+          >
             <div
               class="chapter-lessons"
               cdkDropList
@@ -65,7 +65,14 @@
                     <div class="lesson-data word-wrap">
                       <span class="input-title-style">Lesson {{ j + 1 }}:</span>
 
-                      {{ lesson.title }}
+                      <span
+                        matTooltip="{{ lesson.description }}"
+                        matTooltipPosition="above"
+                        matTooltipShowDelay="500"
+                        matTooltipHideDelay="1000"
+                      >
+                        {{ lesson.title }}
+                      </span>
                     </div>
                     <div class="lesson-actions">
                       <button (click)="editLesson(i, j)">
@@ -100,19 +107,34 @@
                       <video [src]="getVideoURL()" controls></video>
                     </div>
                     <div *ngIf="lesson.type === quizType">
-                      <div *ngFor="let question of lesson.questions">
-                        <p class="word-wrap">{{ question.questionText }}</p>
-                        <ul>
-                          <li
-                            class="word-wrap"
-                            *ngFor="let choice of question.choices"
-                          >
-                            {{ choice }}
-                          </li>
-                        </ul>
+                      <div
+                        *ngFor="
+                          let question of lesson.questions;
+                          let qNumber = index
+                        "
+                      >
                         <p class="word-wrap">
-                          Correct Answer: {{ question.correctAnswer }}
+                          Q{{ qNumber + 1 }}: {{ question.questionText }}
                         </p>
+                        <ul>
+                          <ng-container
+                            *ngFor="
+                              let choice of question.choices;
+                              let idx = index
+                            "
+                          >
+                            <li
+                              *ngIf="choice.length > 0"
+                              class="word-wrap choice-style"
+                              [ngClass]="{
+                                'correct-answer':
+                                  question.correctAnswer === choice
+                              }"
+                            >
+                              {{ getChoiceIdentifier(idx) }}) {{ choice }}
+                            </li>
+                          </ng-container>
+                        </ul>
                       </div>
                     </div>
 
@@ -121,6 +143,10 @@
                       *ngIf="!chapters[i].lessons[j].attachment"
                     >
                       <button (click)="onFileInputClick(i, j)">
+                        <img
+                          src="../../../../assets/svg/plus.svg"
+                          alt="plus icon"
+                        />
                         Add an attachment
                       </button>
                       <input
@@ -235,32 +261,24 @@
               </div>
             </div>
           </div>
+          <app-chapter
+            *ngIf="chapter.editMode"
+            [chapterName]="chapter.name"
+            [editMode]="true"
+            (cancel)="toggleEditMode(i)"
+            (save)="updateChapterName(i, $event)"
+          ></app-chapter>
         </div>
       </div>
 
       <!--Add new Chapter form-->
-      <div class="add-new" *ngIf="showAddNewChapter">
-        <div class="add-new-heading-title">
-          <div class="add-new-heading">
-            <div class="main-title">Chapter Title</div>
-            <div class="delete-content">
-              <button (click)="cancelAddChapter()">
-                <img src="../../../../assets/svg/x-icon.svg" alt="" />
-              </button>
-            </div>
-          </div>
-          <div class="title-data">
-            <input
-              [(ngModel)]="newChapterName"
-              type="text"
-              placeholder="Give this chapter a title"
-            />
-          </div>
-        </div>
-        <div class="add-new-action">
-          <button (click)="saveChapter()">Add</button>
-        </div>
-      </div>
+      <app-chapter
+        class="width100"
+        *ngIf="showAddNewChapter"
+        [(chapterName)]="newChapterName"
+        (cancel)="cancelAddChapter()"
+        (save)="saveChapter()"
+      ></app-chapter>
 
       <!--Add new chapter button-->
       <button

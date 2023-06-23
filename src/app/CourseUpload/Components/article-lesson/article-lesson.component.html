@@ -11,7 +11,12 @@
       [(ngModel)]="editedArticle.title"
       type="text"
       placeholder="Give this article a title"
+      (blur)="touchedFields.articleTitle = true"
     />
+    <!-- Error message for Article Title -->
+    <div *ngIf="isInvalidArticleTitle()" class="error-message error">
+      {{ isInvalidArticleTitle() }}
+    </div>
   </div>
 </div>
 <div class="description">
@@ -24,7 +29,12 @@
       class="input-style"
       type="text"
       placeholder="Give this article a description"
+      (blur)="touchedFields.articleDescription = true"
     />
+    <!-- Error message for Article Description -->
+    <div *ngIf="isInvalidArticleDescription()" class="error-message error">
+      {{ isInvalidArticleDescription() }}
+    </div>
   </div>
 </div>
 <div class="lesson-content">
@@ -40,7 +50,12 @@
       class="input-style"
       [(ngModel)]="editedArticle.content"
       placeholder="Write a description"
+      (blur)="touchedFields.articleContent = true"
     ></textarea>
+  </div>
+  <!-- Error message for Article Content -->
+  <div *ngIf="isInvalidArticleContent()" class="error-message error">
+    {{ isInvalidArticleContent() }}
   </div>
 </div>
 

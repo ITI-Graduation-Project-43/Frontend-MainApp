@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NotificationService } from 'src/app/Shared/Services/notification.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Question } from '../../../Models/lesson';
-
+import { ChapterValidationService } from 'src/app/Services/validation/lesson-validation.services';
+import { ERROR_MESSAGES } from '../../../Shared/Helper/error-messages';
 @Component({
   selector: 'app-create-chapter-lesson',
   templateUrl: './create-chapter-lesson.component.html',
@@ -36,7 +36,15 @@ export class CreateChapterLessonComponent implements OnInit {
 
   videoURL: string | null = null;
 
-  constructor(private notificationService: NotificationService) {}
+  saveAttempted: boolean = false;
+  touchedFields: any = {};
+
+  errorMessages = ERROR_MESSAGES;
+
+  constructor(
+    private notificationService: NotificationService,
+    private chapterValidationService: ChapterValidationService
+  ) {}
 
   ngOnInit() {
     const defaultChapter: Chapter = {
@@ -69,23 +77,21 @@ export class CreateChapterLessonComponent implements OnInit {
   }
 
   saveChapter() {
-    if (this.validateChapterName(this.newChapterName)) {
-      const chapter: Chapter = {
-        name: this.newChapterName.trim(),
-        editMode: false,
-        lessons: [],
-      };
-      this.chapters.push(chapter);
-      this.showAddNewChapter = false;
-      this.newChapterName = '';
-    }
+    const chapter: Chapter = {
+      name: this.newChapterName.trim(),
+      editMode: false,
+      lessons: [],
+    };
+    this.chapters.push(chapter);
+    this.showAddNewChapter = false;
+    this.newChapterName = '';
   }
-
+  updateChapterName(index: number, newName: string): void {
+    const chapter = this.chapters[index];
+    chapter.name = newName;
+    chapter.editMode = false;
+  }
   deleteChapter(index: number) {
-    this.notificationService.notify(
-      'You should have at least one chapter',
-      'error'
-    );
     if (this.chapters.length > 1) {
       this.chapters.splice(index, 1);
     } else {
@@ -105,11 +111,6 @@ export class CreateChapterLessonComponent implements OnInit {
     this.chapters[index].editMode = !this.chapters[index].editMode;
   }
 
-  updateChapterName(index: number) {
-    const chapter = this.chapters[index];
-    chapter.editMode = false;
-  }
-
   toggleChapterCollapse(ChapterIndex: number) {
     this.isChapterCollapsed[ChapterIndex] =
       !this.isChapterCollapsed[ChapterIndex];
@@ -121,58 +122,47 @@ export class CreateChapterLessonComponent implements OnInit {
     let newLesson: Lesson;
     switch (type) {
       case LessonType.Article:
-        if (this.validateLesson(this.newArticles[chapterIndex])) {
-          newLesson = { ...this.newArticles[chapterIndex] };
-          this.newArticles[chapterIndex] = {
-            title: '',
-            description: '',
-            type: this.articleType,
-            content: '',
-          };
-          this.chapters[chapterIndex].lessons.push(newLesson);
-          this.showAddNewLesson[chapterIndex] = false;
-          this.toggleAddLessonOptions(chapterIndex);
-        }
+        newLesson = { ...this.newArticles[chapterIndex] };
+        this.newArticles[chapterIndex] = {
+          title: '',
+          description: '',
+          type: this.articleType,
+          content: '',
+        };
+        this.chapters[chapterIndex].lessons.push(newLesson);
+        this.showAddNewLesson[chapterIndex] = false;
+        this.toggleAddLessonOptions(chapterIndex);
+
         break;
       case LessonType.Quiz:
-        if (
-          this.validateLesson(this.newQuizzes[chapterIndex]) &&
-          this.validateQuiz(this.newQuizzes[chapterIndex])
-        ) {
-          newLesson = { ...this.newQuizzes[chapterIndex] };
-          this.newQuizzes[chapterIndex] = {
-            title: '',
-            description: '',
-            type: this.quizType,
-            questions: [
-              {
-                questionText: '',
-                choices: ['', '', '', ''],
-                correctAnswer: '',
-              },
-            ],
-          };
-          this.chapters[chapterIndex].lessons.push(newLesson);
-          this.showAddNewLesson[chapterIndex] = false;
-          this.toggleAddLessonOptions(chapterIndex);
-        }
+        newLesson = { ...this.newQuizzes[chapterIndex] };
+        this.newQuizzes[chapterIndex] = {
+          title: '',
+          description: '',
+          type: this.quizType,
+          questions: [
+            {
+              questionText: '',
+              choices: ['', '', '', ''],
+              correctAnswer: '',
+            },
+          ],
+        };
+        this.chapters[chapterIndex].lessons.push(newLesson);
+        this.showAddNewLesson[chapterIndex] = false;
+        this.toggleAddLessonOptions(chapterIndex);
         break;
       case LessonType.Video:
-        if (
-          this.validateLesson(this.newVideos[chapterIndex]) &&
-          this.validateVideoFile(this.newVideos[chapterIndex].videoFile!)
-        ) {
-          newLesson = { ...this.newVideos[chapterIndex] };
-          this.newVideos[chapterIndex] = {
-            title: '',
-            description: '',
-            type: this.videoType,
-            videoFile: new File([], ''),
-          };
-          this.chapters[chapterIndex].lessons.push(newLesson);
-          this.showAddNewLesson[chapterIndex] = false;
-          this.toggleAddLessonOptions(chapterIndex);
-        }
+        newLesson = { ...this.newVideos[chapterIndex] };
+        this.newVideos[chapterIndex] = {
+          title: '',
+          description: '',
+          type: this.videoType,
+          videoFile: new File([], ''),
+        };
+        this.chapters[chapterIndex].lessons.push(newLesson);
+        this.showAddNewLesson[chapterIndex] = false;
+        this.toggleAddLessonOptions(chapterIndex);
         break;
     }
   }
@@ -257,7 +247,7 @@ export class CreateChapterLessonComponent implements OnInit {
 
   onFileSelected(event: any, chapterIndex: number, lessonIndex: number): void {
     const file: File = event.target.files[0];
-    if (file && this.isValidFile(file)) {
+    if (file && this.chapterValidationService.isValidFile(file)) {
       this.chapters[chapterIndex].lessons[lessonIndex].attachment = file;
     } else {
       alert('Invalid file. Only PDF, DOC and ZIP files are allowed.');
@@ -277,6 +267,7 @@ export class CreateChapterLessonComponent implements OnInit {
       description: '',
       type: this.articleType,
       content: '',
+      contentHTML: '',
       attachment: null,
     };
   }
@@ -304,131 +295,9 @@ export class CreateChapterLessonComponent implements OnInit {
   }
   // #endregion
 
-  // #region Validate inputs
-
-  isValidFile(file: File): boolean {
-    const validTypes = [
-      'application/pdf',
-      'application/msword',
-      'application/vnd.ms-excel',
-      'application/zip',
-      'application/text',
-      'text/plain',
-    ];
-    return validTypes.includes(file.type);
+  getChoiceIdentifier(idx: number): string {
+    return String.fromCharCode('A'.charCodeAt(0) + idx);
   }
-
-  validateChapterName(name: string): boolean {
-    const regex = /^[A-Za-z0-9\s]*$/;
-
-    if (
-      !this.validateWordLength(name) ||
-      name.length < 2 ||
-      !regex.test(name) ||
-      name.length > 40
-    ) {
-      alert(
-        'Invalid chapter name. It should have at least two alphabets and at most 40 alphabets. Each word should be at most 20 letters long.'
-      );
-      return false;
-    }
-
-    return true;
-  }
-
-  validateLesson(lesson: Lesson): boolean {
-    if (!this.validateWordLength(lesson.title) || lesson.title.length < 2) {
-      alert('Invalid lesson title. It should have at least two alphabets.');
-      return false;
-    }
-
-    if (
-      !this.validateWordLength(lesson.description) ||
-      lesson.description.length < 10
-    ) {
-      alert('Invalid description. It should have at least 10 characters.');
-      return false;
-    }
-
-    if (
-      lesson.type === LessonType.Article &&
-      (!this.validateWordLength(lesson.content!) ||
-        lesson.content!.length < 100)
-    ) {
-      alert('Invalid content. It should have at least 100 characters.');
-      return false;
-    }
-
-    return true;
-  }
-
-  validateWordLength(input: string): boolean {
-    const words = input.split(' ');
-
-    for (let word of words) {
-      if (word.length > 20) {
-        alert('Each word must be at most 20 letters long.');
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  validateQuiz(quiz: Lesson): boolean {
-    if (quiz.questions!.length === 0) {
-      alert('The quiz must have at least one question.');
-      return false;
-    }
-
-    for (let question of quiz.questions!) {
-      if (!question.questionText) {
-        alert('Every question must have a question text.');
-        return false;
-      }
-
-      const nonBlankChoices = question.choices.filter(
-        (choice) => choice.trim() !== ''
-      );
-
-      const uniqueChoices = Array.from(
-        new Set(
-          nonBlankChoices.map((choice) => choice.replace(/\s+/g, ' ').trim())
-        )
-      );
-
-      if (uniqueChoices.length !== nonBlankChoices.length) {
-        alert('All choices must be unique for each question.');
-        return false;
-      }
-
-      if (nonBlankChoices.length < 2) {
-        alert('Every question must have at least two non-blank options.');
-        return false;
-      }
-      if (!question.correctAnswer) {
-        alert('Please make sure to choose an answer first.');
-        return false;
-      }
-      if (!nonBlankChoices.includes(question.correctAnswer!)) {
-        alert('The correct answer must be one of the choices provided.');
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  validateVideoFile(file: File): boolean {
-    const validType = file.type.startsWith('video/');
-    if (!validType) {
-      alert('Invalid video file. Only video files are allowed.');
-      return false;
-    }
-
-    return true;
-  }
-  // #endregion
 }
 
 interface Chapter {
@@ -441,8 +310,8 @@ export interface Lesson {
   title: string;
   description: string;
   type: LessonType;
-  //collapsed: boolean;
   content?: string;
+  contentHTML?: string;
   videoFile?: File;
   questions?: QuizQuestion[];
   attachment?: File | null;

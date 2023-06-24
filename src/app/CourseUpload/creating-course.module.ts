@@ -12,6 +12,7 @@ import { QuizLessonComponent } from './Components/quiz-lesson/quiz-lesson.compon
 import { VideoLessonComponent } from './Components/video-lesson/video-lesson.component';
 import { ArticleLessonComponent } from './Components/article-lesson/article-lesson.component';
 import { ChapterComponent } from './Components/chapter/chapter.component';
+import { CreationDoneComponent } from './Components/creation-done/creation-done.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { ChapterComponent } from './Components/chapter/chapter.component';
     QuizLessonComponent,
     VideoLessonComponent,
     ArticleLessonComponent,
+    CreationDoneComponent,
   ],
   imports: [
     CommonModule,

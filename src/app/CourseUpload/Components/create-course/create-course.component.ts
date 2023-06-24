@@ -27,11 +27,7 @@ export class CreateCourseComponent implements OnInit {
   levels = Object.values(Level).filter((level) => typeof level === 'string');
   CreateCourse: FormGroup;
   categories: Category[] = [];
-  file: any = null;
   courseImg: File | undefined;
-  // addCourseTeachingButton: boolean = true;
-  // addTargetStudentButton: boolean = true;
-  // addCourseRequirementButton: boolean = true;
   constructor(
     private fb: FormBuilder,
     private apiService: APIService,
@@ -39,7 +35,7 @@ export class CreateCourseComponent implements OnInit {
     private notification: NotificationService
   ) {
     this.CreateCourse = this.fb.group({
-      instructorId: ['43e4ac2d-03c4-4f6a-b554-4567810fbf7e'],
+      instructorId: ['aa8dc98a-af68-4c68-8d65-99106ba0cda7'],
       title: ['', Validators.required],
       shortDescription: ['', Validators.required],
       description: ['', Validators.required],
@@ -107,24 +103,26 @@ export class CreateCourseComponent implements OnInit {
   }
 
   addCourseTeachingInput() {
-    const newForm = this.fb.group({
-      title: ['', Validators.required],
-      description: ['', Validators.required],
-    });
-    this.CourseTeachings.push(newForm);
+    this.addFormArrayInput(this.CourseTeachings);
   }
   addTargetStudentInput() {
-    const newForm = this.fb.group({
-      title: ['', Validators.required],
-    });
-    this.TargetStudents.push(newForm);
+    let hasEmptyFields = false;
+    for (let i = 0; i < this.TargetStudents.length; i++) {
+      const formGroup = this.TargetStudents.at(i) as FormGroup;
+      if (formGroup.controls?.['title'].value.trim() == '') {
+        this.notification.notify('Complete Fields', 'error');
+        hasEmptyFields = true;
+      }
+    }
+    if (!hasEmptyFields) {
+      const newForm = this.fb.group({
+        title: ['', Validators.required],
+      });
+      this.TargetStudents.push(newForm);
+    }
   }
   addCourseRequirmentInput() {
-    const newForm = this.fb.group({
-      title: ['', Validators.required],
-      description: ['', Validators.required],
-    });
-    this.CourseRequirements.push(newForm);
+    this.addFormArrayInput(this.CourseRequirements);
   }
 
   onFileSelected($event: any) {
@@ -133,7 +131,6 @@ export class CreateCourseComponent implements OnInit {
 
   CreateCourseSubmit() {
     if (this.CreateCourse.invalid) {
-      this.notification.notify('Enter Valid Data or Check all Fields', 'error');
       return;
     }
     const formData = new FormData();
@@ -185,37 +182,24 @@ export class CreateCourseComponent implements OnInit {
     return result;
   }
 
-  /*  checkCourseTeachings(event: any): any {
-    for (let i = 0; i < this.CourseTeachings.length; i++) {
-      const formGroup = this.CourseTeachings.at(i) as FormGroup; // specify the type of the formGroup
+  addFormArrayInput(formArray: FormArray) {
+    let hasEmptyFields = false;
+    for (let i = 0; i < formArray.length; i++) {
+      const formGroup = formArray.at(i) as FormGroup;
       if (
         formGroup.controls?.['title'].value.trim() == '' ||
         formGroup.controls?.['description'].value.trim() == ''
       ) {
-        this.addCourseTeachingButton = true;
-        return this.addCourseTeachingButton;
-      } else {
-        this.addCourseTeachingButton = false;
-        return this.addCourseTeachingButton;
+        this.notification.notify('Complete Fields', 'error');
+        hasEmptyFields = true;
       }
     }
-  }
-  checkTargetStudents(event: any): boolean {
-    if (event.target.value.trim() == '') {
-      this.addTargetStudentButton = true;
-      return this.addTargetStudentButton;
-    } else {
-      this.addTargetStudentButton = false;
-      return this.addTargetStudentButton;
+    if (!hasEmptyFields) {
+      const newForm = this.fb.group({
+        title: ['', Validators.required],
+        description: ['', Validators.required],
+      });
+      formArray.push(newForm);
     }
   }
-  checkCourseRequirement(event: any): boolean {
-    if (event.target.value.trim() == '') {
-      this.addCourseRequirementButton = true;
-      return this.addCourseRequirementButton;
-    } else {
-      this.addCourseRequirementButton = false;
-      return this.addCourseRequirementButton;
-    }
-  }*/
 }

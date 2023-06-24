@@ -14,6 +14,7 @@ import { Level } from '../../../Models/Enums/CourseLevel';
 import { Router } from '@angular/router';
 import { from } from 'rxjs';
 import { NotificationService } from 'src/app/Shared/Services/notification.service';
+import { Course } from 'src/app/Models/course';
 
 @Component({
   selector: 'app-create-course',
@@ -21,6 +22,8 @@ import { NotificationService } from 'src/app/Shared/Services/notification.servic
   styleUrls: ['./create-course.component.scss'],
 })
 export class CreateCourseComponent implements OnInit {
+  inputFileShowStatus: boolean = true;
+  renderImage: any;
   languages = Object.values(Language).filter(
     (language) => typeof language === 'string'
   );
@@ -43,7 +46,7 @@ export class CreateCourseComponent implements OnInit {
       language: ['', Validators.required],
       price: ['', Validators.required],
       level: ['', Validators.required],
-      courseImage: ['ss '],
+      courseImage: ['ss'],
       learningItems: this.fb.array([
         this.fb.group({
           title: ['', Validators.required],
@@ -127,6 +130,10 @@ export class CreateCourseComponent implements OnInit {
 
   onFileSelected($event: any) {
     this.courseImg = $event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => (this.CreateCourse.value.courseImage = reader.result);
+    reader.readAsDataURL(this.courseImg as Blob);
+    
   }
 
   CreateCourseSubmit() {
@@ -154,10 +161,12 @@ export class CreateCourseComponent implements OnInit {
         console.log(err.message);
       },
     };
-    localStorage.setItem('CreatedCourse', JSON.stringify(formData));
+    localStorage.setItem(
+      'CreatedCourse',
+      JSON.stringify(this.CreateCourse.value)
+    );
 
     this.apiService.addItem('Course', formData).subscribe(observer);
-    console.log(formData);
   }
 
   convertToPostCourseDto(

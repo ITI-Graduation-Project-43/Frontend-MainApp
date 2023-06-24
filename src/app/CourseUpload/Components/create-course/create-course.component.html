@@ -18,7 +18,21 @@
             (change)="onFileSelected($event)"
           />
         </label>
+        <!-- <div class="image-wrapper" *ngIf="!inputFileShowStatus">
+          <button (click)="onDeleteImage()">
+            <img
+              src="../../../../assets/svg/delete-ico.svg"
+              alt="delete icon"
+            />
+          </button>
+          <img
+            [src]="this.CreateCourse.value.courseImage"
+            alt="render"
+            class="d-block"
+          />
+        </div> -->
       </div>
+
       <!-- ----------------------------title------------------------------------------- -->
       <div>
         <label for="title">Course Title</label>
@@ -30,19 +44,6 @@
           placeholder="e.g. Learn web development from scratch"
         />
         <span>You can change the course name later.</span>
-        <!-- <div *ngIf="title?.invalid && (title?.dirty || title?.touched)">
-          <div *ngIf="title?.errors?.['required']">Title is required.</div>
-          <div *ngIf="title?.errors?.['minlength']">
-            Title must be at least
-            {{ title?.errors?.['minlength'].requiredLength }}
-            characters long.
-          </div>
-          <div *ngIf="title?.errors?.['maxlength']">
-            Title cannot be more than
-            {{ title?.errors?.['maxlength'].requiredLength }}
-            characters long.
-          </div>
-        </div> -->
       </div>
       <!-- -------------------------------category----------------------------------- -->
       <div>
@@ -54,9 +55,6 @@
           </option>
         </select>
         <span>You can change the category later.</span>
-        <!-- <div *ngIf="category && (category.dirty || category.touched)">
-          <div *ngIf="category.errors?.['required']">Category is required.</div>
-        </div> -->
       </div>
       <!-- ----------------------short description-------------------- -->
       <div>
@@ -71,26 +69,6 @@
           >You can change the description later. Make sure it is no longer than
           2-3 sentences.</span
         >
-        <!-- <div
-          *ngIf="
-            shortDescription?.invalid &&
-            (shortDescription?.dirty || shortDescription?.touched)
-          "
-        >
-          <div *ngIf="shortDescription?.errors?.['required']">
-            Short Description is required.
-          </div>
-          <div *ngIf="shortDescription?.errors?.['minlength']">
-            Short Description must be at least
-            {{ shortDescription?.errors?.['minlength'].requiredLength }}
-            characters long.
-          </div>
-          <div *ngIf="shortDescription?.errors?.['maxlength']">
-            Short Description cannot be more than
-            {{ shortDescription?.errors?.['maxlength'].requiredLength }}
-            characters long.
-          </div>
-        </div> -->
       </div>
       <!---------------------------- Description----------------------- -->
       <div>
@@ -115,26 +93,6 @@
                     name="description"
                     placeholder="Write a description"
                   ></textarea>
-                  <!-- <div
-                    *ngIf="
-                      description?.invalid &&
-                      (description?.dirty || description?.touched)
-                    "
-                  >
-                    <div *ngIf="description?.errors?.['required']">
-                      Description is required.
-                    </div>
-                    <div *ngIf="description?.errors?.['minlength']">
-                      Description must be at least
-                      {{ description?.errors?.['minlength'].requiredLength }}
-                      characters long.
-                    </div>
-                    <div *ngIf="description?.errors?.['maxlength']">
-                      Description cannot be more than
-                      {{ description?.errors?.['maxlength'].requiredLength }}
-                      characters long.
-                    </div>
-                  </div> -->
                 </div>
               </td>
             </tr>
@@ -155,9 +113,6 @@
               {{ language }}
             </option>
           </select>
-          <!-- <div *ngIf="language.invalid && (language.dirty || language.touched)">
-          <div *ngIf="language.errors.required">Language is required</div>
-        </div> -->
         </div>
         <div>
           <label for="price">Price:</label>
@@ -168,10 +123,6 @@
             formControlName="price"
             placeholder="in EGP"
           />
-          <!-- <div *ngIf="price.invalid && (price.dirty || price.touched)">
-          <div *ngIf="price.errors.required">Price is required</div>
-          <div *ngIf="price.errors.min">Price must be at least 0</div>
-        </div> -->
         </div>
         <div>
           <label for="level">Level:</label>
@@ -181,9 +132,6 @@
               {{ level }}
             </option>
           </select>
-          <!-- <div *ngIf="level.invalid && (level.dirty || level.touched)">
-          <div *ngIf="level.errors.required">Level is required</div>
-        </div>-->
         </div>
       </div>
       <!-- ----------------course Teaching  -->
@@ -255,3 +203,4 @@
     </form>
   </div>
 </section>
+<p>{{ this.CreateCourse.value | json }}</p>

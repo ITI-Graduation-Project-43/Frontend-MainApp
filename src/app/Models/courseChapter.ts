@@ -15,7 +15,7 @@ export interface Lesson {
   title: string;
   description: string;
   type: LessonType;
-  NoOfHours: number;
+  noOfHours: number;
   attachment?: Attachment | null;
   article?: Article;
   quiz?: Quiz;
@@ -55,5 +55,61 @@ export interface Question {
   quizId: number;
   questionText: string;
   choices: string[];
+  correctAnswer: string;
+}
+
+export interface CreateChapterDto {
+  id: number;
+  courseId: number;
+  title: string;
+  lessons: CreateLessonDto[];
+}
+
+export interface CreateLessonDto {
+  id: number;
+  chapterId: number;
+  title: string;
+  description: string;
+  noOfHours: number;
+  type: LessonType;
+  attachment?: CreateAttachmentDto | null;
+  article?: CreateArticleDto | null;
+  quiz?: CreateQuizDto | null;
+  video?: CreateVideoDto | null;
+}
+
+export interface CreateAttachmentDto {
+  id: number;
+  lessonId: number;
+  attachmentUrl: string | null;
+  attachmentName: string | null;
+  attachmentType: string | null;
+  attachmentSize: string | null;
+}
+export interface CreateArticleDto {
+  id: number;
+  lessonId: number;
+  content: string;
+}
+
+export interface CreateVideoDto {
+  id: number;
+  lessonId: number;
+  videoUrl: string | null;
+}
+export interface CreateQuizDto {
+  id: number;
+  lessonId: number;
+  questions: CreateQuestionDto[];
+}
+
+export interface CreateQuestionDto {
+  id: number;
+  quizId: number;
+  questionText: string;
+  choiceA: string;
+  choiceB: string;
+  choiceC: string;
+  choiceD: string;
   correctAnswer: string;
 }

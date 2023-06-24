@@ -17,6 +17,8 @@ export const ERROR_MESSAGES = {
   minimumChoices: 'Each question should have at least two options.',
   chooseAnswer: 'Please select an answer.',
 
+  invalidRequiredHours:
+    'Please make sure to enter valid number between 0 and 6 Hours',
   invalidVideoFileType:
     'Invalid file type. Only video files (e.g., MP4, AVI, MOV) are allowed.',
 

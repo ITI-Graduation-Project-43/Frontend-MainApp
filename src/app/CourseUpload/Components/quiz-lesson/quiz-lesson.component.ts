@@ -237,11 +237,27 @@ export class QuizLessonComponent implements OnInit {
       !!this.isInvalidUniqueChoices(question)
     );
   }
-
+  isInvalidQuizRequiredHours(): string | null {
+    if (
+      this.touchedFields.quizRequiredHours ||
+      this.editMode ||
+      this.saveAttempted
+    ) {
+      const { noOfHours } = this.editedQuiz;
+      const fieldName = 'Required Hours';
+      if (!noOfHours || noOfHours === 0) {
+        return this.errorMessages.requiredField(fieldName);
+      } else if (noOfHours > 6 || noOfHours <= 0) {
+        return this.errorMessages.invalidRequiredHours;
+      }
+    }
+    return null;
+  }
   isQuizValid(): boolean {
     if (
       this.isInvalidQuizTitle() !== null ||
-      this.isInvalidQuizDescription() !== null
+      this.isInvalidQuizDescription() !== null ||
+      this.isInvalidQuizRequiredHours !== null
     ) {
       return false;
     }

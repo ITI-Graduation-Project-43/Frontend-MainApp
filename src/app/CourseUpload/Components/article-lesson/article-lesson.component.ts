@@ -152,11 +152,28 @@ export class ArticleLessonComponent implements OnInit {
     }
     return null;
   }
+  isInvalidArticleRequiredHours(): string | null {
+    if (
+      this.touchedFields.articleRequiredHours ||
+      this.editMode ||
+      this.saveAttempted
+    ) {
+      const { noOfHours } = this.editedArticle;
+      const fieldName = 'Required Hours';
+      if (!noOfHours || noOfHours === 0) {
+        return this.errorMessages.requiredField(fieldName);
+      } else if (noOfHours > 6 || noOfHours <= 0) {
+        return this.errorMessages.invalidRequiredHours;
+      }
+    }
+    return null;
+  }
   isArticleValid(): boolean {
     if (
       this.isInvalidArticleTitle() !== null ||
       this.isInvalidArticleDescription() !== null ||
-      this.isInvalidArticleContent() !== null
+      this.isInvalidArticleContent() !== null ||
+      this.isInvalidArticleRequiredHours !== null
     ) {
       return false;
     }

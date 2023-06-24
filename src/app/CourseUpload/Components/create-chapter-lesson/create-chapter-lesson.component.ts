@@ -5,10 +5,16 @@ import { Router } from '@angular/router';
 import { NotificationService } from 'src/app/Shared/Services/notification.service';
 import { ChapterValidationService } from 'src/app/Services/validation/lesson-validation.services';
 import { ERROR_MESSAGES } from '../../../Shared/Helper/error-messages';
-import { Chapter, Lesson } from 'src/app/Models/courseChapter';
+import {
+  Chapter,
+  CreateChapterDto,
+  CreateLessonDto,
+  Lesson,
+} from 'src/app/Models/courseChapter';
 import { LessonType } from 'src/app/Models/Enums/LessonType';
 import { FileType } from 'src/app/Models/Enums/FileType';
 import { UploadService } from 'src/app/Shared/Services/upload.service';
+import { APIService } from 'src/app/Shared/Services/api.service';
 @Component({
   selector: 'app-create-chapter-lesson',
   templateUrl: './create-chapter-lesson.component.html',
@@ -54,7 +60,8 @@ export class CreateChapterLessonComponent implements OnInit {
     private notificationService: NotificationService,
     private chapterValidationService: ChapterValidationService,
     private router: Router,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private apiService: APIService
   ) {}
 
   ngOnInit() {
@@ -172,11 +179,92 @@ export class CreateChapterLessonComponent implements OnInit {
         }
       }
     }
+
+    const chapterDto: CreateChapterDto[] = this.chapters.map((chapter) => {
+      const lessonDto: CreateLessonDto[] = chapter.lessons.map((lesson) => {
+        const lessonDto: CreateLessonDto = {
+          id: lesson.id,
+          chapterId: lesson.chapterId,
+          title: lesson.title,
+          description: lesson.description,
+          noOfHours: lesson.noOfHours,
+          type: lesson.type,
+          attachment: lesson.attachment
+            ? {
+                id: lesson.attachment.id,
+                lessonId: lesson.attachment.lessonId,
+                attachmentUrl: lesson.attachment.attachmentUrl,
+                attachmentName: lesson.attachment.attachmentName,
+                attachmentType: lesson.attachment.attachmentType,
+                attachmentSize: lesson.attachment.attachmentSize,
+              }
+            : null,
+          article: lesson.article
+            ? {
+                id: lesson.article.id,
+                lessonId: lesson.article.lessonId,
+                content: lesson.article.content,
+              }
+            : null,
+          quiz: lesson.quiz
+            ? {
+                id: lesson.quiz.id,
+                lessonId: lesson.quiz.lessonId,
+                questions: lesson.quiz.questions.map((question) => {
+                  return {
+                    id: question.id,
+                    quizId: question.quizId,
+                    questionText: question.questionText,
+                    choiceA: question.choices[0],
+                    choiceB: question.choices[1],
+                    choiceC: question.choices[2] || '',
+                    choiceD: question.choices[3] || '',
+                    correctAnswer: String.fromCharCode(
+                      65 + question.choices.indexOf(question.correctAnswer)
+                    ),
+                  };
+                }),
+              }
+            : null,
+          video: lesson.video
+            ? {
+                id: lesson.video.id,
+                lessonId: lesson.video.lessonId,
+                videoUrl: lesson.video.videoUrl,
+              }
+            : null,
+        };
+
+        return lessonDto;
+      });
+
+      const chapterDto: CreateChapterDto = {
+        id: chapter.id,
+        courseId: chapter.courseId,
+        title: chapter.title,
+        lessons: lessonDto,
+      };
+
+      return chapterDto;
+    });
+
+    this.apiService.addItem('Chapter/ChapterLesson/2', chapterDto).subscribe(
+      (response) => {
+        // Handle successful response
+        console.log(response);
+      },
+      (error) => {
+        // Handle error
+        console.error(error);
+      }
+    );
+
+    //this.router.navigate(['/createCourse/step3']);
   }
 
   backTocreateCourse() {
     localStorage.setItem('chapters', JSON.stringify(this.chapters));
-    this.router.navigate(['/createCourse']);
+    this.router.navigate(['/createCourse/step1']);
   }
 
   // #region Chapter fns
@@ -476,7 +564,7 @@ export class CreateChapterLessonComponent implements OnInit {
       chapterId: 0,
       title: '',
       description: '',
-      NoOfHours: 0,
+      noOfHours: 0,
       type: this.articleType,
       article: {
         id: 0,
@@ -493,7 +581,7 @@ export class CreateChapterLessonComponent implements OnInit {
       chapterId: 0,
       title: '',
       description: '',
-      NoOfHours: 0,
+      noOfHours: 0,
       type: this.videoType,
       video: {
         id: 0,
@@ -510,7 +598,7 @@ export class CreateChapterLessonComponent implements OnInit {
       chapterId: 0,
       title: '',
       description: '',
-      NoOfHours: 0,
+      noOfHours: 0,
       type: this.quizType,
       quiz: {
         id: 0,

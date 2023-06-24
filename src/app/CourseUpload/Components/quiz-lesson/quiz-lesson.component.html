@@ -39,7 +39,26 @@
     </div>
   </div>
 </div>
-
+<div class="required-hours">
+  <div class="required-hours-heading">
+    <div class="input-title-style">Article required hourse</div>
+  </div>
+  <div class="required-hours-data">
+    <input
+      [(ngModel)]="editedQuiz.noOfHours"
+      class="input-style"
+      type="number"
+      min="0"
+      max="6"
+      placeholder="How many hours required to study this?"
+      (blur)="touchedFields.quizRequiredHours = true"
+    />
+    <!-- Error message for Article Description -->
+    <div *ngIf="isInvalidQuizRequiredHours()" class="error-message error">
+      {{ isInvalidQuizRequiredHours() }}
+    </div>
+  </div>
+</div>
 <div
   class="lesson-content"
   *ngFor="let question of editedQuiz.quiz?.questions; let qIndex = index"

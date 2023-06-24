@@ -32,7 +32,7 @@
     }
   }
 }
-.description , .lesson-content{
+.description , .lesson-content, .required-hours{
   width: 100%;
   @include style-display-column(16px, 0px);
   > * {

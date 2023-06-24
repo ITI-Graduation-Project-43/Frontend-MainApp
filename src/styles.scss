@@ -4,6 +4,7 @@
 @use "./assets/style/components/title" as *;
 @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
 *{
   box-sizing: border-box;
@@ -110,4 +111,16 @@ a {
 
 .article-sec img {
   object-fit: cover;
+}
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

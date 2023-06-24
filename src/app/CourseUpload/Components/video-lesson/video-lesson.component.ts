@@ -145,12 +145,28 @@ export class VideoLessonComponent implements OnInit {
     }
     return null;
   }
-
+  isInvalidVideoRequiredHours(): string | null {
+    if (
+      this.touchedFields.videoRequiredHours ||
+      this.editMode ||
+      this.saveAttempted
+    ) {
+      const { noOfHours } = this.editedVideo;
+      const fieldName = 'Required Hours';
+      if (!noOfHours || noOfHours === 0) {
+        return this.errorMessages.requiredField(fieldName);
+      } else if (noOfHours > 6 || noOfHours <= 0) {
+        return this.errorMessages.invalidRequiredHours;
+      }
+    }
+    return null;
+  }
   isVideoValid(): boolean {
     if (
       this.isInvalidVideoTitle() !== null ||
       this.isInvalidVideoDescription() !== null ||
-      this.editedVideo.video?.videoUrl == null
+      this.editedVideo.video?.videoUrl == null ||
+      this.isInvalidVideoRequiredHours !== null
     ) {
       return false;
     }

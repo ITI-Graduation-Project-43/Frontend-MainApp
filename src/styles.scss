@@ -94,3 +94,20 @@ a {
 }
 
 
+
+
+.article-sec img,
+.article-sec video,
+.article-sec object,
+.article-sec embed {
+  max-width: 100% !important;
+}
+
+.article-sec *,
+.article-sec * img {
+  max-width: 100% !important;
+}
+
+.article-sec img {
+  object-fit: cover;
+}

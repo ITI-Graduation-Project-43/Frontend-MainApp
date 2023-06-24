@@ -132,9 +132,8 @@
 .video-wrapper{
   position: relative;
   max-width: 100%;
-  @include style-display-row-center(16px, 0px);
+  max-height: 100%;  @include style-display-row-center(16px, 0px);
   border: 1px solid $blackColor;
-  max-height: 600px;
   video{
     width: 100%;
     object-fit: contain;

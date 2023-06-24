@@ -62,8 +62,8 @@
     </div>
   </div>
   <!-- Error message for Quiz Description -->
-  <div *ngIf="isInvalidVideoFile()" class="error-message error">
-    {{ isInvalidVideoFile() }}
+  <div *ngIf="uploadError" class="error-message error">
+    {{ uploadError }}
   </div>
 </div>
 

@@ -8,6 +8,7 @@ import { ERROR_MESSAGES } from '../../../Shared/Helper/error-messages';
 import { Chapter, Lesson } from 'src/app/Models/courseChapter';
 import { LessonType } from 'src/app/Models/Enums/LessonType';
 import { FileType } from 'src/app/Models/Enums/FileType';
+import { UploadService } from 'src/app/Shared/Services/upload.service';
 @Component({
   selector: 'app-create-chapter-lesson',
   templateUrl: './create-chapter-lesson.component.html',
@@ -45,32 +46,21 @@ export class CreateChapterLessonComponent implements OnInit {
   saveAttempted: boolean = false;
   touchedFields: any = {};
 
+  uploadError: string | null = null;
+
   errorMessages = ERROR_MESSAGES;
 
   constructor(
     private notificationService: NotificationService,
     private chapterValidationService: ChapterValidationService,
-    private router: Router
+    private router: Router,
+    private uploadService: UploadService
   ) {}
 
   ngOnInit() {
     const storedChapters = localStorage.getItem('chapters');
     if (storedChapters) {
       this.chapters = JSON.parse(storedChapters);
-      for (let i = 0; i < this.chapters.length; ++i) {
-        for (let j = 0; j < this.chapters[i].lessons.length; j++) {
-          if (
-            this.chapters[i].lessons[j].type === LessonType.Video &&
-            this.chapters[i].lessons[j].video
-          ) {
-            const videoFile = this.chapters[i].lessons[j].video?.videoFile;
-            if (videoFile) {
-              this.chapters[i].lessons[j].video!.videoUrl =
-                URL.createObjectURL(videoFile);
-            }
-          }
-        }
-      }
     } else {
       const defaultChapter: Chapter = {
         id: 0,
@@ -122,7 +112,11 @@ export class CreateChapterLessonComponent implements OnInit {
         }
 
         if (lesson.type === LessonType.Video) {
-          if (!lesson.video || !lesson.video.videoFile) {
+          if (
+            !lesson.video ||
+            !lesson.video.videoUrl ||
+            lesson.video.videoUrl == ''
+          ) {
             notificationService.notify(
               'Please make sure to fill video data and upload a video file',
               'error'
@@ -184,13 +178,6 @@ export class CreateChapterLessonComponent implements OnInit {
     localStorage.setItem('chapters', JSON.stringify(this.chapters));
     this.router.navigate(['/createCourse']);
   }
-  handleVideoUrlChange(newUrl: string | null) {
-    this.videoURL = newUrl;
-  }
-
-  getVideoURL(): string {
-    return this.videoURL || '';
-  }
 
   // #region Chapter fns
   addChapter() {
@@ -251,12 +238,6 @@ export class CreateChapterLessonComponent implements OnInit {
     switch (type) {
       case LessonType.Article:
         newLesson = { ...this.newArticles[chapterIndex] };
-        // this.newArticles[chapterIndex] = {
-        //   title: '',
-        //   description: '',
-        //   type: this.articleType,
-        //   content: '',
-        // };
         this.chapters[chapterIndex].lessons.push(newLesson);
         this.showAddNewLesson[chapterIndex] = false;
         this.toggleAddLessonOptions(chapterIndex);
@@ -264,30 +245,12 @@ export class CreateChapterLessonComponent implements OnInit {
         break;
       case LessonType.Quiz:
         newLesson = { ...this.newQuizzes[chapterIndex] };
-        // this.newQuizzes[chapterIndex] = {
-        //   title: '',
-        //   description: '',
-        //   type: this.quizType,
-        //   questions: [
-        //     {
-        //       questionText: '',
-        //       choices: ['', '', '', ''],
-        //       correctAnswer: '',
-        //     },
-        //   ],
-        // };
         this.chapters[chapterIndex].lessons.push(newLesson);
         this.showAddNewLesson[chapterIndex] = false;
         this.toggleAddLessonOptions(chapterIndex);
         break;
       case LessonType.Video:
         newLesson = { ...this.newVideos[chapterIndex] };
-        // this.newVideos[chapterIndex] = {
-        //   title: '',
-        //   description: '',
-        //   type: this.videoType,
-        //   videoFile: new File([], ''),
-        // };
         this.chapters[chapterIndex].lessons.push(newLesson);
         this.showAddNewLesson[chapterIndex] = false;
         this.toggleAddLessonOptions(chapterIndex);
@@ -321,8 +284,38 @@ export class CreateChapterLessonComponent implements OnInit {
     if (this.editLessonIndex === lessonIndex) {
       this.editLessonIndex = null;
     }
-    this.chapters[chapterIndex].lessons.splice(lessonIndex, 1);
+
+    const lesson = this.chapters[chapterIndex].lessons[lessonIndex];
+    let fileType: string = '';
+
+    if (lesson.attachment?.attachmentUrl) {
+      fileType = 'attachment';
+    } else if (lesson.video && lesson.video.videoUrl) {
+      fileType = 'video';
+    }
+
+    if (fileType) {
+      const fileUrl =
+        lesson.attachment?.attachmentUrl || lesson.video?.videoUrl;
+
+      this.uploadService.deleteFile(fileUrl as string, fileType).subscribe(
+        (response) => {
+          if (response.success) {
+            this.chapters[chapterIndex].lessons.splice(lessonIndex, 1);
+            this.notificationService.notify('File deleted successfully');
+          } else {
+            this.notificationService.notify(response.message, 'error');
+          }
+        },
+        (error) => {
+          this.notificationService.notify('Failed to delete file', 'error');
+        }
+      );
+    } else {
+      this.chapters[chapterIndex].lessons.splice(lessonIndex, 1);
+    }
   }
+
   toggleCollapse(lessonIndex: number) {
     this.isCollapsed[lessonIndex] = !this.isCollapsed[lessonIndex];
   }
@@ -373,45 +366,105 @@ export class CreateChapterLessonComponent implements OnInit {
     this.fileInput.nativeElement.click();
   }
 
-  onFileSelected(event: any, chapterIndex: number, lessonIndex: number): void {
+  async onFileSelected(
+    event: any,
+    chapterIndex: number,
+    lessonIndex: number
+  ): Promise<void> {
     const file: File = event.target.files[0];
     if (file && this.chapterValidationService.isValidFile(file)) {
-      const lesson = this.chapters[chapterIndex].lessons[lessonIndex];
-      if (lesson && lesson.attachment) {
-        lesson.attachment.fileData = file;
-        lesson.attachment.fileType = this.getFileTypeFromExtension(file.name);
-      } else {
-        const fileType = this.getFileTypeFromExtension(file.name);
-        this.chapters[chapterIndex].lessons[lessonIndex].attachment = {
-          id: 0,
-          lessonId: 0,
-          fileData: file,
-          fileType: fileType,
-        };
-      }
+      this.uploadService.uploadFile(file, 'Attachment').subscribe(
+        (response) => {
+          if (response.success) {
+            const fileType = this.getFileTypeFromExtension(file.name);
+            this.chapters[chapterIndex].lessons[lessonIndex].attachment = {
+              id: 0,
+              lessonId: 0,
+              attachmentUrl: (response.items[0] as string) || null,
+              attachmentName: file.name,
+              attachmentType: fileType,
+              attachmentSize: this.getFileSize(file.size),
+            };
+            this.uploadError = null;
+            console.log(this.chapters[chapterIndex].lessons[lessonIndex]);
+            this.notificationService.notify('File uploaded successfully');
+          } else {
+            this.uploadError =
+              'Upload failed, please try again 🥺' || response.message;
+          }
+        },
+        (error) => {
+          this.uploadError = error;
+        }
+      );
     } else {
-      alert('Invalid file. Only PDF, DOC and ZIP files are allowed.');
+      this.notificationService.notify(
+        this.errorMessages.invalidAttachmentFileType,
+        'error'
+      );
     }
   }
 
-  private getFileTypeFromExtension(fileName: string): FileType {
-    const extension = fileName
-      .substring(fileName.lastIndexOf('.') + 1)
-      .toLowerCase();
+  getFileTypeFromExtension(fileName: string): string {
+    const extension = this.getFileExtension(fileName);
     switch (extension) {
-      case 'pdf':
-        return FileType.PDF;
-      case 'docx':
-        return FileType.DOCX;
-      case 'zip':
-        return FileType.ZIP;
+      case '.pdf':
+        return 'PDF';
+      case '.doc':
+      case '.docx':
+        return 'Word';
+      case '.xls':
+      case '.xlsx':
+        return 'Excel';
+      case '.ppt':
+      case '.pptx':
+        return 'PowerPoint';
+      case '.txt':
+        return 'Text';
       default:
-        return FileType.PDF;
+        return 'Other';
+    }
+  }
+
+  getFileExtension(fileName: string): string {
+    return fileName.substr(fileName.lastIndexOf('.')).toLowerCase();
+  }
+
+  getFileSize(sizeInBytes: number): string {
+    const kilobyte = 1024;
+    const megabyte = kilobyte * 1024;
+    const gigabyte = megabyte * 1024;
+
+    if (sizeInBytes >= gigabyte) {
+      return (sizeInBytes / gigabyte).toFixed(2) + ' GB';
+    } else if (sizeInBytes >= megabyte) {
+      return (sizeInBytes / megabyte).toFixed(2) + ' MB';
+    } else if (sizeInBytes >= kilobyte) {
+      return (sizeInBytes / kilobyte).toFixed(2) + ' KB';
+    } else {
+      return sizeInBytes.toString() + ' Bytes';
     }
   }
 
   deleteFile(chapterIndex: number, lessonIndex: number): void {
-    this.chapters[chapterIndex].lessons[lessonIndex].attachment = null;
+    const lesson = this.chapters[chapterIndex].lessons[lessonIndex];
+    if (lesson && lesson.attachment && lesson.attachment.attachmentUrl) {
+      const fileUrl = lesson.attachment.attachmentUrl;
+
+      this.uploadService.deleteFile(fileUrl, 'Attachment').subscribe(
+        (response) => {
+          if (response.success) {
+            this.chapters[chapterIndex].lessons[lessonIndex].attachment = null;
+            this.notificationService.notify('File deleted successfully');
+          } else {
+            this.notificationService.notify(response.message, 'error');
+          }
+        },
+        (error) => {
+          this.notificationService.notify('Failed to delete file', 'error');
+        }
+      );
+    }
   }
 
   // #endregion
@@ -445,7 +498,6 @@ export class CreateChapterLessonComponent implements OnInit {
       video: {
         id: 0,
         lessonId: 0,
-        videoFile: new File([], ''),
         videoUrl: '',
       },
       attachment: null,

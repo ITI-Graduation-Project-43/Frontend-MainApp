@@ -407,10 +407,11 @@
 
 
 .video-wrapper{
+  width: 100%;
   max-width: 100%;
   @include style-display-row-center(16px, 0px);
   border: 1px solid $blackColor;
-  max-height: 600px;
+  max-height: 100%;
   video{
     width: 100%;
     object-fit: contain;
@@ -430,7 +431,4 @@
   font-weight: 700;
 }
 
-img{
-  max-width:100%;
-  object-fit: cover;
-}
+

@@ -20,5 +20,7 @@ export const ERROR_MESSAGES = {
   invalidVideoFileType:
     'Invalid file type. Only video files (e.g., MP4, AVI, MOV) are allowed.',
 
+  invalidAttachmentFileType:
+    'Invalid file. Only PDF, DOC and ZIP files are allowed.',
   generalValidation: 'Please address the validation errors before saving.',
 };

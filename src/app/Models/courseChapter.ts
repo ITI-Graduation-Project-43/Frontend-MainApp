@@ -32,15 +32,16 @@ export interface Article {
 export interface Video {
   id: number;
   lessonId: number;
-  videoFile: File;
   videoUrl: string | null;
 }
 
 export interface Attachment {
   id: number;
   lessonId: number;
-  fileData: File;
-  fileType: FileType;
+  attachmentUrl: string | null;
+  attachmentName: string | null;
+  attachmentType: string | null;
+  attachmentSize: string | null;
 }
 
 export interface Quiz {

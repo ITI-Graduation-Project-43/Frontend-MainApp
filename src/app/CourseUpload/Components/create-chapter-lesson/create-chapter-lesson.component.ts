@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { NotificationService } from 'src/app/Shared/Services/notification.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { Router } from '@angular/router';
+
+import { NotificationService } from 'src/app/Shared/Services/notification.service';
 import { ChapterValidationService } from 'src/app/Services/validation/lesson-validation.services';
 import { ERROR_MESSAGES } from '../../../Shared/Helper/error-messages';
 import { Chapter, Lesson } from 'src/app/Models/courseChapter';
@@ -47,23 +49,141 @@ export class CreateChapterLessonComponent implements OnInit {
 
   constructor(
     private notificationService: NotificationService,
-    private chapterValidationService: ChapterValidationService
+    private chapterValidationService: ChapterValidationService,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    const defaultChapter: Chapter = {
-      id: 0,
-      courseId: 0,
-      title: 'Introduction',
-      editMode: false,
-      lessons: [],
-    };
-    this.chapters.push(defaultChapter);
-    this.newLessonType = new Array(this.chapters.length).fill(null);
-    this.showAddNewLesson = new Array(this.chapters.length).fill(false);
-    this.showAddLessonOptions = new Array(this.chapters.length).fill(false);
+    const storedChapters = localStorage.getItem('chapters');
+    if (storedChapters) {
+      this.chapters = JSON.parse(storedChapters);
+      for (let i = 0; i < this.chapters.length; ++i) {
+        for (let j = 0; j < this.chapters[i].lessons.length; j++) {
+          if (
+            this.chapters[i].lessons[j].type === LessonType.Video &&
+            this.chapters[i].lessons[j].video
+          ) {
+            const videoFile = this.chapters[i].lessons[j].video?.videoFile;
+            if (videoFile) {
+              this.chapters[i].lessons[j].video!.videoUrl =
+                URL.createObjectURL(videoFile);
+            }
+          }
+        }
+      }
+    } else {
+      const defaultChapter: Chapter = {
+        id: 0,
+        courseId: 0,
+        title: 'Introduction',
+        editMode: false,
+        lessons: [],
+      };
+      this.chapters.push(defaultChapter);
+      this.newLessonType = new Array(this.chapters.length).fill(null);
+      this.showAddNewLesson = new Array(this.chapters.length).fill(false);
+      this.showAddLessonOptions = new Array(this.chapters.length).fill(false);
+    }
   }
 
+  submitCourse() {
+    const notificationService = this.notificationService;
+
+    if (this.chapters.length < 1) {
+      notificationService.notify(
+        'You should have at least one chapter',
+        'error'
+      );
+      return;
+    }
+
+    for (const chapter of this.chapters) {
+      if (chapter.lessons.length < 1) {
+        notificationService.notify(
+          'You should have at least one lesson in the chapter',
+          'error'
+        );
+        return;
+      }
+
+      for (const lesson of chapter.lessons) {
+        if (lesson.type === LessonType.Article) {
+          if (
+            !lesson.article ||
+            !lesson.article.content ||
+            lesson.article.content.length < 100
+          ) {
+            notificationService.notify(
+              'Please make sure to fill article data and enter valid content',
+              'error'
+            );
+            return;
+          }
+        }
+
+        if (lesson.type === LessonType.Video) {
+          if (!lesson.video || !lesson.video.videoFile) {
+            notificationService.notify(
+              'Please make sure to fill video data and upload a video file',
+              'error'
+            );
+            return;
+          }
+        }
+
+        if (lesson.type === LessonType.Quiz) {
+          if (
+            !lesson.quiz ||
+            !lesson.quiz.questions ||
+            lesson.quiz.questions.length < 1
+          ) {
+            notificationService.notify(
+              'Please make sure to fill quiz data and enter at least one question',
+              'error'
+            );
+            return;
+          }
+
+          for (const question of lesson.quiz.questions) {
+            if (!question.questionText || question.questionText.length < 10) {
+              notificationService.notify('Question text is too short', 'error');
+              return;
+            }
+
+            if (
+              !question.choices ||
+              question.choices.length < 2 ||
+              question.choices.length > 4 ||
+              !question.choices[0] ||
+              !question.choices[1]
+            ) {
+              notificationService.notify(
+                'Each question must have at least two choices',
+                'error'
+              );
+              return;
+            }
+
+            if (
+              !question.correctAnswer ||
+              !question.choices.includes(question.correctAnswer)
+            ) {
+              notificationService.notify(
+                'Please select a correct answer for each question',
+                'error'
+              );
+              return;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  backTocreateCourse() {
+    localStorage.setItem('chapters', JSON.stringify(this.chapters));
+    this.router.navigate(['/createCourse']);
+  }
   handleVideoUrlChange(newUrl: string | null) {
     this.videoURL = newUrl;
   }
@@ -326,6 +446,7 @@ export class CreateChapterLessonComponent implements OnInit {
         id: 0,
         lessonId: 0,
         videoFile: new File([], ''),
+        videoUrl: '',
       },
       attachment: null,
     };

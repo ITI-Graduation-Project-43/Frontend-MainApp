@@ -33,6 +33,7 @@ export interface Video {
   id: number;
   lessonId: number;
   videoFile: File;
+  videoUrl: string | null;
 }
 
 export interface Attachment {

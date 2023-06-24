@@ -202,4 +202,7 @@ export class CreateCourseComponent implements OnInit {
       formArray.push(newForm);
     }
   }
+  back() {
+    this.router.navigate([`instructor`]);
+  }
 }

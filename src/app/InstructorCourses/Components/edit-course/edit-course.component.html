@@ -1,1 +1,169 @@
-<p>edit-course works!</p>
+<section>
+  <div class="main-section">
+    <h2>Live</h2>
+    <form [formGroup]="CreateCourse" enctype="multipart/form-data">
+      <div class="form-group .image">
+        <label class="label">
+          <img src="../../../../assets/svg/photo.svg" alt="" />
+          <span class="d-block title">upload course thumbnail</span>
+          <input
+            type="file"
+            accept="image/*"
+            (change)="onFileSelected($event)"
+          />
+        </label>
+      </div>
+      <!-- ---------------------title------------------------------ -->
+      <div>
+        <label for="title">Course Title</label>
+        <input
+          type="text"
+          id="title"
+          formControlName="title"
+          name="title"
+          placeholder="e.g. Learn web development from scratch"
+        />
+      </div>
+      <!-- --------------------------------category------------------- -->
+      <div>
+        <label for="category">Category:</label>
+        <select id="category" formControlName="categoryId" name="category">
+          <option disabled selected value="">Choose a category</option>
+          <option *ngFor="let category of categories" [value]="category.id">
+            {{ category.name }}
+          </option>
+        </select>
+      </div>
+      <!-- ---------------------------shortDescription------------------------ -->
+      <div>
+        <label for="shortDescription">Short Description</label>
+        <textarea
+          id="shortDescription"
+          formControlName="shortDescription"
+          name="shortDescription"
+          placeholder="Write a short description"
+        ></textarea>
+      </div>
+      <!-- -------------------------------description------------------------- -->
+      <div class="description">
+        <label for="description">Description</label>
+        <div>
+          <div class="controls">
+            <button><i class="fa-sharp fa-solid fa-bold"></i></button>
+            <button><i class="fa-solid fa-italic"></i></button>
+          </div>
+          <div>
+            <textarea
+              style="border: none"
+              id="description"
+              formControlName="description"
+              name="description"
+              placeholder="Write a description"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+      <!-- ------------------options----------------- -->
+      <div class="options">
+        <div>
+          <label for="language">Language:</label>
+          <select id="language" formControlName="language">
+            <option disabled selected value="">Choose language</option>
+            <option
+              *ngFor="let language of languages; let i = index"
+              [value]="i"
+            >
+              {{ language }}
+            </option>
+          </select>
+        </div>
+        <!-- price -->
+        <div>
+          <label for="price">Price:</label>
+          <input
+            type="number"
+            min="0"
+            id="price"
+            formControlName="price"
+            placeholder="in EGP"
+          />
+        </div>
+        <!-- level -->
+        <div>
+          <label for="level">Level:</label>
+          <select id="level" formControlName="level">
+            <option disabled selected value="">Choose level</option>
+            <option *ngFor="let level of levels; let i = index" [value]="i">
+              {{ level }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <!-- ---------------------------------- -->
+      <div formArrayName="learningItems">
+        <label for="title">Course Teaching</label>
+        <div
+          class="input-container"
+          *ngFor="let courseTeaching of CourseTeachings.controls; let i = index"
+        >
+          <div [formGroupName]="i">
+            <input formControlName="title" placeholder="Title" />
+            <input
+              formControlName="description"
+              placeholder="What are the main points your course teaches?"
+            />
+          </div>
+        </div>
+        <button class="add-field" (click)="addCourseTeachingInput()">
+          +&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; Add new point
+        </button>
+      </div>
+      <!-- -------targetStudent -->
+      <div formArrayName="enrollmentItems">
+        <label for="title">Target Student</label>
+        <div
+          class="input-container"
+          *ngFor="let targetStudent of TargetStudents.controls; let i = index"
+        >
+          <div [formGroupName]="i">
+            <input
+              type="text"
+              formControlName="title"
+              name="TargetStudent"
+              placeholder="Who should enroll in this course?"
+            />
+          </div>
+        </div>
+        <button class="add-field" (click)="addTargetStudentInput()">
+          +&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; Add new point
+        </button>
+      </div>
+      <!-- -------------------------Course requirement -->
+      <div formArrayName="courseRequirements">
+        <label for="title">Course Requirement</label>
+        <div
+          class="input-container"
+          *ngFor="
+            let courseRequirement of CourseRequirements.controls;
+            let i = index
+          "
+        >
+          <div [formGroupName]="i">
+            <input formControlName="title" placeholder="Title" />
+            <input
+              formControlName="description"
+              placeholder="What are the course’s requirements?"
+            />
+          </div>
+        </div>
+        <button class="add-field" (click)="addCourseRequirmentInput()">
+          +&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; Add new point
+        </button>
+      </div>
+      <div class="submission">
+        <button (click)="back()">Back</button>
+        <button type="submit">Continue</button>
+      </div>
+    </form>
+  </div>
+</section>

@@ -107,7 +107,7 @@
                       class="video-wrapper"
                       *ngIf="lesson.type === videoType"
                     >
-                      <video [src]="getVideoURL()" controls></video>
+                      <video [src]="lesson.video!.videoUrl" controls></video>
                     </div>
                     <div *ngIf="lesson.type === quizType">
                       <div
@@ -191,7 +191,6 @@
                   [editMode]="lesson.editMode"
                   (cancel)="cancelEditLesson(i, j)"
                   (save)="saveEditedLesson(i, j, $event)"
-                  (videoUrlChange)="handleVideoUrlChange($event)"
                 ></app-video-lesson>
                 <app-quiz-lesson
                   class="add-new add-new-lesson"
@@ -223,7 +222,6 @@
                   [editMode]="editLessonMode"
                   (cancel)="cancelAddLesson(i)"
                   (save)="saveLesson(i, videoType)"
-                  (videoUrlChange)="handleVideoUrlChange($event)"
                 ></app-video-lesson>
 
                 <!-- Add Quiz Lesson -->
@@ -298,8 +296,10 @@
       </button>
     </div>
     <div class="create-course-actions">
-      <button class="back-btn">Back</button>
-      <button class="continue-btn">Continue</button>
+      <button class="back-btn" (click)="backTocreateCourse()">Back</button>
+      <button class="continue-btn" (click)="submitCourse()">
+        Submit Course
+      </button>
     </div>
   </div>
 </div>

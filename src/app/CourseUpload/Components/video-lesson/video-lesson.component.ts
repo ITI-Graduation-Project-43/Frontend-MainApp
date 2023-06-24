@@ -14,12 +14,10 @@ export class VideoLessonComponent implements OnInit {
   @Input() video: Lesson = {} as Lesson;
 
   @Output() videoChange = new EventEmitter<Lesson>();
-  @Output() videoUrlChange = new EventEmitter<string | null>();
   @Output() cancel = new EventEmitter<void>();
   @Output() save = new EventEmitter<any>();
 
   editedVideo: Lesson = {} as Lesson;
-  videoUrl: string | null = null;
 
   saveAttempted: boolean = false;
   videoValid: boolean = true;
@@ -34,28 +32,30 @@ export class VideoLessonComponent implements OnInit {
 
   ngOnInit() {
     this.editedVideo = JSON.parse(JSON.stringify(this.video));
-    if (this.editMode && this.video.video) {
-      this.editedVideo.video = JSON.parse(JSON.stringify(this.video.video));
-      if (this.editedVideo?.video?.videoFile) {
-        this.videoUrl = URL.createObjectURL(this.editedVideo.video.videoFile);
-      }
+    if (this.editMode && this.video && this.video.video) {
+      this.editedVideo.video = {
+        ...this.video.video,
+        videoFile: this.video.video.videoFile,
+      };
     }
   }
-
   onVideoSelected(event: any): void {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
 
-      this.editedVideo.video = { id: 0, lessonId: 0, videoFile: file };
-      this.videoUrl = URL.createObjectURL(file);
-      this.videoUrlChange.emit(this.videoUrl);
+      this.editedVideo.video = {
+        id: 0,
+        lessonId: 0,
+        videoFile: file,
+        videoUrl: '',
+      };
+      this.editedVideo.video.videoUrl = URL.createObjectURL(file);
     }
   }
 
   onDeleteVideo(): void {
-    this.videoUrl = null;
+    this.editedVideo.video!.videoUrl = null;
     this.editedVideo.video = undefined;
-    this.videoUrlChange.emit(this.videoUrl);
   }
 
   onCancel(): void {
@@ -65,6 +65,7 @@ export class VideoLessonComponent implements OnInit {
   onSave(): void {
     this.saveAttempted = true;
     if (this.isVideoValid()) {
+      console.log(this.editedVideo);
       this.videoChange.emit(this.editedVideo);
       this.save.emit(this.editedVideo);
     } else {

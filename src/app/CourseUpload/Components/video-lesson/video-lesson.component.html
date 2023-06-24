@@ -42,7 +42,7 @@
     <div class="input-title-style">Upload Video</div>
   </div>
   <div class="lesson-content-data">
-    <div class="dropzone-wrapper" *ngIf="!videoUrl">
+    <div class="dropzone-wrapper" *ngIf="!editedVideo.video?.videoUrl">
       <div class="dropzone-desc">
         <img src="../../../../assets/svg/video-placeholder.svg" alt="" />
         <input
@@ -54,8 +54,8 @@
       </div>
     </div>
 
-    <div class="video-wrapper" *ngIf="videoUrl">
-      <video [src]="videoUrl" controls></video>
+    <div class="video-wrapper" *ngIf="editedVideo.video?.videoUrl">
+      <video [src]="editedVideo.video?.videoUrl" controls></video>
       <button (click)="onDeleteVideo()">
         <img src="../../../../assets/svg/delete-ico.svg" alt="delete icon" />
       </button>

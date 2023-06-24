@@ -16,7 +16,6 @@
             type="file"
             accept="image/*"
             (change)="onFileSelected($event)"
-            formControlName="imageUrl"
           />
         </label>
       </div>
@@ -257,5 +256,4 @@
   </div>
 
   <p>{{ CreateCourse.value | json }}</p>
-  <img [src]="CourseImage" />
 </section>

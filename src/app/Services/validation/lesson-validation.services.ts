@@ -31,9 +31,18 @@ export class ChapterValidationService {
   }
 
   isValidVideoFile(file: File | undefined): boolean {
-    return !!file && !!file?.type && file.type?.startsWith('video/');
-  }
+    if (!file || !file?.type) {
+      console.warn('File or file type missing', file);
+      return false;
+    }
 
+    const isValid = file.type.startsWith('video/');
+    if (!isValid) {
+      console.warn('Invalid video file type', file.type);
+    }
+
+    return isValid;
+  }
   isValidName(name: string): boolean {
     const regex = /^[A-Za-z0-9\s]*$/;
     return regex.test(name);

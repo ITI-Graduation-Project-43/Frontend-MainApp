@@ -1,7 +1,7 @@
 export interface APIResponseVM {
   success: boolean;
   message: string;
-  items: [];
+  items: any[];
   PageNumber: number;
   ItemsPerPage: number;
   TotalPages: number;

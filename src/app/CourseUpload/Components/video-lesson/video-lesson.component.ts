@@ -4,6 +4,7 @@ import { Lesson } from 'src/app/Models/courseChapter';
 import { NotificationService } from '../../../Shared/Services/notification.service';
 import { ChapterValidationService } from 'src/app/Services/validation/lesson-validation.services';
 import { ERROR_MESSAGES } from '../../../Shared/Helper/error-messages';
+import { UploadService } from 'src/app/Shared/Services/upload.service';
 @Component({
   selector: 'app-video-lesson',
   templateUrl: './video-lesson.component.html',
@@ -24,38 +25,65 @@ export class VideoLessonComponent implements OnInit {
   touchedFields: any = {};
 
   errorMessages = ERROR_MESSAGES;
+  uploadError: string | null = null;
 
   constructor(
     private notificationService: NotificationService,
-    private chapterValidationService: ChapterValidationService
+    private chapterValidationService: ChapterValidationService,
+    private uploadService: UploadService
   ) {}
 
   ngOnInit() {
     this.editedVideo = JSON.parse(JSON.stringify(this.video));
-    if (this.editMode && this.video && this.video.video) {
-      this.editedVideo.video = {
-        ...this.video.video,
-        videoFile: this.video.video.videoFile,
-      };
-    }
   }
-  onVideoSelected(event: any): void {
+  async onVideoSelected(event: any): Promise<void> {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-
-      this.editedVideo.video = {
-        id: 0,
-        lessonId: 0,
-        videoFile: file,
-        videoUrl: '',
-      };
-      this.editedVideo.video.videoUrl = URL.createObjectURL(file);
+      if (!this.chapterValidationService.isValidVideoFile(file)) {
+        this.notificationService.notify(
+          this.errorMessages.invalidVideoFileType,
+          'error'
+        );
+      }
+      this.uploadService.uploadFile(file, 'Video').subscribe(
+        (response) => {
+          if (response.success) {
+            this.editedVideo.video = {
+              id: 0,
+              lessonId: 0,
+              videoUrl: (response.items[0] as string) || null,
+            };
+            this.uploadError = null;
+          } else {
+            this.uploadError =
+              'Upload failed, please try again 🥺' || response.message;
+          }
+        },
+        (error) => {
+          this.uploadError = error;
+        }
+      );
     }
   }
-
   onDeleteVideo(): void {
-    this.editedVideo.video!.videoUrl = null;
-    this.editedVideo.video = undefined;
+    if (this.editedVideo.video && this.editedVideo.video!.videoUrl) {
+      const fileUrl = this.editedVideo.video.videoUrl;
+
+      this.uploadService.deleteFile(fileUrl, 'Video').subscribe(
+        (response) => {
+          if (response.success) {
+            this.editedVideo.video!.videoUrl = null;
+            this.editedVideo.video = undefined;
+            this.notificationService.notify('video deleted successfully');
+          } else {
+            this.notificationService.notify(response.message, 'error');
+          }
+        },
+        (error) => {
+          this.notificationService.notify('Failed to delete video', 'error');
+        }
+      );
+    }
   }
 
   onCancel(): void {
@@ -65,7 +93,6 @@ export class VideoLessonComponent implements OnInit {
   onSave(): void {
     this.saveAttempted = true;
     if (this.isVideoValid()) {
-      console.log(this.editedVideo);
       this.videoChange.emit(this.editedVideo);
       this.save.emit(this.editedVideo);
     } else {
@@ -118,27 +145,28 @@ export class VideoLessonComponent implements OnInit {
     }
     return null;
   }
-
-  isInvalidVideoFile(): string | null {
-    if (this.saveAttempted) {
-      const { video } = this.editedVideo;
-      const fieldName = 'video File';
-      if (!video || !video.videoFile) {
+  isInvalidVideoRequiredHours(): string | null {
+    if (
+      this.touchedFields.videoRequiredHours ||
+      this.editMode ||
+      this.saveAttempted
+    ) {
+      const { noOfHours } = this.editedVideo;
+      const fieldName = 'Required Hours';
+      if (!noOfHours || noOfHours === 0) {
         return this.errorMessages.requiredField(fieldName);
-      } else if (
-        !this.chapterValidationService.isValidVideoFile(video.videoFile)
-      ) {
-        return this.errorMessages.invalidVideoFileType;
+      } else if (noOfHours > 6 || noOfHours <= 0) {
+        return this.errorMessages.invalidRequiredHours;
       }
     }
     return null;
   }
-
   isVideoValid(): boolean {
     if (
       this.isInvalidVideoTitle() !== null ||
       this.isInvalidVideoDescription() !== null ||
-      this.isInvalidVideoFile() !== null
+      this.editedVideo.video?.videoUrl == null ||
+      this.isInvalidVideoRequiredHours !== null
     ) {
       return false;
     }

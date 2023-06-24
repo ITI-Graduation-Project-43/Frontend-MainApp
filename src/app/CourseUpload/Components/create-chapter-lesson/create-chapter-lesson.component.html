@@ -9,9 +9,8 @@
         <div
           *ngFor="let chapter of chapters; let i = index"
           class="chapter-lesson"
-          cdkDrag
         >
-          <div class="chapter-heading" *ngIf="!chapter.editMode">
+          <div class="chapter-heading" *ngIf="!chapter.editMode" cdkDrag>
             <div class="chapter-data">
               <span class="input-title-style">Chapter {{ i + 1 }}:</span>
               <ng-container>
@@ -58,18 +57,15 @@
               <div
                 *ngFor="let lesson of chapter.lessons; let j = index"
                 class="lesson-sec"
-                cdkDrag
               >
                 <div class="lesson" *ngIf="!lesson.editMode">
-                  <div class="lesson-heading">
+                  <div class="lesson-heading" cdkDrag>
                     <div class="lesson-data word-wrap">
                       <span class="input-title-style">Lesson {{ j + 1 }}:</span>
 
                       <span
                         matTooltip="{{ lesson.description }}"
                         matTooltipPosition="above"
-                        matTooltipShowDelay="500"
-                        matTooltipHideDelay="1000"
                       >
                         {{ lesson.title }}
                       </span>
@@ -99,7 +95,7 @@
                   <div class="lesson-body" *ngIf="!isCollapsed[j]">
                     <div *ngIf="lesson.type == articleType">
                       <div
-                        class="word-wrap"
+                        class="word-wrap article-sec"
                         [innerHTML]="lesson.article!.content"
                       ></div>
                     </div>
@@ -161,11 +157,12 @@
                     </div>
                     <div
                       class="uploaded-attachment"
-                      *ngIf="chapters[i].lessons[j].attachment"
+                      *ngIf="chapters[i].lessons[j].attachment?.attachmentUrl"
                     >
                       <span>{{
-                        chapters[i].lessons[j].attachment?.fileData?.name
+                        chapters[i].lessons[j].attachment?.attachmentName
                       }}</span>
+                      {{ chapters[i].lessons[j].attachment?.attachmentSize }}
                       <button (click)="deleteFile(i, j)">
                         <img
                           src="../../../../assets/svg/delete-ico.svg"

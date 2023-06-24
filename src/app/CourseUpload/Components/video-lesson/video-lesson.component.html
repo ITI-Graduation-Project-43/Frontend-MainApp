@@ -37,6 +37,26 @@
     </div>
   </div>
 </div>
+<div class="required-hours">
+  <div class="required-hours-heading">
+    <div class="input-title-style">Article required hourse</div>
+  </div>
+  <div class="required-hours-data">
+    <input
+      [(ngModel)]="editedVideo.noOfHours"
+      class="input-style"
+      type="number"
+      min="0"
+      max="6"
+      placeholder="How many hours required to study this?"
+      (blur)="touchedFields.videoRequiredHours = true"
+    />
+    <!-- Error message for Article Description -->
+    <div *ngIf="isInvalidVideoRequiredHours()" class="error-message error">
+      {{ isInvalidVideoRequiredHours() }}
+    </div>
+  </div>
+</div>
 <div class="lesson-content">
   <div class="lesson-content-heading">
     <div class="input-title-style">Upload Video</div>
@@ -62,8 +82,8 @@
     </div>
   </div>
   <!-- Error message for Quiz Description -->
-  <div *ngIf="isInvalidVideoFile()" class="error-message error">
-    {{ isInvalidVideoFile() }}
+  <div *ngIf="uploadError" class="error-message error">
+    {{ uploadError }}
   </div>
 </div>
 

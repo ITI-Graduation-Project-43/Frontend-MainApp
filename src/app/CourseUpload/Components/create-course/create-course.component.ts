@@ -154,6 +154,7 @@ export class CreateCourseComponent implements OnInit {
         console.log(err.message);
       },
     };
+    localStorage.setItem('CreatedCourse', JSON.stringify(formData));
 
     this.apiService.addItem('Course', formData).subscribe(observer);
     console.log(formData);

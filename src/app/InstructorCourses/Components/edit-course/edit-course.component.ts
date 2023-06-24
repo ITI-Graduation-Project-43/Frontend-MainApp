@@ -163,7 +163,7 @@ export class EditCourseComponent implements OnInit {
   back() {
     this.router.navigate([`instructorCourses/courseOverview/${this.courseId}`]);
   }
-  CreateCourseSubmit() {
+  PutCourseSubmit() {
     if (this.CreateCourse.invalid) {
       return;
     }

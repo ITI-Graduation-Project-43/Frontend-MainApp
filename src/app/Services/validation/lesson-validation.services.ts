@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Lesson,
-  QuizQuestion,
-} from '../../CourseUpload/Components/create-chapter-lesson/create-chapter-lesson.component';
+import { Question } from '../../Models/courseChapter';
 
 @Injectable({ providedIn: 'root' })
 export class ChapterValidationService {
@@ -42,7 +39,7 @@ export class ChapterValidationService {
     return regex.test(name);
   }
 
-  isValidQuizQuestion(question: QuizQuestion): boolean {
+  isValidQuizQuestion(question: Question): boolean {
     const nonBlankChoices = question.choices.filter(
       (choice) => choice.trim() !== ''
     );
@@ -75,7 +72,7 @@ export class ChapterValidationService {
     return new Set(nonBlankChoices).size === nonBlankChoices.length;
   }
 
-  validateQuestion(question: QuizQuestion): boolean {
+  validateQuestion(question: Question): boolean {
     return (
       question.questionText !== '' &&
       this.validateSentenceLength(question.questionText, 10) &&

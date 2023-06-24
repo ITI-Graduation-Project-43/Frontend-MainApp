@@ -3,6 +3,9 @@ import { NotificationService } from 'src/app/Shared/Services/notification.servic
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChapterValidationService } from 'src/app/Services/validation/lesson-validation.services';
 import { ERROR_MESSAGES } from '../../../Shared/Helper/error-messages';
+import { Chapter, Lesson } from 'src/app/Models/courseChapter';
+import { LessonType } from 'src/app/Models/Enums/LessonType';
+import { FileType } from 'src/app/Models/Enums/FileType';
 @Component({
   selector: 'app-create-chapter-lesson',
   templateUrl: './create-chapter-lesson.component.html',
@@ -15,6 +18,7 @@ export class CreateChapterLessonComponent implements OnInit {
   articleType = LessonType.Article;
   videoType = LessonType.Video;
   quizType = LessonType.Quiz;
+  fileType = FileType;
 
   newArticles: Lesson[] = [];
   newVideos: Lesson[] = [];
@@ -48,7 +52,9 @@ export class CreateChapterLessonComponent implements OnInit {
 
   ngOnInit() {
     const defaultChapter: Chapter = {
-      name: 'Introduction',
+      id: 0,
+      courseId: 0,
+      title: 'Introduction',
       editMode: false,
       lessons: [],
     };
@@ -78,7 +84,9 @@ export class CreateChapterLessonComponent implements OnInit {
 
   saveChapter() {
     const chapter: Chapter = {
-      name: this.newChapterName.trim(),
+      id: 0,
+      courseId: 0,
+      title: this.newChapterName.trim(),
       editMode: false,
       lessons: [],
     };
@@ -88,7 +96,7 @@ export class CreateChapterLessonComponent implements OnInit {
   }
   updateChapterName(index: number, newName: string): void {
     const chapter = this.chapters[index];
-    chapter.name = newName;
+    chapter.title = newName;
     chapter.editMode = false;
   }
   deleteChapter(index: number) {
@@ -123,12 +131,12 @@ export class CreateChapterLessonComponent implements OnInit {
     switch (type) {
       case LessonType.Article:
         newLesson = { ...this.newArticles[chapterIndex] };
-        this.newArticles[chapterIndex] = {
-          title: '',
-          description: '',
-          type: this.articleType,
-          content: '',
-        };
+        // this.newArticles[chapterIndex] = {
+        //   title: '',
+        //   description: '',
+        //   type: this.articleType,
+        //   content: '',
+        // };
         this.chapters[chapterIndex].lessons.push(newLesson);
         this.showAddNewLesson[chapterIndex] = false;
         this.toggleAddLessonOptions(chapterIndex);
@@ -136,30 +144,30 @@ export class CreateChapterLessonComponent implements OnInit {
         break;
       case LessonType.Quiz:
         newLesson = { ...this.newQuizzes[chapterIndex] };
-        this.newQuizzes[chapterIndex] = {
-          title: '',
-          description: '',
-          type: this.quizType,
-          questions: [
-            {
-              questionText: '',
-              choices: ['', '', '', ''],
-              correctAnswer: '',
-            },
-          ],
-        };
+        // this.newQuizzes[chapterIndex] = {
+        //   title: '',
+        //   description: '',
+        //   type: this.quizType,
+        //   questions: [
+        //     {
+        //       questionText: '',
+        //       choices: ['', '', '', ''],
+        //       correctAnswer: '',
+        //     },
+        //   ],
+        // };
         this.chapters[chapterIndex].lessons.push(newLesson);
         this.showAddNewLesson[chapterIndex] = false;
         this.toggleAddLessonOptions(chapterIndex);
         break;
       case LessonType.Video:
         newLesson = { ...this.newVideos[chapterIndex] };
-        this.newVideos[chapterIndex] = {
-          title: '',
-          description: '',
-          type: this.videoType,
-          videoFile: new File([], ''),
-        };
+        // this.newVideos[chapterIndex] = {
+        //   title: '',
+        //   description: '',
+        //   type: this.videoType,
+        //   videoFile: new File([], ''),
+        // };
         this.chapters[chapterIndex].lessons.push(newLesson);
         this.showAddNewLesson[chapterIndex] = false;
         this.toggleAddLessonOptions(chapterIndex);
@@ -248,9 +256,37 @@ export class CreateChapterLessonComponent implements OnInit {
   onFileSelected(event: any, chapterIndex: number, lessonIndex: number): void {
     const file: File = event.target.files[0];
     if (file && this.chapterValidationService.isValidFile(file)) {
-      this.chapters[chapterIndex].lessons[lessonIndex].attachment = file;
+      const lesson = this.chapters[chapterIndex].lessons[lessonIndex];
+      if (lesson && lesson.attachment) {
+        lesson.attachment.fileData = file;
+        lesson.attachment.fileType = this.getFileTypeFromExtension(file.name);
+      } else {
+        const fileType = this.getFileTypeFromExtension(file.name);
+        this.chapters[chapterIndex].lessons[lessonIndex].attachment = {
+          id: 0,
+          lessonId: 0,
+          fileData: file,
+          fileType: fileType,
+        };
+      }
     } else {
       alert('Invalid file. Only PDF, DOC and ZIP files are allowed.');
+    }
+  }
+
+  private getFileTypeFromExtension(fileName: string): FileType {
+    const extension = fileName
+      .substring(fileName.lastIndexOf('.') + 1)
+      .toLowerCase();
+    switch (extension) {
+      case 'pdf':
+        return FileType.PDF;
+      case 'docx':
+        return FileType.DOCX;
+      case 'zip':
+        return FileType.ZIP;
+      default:
+        return FileType.PDF;
     }
   }
 
@@ -263,32 +299,59 @@ export class CreateChapterLessonComponent implements OnInit {
   // #region Lesson helper fn
   createNewArticleLesson(): Lesson {
     return {
+      id: 0,
+      chapterId: 0,
       title: '',
       description: '',
+      NoOfHours: 0,
       type: this.articleType,
-      content: '',
+      article: {
+        id: 0,
+        lessonId: 0,
+        content: '',
+      },
       attachment: null,
     };
   }
 
   createNewVideoLesson(): Lesson {
     return {
+      id: 0,
+      chapterId: 0,
       title: '',
       description: '',
+      NoOfHours: 0,
       type: this.videoType,
-      videoFile: new File([], ''),
+      video: {
+        id: 0,
+        lessonId: 0,
+        videoFile: new File([], ''),
+      },
       attachment: null,
     };
   }
 
   createNewQuizLesson(): Lesson {
     return {
+      id: 0,
+      chapterId: 0,
       title: '',
       description: '',
+      NoOfHours: 0,
       type: this.quizType,
-      questions: [
-        { questionText: '', choices: ['', '', '', ''], correctAnswer: null },
-      ],
+      quiz: {
+        id: 0,
+        lessonId: 0,
+        questions: [
+          {
+            id: 0,
+            quizId: 0,
+            questionText: '',
+            choices: ['', '', '', ''],
+            correctAnswer: '',
+          },
+        ],
+      },
       attachment: null,
     };
   }
@@ -297,32 +360,4 @@ export class CreateChapterLessonComponent implements OnInit {
   getChoiceIdentifier(idx: number): string {
     return String.fromCharCode('A'.charCodeAt(0) + idx);
   }
-}
-
-interface Chapter {
-  name: string;
-  editMode: boolean;
-  lessons: Lesson[];
-}
-
-export interface Lesson {
-  title: string;
-  description: string;
-  type: LessonType;
-  content?: string;
-  videoFile?: File;
-  questions?: QuizQuestion[];
-  attachment?: File | null;
-  editMode?: boolean;
-}
-export enum LessonType {
-  Article = 'Article',
-  Video = 'Video',
-  Quiz = 'Quiz',
-}
-
-export interface QuizQuestion {
-  questionText: string;
-  choices: string[];
-  correctAnswer: string | null;
 }

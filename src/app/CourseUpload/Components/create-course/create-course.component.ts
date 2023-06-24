@@ -47,7 +47,7 @@ export class CreateCourseComponent implements OnInit {
       language: ['', Validators.required],
       price: ['', Validators.required],
       level: ['', Validators.required],
-      courseImage: [''],
+      courseImage: ['ss '],
       learningItems: this.fb.array([
         this.fb.group({
           title: ['', Validators.required],
@@ -140,10 +140,15 @@ export class CreateCourseComponent implements OnInit {
     if (this.courseImg) {
       formData.append('courseImg', this.courseImg);
     }
-    formData.append('postCourseDto', JSON.stringify(this.CreateCourse.value));
+    const postdata = this.convertToPostCourseDto(this.CreateCourse.value);
 
-    console.log(this.CreateCourse.value);
-    console.log('Form data:', formData);
+    for (const key in postdata) {
+      if (Object.prototype.hasOwnProperty.call(postdata, key)) {
+        const value = postdata[key];
+        console.log(`${key}: ${value}`);
+        formData.append(`${key}`, `${value}`);
+      }
+    }
     const observer = {
       next: (result: any) => {
         this.router.navigate(['createCourse/step2']);
@@ -155,6 +160,29 @@ export class CreateCourseComponent implements OnInit {
 
     this.apiService.addItem('Course', formData).subscribe(observer);
     console.log(formData);
+  }
+
+  convertToPostCourseDto(
+    obj: any,
+    result: any = {},
+    parentKey: string = 'postCourseDto'
+  ) {
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        const value = obj[key];
+        const newKey = parentKey ? `${parentKey}.${key}` : key;
+        if (Array.isArray(value)) {
+          for (let i = 0; i < value.length; i++) {
+            this.convertToPostCourseDto(value[i], result, `${newKey}[${i}]`);
+          }
+        } else if (typeof value === 'object' && value !== null) {
+          this.convertToPostCourseDto(value, result, newKey);
+        } else {
+          result[newKey] = value;
+        }
+      }
+    }
+    return result;
   }
 
   /*  checkCourseTeachings(event: any): any {

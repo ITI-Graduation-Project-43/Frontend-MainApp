@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { Lesson } from '../create-chapter-lesson/create-chapter-lesson.component';
+import { Lesson } from 'src/app/Models/courseChapter';
 import { NotificationService } from '../../../Shared/Services/notification.service';
 import { ChapterValidationService } from 'src/app/Services/validation/lesson-validation.services';
 import { ERROR_MESSAGES } from '../../../Shared/Helper/error-messages';
@@ -34,10 +34,10 @@ export class VideoLessonComponent implements OnInit {
 
   ngOnInit() {
     this.editedVideo = JSON.parse(JSON.stringify(this.video));
-    if (this.editMode && this.video.videoFile) {
-      this.editedVideo.videoFile = this.video.videoFile;
-      if (this.editedVideo.videoFile) {
-        this.videoUrl = URL.createObjectURL(this.editedVideo.videoFile);
+    if (this.editMode && this.video.video) {
+      this.editedVideo.video = JSON.parse(JSON.stringify(this.video.video));
+      if (this.editedVideo?.video?.videoFile) {
+        this.videoUrl = URL.createObjectURL(this.editedVideo.video.videoFile);
       }
     }
   }
@@ -46,7 +46,7 @@ export class VideoLessonComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
 
-      this.editedVideo.videoFile = file;
+      this.editedVideo.video = { id: 0, lessonId: 0, videoFile: file };
       this.videoUrl = URL.createObjectURL(file);
       this.videoUrlChange.emit(this.videoUrl);
     }
@@ -54,8 +54,7 @@ export class VideoLessonComponent implements OnInit {
 
   onDeleteVideo(): void {
     this.videoUrl = null;
-    this.editedVideo.videoFile = undefined;
-
+    this.editedVideo.video = undefined;
     this.videoUrlChange.emit(this.videoUrl);
   }
 
@@ -121,11 +120,13 @@ export class VideoLessonComponent implements OnInit {
 
   isInvalidVideoFile(): string | null {
     if (this.saveAttempted) {
-      const { videoFile } = this.editedVideo;
+      const { video } = this.editedVideo;
       const fieldName = 'video File';
-      if (!videoFile) {
+      if (!video || !video.videoFile) {
         return this.errorMessages.requiredField(fieldName);
-      } else if (!this.chapterValidationService.isValidVideoFile(videoFile)) {
+      } else if (
+        !this.chapterValidationService.isValidVideoFile(video.videoFile)
+      ) {
         return this.errorMessages.invalidVideoFileType;
       }
     }

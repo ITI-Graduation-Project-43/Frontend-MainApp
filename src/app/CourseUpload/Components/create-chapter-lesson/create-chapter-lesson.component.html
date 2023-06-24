@@ -15,7 +15,7 @@
             <div class="chapter-data">
               <span class="input-title-style">Chapter {{ i + 1 }}:</span>
               <ng-container>
-                {{ chapter.name }}
+                {{ chapter.title }}
               </ng-container>
             </div>
             <div class="chapter-actions">
@@ -98,7 +98,10 @@
                   </div>
                   <div class="lesson-body" *ngIf="!isCollapsed[j]">
                     <div *ngIf="lesson.type == articleType">
-                      <div class="word-wrap" [innerHTML]="lesson.content"></div>
+                      <div
+                        class="word-wrap"
+                        [innerHTML]="lesson.article!.content"
+                      ></div>
                     </div>
                     <div
                       class="video-wrapper"
@@ -109,7 +112,7 @@
                     <div *ngIf="lesson.type === quizType">
                       <div
                         *ngFor="
-                          let question of lesson.questions;
+                          let question of lesson.quiz?.questions;
                           let qNumber = index
                         "
                       >
@@ -160,7 +163,9 @@
                       class="uploaded-attachment"
                       *ngIf="chapters[i].lessons[j].attachment"
                     >
-                      <span>{{ chapters[i].lessons[j].attachment?.name }}</span>
+                      <span>{{
+                        chapters[i].lessons[j].attachment?.fileData?.name
+                      }}</span>
                       <button (click)="deleteFile(i, j)">
                         <img
                           src="../../../../assets/svg/delete-ico.svg"
@@ -263,7 +268,7 @@
           </div>
           <app-chapter
             *ngIf="chapter.editMode"
-            [chapterName]="chapter.name"
+            [chapterName]="chapter.title"
             [editMode]="true"
             (cancel)="toggleEditMode(i)"
             (save)="updateChapterName(i, $event)"

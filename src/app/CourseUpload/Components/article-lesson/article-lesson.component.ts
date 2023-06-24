@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import 'quill-emoji';
 
-import { Lesson } from '../create-chapter-lesson/create-chapter-lesson.component';
+import { Lesson } from 'src/app/Models/courseChapter';
 import { NotificationService } from '../../../Shared/Services/notification.service';
 import { ChapterValidationService } from 'src/app/Services/validation/lesson-validation.services';
 import { ERROR_MESSAGES } from '../../../Shared/Helper/error-messages';
@@ -140,7 +140,7 @@ export class ArticleLessonComponent implements OnInit {
       this.editMode ||
       this.saveAttempted
     ) {
-      const { content } = this.editedArticle;
+      const { content } = this.editedArticle.article || {};
       const fieldName = 'content';
       if (!content) {
         return this.errorMessages.requiredField(fieldName);

@@ -42,7 +42,7 @@
 
 <div
   class="lesson-content"
-  *ngFor="let question of editedQuiz.questions; let qIndex = index"
+  *ngFor="let question of editedQuiz.quiz?.questions; let qIndex = index"
 >
   <div class="lesson-content-heading">
     <!-- Question Heading -->

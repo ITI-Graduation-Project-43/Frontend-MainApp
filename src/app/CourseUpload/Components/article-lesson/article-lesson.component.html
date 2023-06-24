@@ -43,7 +43,7 @@
   </div>
   <div class="lesson-content-data">
     <quill-editor
-      [(ngModel)]="editedArticle.content"
+      [(ngModel)]="editedArticle.article!.content"
       [modules]="quillConfig"
       (onBlur)="blur($event)"
       placeholder="Enter article body"

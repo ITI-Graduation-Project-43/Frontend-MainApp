@@ -1,9 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import {
-  Lesson,
-  QuizQuestion,
-} from '../create-chapter-lesson/create-chapter-lesson.component';
+import { Lesson, Quiz, Question } from 'src/app/Models/courseChapter';
+
 import { NotificationService } from '../../../Shared/Services/notification.service';
 import { ChapterValidationService } from 'src/app/Services/validation/lesson-validation.services';
 import { ERROR_MESSAGES } from '../../../Shared/Helper/error-messages';
@@ -36,14 +34,20 @@ export class QuizLessonComponent implements OnInit {
 
   ngOnInit() {
     this.editedQuiz = { ...this.quiz };
-    if (!this.editedQuiz.questions) {
-      this.editedQuiz.questions = [
-        {
-          questionText: '',
-          choices: ['', '', '', ''],
-          correctAnswer: null,
-        },
-      ];
+    if (!this.editedQuiz.quiz) {
+      this.editedQuiz.quiz = {
+        id: 0,
+        lessonId: 0,
+        questions: [
+          {
+            id: 0,
+            quizId: 0,
+            questionText: '',
+            choices: ['', ''],
+            correctAnswer: '',
+          },
+        ],
+      };
     }
   }
 
@@ -51,23 +55,26 @@ export class QuizLessonComponent implements OnInit {
     return index;
   }
 
-  onRadioChange(question: QuizQuestion, choiceIndex: number): void {
-    const questionIndex = this.editedQuiz.questions?.indexOf(question) || 0;
+  onRadioChange(question: Question, choiceIndex: number): void {
+    const questionIndex =
+      this.editedQuiz.quiz!.questions?.indexOf(question) || 0;
     this.selectedRadioIndices[questionIndex] = choiceIndex;
     question.correctAnswer = question.choices[choiceIndex];
   }
 
   onAddQuestion(): void {
-    this.editedQuiz.questions?.push({
+    this.editedQuiz.quiz!.questions?.push({
+      id: 0,
+      quizId: 0,
       questionText: '',
       choices: ['', '', '', ''],
-      correctAnswer: null,
+      correctAnswer: '',
     });
   }
 
   onDeleteQuestion(index: number): void {
-    if (this.editedQuiz.questions!.length > 1) {
-      this.editedQuiz.questions?.splice(index, 1);
+    if (this.editedQuiz.quiz!.questions.length > 1) {
+      this.editedQuiz.quiz!.questions?.splice(index, 1);
     } else {
       this.notificationService.notify(
         this.errorMessages.minimumQuestions,
@@ -76,7 +83,7 @@ export class QuizLessonComponent implements OnInit {
     }
   }
 
-  onAddChoice(question: QuizQuestion): void {
+  onAddChoice(question: Question): void {
     if (question.choices.length < 4) {
       question.choices.push('');
       if (question.correctAnswer === null) {
@@ -88,10 +95,10 @@ export class QuizLessonComponent implements OnInit {
     }
   }
 
-  onDeleteChoice(question: QuizQuestion, choiceIndex: number): void {
+  onDeleteChoice(question: Question, choiceIndex: number): void {
     question.choices.splice(choiceIndex, 1);
     if (question.correctAnswer === question.choices[choiceIndex]) {
-      question.correctAnswer = null;
+      question.correctAnswer = '';
     }
   }
 
@@ -156,7 +163,7 @@ export class QuizLessonComponent implements OnInit {
     return null;
   }
 
-  isInvalidQuestionText(question: QuizQuestion): string | null {
+  isInvalidQuestionText(question: Question): string | null {
     if (
       this.touchedFields['questionText_' + question.questionText] ||
       this.editMode ||
@@ -183,7 +190,7 @@ export class QuizLessonComponent implements OnInit {
     return null;
   }
 
-  isInvalidQuestionChoices(question: QuizQuestion): string | null {
+  isInvalidQuestionChoices(question: Question): string | null {
     if (
       this.touchedFields['questionChoices_' + question.questionText] ||
       this.editMode ||
@@ -196,7 +203,7 @@ export class QuizLessonComponent implements OnInit {
     return null;
   }
 
-  isInvalidCorrectAnswer(question: QuizQuestion): string | null {
+  isInvalidCorrectAnswer(question: Question): string | null {
     if (
       this.touchedFields['correctAnswer_' + question.questionText] ||
       this.editMode ||
@@ -209,7 +216,7 @@ export class QuizLessonComponent implements OnInit {
     return null;
   }
 
-  isInvalidUniqueChoices(question: QuizQuestion): string | null {
+  isInvalidUniqueChoices(question: Question): string | null {
     if (
       this.touchedFields['uniqueChoices_' + question.questionText] ||
       this.editMode ||
@@ -222,7 +229,7 @@ export class QuizLessonComponent implements OnInit {
     return null;
   }
 
-  isInvalidField(question: QuizQuestion): boolean {
+  isInvalidField(question: Question): boolean {
     return (
       !!this.isInvalidQuestionText(question) ||
       !!this.isInvalidQuestionChoices(question) ||
@@ -238,7 +245,7 @@ export class QuizLessonComponent implements OnInit {
     ) {
       return false;
     }
-    const { questions } = this.editedQuiz;
+    const { questions } = this.editedQuiz.quiz || {};
     if (questions!.length === 0) {
       this.notificationService.notify(
         this.errorMessages.minimumQuestions,

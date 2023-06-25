@@ -7,7 +7,7 @@
       enctype="multipart/form-data"
     >
       <div class="form-group .image">
-        <label class="label">
+        <label *ngIf="inputFileShowStatus" class="label">
           <img src="../../../../assets/svg/photo.svg" alt="" />
           <span class="d-block title">upload course thumbnail</span>
           <input
@@ -16,6 +16,15 @@
             (change)="onFileSelected($event)"
           />
         </label>
+        <div class="image-wrapper" *ngIf="!inputFileShowStatus">
+          <button (click)="onDeleteImage()">
+            <img
+              src="../../../../assets/svg/delete-ico.svg"
+              alt="delete icon"
+            />
+          </button>
+          <img [src]="renderImage" alt="render" class="d-block" />
+        </div>
       </div>
       <!-- ---------------------title------------------------------ -->
       <div>

@@ -12,6 +12,10 @@ import { CloseAccoutComponent } from './Components/close-accout/close-accout.com
 import { ReactiveFormsModule } from '@angular/forms';
 import { DeactivateAccoutComponent } from './Components/deactivate-accout/deactivate-accout.component';
 import { ConfirmCloseAccountComponent } from './Components/confirm-close-account/confirm-close-account.component';
+import { ConfirmationComponent } from './Components/confirmation/confirmation.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 
 
@@ -26,12 +30,16 @@ import { ConfirmCloseAccountComponent } from './Components/confirm-close-account
     CloseAccoutComponent,
     DeactivateAccoutComponent,
     ConfirmCloseAccountComponent,
+    ConfirmationComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
     ProfileSettingRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule,
+    // MatDatepickerModule,
+    // MatNativeDateModule,
   ]
 })
 export class ProfileSettingModule { }

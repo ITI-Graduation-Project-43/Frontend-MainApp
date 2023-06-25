@@ -7,6 +7,7 @@ import { Category } from 'src/app/Models/category';
 import { mapEnumValue } from 'src/app/Shared/Helper/EnumMapper';
 import { APIService } from 'src/app/Shared/Services/api.service';
 import { NotificationService } from 'src/app/Shared/Services/notification.service';
+import { UploadService } from 'src/app/Shared/Services/upload.service';
 import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
 
 @Component({
@@ -15,6 +16,8 @@ import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
   styleUrls: ['./edit-course.component.scss'],
 })
 export class EditCourseComponent implements OnInit {
+  renderImage: any;
+  inputFileShowStatus: boolean = true;
   courseId: number = 11;
   course: any[] = [];
   courseImg: File | undefined;
@@ -30,9 +33,11 @@ export class EditCourseComponent implements OnInit {
     private apiService: APIService,
     private router: Router,
     private notification: NotificationService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private uploadService: UploadService
   ) {
     this.CreateCourse = this.fb.group({
+      id: [this.courseId],
       instructorId: ['aa8dc98a-af68-4c68-8d65-99106ba0cda7'],
       title: ['', Validators.required],
       shortDescription: ['', Validators.required],
@@ -68,12 +73,81 @@ export class EditCourseComponent implements OnInit {
       this.apiService.getItemById('Course', this.courseId).subscribe(
         (data: APIResponseVM) => {
           this.course = data.items;
-          this.course[0].language = mapEnumValue(
-            Language,
-            this.course[0].language
+          this.course[0].courseImage = this.course[0].imageUrl;
+          this.renderImage = this.course[0].imageUrl;
+          this.inputFileShowStatus = false;
+          this.course[0].enrollmentItems = this.course[0].enrollmentItems.map(
+            (item: any) => ({
+              title: item.description,
+            })
           );
-          this.course[0].level = mapEnumValue(Level, this.course[0].level);
-          console.log(this.course);
+          const {
+            id,
+            instructorId,
+            description,
+            shortDescription,
+            courseImage,
+            learningItems,
+            enrollmentItems,
+            courseRequirements,
+            price,
+            level,
+            language,
+            categoryId,
+            title,
+          } = this.course[0];
+
+          const extractedObject = {
+            id,
+            instructorId,
+            description,
+            shortDescription,
+            courseImage,
+            learningItems,
+            enrollmentItems,
+            courseRequirements,
+            price,
+            level,
+            language,
+            categoryId,
+            title,
+          };
+          if (extractedObject.enrollmentItems.length > 0) {
+            for (
+              let i = 0;
+              i < extractedObject.enrollmentItems.length - 1;
+              i++
+            ) {
+              const newForm = this.fb.group({
+                title: ['', Validators.required],
+              });
+              this.TargetStudents.push(newForm);
+            }
+          }
+          if (extractedObject.courseRequirements.length > 0) {
+            for (
+              let i = 0;
+              i < extractedObject.courseRequirements.length - 1;
+              i++
+            ) {
+              const newForm = this.fb.group({
+                title: ['', Validators.required],
+                description: ['', Validators.required],
+              });
+              this.CourseRequirements.push(newForm);
+            }
+          }
+          if (extractedObject.learningItems.length > 0) {
+            for (let i = 0; i < extractedObject.learningItems.length - 1; i++) {
+              const newForm = this.fb.group({
+                title: ['', Validators.required],
+                description: ['', Validators.required],
+              });
+              this.CourseTeachings.push(newForm);
+            }
+          }
+          this.CreateCourse.setValue(extractedObject);
+          console.log(extractedObject);
         },
         (err) => console.log(err)
       );
@@ -116,6 +190,23 @@ export class EditCourseComponent implements OnInit {
   }
   onFileSelected($event: any) {
     this.courseImg = $event.target.files[0];
+    const file = $event.target.files[0];
+    this.uploadService.uploadFile(file, 'Image').subscribe(
+      (response) => {
+        if (response.success) {
+          (this.CreateCourse.value.courseImage =
+            (response.items[0] as string) || null),
+            (this.renderImage = (response.items[0] as string) || null),
+            this.notification.notify('File uploaded successfully');
+          this.inputFileShowStatus = false;
+        } else {
+          this.notification.notify('File upload error', 'error');
+        }
+      },
+      (error) => {
+        this.notification.notify('File upload error', 'error');
+      }
+    );
   }
 
   addCourseTeachingInput() {
@@ -163,23 +254,14 @@ export class EditCourseComponent implements OnInit {
   back() {
     this.router.navigate([`instructorCourses/courseOverview/${this.courseId}`]);
   }
-  CreateCourseSubmit() {
+  PutCourseSubmit() {
     if (this.CreateCourse.invalid) {
       return;
     }
-    const formData = new FormData();
-    if (this.courseImg) {
-      formData.append('courseImg', this.courseImg);
-    }
-    const postdata = this.convertToPostCourseDto(this.CreateCourse.value);
+    this.CreateCourse.value.courseImage = this.renderImage;
+    const postCourseDto = JSON.parse(JSON.stringify(this.CreateCourse.value));
+    console.log(postCourseDto);
 
-    for (const key in postdata) {
-      if (Object.prototype.hasOwnProperty.call(postdata, key)) {
-        const value = postdata[key];
-        console.log(`${key}: ${value}`);
-        formData.append(`${key}`, `${value}`);
-      }
-    }
     const observer = {
       next: (result: any) => {
         this.router.navigate([
@@ -192,30 +274,13 @@ export class EditCourseComponent implements OnInit {
     };
 
     this.apiService
-      .replaceItem('Course', this.courseId, formData)
+      .replaceItem('Course', this.courseId, postCourseDto)
       .subscribe(observer);
-    console.log(formData);
   }
-  convertToPostCourseDto(
-    obj: any,
-    result: any = {},
-    parentKey: string = 'postCourseDto'
-  ) {
-    for (const key in obj) {
-      if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        const value = obj[key];
-        const newKey = parentKey ? `${parentKey}.${key}` : key;
-        if (Array.isArray(value)) {
-          for (let i = 0; i < value.length; i++) {
-            this.convertToPostCourseDto(value[i], result, `${newKey}[${i}]`);
-          }
-        } else if (typeof value === 'object' && value !== null) {
-          this.convertToPostCourseDto(value, result, newKey);
-        } else {
-          result[newKey] = value;
-        }
-      }
-    }
-    return result;
+
+  onDeleteImage() {
+    this.courseImg = undefined;
+    this.CreateCourse.value.courseImage = '';
+    this.inputFileShowStatus = true;
   }
 }

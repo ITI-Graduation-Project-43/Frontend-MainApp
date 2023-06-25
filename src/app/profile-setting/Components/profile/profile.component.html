@@ -1,6 +1,6 @@
 <section>
-  <form (submit)="save($event, submit)" [formGroup]="this.informationForm">
-    <div class="basics">
+  <form (submit)="save($event)">
+    <div class="basics mb-4" [formGroup]="this.informationForm">
       <h2>Information</h2>
       <h4>Basics</h4>
       <div class="form-outline mb-4">
@@ -20,7 +20,7 @@
           >Firstname is required</span
         >
         <span *ngIf="firstName?.errors?.['pattern']"
-          >Should be between 3 to 10 characters</span
+          >Should be between 3 to 30 characters</span
         >
       </div>
       <div class="form-outline mb-4">
@@ -36,9 +36,9 @@
         style="color: red; font-size: 15px; margin-top: -20px"
         class="mb-1"
       >
-        <span *ngIf="lastName?.errors?.['required']">LastName is required</span>
+        <span *ngIf="lastName?.errors?.['required']">Lastname is required</span>
         <span *ngIf="lastName?.errors?.['pattern']"
-          >Should be between 3 to 10 characters</span
+          >Should be between 3 to 30 characters</span
         >
       </div>
       <!-- <div class="form-outline mb-4">
@@ -48,61 +48,43 @@
         <span *ngIf="professionalHeadline?.errors?.['required']">LastName is required</span>
         <span *ngIf="professionalHeadline?.errors?.['pattern']">Should be between 3 to 10 characters</span>
       </div> -->
-      <div class="form-outline mb-4 d-flex flex-column">
+      <div [ngClass]="{'form-outline mb-4 d-flex flex-column bio':true, 'send': saving}">
         <div>
-          <span>B</span>
-          <span>I</span>
+          <span (click)="bold(textarea)">B</span>
+          <span (click)="italic(textarea)">I</span>
         </div>
-        <textarea placeholder="Personal biology">{{ this.bio }}</textarea>
+        <textarea #textarea placeholder="Personal biography" formControlName="bio"  [readOnly]="saving || bioLength == 100" (input)="lengthBio(textarea)" (paste)="lengthBio(textarea)"></textarea>
+        <span class="number">{{bioLength}} / 1000</span>
       </div>
     </div>
-    <hr />
-    <div class="links">
+    <div class="links" [formGroup]="this.linksForm">
       <h2>Personal Links</h2>
       <h4>Links</h4>
-      <div class="form-outline mb-4">
-        <input
-          type="text"
-          placeholder="Website (http(s)://...)"
-          formControlName="firstName"
-        />
-      </div>
-      <div class="form-outline mb-4">
-        <span>http://twitter.com/</span>
-        <input
-          type="text"
-          placeholder="Twitter profile"
-          formControlName="firstName"
-        />
-      </div>
-      <div class="form-outline mb-4">
-        <span>http://www.Facebook.com/</span>
-        <input
-          type="text"
-          placeholder="Facebook profile"
-          formControlName="firstName"
-        />
-      </div>
-      <div class="form-outline mb-4">
-        <span>http://www.Linkedin.com/</span>
-        <input
-          type="text"
-          placeholder="Linkedin profile"
-          formControlName="firstName"
-        />
-      </div>
-      <div class="form-outline mb-4">
-        <span>http://www.Youtube.com/</span>
-        <input
-          type="text"
-          placeholder="Youtube profile"
-          formControlName="firstName"
-        />
-      </div>
+      <ng-container *ngFor="let account of accounts">
+        <div class="form-outline mb-4 website order-1" *ngIf="account.accountDomain == 'other'; else alternateContent">
+          <input
+            type="text"
+            placeholder="Website (http(s)://...)"
+            formControlName="Website"
+            [readOnly]="saving"
+          />
+        </div>
+        <ng-template #alternateContent>
+          <div [ngClass]="{'form-outline mb-4 order-2':true, 'send': saving}">
+            <span>{{account.accountDomain}}</span>
+            <input
+              type="text"
+              [placeholder]="account.accountName + ' Profile'"
+              [formControlName]="account.accountName"
+              [readOnly]="saving"
+            />
+          </div>
+        </ng-template>
+      </ng-container>
     </div>
     <div class="btns">
       <a routerLink="/studentDetails" class="profile">View public profile</a>
-      <button #submit type="submit" class="save">
+      <button type="submit" class="save" [ngClass]="{'send': saving}">
         <span>Save</span>
       </button>
     </div>

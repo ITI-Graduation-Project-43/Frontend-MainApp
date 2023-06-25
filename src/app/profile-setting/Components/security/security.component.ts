@@ -40,6 +40,7 @@ export class SecurityComponent {
       confirmPassword: ['', [Validators.required]]
     })
   }
+
   get newEmail() {
     return this.changeEmailForm.get('newEmail')
   }

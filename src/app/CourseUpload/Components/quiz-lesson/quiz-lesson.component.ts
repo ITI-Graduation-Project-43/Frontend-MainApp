@@ -257,7 +257,7 @@ export class QuizLessonComponent implements OnInit {
     if (
       this.isInvalidQuizTitle() !== null ||
       this.isInvalidQuizDescription() !== null ||
-      this.isInvalidQuizRequiredHours !== null
+      this.isInvalidQuizRequiredHours == null
     ) {
       return false;
     }

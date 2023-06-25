@@ -173,7 +173,7 @@ export class ArticleLessonComponent implements OnInit {
       this.isInvalidArticleTitle() !== null ||
       this.isInvalidArticleDescription() !== null ||
       this.isInvalidArticleContent() !== null ||
-      this.isInvalidArticleRequiredHours !== null
+      this.isInvalidArticleRequiredHours == null
     ) {
       return false;
     }

@@ -247,7 +247,7 @@ export class CreateChapterLessonComponent implements OnInit {
 
       return chapterDto;
     });
-
+    console.log(chapterDto);
     this.apiService.addItem('Chapter/ChapterLesson/2', chapterDto).subscribe(
       (response) => {
         // Handle successful response
@@ -255,11 +255,11 @@ export class CreateChapterLessonComponent implements OnInit {
       },
       (error) => {
         // Handle error
-        console.error(error);
+        console.log(error);
       }
     );
 
-    //this.router.navigate(['/createCourse/step3']);
+    this.router.navigate(['/createCourse/step3']);
   }
 
   backTocreateCourse() {
@@ -564,7 +564,7 @@ export class CreateChapterLessonComponent implements OnInit {
       chapterId: 0,
       title: '',
       description: '',
-      noOfHours: 0,
+      noOfHours: 0.1,
       type: this.articleType,
       article: {
         id: 0,
@@ -581,7 +581,7 @@ export class CreateChapterLessonComponent implements OnInit {
       chapterId: 0,
       title: '',
       description: '',
-      noOfHours: 0,
+      noOfHours: 0.1,
       type: this.videoType,
       video: {
         id: 0,
@@ -598,7 +598,7 @@ export class CreateChapterLessonComponent implements OnInit {
       chapterId: 0,
       title: '',
       description: '',
-      noOfHours: 0,
+      noOfHours: 0.1,
       type: this.quizType,
       quiz: {
         id: 0,

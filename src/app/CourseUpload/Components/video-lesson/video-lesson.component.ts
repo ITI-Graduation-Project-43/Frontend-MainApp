@@ -166,7 +166,7 @@ export class VideoLessonComponent implements OnInit {
       this.isInvalidVideoTitle() !== null ||
       this.isInvalidVideoDescription() !== null ||
       this.editedVideo.video?.videoUrl == null ||
-      this.isInvalidVideoRequiredHours !== null
+      this.isInvalidVideoRequiredHours == null
     ) {
       return false;
     }

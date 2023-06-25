@@ -1,5 +1,5 @@
 <div class="upload-course-wrapper">
-  <div class="upload-course-sec">
+  <div class="upload-course-sec" *ngIf="!uploadingToDb">
     <div class="upload-heading">
       <div class="steps">Step 2 of 3</div>
       <div class="heading">Upload your course</div>
@@ -298,5 +298,8 @@
         Submit Course
       </button>
     </div>
+  </div>
+  <div class="loading-wrapper" *ngIf="uploadingToDb">
+    <div class="loader"><span>🏃‍♂️</span><span>🚶‍♂️</span></div>
   </div>
 </div>

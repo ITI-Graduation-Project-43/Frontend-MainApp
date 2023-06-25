@@ -2,6 +2,49 @@
 @use "../../../../assets/style/abstracts/mixins.scss" as *;
 @use "../../../../assets/style/abstracts/_placeholders.scss" as *;
 
+
+/* loading */
+.loading-wrapper {
+  background-color: $mainColorLight;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 88px 0;
+  height: 100%;
+  overflow: hidden;
+
+  .loader {
+    color: #fff;
+    font-family: Consolas, Menlo, Monaco, monospace;
+    font-weight: bold;
+    font-size: 30vh;
+    opacity: 0.8;
+  }
+  .loader span {
+    display: inline-block;
+    -webkit-animation: pulse 0.4s alternate infinite ease-in-out;
+            animation: pulse 0.4s alternate infinite ease-in-out;
+  }
+  .loader span:nth-child(odd) {
+    -webkit-animation-delay: 0.4s;
+            animation-delay: 0.4s;
+  }
+  @-webkit-keyframes pulse {
+    to {
+      transform: scale(0.8);
+      opacity: 0.5;
+    }
+  }
+  @keyframes pulse {
+    to {
+      transform: scale(0.8);
+      opacity: 0.5;
+    }
+  }
+
+}
+
+
 .upload-course-wrapper{
   background-color: $mainColorLight;
   padding: 88px 0;

@@ -53,7 +53,7 @@ export class CreateChapterLessonComponent implements OnInit {
   touchedFields: any = {};
 
   uploadError: string | null = null;
-
+  uploadingToDb: boolean = false;
   errorMessages = ERROR_MESSAGES;
 
   constructor(
@@ -248,18 +248,23 @@ export class CreateChapterLessonComponent implements OnInit {
       return chapterDto;
     });
     console.log(chapterDto);
-    this.apiService.addItem('Chapter/ChapterLesson/2', chapterDto).subscribe(
-      (response) => {
-        // Handle successful response
-        console.log(response);
-      },
-      (error) => {
-        // Handle error
-        console.log(error);
-      }
-    );
+    this.uploadingToDb = true;
+    setTimeout(() => {
+      this.uploadingToDb = false;
+    }, 10000);
 
-    this.router.navigate(['/createCourse/step3']);
+    // this.apiService.addItem('Chapter/ChapterLesson/2', chapterDto).subscribe(
+    //   (response) => {
+    //     // Handle successful response
+    //     console.log(response);
+    //   },
+    //   (error) => {
+    //     // Handle error
+    //     console.log(error);
+    //   }
+    // );
+
+    // this.router.navigate(['/createCourse/step3']);
   }
 
   backTocreateCourse() {

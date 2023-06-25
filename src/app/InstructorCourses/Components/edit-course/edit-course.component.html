@@ -1,7 +1,11 @@
 <section>
   <div class="main-section">
     <h2>Live</h2>
-    <form [formGroup]="CreateCourse" enctype="multipart/form-data">
+    <form
+      [formGroup]="CreateCourse"
+      (ngSubmit)="PutCourseSubmit()"
+      enctype="multipart/form-data"
+    >
       <div class="form-group .image">
         <label class="label">
           <img src="../../../../assets/svg/photo.svg" alt="" />

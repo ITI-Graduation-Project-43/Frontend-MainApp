@@ -41,4 +41,10 @@ export class LocalStorageService {
   getUserInfo(): any {
     return JSON.parse(this.decryptedData).User;
   }
+
+  updateUserInfo(user: any) {
+    this.getUserInfo().User = user;
+    let encryptedUserData = CryptoJS.AES.encrypt(JSON.stringify({User: user, Token: this.encryptedToken}), environment.secretKey).toString();
+    localStorage.setItem("MindMission", encryptedUserData);
+  }
 }

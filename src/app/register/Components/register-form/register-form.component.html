@@ -10,7 +10,7 @@
             </div>
             <div *ngIf="firstName?.invalid && firstName?.touched" style="color: red; font-size: 15px; margin-top: -20px;" class="mb-1">
               <span *ngIf="firstName?.errors?.['required']">Firstname is required</span>
-              <span *ngIf="firstName?.errors?.['pattern']">Should be between 3 to 10 characters</span>
+              <span *ngIf="firstName?.errors?.['pattern']">Should be between 3 to 30 characters</span>
             </div>
           </div>
           <div class="flex-grow-1">
@@ -18,8 +18,8 @@
               <input type="text" placeholder="Last Name" formControlName="lastName" [readOnly]="registering"/>
             </div>
             <div *ngIf="lastName?.invalid && lastName?.touched" style="color: red; font-size: 15px; margin-top: -20px;" class="mb-1">
-              <span *ngIf="lastName?.errors?.['required']">LastName is required</span>
-              <span *ngIf="lastName?.errors?.['pattern']">Should be between 3 to 10 characters</span>
+              <span *ngIf="lastName?.errors?.['required']">Lastname is required</span>
+              <span *ngIf="lastName?.errors?.['pattern']">Should be between 3 to 30 characters</span>
             </div>
           </div>
         </div>

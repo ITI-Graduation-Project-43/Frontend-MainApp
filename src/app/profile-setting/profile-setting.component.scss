@@ -16,6 +16,22 @@ section {
         position: relative;
         display: block;
         width: 200px;
+        max-height: 200px;
+
+        .newImage {
+          cursor: pointer;
+          opacity: 0;
+          position: absolute;
+          left: 0;
+          top: 0;
+          z-index: 100;
+          width: 100%;
+          height: 100%;
+
+          &.load {
+            z-index: -1000000000;
+          }
+        }
 
         .overlayer {
           display: flex;
@@ -37,6 +53,10 @@ section {
           -moz-transition: 0.3s;
           -ms-transition: 0.3s;
           -o-transition: 0.3s;
+          &.active {
+            opacity: 1;
+            cursor: wait;
+          }
         }
 
         &:hover {
@@ -46,7 +66,46 @@ section {
         }
 
         img {
-          max-width: 100%;
+          object-fit: cover;
+          width: 100%;
+          max-height: inherit;
+        }
+
+        .loader {
+          z-index: -12;
+          top: 50%;
+          left: 50%;
+          position: absolute;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 5px;
+          transform: translate(-50%, -50%);
+          -webkit-transform: translate(-50%, -50%);
+          -moz-transform: translate(-50%, -50%);
+          -ms-transform: translate(-50%, -50%);
+          -o-transform: translate(-50%, -50%);
+
+          &::after {
+            content: "";
+            width: 20px;
+            height: 20px;
+            border: 3px solid #ccc;
+            border-left: 3px solid transparent;
+            animation-name: load;
+            animation-timing-function: linear;
+            animation-duration: 0.7s;
+            animation-iteration-count: infinite;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+          }
+
+          &.active {
+            z-index: 10000000000000000000000;
+          }
         }
       }
 
@@ -63,6 +122,9 @@ section {
           }
 
           a.active {
+            // color: $blackColor;
+            display: inline-block;
+            vertical-align: middle;
             font-weight: bold;
           }
         }
@@ -72,5 +134,22 @@ section {
     div {
       flex: 1;
     }
+  }
+}
+
+@keyframes load {
+  0% {
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(350deg);
+    -webkit-transform: rotate(350deg);
+    -moz-transform: rotate(350deg);
+    -ms-transform: rotate(350deg);
+    -o-transform: rotate(350deg);
   }
 }

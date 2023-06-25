@@ -20,8 +20,8 @@ export class RegisterFormComponent {
 
   constructor(private http: APIService, private router: Router , private fb: FormBuilder) {
     this.registerForm = fb.group({
-      firstName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]{3,10}$/)]],
-      lastName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]{3,10}$/)]],
+      firstName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]{3,30}$/)]],
+      lastName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]{3,30}$/)]],
       email: ['', [Validators.required, Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)]],
       password: ['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/)]],
       ConfirmPassword: ['', [Validators.required]]

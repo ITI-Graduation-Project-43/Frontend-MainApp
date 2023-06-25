@@ -162,6 +162,8 @@ export class ArticleLessonComponent implements OnInit {
       const fieldName = 'Required Hours';
       if (!noOfHours || noOfHours === 0) {
         return this.errorMessages.requiredField(fieldName);
+      } else if (isNaN(noOfHours)) {
+        return this.errorMessages.mustBeNumber;
       } else if (noOfHours > 6 || noOfHours <= 0) {
         return this.errorMessages.invalidRequiredHours;
       }
@@ -173,7 +175,7 @@ export class ArticleLessonComponent implements OnInit {
       this.isInvalidArticleTitle() !== null ||
       this.isInvalidArticleDescription() !== null ||
       this.isInvalidArticleContent() !== null ||
-      this.isInvalidArticleRequiredHours == null
+      this.isInvalidArticleRequiredHours() !== null
     ) {
       return false;
     }

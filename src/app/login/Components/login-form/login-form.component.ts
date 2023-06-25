@@ -51,10 +51,14 @@ export class LoginFormComponent {
             submit.classList.remove("send");
             this.loging = false;
           }
+          else {
+            this.wrongEmailOrPassword = true;
+            this.loginForm.markAllAsTouched();
+            submit.classList.remove("send");
+            this.loging = false;
+          }
         },
         error: () => {
-          this.wrongEmailOrPassword = true;
-          this.loginForm.markAllAsTouched();
           submit.classList.remove("send");
           this.loging = false;
         }

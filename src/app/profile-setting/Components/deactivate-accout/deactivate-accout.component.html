@@ -1,1 +1,12 @@
-<p>deactivate-accout works!</p>
+<section>
+  <div>
+    <h2>Close account</h2>
+    <h4>Permanently close your account</h4>
+    <p><span>Warning: </span>If you close your account, you will be unsubscribed from all your 0 courses, and will lose access forever.</p>
+    <div class="btns">
+      <button (click)="deactivateAccount()" type="button" [ngClass]="{'save': true, 'send': send}">
+        <span>Deactivate Account</span>
+      </button>
+    </div>
+  </div>
+</section>

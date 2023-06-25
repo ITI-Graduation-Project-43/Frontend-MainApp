@@ -104,5 +104,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.Id = this.Role = '';
     localStorage.removeItem('MindMission');
     localStorage.removeItem('cart')
+    this.numberOfCourses = 0;
   }
 }

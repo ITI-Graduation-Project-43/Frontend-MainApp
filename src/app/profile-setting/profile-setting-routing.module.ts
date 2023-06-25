@@ -18,11 +18,11 @@ const routes: Routes = [
       {path:'', redirectTo: 'profile', pathMatch: 'full'},
       {path:'profile', component: ProfileComponent},
       {path:'security', component: SecurityComponent},
-      // {path:'payment', component: PaymentComponent},
+      {path:'payment', component: PaymentComponent},
       {path:'privacy', component: PrivacyComponent},
       {path:'notifications', component: NotificationsComponent},
-      // {path:'deactivateaccount', component: DeactivateAccoutComponent},
-      // {path:'closeaccount', component: CloseAccoutComponent}
+      {path:'deactivateaccount', component: DeactivateAccoutComponent},
+      {path:'closeaccount', component: CloseAccoutComponent}
     ]
   }
 ];

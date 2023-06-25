@@ -15,6 +15,7 @@ import { LessonType } from 'src/app/Models/Enums/LessonType';
 import { FileType } from 'src/app/Models/Enums/FileType';
 import { UploadService } from 'src/app/Shared/Services/upload.service';
 import { APIService } from 'src/app/Shared/Services/api.service';
+import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
 @Component({
   selector: 'app-create-chapter-lesson',
   templateUrl: './create-chapter-lesson.component.html',
@@ -180,7 +181,7 @@ export class CreateChapterLessonComponent implements OnInit {
       }
     }
 
-    const chapterDto: CreateChapterDto[] = this.chapters.map((chapter) => {
+    const chapterDtos: CreateChapterDto[] = this.chapters.map((chapter) => {
       const lessonDto: CreateLessonDto[] = chapter.lessons.map((lesson) => {
         const lessonDto: CreateLessonDto = {
           id: lesson.id,
@@ -247,24 +248,62 @@ export class CreateChapterLessonComponent implements OnInit {
 
       return chapterDto;
     });
-    console.log(chapterDto);
+
     this.uploadingToDb = true;
-    setTimeout(() => {
+
+    const storedCourse = localStorage.getItem('CreatedCourse');
+    let postCourseDto;
+
+    if (!storedCourse) {
+      this.backTocreateCourse();
       this.uploadingToDb = false;
-    }, 10000);
+      return;
+    }
 
-    // this.apiService.addItem('Chapter/ChapterLesson/2', chapterDto).subscribe(
-    //   (response) => {
-    //     // Handle successful response
-    //     console.log(response);
-    //   },
-    //   (error) => {
-    //     // Handle error
-    //     console.log(error);
-    //   }
-    // );
+    postCourseDto = JSON.parse(storedCourse);
 
-    // this.router.navigate(['/createCourse/step3']);
+    this.apiService.addItem('Course', postCourseDto).subscribe(
+      (response: APIResponseVM) => {
+        if (response.success) {
+          localStorage.removeItem('CreatedCourse');
+          const courseId = response.items[0].id;
+          this.apiService
+            .addItem(`Chapter/ChapterLesson/${courseId}`, chapterDtos)
+            .subscribe(
+              (chapterResponse: APIResponseVM) => {
+                if (chapterResponse.success) {
+                  localStorage.removeItem('chapters');
+                  this.router.navigate(['/createCourse/step3']);
+                } else {
+                  this.notificationService.notify(
+                    'There was an error uploading the chapters. Please try again later.'
+                  );
+                }
+                this.uploadingToDb = false;
+              },
+              (error) => {
+                console.log(error);
+                this.notificationService.notify(
+                  'There was an error uploading the chapters. Please try again later.'
+                );
+                this.uploadingToDb = false;
+              }
+            );
+        } else {
+          this.notificationService.notify(
+            'There was an error creating the course. Please try again later.'
+          );
+          this.uploadingToDb = false;
+        }
+      },
+      (error) => {
+        console.log(error);
+        this.notificationService.notify(
+          'There was an error creating the course. Please try again later.'
+        );
+        this.uploadingToDb = false;
+      }
+    );
   }
 
   backTocreateCourse() {

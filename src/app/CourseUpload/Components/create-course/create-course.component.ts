@@ -1,20 +1,13 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormArray,
-  FormControl,
-} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { Router } from '@angular/router';
+
 import { Category } from 'src/app/Models/category';
 import { APIService } from 'src/app/Shared/Services/api.service';
 import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
 import { Language } from '../../../Models/Enums/CourseLanguage';
 import { Level } from '../../../Models/Enums/CourseLevel';
-import { Router } from '@angular/router';
-import { from } from 'rxjs';
 import { NotificationService } from 'src/app/Shared/Services/notification.service';
-import { Course } from 'src/app/Models/course';
 import { UploadService } from 'src/app/Shared/Services/upload.service';
 
 @Component({
@@ -191,17 +184,8 @@ export class CreateCourseComponent implements OnInit {
     }
     this.CreateCourse.value.courseImage = this.renderImage;
     const postCourseDto = JSON.parse(JSON.stringify(this.CreateCourse.value));
-    const observer = {
-      next: (result: any) => {
-        this.router.navigate(['createCourse/step2']);
-      },
-      error: (err: any) => {
-        console.log(err.message);
-      },
-    };
+
     localStorage.setItem('CreatedCourse', JSON.stringify(postCourseDto));
-    console.log(postCourseDto);
-    // this.apiService.addItem('Course', postCourseDto).subscribe(observer);
     this.router.navigate(['createCourse/step2']);
   }
 

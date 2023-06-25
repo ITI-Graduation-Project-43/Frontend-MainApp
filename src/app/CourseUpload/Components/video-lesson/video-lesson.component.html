@@ -11,7 +11,12 @@
       [(ngModel)]="editedVideo.title"
       type="text"
       placeholder="Give this video a title"
+      (blur)="touchedFields.videoTitle = true"
     />
+    <!-- Error message for Video Title -->
+    <div *ngIf="isInvalidVideoTitle()" class="error-message error">
+      {{ isInvalidVideoTitle() }}
+    </div>
   </div>
 </div>
 <div class="description">
@@ -24,7 +29,32 @@
       class="input-style"
       type="text"
       placeholder="Give this video a description"
+      (blur)="touchedFields.videoDescription = true"
     />
+    <!-- Error message for VideoDescription -->
+    <div *ngIf="isInvalidVideoDescription()" class="error-message error">
+      {{ isInvalidVideoDescription() }}
+    </div>
+  </div>
+</div>
+<div class="required-hours">
+  <div class="required-hours-heading">
+    <div class="input-title-style">Article required hourse</div>
+  </div>
+  <div class="required-hours-data">
+    <input
+      [(ngModel)]="editedVideo.noOfHours"
+      class="input-style"
+      type="number"
+      min="0"
+      max="6"
+      placeholder="How many hours required to study this?"
+      (blur)="touchedFields.videoRequiredHours = true"
+    />
+    <!-- Error message for Article Description -->
+    <div *ngIf="isInvalidVideoRequiredHours()" class="error-message error">
+      {{ isInvalidVideoRequiredHours() }}
+    </div>
   </div>
 </div>
 <div class="lesson-content">
@@ -32,11 +62,8 @@
     <div class="input-title-style">Upload Video</div>
   </div>
   <div class="lesson-content-data">
-    <div class="dropzone-wrapper" *ngIf="!videoUrl">
-      <div
-        class="dropzone-desc"
-        [style.background-color]="getProgressBarColor()"
-      >
+    <div class="dropzone-wrapper" *ngIf="!editedVideo.video?.videoUrl">
+      <div class="dropzone-desc">
         <img src="../../../../assets/svg/video-placeholder.svg" alt="" />
         <input
           type="file"
@@ -46,12 +73,17 @@
         />
       </div>
     </div>
-    <div class="video-wrapper" *ngIf="videoUrl">
-      <video [src]="videoUrl" controls></video>
+
+    <div class="video-wrapper" *ngIf="editedVideo.video?.videoUrl">
+      <video [src]="editedVideo.video?.videoUrl" controls></video>
       <button (click)="onDeleteVideo()">
         <img src="../../../../assets/svg/delete-ico.svg" alt="delete icon" />
       </button>
     </div>
+  </div>
+  <!-- Error message for Quiz Description -->
+  <div *ngIf="uploadError" class="error-message error">
+    {{ uploadError }}
   </div>
 </div>
 

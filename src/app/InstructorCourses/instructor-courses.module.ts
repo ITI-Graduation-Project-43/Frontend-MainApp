@@ -8,6 +8,7 @@ import { CouresOverviewComponent } from './Components/coures-overview/coures-ove
 import { EditCourseComponent } from './Components/edit-course/edit-course.component';
 import { TruncatePipe } from './Pipes/truncate.pipe';
 import { LoaderComponent } from './Components/loader/loader.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -21,7 +22,7 @@ import { LoaderComponent } from './Components/loader/loader.component';
   ],
   imports: [
     CommonModule,
-    InstructorCoursesRoutingModule
+    InstructorCoursesRoutingModule,ReactiveFormsModule
   ]
 })
 export class InstructorCoursesModule { }

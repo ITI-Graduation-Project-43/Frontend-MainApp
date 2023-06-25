@@ -11,7 +11,12 @@
       [(ngModel)]="editedArticle.title"
       type="text"
       placeholder="Give this article a title"
+      (blur)="touchedFields.articleTitle = true"
     />
+    <!-- Error message for Article Title -->
+    <div *ngIf="isInvalidArticleTitle()" class="error-message error">
+      {{ isInvalidArticleTitle() }}
+    </div>
   </div>
 </div>
 <div class="description">
@@ -24,7 +29,32 @@
       class="input-style"
       type="text"
       placeholder="Give this article a description"
+      (blur)="touchedFields.articleDescription = true"
     />
+    <!-- Error message for Article Description -->
+    <div *ngIf="isInvalidArticleDescription()" class="error-message error">
+      {{ isInvalidArticleDescription() }}
+    </div>
+  </div>
+</div>
+<div class="required-hours">
+  <div class="required-hours-heading">
+    <div class="input-title-style">Article required hourse</div>
+  </div>
+  <div class="required-hours-data">
+    <input
+      [(ngModel)]="editedArticle.noOfHours"
+      class="input-style"
+      type="number"
+      min="0"
+      max="6"
+      placeholder="How many hours required to study this?"
+      (blur)="touchedFields.articleRequiredHours = true"
+    />
+    <!-- Error message for Article Description -->
+    <div *ngIf="isInvalidArticleRequiredHours()" class="error-message error">
+      {{ isInvalidArticleRequiredHours() }}
+    </div>
   </div>
 </div>
 <div class="lesson-content">
@@ -32,15 +62,17 @@
     <div class="input-title-style">Article Body</div>
   </div>
   <div class="lesson-content-data">
-    <div class="article-body-controls">
-      <span class="controls bold">B</span>
-      <span class="controls italic">I</span>
-    </div>
-    <textarea
-      class="input-style"
-      [(ngModel)]="editedArticle.content"
-      placeholder="Write a description"
-    ></textarea>
+    <quill-editor
+      [(ngModel)]="editedArticle.article!.content"
+      [modules]="quillConfig"
+      (onBlur)="blur($event)"
+      placeholder="Enter article body"
+      [styles]="{ minHeight: '200px' }"
+    ></quill-editor>
+  </div>
+  <!-- Error message for Article Content -->
+  <div *ngIf="isInvalidArticleContent()" class="error-message error">
+    {{ isInvalidArticleContent() }}
   </div>
 </div>
 

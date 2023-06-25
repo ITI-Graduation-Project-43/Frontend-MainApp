@@ -1,0 +1,47 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/_placeholders.scss" as *;
+
+.add-new{
+  @include style-display-column(24px, 24px, 40px);
+  width: 100%;
+  background: $mainColorLight;
+  border: 1px solid  $blackColor;
+
+  .add-new-heading-title{
+    @include style-display-column(16px, 0px);
+    width: 100%;
+    .add-new-heading{
+      @include style-display-row-center(0px, 0px);
+      justify-content: space-between;
+      width: 100%;
+      .main-title{
+        @include style-font($font-cabin,  24px, 36px, $blackColor, 700);
+      }
+      button {
+        border: none;
+        background-color: inherit;
+      }
+    }
+    .title-data{
+      width: 100%;
+
+      input{
+        width: 100%;
+        padding: 20px 24px;
+        background: $whiteColor;
+        border: 1px solid $blackColor;
+        @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
+      }
+    }
+  }
+
+  .add-new-action{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    button{
+      @include custom-button($greenColor, $blackColor, $blackColor, 43px);
+    }
+  }
+}

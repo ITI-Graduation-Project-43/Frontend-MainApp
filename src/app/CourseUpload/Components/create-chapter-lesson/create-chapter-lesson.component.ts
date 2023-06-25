@@ -1,7 +1,20 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { NotificationService } from 'src/app/Shared/Services/notification.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { Router } from '@angular/router';
 
+import { NotificationService } from 'src/app/Shared/Services/notification.service';
+import { ChapterValidationService } from 'src/app/Services/validation/lesson-validation.services';
+import { ERROR_MESSAGES } from '../../../Shared/Helper/error-messages';
+import {
+  Chapter,
+  CreateChapterDto,
+  CreateLessonDto,
+  Lesson,
+} from 'src/app/Models/courseChapter';
+import { LessonType } from 'src/app/Models/Enums/LessonType';
+import { FileType } from 'src/app/Models/Enums/FileType';
+import { UploadService } from 'src/app/Shared/Services/upload.service';
+import { APIService } from 'src/app/Shared/Services/api.service';
 @Component({
   selector: 'app-create-chapter-lesson',
   templateUrl: './create-chapter-lesson.component.html',
@@ -14,6 +27,7 @@ export class CreateChapterLessonComponent implements OnInit {
   articleType = LessonType.Article;
   videoType = LessonType.Video;
   quizType = LessonType.Quiz;
+  fileType = FileType;
 
   newArticles: Lesson[] = [];
   newVideos: Lesson[] = [];
@@ -33,22 +47,224 @@ export class CreateChapterLessonComponent implements OnInit {
   isCollapsed: boolean[] = [];
   isChapterCollapsed: boolean[] = [];
 
-  constructor(private notificationService: NotificationService) {}
+  videoURL: string | null = null;
+
+  saveAttempted: boolean = false;
+  touchedFields: any = {};
+
+  uploadError: string | null = null;
+
+  errorMessages = ERROR_MESSAGES;
+
+  constructor(
+    private notificationService: NotificationService,
+    private chapterValidationService: ChapterValidationService,
+    private router: Router,
+    private uploadService: UploadService,
+    private apiService: APIService
+  ) {}
 
   ngOnInit() {
-    const defaultChapter: Chapter = {
-      name: 'Introduction',
-      editMode: false,
-      lessons: [],
-    };
-    this.chapters.push(defaultChapter);
-    this.newLessonType = new Array(this.chapters.length).fill(null);
-    this.showAddNewLesson = new Array(this.chapters.length).fill(false);
-    this.showAddLessonOptions = new Array(this.chapters.length).fill(false);
+    const storedChapters = localStorage.getItem('chapters');
+    if (storedChapters) {
+      this.chapters = JSON.parse(storedChapters);
+    } else {
+      const defaultChapter: Chapter = {
+        id: 0,
+        courseId: 0,
+        title: 'Introduction',
+        editMode: false,
+        lessons: [],
+      };
+      this.chapters.push(defaultChapter);
+      this.newLessonType = new Array(this.chapters.length).fill(null);
+      this.showAddNewLesson = new Array(this.chapters.length).fill(false);
+      this.showAddLessonOptions = new Array(this.chapters.length).fill(false);
+    }
   }
 
-  getVideoURL(file: File): string {
-    return file ? URL.createObjectURL(file) : '';
+  submitCourse() {
+    const notificationService = this.notificationService;
+
+    if (this.chapters.length < 1) {
+      notificationService.notify(
+        'You should have at least one chapter',
+        'error'
+      );
+      return;
+    }
+
+    for (const chapter of this.chapters) {
+      if (chapter.lessons.length < 1) {
+        notificationService.notify(
+          'You should have at least one lesson in the chapter',
+          'error'
+        );
+        return;
+      }
+
+      for (const lesson of chapter.lessons) {
+        if (lesson.type === LessonType.Article) {
+          if (
+            !lesson.article ||
+            !lesson.article.content ||
+            lesson.article.content.length < 100
+          ) {
+            notificationService.notify(
+              'Please make sure to fill article data and enter valid content',
+              'error'
+            );
+            return;
+          }
+        }
+
+        if (lesson.type === LessonType.Video) {
+          if (
+            !lesson.video ||
+            !lesson.video.videoUrl ||
+            lesson.video.videoUrl == ''
+          ) {
+            notificationService.notify(
+              'Please make sure to fill video data and upload a video file',
+              'error'
+            );
+            return;
+          }
+        }
+
+        if (lesson.type === LessonType.Quiz) {
+          if (
+            !lesson.quiz ||
+            !lesson.quiz.questions ||
+            lesson.quiz.questions.length < 1
+          ) {
+            notificationService.notify(
+              'Please make sure to fill quiz data and enter at least one question',
+              'error'
+            );
+            return;
+          }
+
+          for (const question of lesson.quiz.questions) {
+            if (!question.questionText || question.questionText.length < 10) {
+              notificationService.notify('Question text is too short', 'error');
+              return;
+            }
+
+            if (
+              !question.choices ||
+              question.choices.length < 2 ||
+              question.choices.length > 4 ||
+              !question.choices[0] ||
+              !question.choices[1]
+            ) {
+              notificationService.notify(
+                'Each question must have at least two choices',
+                'error'
+              );
+              return;
+            }
+
+            if (
+              !question.correctAnswer ||
+              !question.choices.includes(question.correctAnswer)
+            ) {
+              notificationService.notify(
+                'Please select a correct answer for each question',
+                'error'
+              );
+              return;
+            }
+          }
+        }
+      }
+    }
+
+    const chapterDto: CreateChapterDto[] = this.chapters.map((chapter) => {
+      const lessonDto: CreateLessonDto[] = chapter.lessons.map((lesson) => {
+        const lessonDto: CreateLessonDto = {
+          id: lesson.id,
+          chapterId: lesson.chapterId,
+          title: lesson.title,
+          description: lesson.description,
+          noOfHours: lesson.noOfHours,
+          type: lesson.type,
+          attachment: lesson.attachment
+            ? {
+                id: lesson.attachment.id,
+                lessonId: lesson.attachment.lessonId,
+                attachmentUrl: lesson.attachment.attachmentUrl,
+                attachmentName: lesson.attachment.attachmentName,
+                attachmentType: lesson.attachment.attachmentType,
+                attachmentSize: lesson.attachment.attachmentSize,
+              }
+            : null,
+          article: lesson.article
+            ? {
+                id: lesson.article.id,
+                lessonId: lesson.article.lessonId,
+                content: lesson.article.content,
+              }
+            : null,
+          quiz: lesson.quiz
+            ? {
+                id: lesson.quiz.id,
+                lessonId: lesson.quiz.lessonId,
+                questions: lesson.quiz.questions.map((question) => {
+                  return {
+                    id: question.id,
+                    quizId: question.quizId,
+                    questionText: question.questionText,
+                    choiceA: question.choices[0],
+                    choiceB: question.choices[1],
+                    choiceC: question.choices[2] || '',
+                    choiceD: question.choices[3] || '',
+                    correctAnswer: String.fromCharCode(
+                      65 + question.choices.indexOf(question.correctAnswer)
+                    ),
+                  };
+                }),
+              }
+            : null,
+          video: lesson.video
+            ? {
+                id: lesson.video.id,
+                lessonId: lesson.video.lessonId,
+                videoUrl: lesson.video.videoUrl,
+              }
+            : null,
+        };
+
+        return lessonDto;
+      });
+
+      const chapterDto: CreateChapterDto = {
+        id: chapter.id,
+        courseId: chapter.courseId,
+        title: chapter.title,
+        lessons: lessonDto,
+      };
+
+      return chapterDto;
+    });
+
+    this.apiService.addItem('Chapter/ChapterLesson/2', chapterDto).subscribe(
+      (response) => {
+        // Handle successful response
+        console.log(response);
+      },
+      (error) => {
+        // Handle error
+        console.error(error);
+      }
+    );
+
+    //this.router.navigate(['/createCourse/step3']);
+  }
+
+  backTocreateCourse() {
+    localStorage.setItem('chapters', JSON.stringify(this.chapters));
+    this.router.navigate(['/createCourse/step1']);
   }
 
   // #region Chapter fns
@@ -62,23 +278,23 @@ export class CreateChapterLessonComponent implements OnInit {
   }
 
   saveChapter() {
-    if (this.validateChapterName(this.newChapterName)) {
-      const chapter: Chapter = {
-        name: this.newChapterName.trim(),
-        editMode: false,
-        lessons: [],
-      };
-      this.chapters.push(chapter);
-      this.showAddNewChapter = false;
-      this.newChapterName = '';
-    }
+    const chapter: Chapter = {
+      id: 0,
+      courseId: 0,
+      title: this.newChapterName.trim(),
+      editMode: false,
+      lessons: [],
+    };
+    this.chapters.push(chapter);
+    this.showAddNewChapter = false;
+    this.newChapterName = '';
   }
-
+  updateChapterName(index: number, newName: string): void {
+    const chapter = this.chapters[index];
+    chapter.title = newName;
+    chapter.editMode = false;
+  }
   deleteChapter(index: number) {
-    this.notificationService.notify(
-      'You should have at least one chapter',
-      'error'
-    );
     if (this.chapters.length > 1) {
       this.chapters.splice(index, 1);
     } else {
@@ -98,11 +314,6 @@ export class CreateChapterLessonComponent implements OnInit {
     this.chapters[index].editMode = !this.chapters[index].editMode;
   }
 
-  updateChapterName(index: number) {
-    const chapter = this.chapters[index];
-    chapter.editMode = false;
-  }
-
   toggleChapterCollapse(ChapterIndex: number) {
     this.isChapterCollapsed[ChapterIndex] =
       !this.isChapterCollapsed[ChapterIndex];
@@ -114,58 +325,23 @@ export class CreateChapterLessonComponent implements OnInit {
     let newLesson: Lesson;
     switch (type) {
       case LessonType.Article:
-        if (this.validateLesson(this.newArticles[chapterIndex])) {
-          newLesson = { ...this.newArticles[chapterIndex] };
-          this.newArticles[chapterIndex] = {
-            title: '',
-            description: '',
-            type: this.articleType,
-            content: '',
-          };
-          this.chapters[chapterIndex].lessons.push(newLesson);
-          this.showAddNewLesson[chapterIndex] = false;
-          this.toggleAddLessonOptions(chapterIndex);
-        }
+        newLesson = { ...this.newArticles[chapterIndex] };
+        this.chapters[chapterIndex].lessons.push(newLesson);
+        this.showAddNewLesson[chapterIndex] = false;
+        this.toggleAddLessonOptions(chapterIndex);
+
         break;
       case LessonType.Quiz:
-        if (
-          this.validateLesson(this.newQuizzes[chapterIndex]) &&
-          this.validateQuiz(this.newQuizzes[chapterIndex])
-        ) {
-          newLesson = { ...this.newQuizzes[chapterIndex] };
-          this.newQuizzes[chapterIndex] = {
-            title: '',
-            description: '',
-            type: this.quizType,
-            questions: [
-              {
-                questionText: '',
-                choices: ['', '', '', ''],
-                correctAnswer: '',
-              },
-            ],
-          };
-          this.chapters[chapterIndex].lessons.push(newLesson);
-          this.showAddNewLesson[chapterIndex] = false;
-          this.toggleAddLessonOptions(chapterIndex);
-        }
+        newLesson = { ...this.newQuizzes[chapterIndex] };
+        this.chapters[chapterIndex].lessons.push(newLesson);
+        this.showAddNewLesson[chapterIndex] = false;
+        this.toggleAddLessonOptions(chapterIndex);
         break;
       case LessonType.Video:
-        if (
-          this.validateLesson(this.newVideos[chapterIndex]) &&
-          this.validateVideoFile(this.newVideos[chapterIndex].videoFile!)
-        ) {
-          newLesson = { ...this.newVideos[chapterIndex] };
-          this.newVideos[chapterIndex] = {
-            title: '',
-            description: '',
-            type: this.videoType,
-            videoFile: new File([], ''),
-          };
-          this.chapters[chapterIndex].lessons.push(newLesson);
-          this.showAddNewLesson[chapterIndex] = false;
-          this.toggleAddLessonOptions(chapterIndex);
-        }
+        newLesson = { ...this.newVideos[chapterIndex] };
+        this.chapters[chapterIndex].lessons.push(newLesson);
+        this.showAddNewLesson[chapterIndex] = false;
+        this.toggleAddLessonOptions(chapterIndex);
         break;
     }
   }
@@ -196,8 +372,38 @@ export class CreateChapterLessonComponent implements OnInit {
     if (this.editLessonIndex === lessonIndex) {
       this.editLessonIndex = null;
     }
-    this.chapters[chapterIndex].lessons.splice(lessonIndex, 1);
+
+    const lesson = this.chapters[chapterIndex].lessons[lessonIndex];
+    let fileType: string = '';
+
+    if (lesson.attachment?.attachmentUrl) {
+      fileType = 'attachment';
+    } else if (lesson.video && lesson.video.videoUrl) {
+      fileType = 'video';
+    }
+
+    if (fileType) {
+      const fileUrl =
+        lesson.attachment?.attachmentUrl || lesson.video?.videoUrl;
+
+      this.uploadService.deleteFile(fileUrl as string, fileType).subscribe(
+        (response) => {
+          if (response.success) {
+            this.chapters[chapterIndex].lessons.splice(lessonIndex, 1);
+            this.notificationService.notify('File deleted successfully');
+          } else {
+            this.notificationService.notify(response.message, 'error');
+          }
+        },
+        (error) => {
+          this.notificationService.notify('Failed to delete file', 'error');
+        }
+      );
+    } else {
+      this.chapters[chapterIndex].lessons.splice(lessonIndex, 1);
+    }
   }
+
   toggleCollapse(lessonIndex: number) {
     this.isCollapsed[lessonIndex] = !this.isCollapsed[lessonIndex];
   }
@@ -241,47 +447,6 @@ export class CreateChapterLessonComponent implements OnInit {
 
   // #endregion
 
-  // #region Add Quiz
-  addQuestion(chapterIndex: number) {
-    this.newQuizzes[chapterIndex].questions?.push({
-      questionText: '',
-      choices: ['', '', '', ''],
-      correctAnswer: '',
-    });
-  }
-
-  deleteQuestion(chapterIndex: number, questionIndex: number) {
-    if (this.newQuizzes[chapterIndex].questions!.length > 1) {
-      this.newQuizzes[chapterIndex].questions?.splice(questionIndex, 1);
-    } else {
-      this.notificationService.notify(
-        'You should have at least one question',
-        'error'
-      );
-    }
-  }
-
-  deleteChoice(
-    chapterIndex: number,
-    questionIndex: number,
-    choiceIndex: number
-  ) {
-    this.newQuizzes[chapterIndex].questions![questionIndex].choices.splice(
-      choiceIndex,
-      1
-    );
-  }
-
-  addChoice(chapterIndex: number, questionIndex: number) {
-    const choices =
-      this.newQuizzes[chapterIndex].questions![questionIndex].choices;
-    if (choices.length < 4) {
-      choices.push('');
-    }
-  }
-
-  // #endregion
-
   // #region Attachment
   onFileInputClick(chapterIndex: number, lessonIndex: number): void {
     this.editLessonIndex = lessonIndex;
@@ -289,17 +454,105 @@ export class CreateChapterLessonComponent implements OnInit {
     this.fileInput.nativeElement.click();
   }
 
-  onFileSelected(event: any, chapterIndex: number, lessonIndex: number): void {
+  async onFileSelected(
+    event: any,
+    chapterIndex: number,
+    lessonIndex: number
+  ): Promise<void> {
     const file: File = event.target.files[0];
-    if (file && this.isValidFile(file)) {
-      this.chapters[chapterIndex].lessons[lessonIndex].attachment = file;
+    if (file && this.chapterValidationService.isValidFile(file)) {
+      this.uploadService.uploadFile(file, 'Attachment').subscribe(
+        (response) => {
+          if (response.success) {
+            const fileType = this.getFileTypeFromExtension(file.name);
+            this.chapters[chapterIndex].lessons[lessonIndex].attachment = {
+              id: 0,
+              lessonId: 0,
+              attachmentUrl: (response.items[0] as string) || null,
+              attachmentName: file.name,
+              attachmentType: fileType,
+              attachmentSize: this.getFileSize(file.size),
+            };
+            this.uploadError = null;
+            console.log(this.chapters[chapterIndex].lessons[lessonIndex]);
+            this.notificationService.notify('File uploaded successfully');
+          } else {
+            this.uploadError =
+              'Upload failed, please try again 🥺' || response.message;
+          }
+        },
+        (error) => {
+          this.uploadError = error;
+        }
+      );
     } else {
-      alert('Invalid file. Only PDF, DOC and ZIP files are allowed.');
+      this.notificationService.notify(
+        this.errorMessages.invalidAttachmentFileType,
+        'error'
+      );
+    }
+  }
+
+  getFileTypeFromExtension(fileName: string): string {
+    const extension = this.getFileExtension(fileName);
+    switch (extension) {
+      case '.pdf':
+        return 'PDF';
+      case '.doc':
+      case '.docx':
+        return 'Word';
+      case '.xls':
+      case '.xlsx':
+        return 'Excel';
+      case '.ppt':
+      case '.pptx':
+        return 'PowerPoint';
+      case '.txt':
+        return 'Text';
+      default:
+        return 'Other';
+    }
+  }
+
+  getFileExtension(fileName: string): string {
+    return fileName.substr(fileName.lastIndexOf('.')).toLowerCase();
+  }
+
+  getFileSize(sizeInBytes: number): string {
+    const kilobyte = 1024;
+    const megabyte = kilobyte * 1024;
+    const gigabyte = megabyte * 1024;
+
+    if (sizeInBytes >= gigabyte) {
+      return (sizeInBytes / gigabyte).toFixed(2) + ' GB';
+    } else if (sizeInBytes >= megabyte) {
+      return (sizeInBytes / megabyte).toFixed(2) + ' MB';
+    } else if (sizeInBytes >= kilobyte) {
+      return (sizeInBytes / kilobyte).toFixed(2) + ' KB';
+    } else {
+      return sizeInBytes.toString() + ' Bytes';
     }
   }
 
   deleteFile(chapterIndex: number, lessonIndex: number): void {
-    this.chapters[chapterIndex].lessons[lessonIndex].attachment = null;
+    const lesson = this.chapters[chapterIndex].lessons[lessonIndex];
+    if (lesson && lesson.attachment && lesson.attachment.attachmentUrl) {
+      const fileUrl = lesson.attachment.attachmentUrl;
+
+      this.uploadService.deleteFile(fileUrl, 'Attachment').subscribe(
+        (response) => {
+          if (response.success) {
+            this.chapters[chapterIndex].lessons[lessonIndex].attachment = null;
+            this.notificationService.notify('File deleted successfully');
+          } else {
+            this.notificationService.notify(response.message, 'error');
+          }
+        },
+        (error) => {
+          this.notificationService.notify('Failed to delete file', 'error');
+        }
+      );
+    }
   }
 
   // #endregion
@@ -307,173 +560,65 @@ export class CreateChapterLessonComponent implements OnInit {
   // #region Lesson helper fn
   createNewArticleLesson(): Lesson {
     return {
+      id: 0,
+      chapterId: 0,
       title: '',
       description: '',
+      noOfHours: 0,
       type: this.articleType,
-      content: '',
+      article: {
+        id: 0,
+        lessonId: 0,
+        content: '',
+      },
       attachment: null,
     };
   }
 
   createNewVideoLesson(): Lesson {
     return {
+      id: 0,
+      chapterId: 0,
       title: '',
       description: '',
+      noOfHours: 0,
       type: this.videoType,
-      videoFile: new File([], ''),
+      video: {
+        id: 0,
+        lessonId: 0,
+        videoUrl: '',
+      },
       attachment: null,
     };
   }
 
   createNewQuizLesson(): Lesson {
     return {
+      id: 0,
+      chapterId: 0,
       title: '',
       description: '',
+      noOfHours: 0,
       type: this.quizType,
-      questions: [
-        { questionText: '', choices: ['', '', '', ''], correctAnswer: '' },
-      ],
+      quiz: {
+        id: 0,
+        lessonId: 0,
+        questions: [
+          {
+            id: 0,
+            quizId: 0,
+            questionText: '',
+            choices: ['', '', '', ''],
+            correctAnswer: '',
+          },
+        ],
+      },
       attachment: null,
     };
   }
   // #endregion
-  // #region Validate inputs
 
-  isValidFile(file: File): boolean {
-    const validTypes = [
-      'application/pdf',
-      'application/msword',
-      'application/vnd.ms-excel',
-      'application/zip',
-      'application/text',
-      'text/plain',
-    ];
-    return validTypes.includes(file.type);
+  getChoiceIdentifier(idx: number): string {
+    return String.fromCharCode('A'.charCodeAt(0) + idx);
   }
-
-  validateChapterName(name: string): boolean {
-    const regex = /^[A-Za-z0-9\s]*$/;
-
-    if (
-      !this.validateWordLength(name) ||
-      name.length < 2 ||
-      !regex.test(name) ||
-      name.length > 40
-    ) {
-      alert(
-        'Invalid chapter name. It should have at least two alphabets and at most 40 alphabets. Each word should be at most 20 letters long.'
-      );
-      return false;
-    }
-
-    return true;
-  }
-
-  validateLesson(lesson: Lesson): boolean {
-    if (!this.validateWordLength(lesson.title) || lesson.title.length < 2) {
-      alert('Invalid lesson title. It should have at least two alphabets.');
-      return false;
-    }
-
-    if (
-      !this.validateWordLength(lesson.description) ||
-      lesson.description.length < 10
-    ) {
-      alert('Invalid description. It should have at least 10 characters.');
-      return false;
-    }
-
-    if (
-      lesson.type === LessonType.Article &&
-      (!this.validateWordLength(lesson.content!) ||
-        lesson.content!.length < 100)
-    ) {
-      alert('Invalid content. It should have at least 100 characters.');
-      return false;
-    }
-
-    return true;
-  }
-
-  validateWordLength(input: string): boolean {
-    const words = input.split(' ');
-
-    for (let word of words) {
-      if (word.length > 20) {
-        alert('Each word must be at most 20 letters long.');
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  validateQuiz(quiz: Lesson): boolean {
-    if (quiz.questions!.length === 0) {
-      alert('The quiz must have at least one question.');
-      return false;
-    }
-
-    for (let question of quiz.questions!) {
-      if (!question.questionText) {
-        alert('Every question must have a question text.');
-        return false;
-      }
-
-      const nonBlankChoices = question.choices.filter(
-        (choice) => choice.trim() !== ''
-      );
-      if (nonBlankChoices.length < 2) {
-        alert('Every question must have at least two non-blank options.');
-        return false;
-      }
-
-      if (!nonBlankChoices.includes(question.correctAnswer)) {
-        alert('The correct answer must be one of the choices provided.');
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  validateVideoFile(file: File): boolean {
-    const validType = file.type.startsWith('video/');
-    if (!validType) {
-      alert('Invalid video file. Only video files are allowed.');
-      return false;
-    }
-
-    return true;
-  }
-  // #endregion
-}
-
-interface Chapter {
-  name: string;
-  editMode: boolean;
-  lessons: Lesson[];
-}
-
-export interface Lesson {
-  title: string;
-  description: string;
-  type: LessonType;
-  //collapsed: boolean;
-  content?: string;
-  videoFile?: File;
-  questions?: QuizQuestion[];
-  attachment?: File | null;
-  editMode?: boolean;
-}
-export enum LessonType {
-  Article = 'Article',
-  Video = 'Video',
-  Quiz = 'Quiz',
-}
-
-export interface QuizQuestion {
-  questionText: string;
-  choices: string[];
-  correctAnswer: string;
 }

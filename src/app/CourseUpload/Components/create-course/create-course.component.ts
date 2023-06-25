@@ -74,7 +74,40 @@ export class CreateCourseComponent implements OnInit {
       .subscribe((data: APIResponseVM) => {
         this.categories = data.items;
       });
-      
+    const storedCourse = localStorage.getItem('CreatedCourse');
+    if (storedCourse) {
+      const createdCourse = JSON.parse(storedCourse);
+      this.renderImage = createdCourse.courseImage;
+      this.inputFileShowStatus = false;
+      if (createdCourse.enrollmentItems.length > 0) {
+        for (let i = 0; i < createdCourse.enrollmentItems.length - 1; i++) {
+          const newForm = this.fb.group({
+            title: ['', Validators.required],
+          });
+          this.TargetStudents.push(newForm);
+        }
+      }
+      if (createdCourse.courseRequirements.length > 0) {
+        for (let i = 0; i < createdCourse.courseRequirements.length - 1; i++) {
+          const newForm = this.fb.group({
+            title: ['', Validators.required],
+            description: ['', Validators.required],
+          });
+          this.CourseRequirements.push(newForm);
+        }
+      }
+      if (createdCourse.learningItems.length > 0) {
+        for (let i = 0; i < createdCourse.learningItems.length - 1; i++) {
+          const newForm = this.fb.group({
+            title: ['', Validators.required],
+            description: ['', Validators.required],
+          });
+          this.CourseTeachings.push(newForm);
+        }
+      }
+      this.CreateCourse.setValue(createdCourse);
+      console.log(createdCourse);
+    }
   }
 
   get title() {
@@ -156,10 +189,8 @@ export class CreateCourseComponent implements OnInit {
     if (this.CreateCourse.invalid) {
       return;
     }
-
     this.CreateCourse.value.courseImage = this.renderImage;
     const postCourseDto = JSON.parse(JSON.stringify(this.CreateCourse.value));
-
     const observer = {
       next: (result: any) => {
         this.router.navigate(['createCourse/step2']);
@@ -170,7 +201,8 @@ export class CreateCourseComponent implements OnInit {
     };
     localStorage.setItem('CreatedCourse', JSON.stringify(postCourseDto));
     console.log(postCourseDto);
-    this.apiService.addItem('Course', postCourseDto).subscribe(observer);
+    // this.apiService.addItem('Course', postCourseDto).subscribe(observer);
+    this.router.navigate(['createCourse/step2']);
   }
 
   addFormArrayInput(formArray: FormArray) {

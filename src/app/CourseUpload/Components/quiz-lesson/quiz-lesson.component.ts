@@ -247,6 +247,8 @@ export class QuizLessonComponent implements OnInit {
       const fieldName = 'Required Hours';
       if (!noOfHours || noOfHours === 0) {
         return this.errorMessages.requiredField(fieldName);
+      } else if (isNaN(noOfHours)) {
+        return this.errorMessages.mustBeNumber;
       } else if (noOfHours > 6 || noOfHours <= 0) {
         return this.errorMessages.invalidRequiredHours;
       }
@@ -257,7 +259,7 @@ export class QuizLessonComponent implements OnInit {
     if (
       this.isInvalidQuizTitle() !== null ||
       this.isInvalidQuizDescription() !== null ||
-      this.isInvalidQuizRequiredHours !== null
+      this.isInvalidQuizRequiredHours() !== null
     ) {
       return false;
     }

@@ -1,19 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormArray,
-  FormControl,
-} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { Router } from '@angular/router';
+
 import { Category } from 'src/app/Models/category';
 import { APIService } from 'src/app/Shared/Services/api.service';
 import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
 import { Language } from '../../../Models/Enums/CourseLanguage';
 import { Level } from '../../../Models/Enums/CourseLevel';
-import { Router } from '@angular/router';
-import { from } from 'rxjs';
 import { NotificationService } from 'src/app/Shared/Services/notification.service';
+import { UploadService } from 'src/app/Shared/Services/upload.service';
 
 @Component({
   selector: 'app-create-course',
@@ -21,6 +16,8 @@ import { NotificationService } from 'src/app/Shared/Services/notification.servic
   styleUrls: ['./create-course.component.scss'],
 })
 export class CreateCourseComponent implements OnInit {
+  inputFileShowStatus: boolean = true;
+  renderImage: string | null = null;
   languages = Object.values(Language).filter(
     (language) => typeof language === 'string'
   );
@@ -32,7 +29,8 @@ export class CreateCourseComponent implements OnInit {
     private fb: FormBuilder,
     private apiService: APIService,
     private router: Router,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private uploadService: UploadService
   ) {
     this.CreateCourse = this.fb.group({
       instructorId: ['aa8dc98a-af68-4c68-8d65-99106ba0cda7'],
@@ -43,7 +41,7 @@ export class CreateCourseComponent implements OnInit {
       language: ['', Validators.required],
       price: ['', Validators.required],
       level: ['', Validators.required],
-      courseImage: ['ss '],
+      courseImage: [''],
       learningItems: this.fb.array([
         this.fb.group({
           title: ['', Validators.required],
@@ -69,6 +67,40 @@ export class CreateCourseComponent implements OnInit {
       .subscribe((data: APIResponseVM) => {
         this.categories = data.items;
       });
+    const storedCourse = localStorage.getItem('CreatedCourse');
+    if (storedCourse) {
+      const createdCourse = JSON.parse(storedCourse);
+      this.renderImage = createdCourse.courseImage;
+      this.inputFileShowStatus = false;
+      if (createdCourse.enrollmentItems.length > 0) {
+        for (let i = 0; i < createdCourse.enrollmentItems.length - 1; i++) {
+          const newForm = this.fb.group({
+            title: ['', Validators.required],
+          });
+          this.TargetStudents.push(newForm);
+        }
+      }
+      if (createdCourse.courseRequirements.length > 0) {
+        for (let i = 0; i < createdCourse.courseRequirements.length - 1; i++) {
+          const newForm = this.fb.group({
+            title: ['', Validators.required],
+            description: ['', Validators.required],
+          });
+          this.CourseRequirements.push(newForm);
+        }
+      }
+      if (createdCourse.learningItems.length > 0) {
+        for (let i = 0; i < createdCourse.learningItems.length - 1; i++) {
+          const newForm = this.fb.group({
+            title: ['', Validators.required],
+            description: ['', Validators.required],
+          });
+          this.CourseTeachings.push(newForm);
+        }
+      }
+      this.CreateCourse.setValue(createdCourse);
+      console.log(createdCourse);
+    }
   }
 
   get title() {
@@ -127,59 +159,34 @@ export class CreateCourseComponent implements OnInit {
 
   onFileSelected($event: any) {
     this.courseImg = $event.target.files[0];
+    const file = $event.target.files[0];
+    this.uploadService.uploadFile(file, 'Image').subscribe(
+      (response) => {
+        if (response.success) {
+          (this.CreateCourse.value.courseImage =
+            (response.items[0] as string) || null),
+            (this.renderImage = (response.items[0] as string) || null),
+            this.notification.notify('File uploaded successfully');
+          this.inputFileShowStatus = false;
+        } else {
+          this.notification.notify('File upload error', 'error');
+        }
+      },
+      (error) => {
+        this.notification.notify('File upload error', 'error');
+      }
+    );
   }
 
   CreateCourseSubmit() {
     if (this.CreateCourse.invalid) {
       return;
     }
-    const formData = new FormData();
-    if (this.courseImg) {
-      formData.append('courseImg', this.courseImg);
-    }
-    const postdata = this.convertToPostCourseDto(this.CreateCourse.value);
+    this.CreateCourse.value.courseImage = this.renderImage;
+    const postCourseDto = JSON.parse(JSON.stringify(this.CreateCourse.value));
 
-    for (const key in postdata) {
-      if (Object.prototype.hasOwnProperty.call(postdata, key)) {
-        const value = postdata[key];
-        console.log(`${key}: ${value}`);
-        formData.append(`${key}`, `${value}`);
-      }
-    }
-    const observer = {
-      next: (result: any) => {
-        this.router.navigate(['createCourse/step2']);
-      },
-      error: (err: any) => {
-        console.log(err.message);
-      },
-    };
-
-    this.apiService.addItem('Course', formData).subscribe(observer);
-    console.log(formData);
-  }
-
-  convertToPostCourseDto(
-    obj: any,
-    result: any = {},
-    parentKey: string = 'postCourseDto'
-  ) {
-    for (const key in obj) {
-      if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        const value = obj[key];
-        const newKey = parentKey ? `${parentKey}.${key}` : key;
-        if (Array.isArray(value)) {
-          for (let i = 0; i < value.length; i++) {
-            this.convertToPostCourseDto(value[i], result, `${newKey}[${i}]`);
-          }
-        } else if (typeof value === 'object' && value !== null) {
-          this.convertToPostCourseDto(value, result, newKey);
-        } else {
-          result[newKey] = value;
-        }
-      }
-    }
-    return result;
+    localStorage.setItem('CreatedCourse', JSON.stringify(postCourseDto));
+    this.router.navigate(['createCourse/step2']);
   }
 
   addFormArrayInput(formArray: FormArray) {
@@ -204,5 +211,10 @@ export class CreateCourseComponent implements OnInit {
   }
   back() {
     this.router.navigate([`instructor`]);
+  }
+  onDeleteImage() {
+    this.courseImg = undefined;
+    this.CreateCourse.value.courseImage = '';
+    this.inputFileShowStatus = true;
   }
 }

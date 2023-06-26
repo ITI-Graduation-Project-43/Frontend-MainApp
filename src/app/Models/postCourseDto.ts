@@ -1,28 +1,14 @@
 export interface PostCourseDto {
+  instructorId: string;
   title: string;
   shortDescription: string;
   description: string;
-  imageUrl: string;
-  language: number;
-  price: number;
-  level: number;
-  instructorId: string;
-  categoryId: number;
-  learningItems: LearningItem[];
-  enrollmentItems: EnrollmentItem[];
-  courseRequirements: CourseRequirement[];
-}
-
-export interface LearningItem {
-  title: string;
-  description: string;
-}
-
-export interface EnrollmentItem {
-  description: string;
-}
-
-export interface CourseRequirement {
-  title: string;
-  description: string;
+  categoryId: string;
+  language: string;
+  price: string;
+  level: string;
+  courseImage: string;
+  learningItems: { title: string; description: string }[];
+  enrollmentItems: { title: string }[];
+  courseRequirements: { title: string; description: string }[];
 }

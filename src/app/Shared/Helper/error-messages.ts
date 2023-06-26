@@ -19,6 +19,7 @@ export const ERROR_MESSAGES = {
 
   invalidRequiredHours:
     'Please make sure to enter valid number between 0 and 6 Hours',
+  mustBeNumber: 'PLease make sure you enter a number only',
   invalidVideoFileType:
     'Invalid file type. Only video files (e.g., MP4, AVI, MOV) are allowed.',
 

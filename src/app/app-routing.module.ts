@@ -112,9 +112,8 @@ const routes: Routes = [
     loadChildren: () =>
       import('../app/CourseUpload/creating-course.module').then(
         (m) => m.CreatingCourseModule
-      ),
+      )
   },
-
   {
     path: 'instructorCourses',
     loadChildren: () =>

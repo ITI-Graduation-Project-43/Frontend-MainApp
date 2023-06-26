@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { TimeTrackingService } from 'src/app/Services/time-tracking.service';
+import { TimeTrackingService } from '../Services/time-tracking.service';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  selector: 'app-instructor-dashboard',
+  templateUrl: './instructor-dashboard.component.html',
+  styleUrls: ['./instructor-dashboard.component.scss']
 })
-export class DashboardComponent {
-  recentStudents: any[] = [];
+export class InstructorDashboardComponent {
+  recentStudents: any;
   constructor(private timeTrackingService: TimeTrackingService) {}
 
   onCourseIdChanged(courseId: number) {

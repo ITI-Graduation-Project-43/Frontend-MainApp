@@ -12,9 +12,8 @@
     <div class="methods-container">
         <div class="credit-debit-card">
             <div class="showed-methods">
-                <div class="radio-method">
-                    <input type="radio" id="creditcard" name="method" value="creditcard" [(ngModel)]="creditCardForm"
-                        (ngModelChange)="showCreditCardForm()">
+                <div class="radio-method d-flex align-items-center gap-3">
+                    <input type="radio" id="creditcard" name="method" value="creditcard"  [(ngModel)]="creditCardForm" (ngModelChange)="showCreditCardForm()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="22" viewBox="0 0 30 22" fill="none">
                         <path
                             d="M27 0.5H3C2.33696 0.5 1.70107 0.763392 1.23223 1.23223C0.763392 1.70107 0.5 2.33696 0.5 3V19C0.5 19.663 0.763392 20.2989 1.23223 20.7678C1.70107 21.2366 2.33696 21.5 3 21.5H27C27.663 21.5 28.2989 21.2366 28.7678 20.7678C29.2366 20.2989 29.5 19.663 29.5 19V3C29.5 2.33696 29.2366 1.70107 28.7678 1.23223C28.2989 0.763392 27.663 0.5 27 0.5ZM26.5 3.5V6H3.5V3.5H26.5ZM3.5 18.5V9H26.5V18.5H3.5ZM25 15.5C25 15.8978 24.842 16.2794 24.5607 16.5607C24.2794 16.842 23.8978 17 23.5 17H19.5C19.1022 17 18.7206 16.842 18.4393 16.5607C18.158 16.2794 18 15.8978 18 15.5C18 15.1022 18.158 14.7206 18.4393 14.4393C18.7206 14.158 19.1022 14 19.5 14H23.5C23.8978 14 24.2794 14.158 24.5607 14.4393C24.842 14.7206 25 15.1022 25 15.5ZM16.5 15.5C16.5 15.8978 16.342 16.2794 16.0607 16.5607C15.7794 16.842 15.3978 17 15 17H13.5C13.1022 17 12.7206 16.842 12.4393 16.5607C12.158 16.2794 12 15.8978 12 15.5C12 15.1022 12.158 14.7206 12.4393 14.4393C12.7206 14.158 13.1022 14 13.5 14H15C15.3978 14 15.7794 14.158 16.0607 14.4393C16.342 14.7206 16.5 15.1022 16.5 15.5Z"
@@ -49,10 +48,10 @@
                 </div>
             </div>
             <div *ngIf="showForm">
-                <div class="reactiveForm" [formGroup]="checkoutService.creditCardReactiveForm">
+                <div class="reactiveForm border-top-0" [formGroup]="checkoutService.creditCardReactiveForm">
                     <div class="input-sec">
                         <label for="nameOnCard">Name on card</label>
-                        <input type="text" id="nameOnCard" placeholder="Name on card" formControlName="nameOnCard">
+                        <input type="text" id="nameOnCard" placeholder="Name on card" formControlName="nameOnCard" (blur)="onFormValid()">
                     </div>
                     <div *ngIf="nameOnCard?.invalid && nameOnCard?.touched" class="text-danger">
                         <span *ngIf="nameOnCard?.errors?.['required']">Name on card is required</span>
@@ -71,7 +70,7 @@
 
                     <div class="input-sec">
                         <label for="cardNo">Card number</label>
-                        <input type="text" id="cardNo" placeholder="0000 0000 0000 0000" formControlName="cardNumber">
+                        <input type="text" id="cardNo" placeholder="0000 0000 0000 0000" formControlName="cardNumber" (blur)="onFormValid()">
                     </div>
                     <div *ngIf="cardNumber?.invalid && cardNumber?.touched" class="text-danger">
                         <span *ngIf="cardNumber?.errors?.['required']">Card number is required</span>
@@ -89,13 +88,13 @@
                     <div class="date-cvc">
                         <div class="input-sec">
                             <label for="expDate">Expiry date</label>
-                            <input type="text" id="expDate" placeholder="MM/YY" formControlName="expiryDate">
+                            <input type="text" id="expDate" placeholder="MM/YY" formControlName="expiryDate" (blur)="onFormValid()">
 
                         </div>
 
                         <div class="input-sec">
                             <label for="cvc">CVV/CVC</label>
-                            <input type="text" id="cvc" placeholder="000" formControlName="cvc">
+                            <input type="text" id="cvc" placeholder="000" formControlName="cvc" (blur)="onFormValid()">
 
                         </div>
                     </div>
@@ -119,34 +118,33 @@
                         </div>
                     </div>
                     <div class="saveCard">
-                        <input type="checkbox" id="saveCard" formControlName="saveCard">
+                        <input type="checkbox" id="saveCard" formControlName="saveCard" (change)="onFormValid()">
                         <label for="saveCard">Save this card for future purposes</label>
                     </div>
                 </div>
             </div>
         </div>
         <div class="paypal">
-            <div class="showed-methods">
-                <div class="radio-method">
-                    <input type="radio" id="paypal" name="method" value="paypal" [(ngModel)]="creditCardForm"
-                        (ngModelChange)="showCreditCardForm()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="32" viewBox="0 0 48 32" fill="none">
-                        <rect x="0.5" y="0.5" width="47" height="31" fill="white" />
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M20.5457 24.3903L20.8729 22.4089L20.1441 22.3927H16.6641L19.0826 7.77122C19.0901 7.72695 19.1145 7.68584 19.15 7.65661C19.1858 7.62737 19.2313 7.61133 19.279 7.61133H25.1468C27.095 7.61133 28.4394 7.99778 29.1412 8.76066C29.4702 9.11854 29.6798 9.49263 29.7813 9.90414C29.8876 10.336 29.8894 10.852 29.7857 11.4814L29.7781 11.5271V11.9305L30.1072 12.1082C30.3842 12.2484 30.6045 12.4088 30.7734 12.5924C31.0548 12.8985 31.2369 13.2875 31.3138 13.7484C31.3934 14.2226 31.3671 14.787 31.2369 15.4259C31.0867 16.1607 30.844 16.8008 30.5162 17.3244C30.2148 17.8069 29.8307 18.2073 29.3746 18.5174C28.9391 18.8121 28.4219 19.0358 27.8369 19.179C27.2701 19.3197 26.6238 19.3907 25.915 19.3907H25.4584C25.132 19.3907 24.8148 19.5028 24.5658 19.7038C24.3161 19.9089 24.151 20.1893 24.1004 20.4959L24.0659 20.6743L23.4878 24.1668L23.4617 24.2949C23.4547 24.3355 23.4428 24.3557 23.4252 24.3694C23.4096 24.382 23.3872 24.3903 23.3653 24.3903H20.5457Z"
-                            fill="#28356A" />
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M30.418 11.5732C30.4007 11.68 30.3805 11.7891 30.3581 11.9012C29.5843 15.6895 26.9368 16.9983 23.5556 16.9983H21.834C21.4204 16.9983 21.0719 17.2845 21.0076 17.6734L19.8765 24.5144C19.8346 24.7699 20.041 25 20.3112 25H23.3648C23.7263 25 24.0334 24.7495 24.0904 24.4095L24.1204 24.2617L24.6953 20.7829L24.7323 20.5921C24.7885 20.2509 25.0964 20.0003 25.4579 20.0003H25.9145C28.8729 20.0003 31.1889 18.8552 31.8658 15.541C32.1484 14.1566 32.0021 13.0006 31.2539 12.1876C31.0275 11.9425 30.7466 11.739 30.418 11.5732Z"
-                            fill="#019DDE" />
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M29.6089 11.2658C29.4906 11.2329 29.3686 11.2031 29.2435 11.1762C29.1177 11.15 28.9889 11.1268 28.8563 11.1064C28.3921 11.0349 27.8834 11.001 27.3386 11.001H22.7394C22.626 11.001 22.5185 11.0254 22.4223 11.0695C22.2101 11.1667 22.0525 11.3582 22.0143 11.5926L21.0358 17.5015L21.0078 17.6737C21.0721 17.2848 21.4206 16.9986 21.8342 16.9986H23.5558C26.937 16.9986 29.5845 15.6892 30.3583 11.9015C30.3815 11.7894 30.4009 11.6803 30.4183 11.5736C30.2225 11.4745 30.0105 11.3898 29.7822 11.3176C29.7258 11.2997 29.6676 11.2825 29.6089 11.2658Z"
-                            fill="#00164C" />
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M22.0143 11.5923C22.0525 11.3579 22.21 11.1664 22.4222 11.0699C22.5191 11.0256 22.626 11.0012 22.7394 11.0012H27.3386C27.8834 11.0012 28.3921 11.0353 28.8562 11.1068C28.9889 11.127 29.1177 11.1504 29.2435 11.1766C29.3686 11.2034 29.4906 11.2333 29.6089 11.266C29.6676 11.2827 29.7257 11.3001 29.7827 11.3173C30.011 11.3895 30.2232 11.4749 30.4189 11.5733C30.6492 10.1733 30.417 9.22013 29.6232 8.35701C28.748 7.40667 27.1685 7 25.1472 7H19.2792C18.8663 7 18.5141 7.2862 18.4503 7.67583L16.0063 22.4477C15.9581 22.7399 16.1944 23.0036 16.5036 23.0036H20.1262L22.0143 11.5923Z"
-                            fill="#012F86" />
-                        <rect x="0.5" y="0.5" width="47" height="31" stroke="#181818" />
-                    </svg>
-                    <label for="paypal" class="method-name">PayPal</label>
+            <div class="showed-methods border-top-0">
+                <div class="radio-method d-flex align-items-center gap-3">
+                  <input type="radio" id="paypal" name="method" value="paypal" [(ngModel)]="creditCardForm" (ngModelChange)="showCreditCardForm()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="32" viewBox="0 0 48 32" fill="none">
+                      <rect x="0.5" y="0.5" width="47" height="31" fill="white" />
+                      <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M20.5457 24.3903L20.8729 22.4089L20.1441 22.3927H16.6641L19.0826 7.77122C19.0901 7.72695 19.1145 7.68584 19.15 7.65661C19.1858 7.62737 19.2313 7.61133 19.279 7.61133H25.1468C27.095 7.61133 28.4394 7.99778 29.1412 8.76066C29.4702 9.11854 29.6798 9.49263 29.7813 9.90414C29.8876 10.336 29.8894 10.852 29.7857 11.4814L29.7781 11.5271V11.9305L30.1072 12.1082C30.3842 12.2484 30.6045 12.4088 30.7734 12.5924C31.0548 12.8985 31.2369 13.2875 31.3138 13.7484C31.3934 14.2226 31.3671 14.787 31.2369 15.4259C31.0867 16.1607 30.844 16.8008 30.5162 17.3244C30.2148 17.8069 29.8307 18.2073 29.3746 18.5174C28.9391 18.8121 28.4219 19.0358 27.8369 19.179C27.2701 19.3197 26.6238 19.3907 25.915 19.3907H25.4584C25.132 19.3907 24.8148 19.5028 24.5658 19.7038C24.3161 19.9089 24.151 20.1893 24.1004 20.4959L24.0659 20.6743L23.4878 24.1668L23.4617 24.2949C23.4547 24.3355 23.4428 24.3557 23.4252 24.3694C23.4096 24.382 23.3872 24.3903 23.3653 24.3903H20.5457Z"
+                          fill="#28356A" />
+                      <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M30.418 11.5732C30.4007 11.68 30.3805 11.7891 30.3581 11.9012C29.5843 15.6895 26.9368 16.9983 23.5556 16.9983H21.834C21.4204 16.9983 21.0719 17.2845 21.0076 17.6734L19.8765 24.5144C19.8346 24.7699 20.041 25 20.3112 25H23.3648C23.7263 25 24.0334 24.7495 24.0904 24.4095L24.1204 24.2617L24.6953 20.7829L24.7323 20.5921C24.7885 20.2509 25.0964 20.0003 25.4579 20.0003H25.9145C28.8729 20.0003 31.1889 18.8552 31.8658 15.541C32.1484 14.1566 32.0021 13.0006 31.2539 12.1876C31.0275 11.9425 30.7466 11.739 30.418 11.5732Z"
+                          fill="#019DDE" />
+                      <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M29.6089 11.2658C29.4906 11.2329 29.3686 11.2031 29.2435 11.1762C29.1177 11.15 28.9889 11.1268 28.8563 11.1064C28.3921 11.0349 27.8834 11.001 27.3386 11.001H22.7394C22.626 11.001 22.5185 11.0254 22.4223 11.0695C22.2101 11.1667 22.0525 11.3582 22.0143 11.5926L21.0358 17.5015L21.0078 17.6737C21.0721 17.2848 21.4206 16.9986 21.8342 16.9986H23.5558C26.937 16.9986 29.5845 15.6892 30.3583 11.9015C30.3815 11.7894 30.4009 11.6803 30.4183 11.5736C30.2225 11.4745 30.0105 11.3898 29.7822 11.3176C29.7258 11.2997 29.6676 11.2825 29.6089 11.2658Z"
+                          fill="#00164C" />
+                      <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M22.0143 11.5923C22.0525 11.3579 22.21 11.1664 22.4222 11.0699C22.5191 11.0256 22.626 11.0012 22.7394 11.0012H27.3386C27.8834 11.0012 28.3921 11.0353 28.8562 11.1068C28.9889 11.127 29.1177 11.1504 29.2435 11.1766C29.3686 11.2034 29.4906 11.2333 29.6089 11.266C29.6676 11.2827 29.7257 11.3001 29.7827 11.3173C30.011 11.3895 30.2232 11.4749 30.4189 11.5733C30.6492 10.1733 30.417 9.22013 29.6232 8.35701C28.748 7.40667 27.1685 7 25.1472 7H19.2792C18.8663 7 18.5141 7.2862 18.4503 7.67583L16.0063 22.4477C15.9581 22.7399 16.1944 23.0036 16.5036 23.0036H20.1262L22.0143 11.5923Z"
+                          fill="#012F86" />
+                      <rect x="0.5" y="0.5" width="47" height="31" stroke="#181818" />
+                  </svg>
+                  <label for="paypal" class="method-name">PayPal</label>
                 </div>
             </div>
         </div>

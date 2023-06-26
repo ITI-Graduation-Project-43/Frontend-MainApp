@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/Shared/Helper/local-storage.service';
 import { APIService } from 'src/app/Shared/Services/api.service';
 import { NotificationService } from 'src/app/Shared/Services/notification.service';
+import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
 
 @Component({
   selector: 'app-profile',
@@ -13,29 +14,49 @@ import { NotificationService } from 'src/app/Shared/Services/notification.servic
 export class ProfileComponent implements OnInit {
   informationForm !: FormGroup
   saving : boolean = false;
+  newImage : boolean = false;
   user : any;
   role !: string;
   userLinks : any;
   userLinkForm !: FormGroup;
   linksForm !: FormGroup;
+  imageData: FormData = new FormData();
   bioLength : number;
   accounts !: {id: number, accountName: string, accountDomain: string}[]
 
-  constructor(private http: APIService, private router: Router , private fb: FormBuilder, private LocaStorageService: LocalStorageService, private Notification: NotificationService) {
-    this.user = this.LocaStorageService.getUserInfo();
+  constructor(private http: APIService, public fb: FormBuilder, private LocalStorageService: LocalStorageService, private Notification: NotificationService) {
+    this.user = this.LocalStorageService.getUserInfo();
+    this.role = this.LocalStorageService.decodeToken().Role;
     this.bioLength = this.user.bio.length;
-    this.informationForm = fb.group({
-      firstName: [this.user.firstName, [Validators.required, Validators.pattern(/^[a-zA-Z]{3,30}$/)]],
-      lastName: [this.user.lastName, [Validators.required, Validators.pattern(/^[a-zA-Z]{3,30}$/)]],
-      //professionalHeadline: ['', [Validators.required, Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)]],
-      bio: [this.user.bio, [Validators.maxLength(100000000)]],
-    })
-
+    this.createInformationForm();
     this.linksForm = fb.group({});
   }
 
   ngOnInit(): void {
-    this.getAllAccounts();
+    let UpdateUserObserver = {
+      next: (data: any) => {
+        if (data.message == 'new') {
+          this.user = this.LocalStorageService.getUserInfo();
+          this.role = this.LocalStorageService.decodeToken().Role;
+          this.bioLength = this.user.bio.length;
+          this.createInformationForm();
+          this.getAllAccounts();
+        }
+      },
+
+    };
+    this.Notification.notifications.subscribe(UpdateUserObserver);
+  }
+
+  createInformationForm() {
+    this.informationForm = this.fb.group({
+      firstName: [this.user.firstName, [Validators.required, Validators.pattern(/^[a-zA-Z]{3,30}$/)]],
+      lastName: [this.user.lastName, [Validators.required, Validators.pattern(/^[a-zA-Z]{3,30}$/)]],
+      description: [this.user.description, [Validators.maxLength(2048)]],
+      title: [this.user.title, [Validators.maxLength(255)]],
+      bio: [this.user.bio, [Validators.maxLength(1000)]],
+    })
+
   }
 
   get firstName() {
@@ -46,9 +67,13 @@ export class ProfileComponent implements OnInit {
     return this.informationForm.get('lastName')
   }
 
-  // get professionalHeadline() {
-  //   return this.informationForm.get('professionalHeadline')
-  // }
+  get description() {
+    return this.informationForm.get('description')
+  }
+
+  get title() {
+    return this.informationForm.get('title')
+  }
 
   get bio() {
     return this.informationForm.get('bio')?.value
@@ -61,11 +86,13 @@ export class ProfileComponent implements OnInit {
           this.accounts = data.items;
           for (let account of this.accounts) {
             let userAccountFound = false;
-            for (let userAccount of this.user.accounts) {
-              if (userAccount.accountId == account.id) {
-                this.linksForm.addControl(userAccount.accountName, new FormControl(userAccount.accountDomain));
-                userAccountFound = true;
-                break;
+            if(Object.keys(this.user.accounts).length > 0) {
+              for (let userAccount of this.user.accounts) {
+                if (userAccount.accountId == account.id) {
+                  this.linksForm.addControl(userAccount.accountName, new FormControl(userAccount.accountDomain));
+                  userAccountFound = true;
+                  break;
+                }
               }
             }
             if (!userAccountFound) {
@@ -85,44 +112,57 @@ export class ProfileComponent implements OnInit {
 
   save(e: Event) {
     e.preventDefault();
-    if((this.informationForm.valid && this.informationForm.dirty) && (!this.linksForm.valid || !this.linksForm.dirty)) {
-      this.updateBasicsInformation();
-      console.log("only basics")
+    if((this.informationForm.valid && this.informationForm.dirty) && (!this.linksForm.valid || !this.linksForm.dirty)) { // basics only
+      this.updateBasicsInformation(this.newImage);
     }
-    else if((this.linksForm.valid && this.linksForm.dirty) && (!this.informationForm.valid || !this.informationForm.dirty)) {
-      this.updatePersonalLinks();
-      console.log("only links")
+    else if((this.linksForm.valid && this.linksForm.dirty) && (!this.informationForm.valid || !this.informationForm.dirty)) { // links only
+      this.updatePersonalLinks(this.newImage);
     }
-    else {
-      this.updateBasicsInformation(true);
-      console.log("both basics and links");
+    else if(this.newImage && (!this.linksForm.valid || !this.linksForm.dirty) && (!this.informationForm.valid || !this.informationForm.dirty)) { // image only
+      this.uploadImage();
+    }
+    else { // the rest
+      this.updateBasicsInformation(true, this.newImage);
     }
   }
 
-  updateBasicsInformation(isLinksUpdated: boolean = false) {
+  updateBasicsInformation(isLinksUpdated: boolean = false, isImageUpated: boolean = false) {
     if(this.informationForm.valid && this.informationForm.dirty && !this.saving) {
       this.saving = true;
       let observer = {
         next: (data: any) => {
           if(data.success) {
             this.saving = false;
-            if(isLinksUpdated) {
-              this.updatePersonalLinks();
+            if(isLinksUpdated && !isImageUpated) {
+              this.updatePersonalLinks(isImageUpated);
+            }
+            else if(!isLinksUpdated && isImageUpated) {
+              this.uploadImage();
+            }
+            else {
+              this.updatePersonalLinks(isImageUpated);
             }
             this.copyBasicsDataToUser();
-            this.LocaStorageService.updateUserInfo(this.user);
+            this.LocalStorageService.updateUserInfo(this.user);
           }
         },
         complete: () => {
-          if(!isLinksUpdated) {
+          if(!isLinksUpdated && !isImageUpated) {
             this.Notification.notify("Save!")
           }
         },
         error: () => {
-          this.Notification.notify("something wrong!", 'fail');
+          this.Notification.notify("something wrong!", 'error');
         }
       }
-      this.http.updateItem(`Student/${this.user.id}`, this.informationForm.value).subscribe(observer);
+      if(this.role == "Student") {
+        delete this.informationForm.value.description;
+        delete this.informationForm.value.title;
+        this.http.updateItem(`Student/${this.user.id}`, this.informationForm.value).subscribe(observer);
+      }
+      else {
+        this.http.updateItem(`Instructor/${this.user.id}`, this.informationForm.value).subscribe(observer);
+      }
     };
   }
 
@@ -137,22 +177,36 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  updatePersonalLinks() {
+  updatePersonalLinks(isImageUpated: boolean = false) {
     if(this.linksForm.valid && this.linksForm.dirty && !this.saving) {
       this.saving = true;
       this.copyLinksDataToUserAccounts();
       let observer = {
-        next: (data: any) => {
+        next: (data: APIResponseVM) => {
           if(data.success) {
-            this.saving = false;
-            this.LocaStorageService.updateUserInfo(this.user);
+            this.user.accounts = data.items
+            this.LocalStorageService.updateUserInfo(this.user);
+            if(isImageUpated) {
+              this.uploadImage();
+            }
+            else {
+              this.saving = false;
+            }
           }
         },
         complete: () => {
-          this.Notification.notify("Save!")
+          if(!isImageUpated) {
+            this.Notification.notify("Save!")
+          }
         },
         error: () => {
-          this.Notification.notify("something wrong!", 'fail');
+          this.Notification.notify("something wrong!", 'error');
+        }
+      }
+      //To remove links that have not any id in DB
+      for(let i = 0; i < this.user.accounts.length; i++) {
+        if(this.user.accounts[i].accountDomain == null) {
+          this.user.accounts.splice(i, 1);
         }
       }
       this.http.updateItem(`UserAccount/Accounts`, {userId: this.user.id, userAccounts: this.user.accounts}).subscribe(observer);
@@ -163,6 +217,44 @@ export class ProfileComponent implements OnInit {
   private copyBasicsDataToUser() {
     for(let property in this.informationForm.value) {
       this.user[property] = this.informationForm.value[property];
+    }
+  }
+
+  changeImage(e: any) {
+    const file = e.target.files[0];
+    if(file?.type.includes('image')) {
+      this.previewImage(file)
+    }
+  }
+
+  private previewImage(file: File) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.user.profilePicture = reader.result;
+      this.imageData.append('ProfilePictureFile', file, file.name);
+      this.newImage = true;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  uploadImage() {
+    if(this.newImage) {
+      this.saving = true;
+      let observer = {
+        next: (data: any) => {
+          if(data.success) {
+            this.LocalStorageService.updateUserInfo(this.user)
+            this.saving = false;
+          }
+        },
+        complete: () => {
+          this.Notification.notify("Saved!");
+        },
+        error: () => {
+          this.Notification.notify("Something wrong occur", "error");
+        }
+      }
+      this.http.addItem(`${this.role}/UploadImage?id=${this.user.id}`, this.imageData).subscribe(observer);
     }
   }
 

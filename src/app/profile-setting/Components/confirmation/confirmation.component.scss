@@ -1,0 +1,112 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+
+
+form {
+  div {
+    position: relative;
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 2px solid $blackColor;
+      font-size: 18px;
+      border-radius: 6px;
+      -webkit-border-radius: 6px;
+      -moz-border-radius: 6px;
+      -ms-border-radius: 6px;
+      -o-border-radius: 6px;
+
+      &::placeholder {
+        color: $blackColor
+      }
+
+      &:read-only {
+        color: rgba(0, 0, 0, 0.248);
+        border-color:rgba(0, 0, 0, 0.248);
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    svg {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      -webkit-transform: translateY(-50%);
+      -moz-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      -o-transform: translateY(-50%);
+    }
+  }
+
+  .btns {
+    > * {
+      font-family: 'Cabin';
+      font-size: 18px;
+    }
+    .ok {
+      background-color: red;
+      color: white;
+      &.send {
+        display: block;
+        position: relative;
+        opacity: 0.7;
+        box-shadow: none;
+        cursor: not-allowed;
+        &:active {
+          transform: translate(0px, 0px);
+          -webkit-transform: translate(0px, 0px);
+          -moz-transform: translate(0px, 0px);
+          -ms-transform: translate(0px, 0px);
+          -o-transform: translate(0px, 0px);
+        }
+
+        span {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 5px;
+          &::after {
+            content: "";
+            width: 20px;
+            height: 20px;
+            border: 3px solid white;
+            border-left: 3px solid transparent;
+            animation-name: load;
+            animation-timing-function: linear;
+            animation-duration: 0.7s;
+            animation-iteration-count: infinite;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes load {
+  0% {
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(350deg);
+    -webkit-transform: rotate(350deg);
+    -moz-transform: rotate(350deg);
+    -ms-transform: rotate(350deg);
+    -o-transform: rotate(350deg);
+  }
+}

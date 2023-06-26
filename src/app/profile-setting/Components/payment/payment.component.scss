@@ -1,0 +1,109 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+
+
+section {
+  h2 {
+    @include style-font($font-cabin, 36px, 124.04%, $blackColor);
+    font-weight: bold;
+    margin-bottom: 24px;
+  }
+
+  .methods {
+    @include style-font($font-cabin, 24px, 124.04%, $blackColor);
+    padding: 18px 24px;
+    border: 1px solid $blackColor;
+
+    input[type="radio"] {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #000;
+      padding: 5px;
+      position: relative;
+      cursor: pointer;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 10px;
+        height: 10px;
+        background-color: #000;
+        border-radius: 50%;
+        display: none;
+      }
+
+      &:checked::before {
+        display: block;
+      }
+    }
+  }
+
+  .new-method {
+    cursor: pointer;
+    width: fit-content;
+    margin: 24px 0 40px;
+    @include style-font($font-cabin, 16px, 124.04%, $blackColor);
+  }
+
+  .btns {
+    width: fit-content;
+    margin-left: auto;
+
+    .profile {
+      @include custom-button($mainColorLight,$blackColor,$blackColor,22px);
+      margin-right: 20px;
+      padding-top: 7px;
+      padding-bottom: 7px;
+    }
+
+    .save {
+      @include custom-button($greenColor,$blackColor,$blackColor, 22px);
+      padding-top: 7px;
+      padding-bottom: 7px;
+      &.send {
+        position: relative;
+        padding: 7px 9px;
+        opacity: 0.7;
+        box-shadow: none;
+        cursor: not-allowed;
+        &:active {
+          transform: translate(0px, 0px);
+          -webkit-transform: translate(0px, 0px);
+          -moz-transform: translate(0px, 0px);
+          -ms-transform: translate(0px, 0px);
+          -o-transform: translate(0px, 0px);
+        }
+
+        span {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 5px;
+          &::after {
+            content: "";
+            width: 20px;
+            height: 20px;
+            border: 3px solid black;
+            border-left: 3px solid transparent;
+            animation-name: load;
+            animation-timing-function: linear;
+            animation-duration: 0.7s;
+            animation-iteration-count: infinite;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+          }
+        }
+      }
+    }
+}
+}

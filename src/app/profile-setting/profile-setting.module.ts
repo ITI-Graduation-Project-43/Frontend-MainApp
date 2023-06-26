@@ -11,12 +11,10 @@ import { NotificationsComponent } from './Components/notifications/notifications
 import { CloseAccoutComponent } from './Components/close-accout/close-accout.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DeactivateAccoutComponent } from './Components/deactivate-accout/deactivate-accout.component';
-import { ConfirmCloseAccountComponent } from './Components/confirm-close-account/confirm-close-account.component';
 import { ConfirmationComponent } from './Components/confirmation/confirmation.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-
+import { MatButtonModule } from '@angular/material/button';
+import { CheckoutModule } from '../Checkout/checkout.module';
 
 
 @NgModule({
@@ -29,7 +27,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     NotificationsComponent,
     CloseAccoutComponent,
     DeactivateAccoutComponent,
-    ConfirmCloseAccountComponent,
     ConfirmationComponent,
   ],
   imports: [
@@ -38,8 +35,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     ProfileSettingRoutingModule,
     ReactiveFormsModule,
     MatDialogModule,
-    // MatDatepickerModule,
-    // MatNativeDateModule,
+    MatButtonModule,
+    CheckoutModule
   ]
 })
 export class ProfileSettingModule { }

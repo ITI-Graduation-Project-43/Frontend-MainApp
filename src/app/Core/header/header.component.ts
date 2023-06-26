@@ -6,6 +6,8 @@ import { APIService } from 'src/app/Shared/Services/api.service';
 import { NotificationService } from './../../Shared/Services/notification.service';
 import { LocalStorageService } from './../../Shared/Helper/local-storage.service';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
 
 @Component({
   selector: 'app-header',
@@ -28,14 +30,14 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     private LocalStorageService: LocalStorageService
   ) {
     this.numberOfCourses = this.cartService.getItems().length;
-    this.checkLogin();
+    this.getUser();
   }
 
   ngOnInit(): void {
     let obvserverLogin = {
       next: (data: any) => {
         if (data.message == 'login') {
-          this.checkLogin();
+          this.getUser();
           if (this.Role == 'Student') {
             this.router.navigateByUrl('/home');
           }
@@ -43,9 +45,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
             this.router.navigateByUrl('/instructor');
           }
         }
+        if(data.message == 'Your account has been deleted, Goodbye' || data.message == 'Your account has been deactivated, see you soon') {
+          this.signout();
+        }
       },
-      error: (error: Error) => {
-        console.log(error);
+      error: () => {
+        this.NotificationService.notify("Something wrong during load the page content");
       },
     };
     this.NotificationService.notifications.subscribe(obvserverLogin);
@@ -57,11 +62,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
           this.ngAfterViewInit();
         }
       },
-      complete: () => {
-        // console.log("Complete");
-      },
-      error: (error: Error) => {
-        console.log(error);
+      error: () => {
+        this.NotificationService.notify("Something wrong during load the page content");
       },
     };
     this.cartService.getNewItem().subscribe(obvserver);
@@ -74,6 +76,23 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       this.Id = user.Id;
       this.Role = user.Role;
       this.User = user.FullName;
+    }
+  }
+
+  getUser(): void {
+    this.checkLogin()
+    if(this.login) {
+      let obvserver = {
+        next: (data: APIResponseVM) => {
+          if(data.success) {
+            this.LocalStorageService.updateUserInfo(data.items[0])
+          }
+        },
+        error: (error: Error) => {
+          console.log(error.message);
+        }
+      }
+      this.http.getItemById(`${this.Role}`, this.Id).subscribe(obvserver)
     }
   }
 
@@ -102,8 +121,13 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   signout() {
     this.login = false;
     this.Id = this.Role = '';
+    this.numberOfCourses = 0;
+    this.cartService.clearCart();
     localStorage.removeItem('MindMission');
     localStorage.removeItem('cart')
-    this.numberOfCourses = 0;
+    localStorage.removeItem('privacy')
+    localStorage.removeItem('creditCard')
+    localStorage.removeItem('notifications')
+    this.router.navigateByUrl("/login");
   }
 }

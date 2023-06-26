@@ -1,9 +1,9 @@
-<section class="bg-mainColorLight px-3 py-75">
+<section [ngClass]="{'bg-mainColorLight px-3 py-75': true, 'instructor-style': role == 'Instructor'}">
   <div class="container-fluid bg-white p-4">
     <h1>Setting</h1>
-    <div class="d-flex gap-4 align-items-start">
+    <div class="d-flex gap-4 align-items-start content">
       <aside>
-        <picture>
+        <picture *ngIf="role != 'Instructor'">
           <img [src]="User.profilePicture" alt="">
           <input type="file" [ngClass]="{'newImage': true, 'd-none': send}" name="newImage" accept="image/*" (change)="changeImage($event)">
           <span [ngClass]="{'overlayer': true, 'active': send}">
@@ -17,30 +17,16 @@
           <span [ngClass]="{'loader': true, 'active': send}"></span>
         </picture>
         <ul>
-          <li>
-            <a routerLink="profile" routerLinkActive="active">Profile</a>
-          </li>
-          <li>
-            <a routerLink="security" routerLinkActive="active">Security</a>
-          </li>
-          <li>
-            <a routerLink="payment" routerLinkActive="active">Payment</a>
-          </li>
-          <li>
-            <a routerLink="privacy" routerLinkActive="active">Privacy</a>
-          </li>
-          <li>
-            <a routerLink="notifications" routerLinkActive="active">Notifications</a>
-          </li>
-          <li>
-            <a routerLink="deactivateaccount" routerLinkActive="active">Deactivate Account</a>
-          </li>
-          <li>
-            <a routerLink="closeaccount" routerLinkActive="active">Close Account</a>
-          </li>
+          <li routerLink="profile" routerLinkActive="active">Profile</li>
+          <li routerLink="security" routerLinkActive="active">Security</li>
+          <li routerLink="payment" routerLinkActive="active">Payment</li>
+          <li *ngIf="role != 'Instructor'" routerLink="privacy" routerLinkActive="active">Privacy</li>
+          <li *ngIf="role != 'Instructor'" routerLink="notifications" routerLinkActive="active">Notifications</li>
+          <li routerLink="deactivateaccount" routerLinkActive="active">Deactivate Account</li>
+          <li routerLink="closeaccount" routerLinkActive="active">Close Account</li>
         </ul>
       </aside>
-      <div>
+      <div class="router-outlet">
         <router-outlet></router-outlet>
       </div>
     </div>

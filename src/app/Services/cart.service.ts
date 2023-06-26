@@ -80,4 +80,8 @@ export class ShoppingCartService {
     localStorage.setItem('cart', JSON.stringify(this.cartItems));
     this.checkoutService.setOrderdItems();
   }
+
+  clearCart(): void {
+    this.cartItems = []
+  }
 }

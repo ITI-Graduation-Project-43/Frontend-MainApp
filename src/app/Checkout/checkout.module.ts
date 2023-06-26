@@ -29,7 +29,7 @@ import { CourseCouponComponent } from './Components/course-coupon/course-coupon.
     FormsModule,
     ReactiveFormsModule,
     RouterModule
-
-  ]
+  ],
+  exports: [PaymentMethodComponent]
 })
 export class CheckoutModule { }

@@ -116,15 +116,13 @@ section {
           @include style-font($font-cabin, 24px, 124.04%, $blackColor);
           list-style: none;
           padding: 15px 0;
+          cursor: pointer;
 
           &:not(:last-child) {
             border-bottom: 1px solid #ccc;
           }
 
-          a.active {
-            // color: $blackColor;
-            display: inline-block;
-            vertical-align: middle;
+          &.active {
             font-weight: bold;
           }
         }
@@ -133,6 +131,74 @@ section {
 
     div {
       flex: 1;
+    }
+  }
+
+}
+
+.instructor-style {
+  padding: 50px 0 0 !important;
+  background-color: black;
+
+  h1 {
+    color: white !important;
+    padding: 0 20px;
+    margin-bottom: 20px !important;
+  }
+  .container-fluid {
+    border: none;
+    padding: 0 !important;
+    background-color: black !important;
+    display: flex;
+    flex-direction: column;
+    .content {
+      flex-direction: column;
+      aside {
+        display: flex;
+        flex-direction: column;
+        background-color: transparent;
+        border: none;
+
+        ul {
+          background-color: $blackColor;
+          order: -1;
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          margin: 0;
+
+          li {
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0;
+            border: none;
+            font-size: 24px;
+            background-color: white;
+            padding: 10px 35px;
+            border-radius: 30px;
+            -webkit-border-radius: 30px;
+            -moz-border-radius: 30px;
+            -ms-border-radius: 30px;
+            -o-border-radius: 30px;
+            transition: 0.3s;
+            -webkit-transition: 0.3s;
+            -moz-transition: 0.3s;
+            -ms-transition: 0.3s;
+            -o-transition: 0.3s;
+            &.active {
+              border: 1px solid $blackColor;
+              background: $secondaryColor;
+              box-shadow: -5px -5px $whiteColor, 5px 5px 0px 1px $blackColor;
+            }
+          }
+        }
+      }
+      .router-outlet {
+        padding: 20px;
+        padding-bottom: 75px;
+        width: 100%;
+        background-color: $mainColorLight;
+      }
     }
   }
 }

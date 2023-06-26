@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {LocalStorageService} from '../Shared/Helper/local-storage.service'
 import { APIService } from '../Shared/Services/api.service';
 import { NotificationService } from '../Shared/Services/notification.service';
@@ -8,17 +8,31 @@ import { NotificationService } from '../Shared/Services/notification.service';
   templateUrl: './profile-setting.component.html',
   styleUrls: ['./profile-setting.component.scss']
 })
-export class ProfileSettingComponent {
+export class ProfileSettingComponent implements OnInit {
   User !: any;
   send : boolean = false;
+  role !: string;
 
   constructor(private http: APIService, private LocalStorageService: LocalStorageService, private Notification: NotificationService) {
     if(this.LocalStorageService.checkTokenExpiration()) {
       this.User = this.LocalStorageService.getUserInfo();
+      this.role = this.LocalStorageService.decodeToken().Role;
       if(this.User.profilePicture == '') {
         this.User.profilePicture = '../../assets/images/user_avater.jpg'
       }
     }
+  }
+
+  ngOnInit(): void {
+    let UpdateUserObserver = {
+      next: (data: any) => {
+        if (data.message == 'new') {
+          this.User = this.LocalStorageService.getUserInfo();
+        }
+      },
+
+    };
+    this.Notification.notifications.subscribe(UpdateUserObserver);
   }
 
   changeImage(e: any) {
@@ -39,10 +53,10 @@ export class ProfileSettingComponent {
             this.Notification.notify("The image is updated successfully");
           },
           error: () => {
-            this.Notification.notify("Something wrong occur", "fail");
+            this.Notification.notify("Something wrong occur", "error");
           }
         }
-        this.http.addItem(`Student/UploadImage?id=${this.User.id}`, imageData).subscribe(observer);
+        this.http.addItem(`${this.role}/UploadImage?id=${this.User.id}`, imageData).subscribe(observer);
       }
   }
 }

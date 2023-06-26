@@ -16,7 +16,8 @@ export class CourseCardComponent {
   }
 
   rating(number: number): number[] {
-    return Array(+number.toFixed());
+    // return Array(+number?.toFixed());
+    return [1];
   }
 
   AddToCart(course: Course) {

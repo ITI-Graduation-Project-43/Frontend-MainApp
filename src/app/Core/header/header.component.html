@@ -108,7 +108,7 @@
           (click)="showCart()"
           *ngIf="Role != 'Instructor'"
         >
-          <span class="numberOfItems">{{ numberOfCourses }}</span>
+          <span [ngClass]="{'numberOfItems': true, 'd-none': numberOfCourses == 0}">{{ numberOfCourses }}</span>
           <svg
             width="30"
             height="27"

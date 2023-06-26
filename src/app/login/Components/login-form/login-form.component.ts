@@ -31,6 +31,7 @@ export class LoginFormComponent {
   get email() {
     return this.loginForm.get('email')
   }
+
   get password() {
     return this.loginForm.get('password')
   }
@@ -47,7 +48,9 @@ export class LoginFormComponent {
             let decodedToken = this.helper.decodeToken(token);
             this.Id = decodedToken.Id;
             this.Role = decodedToken.Role;
-            this.getUser(token);
+            let encryptedUserData = CryptoJS.AES.encrypt(JSON.stringify({User: {}, Token: token}), environment.secretKey).toString();
+            localStorage.setItem('MindMission', encryptedUserData);
+            this.NotificationService.notify("login");
             submit.classList.remove("send");
             this.loging = false;
           }
@@ -59,6 +62,7 @@ export class LoginFormComponent {
           }
         },
         error: () => {
+          this.wrongEmailOrPassword = true;
           submit.classList.remove("send");
           this.loging = false;
         }
@@ -68,22 +72,6 @@ export class LoginFormComponent {
     else {
       this.loginForm.markAllAsTouched();
     }
-  }
-
-  getUser(token: any): void {
-    let obvserver = {
-      next: (data: any) => {
-        if(data) {
-          let encryptedUserData = CryptoJS.AES.encrypt(JSON.stringify({User: data.items[0], Token: token}), environment.secretKey).toString();
-          localStorage.setItem('MindMission', encryptedUserData);
-          this.NotificationService.notify("login");
-        }
-      },
-      error: (error: Error) => {
-        console.log(error.message);
-      }
-    }
-    this.http.getItemById(`${this.Role}`, this.Id).subscribe(obvserver)
   }
 
   showPassword(password: any): void {

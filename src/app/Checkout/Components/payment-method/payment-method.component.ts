@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { alphaNames, checkExpiryDate, onlyDigits } from '../../Helper/customValidations';
 import { CheckoutService } from '../../Services/checkout.service';
@@ -8,15 +8,19 @@ import { CheckoutService } from '../../Services/checkout.service';
   templateUrl: './payment-method.component.html',
   styleUrls: ['./payment-method.component.scss']
 })
-export class PaymentMethodComponent implements OnInit {
-  constructor(public checkoutService:CheckoutService) { }
+export class PaymentMethodComponent implements OnInit/*, OnChanges*/ {
   creditCardForm: string = '';
   showForm: boolean = false;
+  @Output() FormData: EventEmitter<any> = new EventEmitter<any>();
+  @Output() FormOpen: EventEmitter<any> = new EventEmitter<any>();
 
+  constructor(public checkoutService:CheckoutService)  {
+  }
 
   ngOnInit(): void {
     this.setCreditCardFormValidations();
     this.checkSavedCard();
+    this.onFormValid()
   }
 
   setCreditCardFormValidations() {
@@ -25,7 +29,7 @@ export class PaymentMethodComponent implements OnInit {
       cardNumber: ['', [Validators.required, onlyDigits, Validators.minLength(16), Validators.maxLength(16)]],
       expiryDate: ['', [Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/([0-9]{2})$/), checkExpiryDate]],
       cvc: ['', [Validators.required, onlyDigits, Validators.minLength(3), Validators.maxLength(3)]],
-      saveCard: [false]
+      saveCard: ['']
     })
   }
 
@@ -38,7 +42,8 @@ export class PaymentMethodComponent implements OnInit {
         nameOnCard : savedCardObj.nameOnCard,
         cardNumber : savedCardObj.cardNumber,
         expiryDate : savedCardObj.expiryDate,
-        cvc : savedCardObj.cvc
+        cvc : savedCardObj.cvc,
+        saveCard: savedCardObj.saveCard
       })
     }
   }
@@ -59,17 +64,31 @@ export class PaymentMethodComponent implements OnInit {
     return this.checkoutService.creditCardReactiveForm.get('saveCard');
   }
 
-
-
   showCreditCardForm() {
     switch (this.creditCardForm) {
-      case 'creditcard':
+      case "creditcard":
         this.showForm = true;
         break;
 
-      case 'paypal':
+      case "paypal":
         this.showForm = false;
         break;
+    }
+    this.onOpenMethod();
+  }
+
+  onFormValid() {
+    if(this.checkoutService.creditCardReactiveForm.valid) {
+      this.FormData.emit(this.checkoutService.creditCardReactiveForm.value);
+    }
+  }
+
+  onOpenMethod() {
+    if(this.showForm) {
+      this.FormOpen.emit(true);
+    }
+    else {
+      this.FormOpen.emit(false);
     }
   }
 }

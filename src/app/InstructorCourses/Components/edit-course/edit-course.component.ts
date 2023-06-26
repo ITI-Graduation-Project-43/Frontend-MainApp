@@ -5,6 +5,7 @@ import { Language } from 'src/app/Models/Enums/CourseLanguage';
 import { Level } from 'src/app/Models/Enums/CourseLevel';
 import { Category } from 'src/app/Models/category';
 import { mapEnumValue } from 'src/app/Shared/Helper/EnumMapper';
+import { LocalStorageService } from 'src/app/Shared/Helper/local-storage.service';
 import { APIService } from 'src/app/Shared/Services/api.service';
 import { NotificationService } from 'src/app/Shared/Services/notification.service';
 import { UploadService } from 'src/app/Shared/Services/upload.service';
@@ -34,11 +35,12 @@ export class EditCourseComponent implements OnInit {
     private router: Router,
     private notification: NotificationService,
     private route: ActivatedRoute,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private localstorageService: LocalStorageService
   ) {
     this.CreateCourse = this.fb.group({
       id: [this.courseId],
-      instructorId: ['aa8dc98a-af68-4c68-8d65-99106ba0cda7'],
+      instructorId: [this.localstorageService.decodeToken().Id],
       title: ['', Validators.required],
       shortDescription: ['', Validators.required],
       description: ['', Validators.required],

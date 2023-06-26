@@ -9,6 +9,7 @@ import { Language } from '../../../Models/Enums/CourseLanguage';
 import { Level } from '../../../Models/Enums/CourseLevel';
 import { NotificationService } from 'src/app/Shared/Services/notification.service';
 import { UploadService } from 'src/app/Shared/Services/upload.service';
+import { LocalStorageService } from 'src/app/Shared/Helper/local-storage.service';
 
 @Component({
   selector: 'app-create-course',
@@ -30,10 +31,11 @@ export class CreateCourseComponent implements OnInit {
     private apiService: APIService,
     private router: Router,
     private notification: NotificationService,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private localstorageService: LocalStorageService
   ) {
     this.CreateCourse = this.fb.group({
-      instructorId: ['aa8dc98a-af68-4c68-8d65-99106ba0cda7'],
+      instructorId: [this.localstorageService.decodeToken().Id],
       title: ['', Validators.required],
       shortDescription: ['', Validators.required],
       description: ['', Validators.required],
@@ -60,6 +62,7 @@ export class CreateCourseComponent implements OnInit {
         }),
       ]),
     });
+    console.log(this.localstorageService.decodeToken());
   }
   ngOnInit(): void {
     this.apiService

@@ -2,7 +2,9 @@
 <div class="Dashboard-body">
   <div class="upload-container">
     <div class="new-course-text">Upload a new course</div>
-    <button class="upload-btn">Upload</button>
+    <button class="upload-btn">
+      <a [routerLink]="['/createCourse/step1']" routerLinkActive="router-link-active">upload</a>
+    </button>
   </div>
   <div class="course-student">
     <app-course-traffic

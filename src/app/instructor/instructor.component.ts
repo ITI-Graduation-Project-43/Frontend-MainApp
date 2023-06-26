@@ -3,6 +3,7 @@ import { FeedbackService } from '../Services/feedback.service';
 import { APIResponseVM } from '../Shared/ViewModels/apiresponse-vm';
 import { InstructorService } from '../Services/instructor.service';
 import { Router } from '@angular/router';
+import { LocalStorageService } from '../Shared/Helper/local-storage.service';
 
 @Component({
   selector: 'app-instructor',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./instructor.component.scss'],
 })
 export class InstructorComponent implements OnInit {
-  instructorId: string = '4ae72bce-ddd7-45da-ac42-780deb784c9d';
+  instructorId: string = '';
   instructor: any[] = [];
   instructorFeedbacks: any[] = [];
   instructorCourses: any[] = [];
@@ -22,8 +23,11 @@ export class InstructorComponent implements OnInit {
   constructor(
     private instructorService: InstructorService,
     private feedbackService: FeedbackService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private localstorageService: LocalStorageService
+  ) {
+    this.localstorageService.decodeToken().Id;
+  }
 
   ngOnInit() {
     this.loadInstructorFeedback();

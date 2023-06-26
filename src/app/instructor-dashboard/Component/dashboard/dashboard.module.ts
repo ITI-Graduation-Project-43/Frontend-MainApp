@@ -6,6 +6,7 @@ import { OverviewComponent } from '../overview/overview.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [DashboardComponent, CourseTrafficComponent, OverviewComponent],
@@ -14,6 +15,7 @@ import { FormsModule } from '@angular/forms';
     NgApexchartsModule,
     DashboardRoutingModule,
     FormsModule,
+    RouterModule
   ],
 })
 export class DashboardModule {}

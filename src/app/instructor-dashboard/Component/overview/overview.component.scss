@@ -45,7 +45,7 @@
     font-weight: 700;
   }
   h3 {
-    @include style-font("Cabin", 16px, 5px, $whiteColor);
+    @include style-font("Cabin", 16px, 20px, $whiteColor);
     text-align: left;
     font-weight: 700;
   }

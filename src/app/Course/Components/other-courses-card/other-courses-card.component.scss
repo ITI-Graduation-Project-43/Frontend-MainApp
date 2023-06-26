@@ -18,9 +18,14 @@
     .course-cards{
       @include style-display-row(24px, 0);
       flex-wrap: wrap;
-
+      .course-card-container {
+        display: flex;
+        height: 620px;
+      }
       .course-card{
+        flex: 1;
         @include course-card;
+        justify-content: space-between;
         width: 402px;
         cursor: pointer;
         .course-image{

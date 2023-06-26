@@ -13,9 +13,11 @@ export class StudentFeedbackComponent implements OnInit {
   @Input() loading: boolean = true;
 
   courseFeedbacks: CourseFeedback[] = [];
+  allFeedbacks: CourseFeedback[] = [];
   pageNumber: number = 1;
   pageSize: number = 3;
-  totalSize: number = 4;
+  totalSize: number = 0;
+  showAll: boolean = false;
 
   constructor(private feedbackService: FeedbackService) {}
 
@@ -33,11 +35,9 @@ export class StudentFeedbackComponent implements OnInit {
             Array.isArray(data.items) &&
             data.items.length > 0
           ) {
-            this.courseFeedbacks = [
-              ...this.courseFeedbacks,
-              ...(data.items as CourseFeedback[]),
-            ];
-            console.log(this.courseFeedbacks);
+            this.courseFeedbacks = [...this.courseFeedbacks, ...data.items];
+            this.allFeedbacks = [...this.allFeedbacks, ...data.items];
+            this.totalSize = data.totalPages * data.itemsPerPage;
           }
         },
         (error) => {
@@ -47,7 +47,47 @@ export class StudentFeedbackComponent implements OnInit {
   }
 
   loadMoreFeedbacks() {
-    this.pageNumber++;
-    this.loadCourseFeedback();
+    if (!this.showAll) {
+      this.pageNumber++;
+      if (this.pageNumber * this.pageSize > this.allFeedbacks.length) {
+        this.loadCourseFeedback();
+      } else {
+        this.courseFeedbacks = this.allFeedbacks.slice(
+          0,
+          this.pageSize * this.pageNumber
+        );
+      }
+    } else {
+      this.pageNumber--;
+      if (this.pageNumber < 1) this.pageNumber = 1;
+      this.courseFeedbacks = this.allFeedbacks.slice(
+        0,
+        this.pageSize * this.pageNumber
+      );
+      if (this.pageNumber === 1) this.showAll = false;
+    }
+  }
+
+  showViewMoreButton(): boolean {
+    if (!this.showAll) {
+      const currentPageSize =
+        (this.pageNumber - 1) * this.pageSize + this.courseFeedbacks.length;
+      if (currentPageSize < this.totalSize) {
+        return true;
+      } else {
+        this.showAll = true;
+        return this.showAll;
+      }
+    } else {
+      return true;
+    }
+  }
+
+  getShowMoreButtonText(): string {
+    return this.showAll ? 'Show Less' : 'Show More';
+  }
+
+  getStarArray(rating: number): number[] {
+    return Array(Math.floor(rating)).fill(0);
   }
 }

@@ -5,7 +5,6 @@ import { Student } from 'src/app/Models/student';
 import { ShoppingCartService } from 'src/app/Services/cart.service';
 import { CourseService } from 'src/app/Services/course.service';
 import { NotificationService } from 'src/app/Shared/Services/notification.service';
-import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
 
 @Component({
   selector: 'app-course-card',
@@ -22,8 +21,11 @@ export class CourseCardComponent implements OnInit {
     private shoppingCartService: ShoppingCartService,
     private notificationService: NotificationService,
     public courseService: CourseService
-  ) { }
+  ) {}
 
+  ngOnInit() {
+    this.courseService.checkEnrolledIn();
+  }
   addCourseToCart(course: Course): void {
     try {
       this.shoppingCartService.addItem(course);
@@ -32,10 +34,4 @@ export class CourseCardComponent implements OnInit {
       this.notificationService.notify(error.message, 'error');
     }
   }
-
-  ngOnInit() {
-    this.courseService.checkEnrolledIn();
-  }
-
-  
 }

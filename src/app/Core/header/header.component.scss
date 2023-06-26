@@ -4,7 +4,7 @@
 .navbar {
   background-color: $mainColorLight;
   font-size: $fs-24;
-
+  padding: 24px 40px;
   &.dark-background {
     background-color: $blackColor;
     * {

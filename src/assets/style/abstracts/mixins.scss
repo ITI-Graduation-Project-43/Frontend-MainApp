@@ -62,7 +62,7 @@
 
 @mixin style-display-column ($gap, $padding, $padding2:$padding){
   @extend %flex-column;
-  padding: $padding $padding;
+  padding: $padding $padding2;
   gap: $gap;
 }
 

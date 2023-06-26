@@ -19,7 +19,6 @@ const INITIAL_PAGE_SIZE = 2;
 const INITIAL_PAGE_NUMBER = 1;
 const STUDENTS_NUMBER = 4;
 const DEFAULT_PAGE_SIZE = 4;
-const DEFAULT_TOTAL_PAGES = 9;
 
 @Component({
   selector: 'app-course',
@@ -49,10 +48,10 @@ export class CourseComponent implements OnInit {
     private courseService: CourseService,
     private studentService: StudentService,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit() {
-    document.querySelector(".app-header")?.classList.add("dark-background")
+    document.querySelector('.app-header')?.classList.add('dark-background');
     this.route.params.subscribe((params) => {
       this.courseId = +params['id'];
       this.courseService.courseId = this.courseId;
@@ -102,8 +101,7 @@ export class CourseComponent implements OnInit {
           data.relatedCourses,
           (courses: courseStudents[]) => {
             this.relatedCourses = courses;
-            this.relatedCoursesTotalCount =
-              DEFAULT_TOTAL_PAGES || data.relatedCourses.TotalPages;
+            this.relatedCoursesTotalCount = data.relatedCourses.totalPages;
           }
         );
 
@@ -133,8 +131,7 @@ export class CourseComponent implements OnInit {
         (data) =>
           this.handleResponse(data, (courses: courseStudents[]) => {
             this.instructorCourses = courses;
-            this.instructorCoursesTotalCount =
-              DEFAULT_TOTAL_PAGES || data.TotalPages;
+            this.instructorCoursesTotalCount = data.totalPages;
           }),
         (error) => {
           this.handleError(error);

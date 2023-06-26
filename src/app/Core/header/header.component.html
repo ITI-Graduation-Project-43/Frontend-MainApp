@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg px-2 py-3 app-header">
+<nav class="navbar navbar-expand-lg app-header">
   <div class="container-fluid">
     <a class="navbar-brand d-flex flex-column" routerLink="/home">
       <span class="navbar__brand-logo__brand-name">MindMission</span>
@@ -100,7 +100,10 @@
           (click)="showCart()"
           *ngIf="Role != 'Instructor'"
         >
-          <span [ngClass]="{'numberOfItems': true, 'd-none': numberOfCourses == 0}">{{ numberOfCourses }}</span>
+          <span
+            [ngClass]="{ numberOfItems: true, 'd-none': numberOfCourses == 0 }"
+            >{{ numberOfCourses }}</span
+          >
           <svg
             width="30"
             height="27"

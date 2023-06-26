@@ -19,7 +19,7 @@
       <div class="ellipse-seperator"></div>
       <div class="course-content-details-item">
         <img src="../../assets/svg/clock.svg" alt="clock icon" />
-        <div>{{ course.noOfHours }} Hours</div>
+        <div>{{ formatHours(course.noOfHours) }}</div>
       </div>
       <div class="ellipse-seperator"></div>
       <div class="course-content-details-item">
@@ -44,7 +44,7 @@
           <div class="chapter-stats">
             <span>{{ chapter.noOfLessons }} Lesson(s)</span>
             <div class="ellipse-seperator"></div>
-            <span>{{ chapter.noOfHours }} Hour(s)</span>
+            <span>{{ formatHours(chapter.noOfHours) }}</span>
           </div>
         </div>
         <div class="course-lessons" *ngIf="chapter.open">
@@ -66,7 +66,7 @@
               </div>
             </div>
             <div class="lesson-stats">
-              <span>{{ lesson.noOfHours }} Hour(s)</span>
+              <span>{{ formatHours(lesson.noOfHours) }}</span>
             </div>
           </div>
         </div>

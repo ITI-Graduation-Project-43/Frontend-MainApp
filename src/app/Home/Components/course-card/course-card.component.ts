@@ -15,9 +15,8 @@ export class CourseCardComponent {
   constructor(private shopCart : ShoppingCartService, private router: Router, private LocalStorageService: LocalStorageService) {
   }
 
-  rating(number: number): number[] {
-    // return Array(+number?.toFixed());
-    return [1];
+  rating(number: number = 1): number[] {
+    return Array(+number?.toFixed());
   }
 
   AddToCart(course: Course) {

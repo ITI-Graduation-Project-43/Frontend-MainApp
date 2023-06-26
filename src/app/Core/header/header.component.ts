@@ -77,6 +77,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       this.Role = user.Role;
       this.User = user.FullName;
     }
+    else {
+      this.router.navigateByUrl("/login");
+    }
   }
 
   getUser(): void {

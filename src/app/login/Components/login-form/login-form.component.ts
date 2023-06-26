@@ -36,10 +36,9 @@ export class LoginFormComponent {
     return this.loginForm.get('password')
   }
 
-  login(e: Event, submit: HTMLElement) {
+  login(e: Event) {
     e.preventDefault();
     if(this.loginForm.valid && !this.loging) {
-      submit.classList.add("send");
       this.loging = true;
       let observer = {
         next: (data: any) => {
@@ -51,19 +50,16 @@ export class LoginFormComponent {
             let encryptedUserData = CryptoJS.AES.encrypt(JSON.stringify({User: {}, Token: token}), environment.secretKey).toString();
             localStorage.setItem('MindMission', encryptedUserData);
             this.NotificationService.notify("login");
-            submit.classList.remove("send");
             this.loging = false;
           }
           else {
             this.wrongEmailOrPassword = true;
             this.loginForm.markAllAsTouched();
-            submit.classList.remove("send");
             this.loging = false;
           }
         },
         error: () => {
           this.wrongEmailOrPassword = true;
-          submit.classList.remove("send");
           this.loging = false;
         }
       }

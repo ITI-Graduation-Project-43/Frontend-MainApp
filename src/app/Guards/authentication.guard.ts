@@ -14,6 +14,7 @@ export class AuthenticationGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     if(this.LocalStorageService.checkTokenExpiration()) {
+      this.router.navigateByUrl("/home");
       return true
     }
     else {

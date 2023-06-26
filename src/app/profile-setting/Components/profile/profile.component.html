@@ -105,7 +105,8 @@
       </ng-container>
     </div>
     <div class="btns">
-      <a routerLink="/studentDetails" class="profile">View public profile</a>
+      <a *ngIf="role == 'Student'" routerLink="/studentDetails" class="profile">View public profile</a>
+      <a *ngIf="role == 'Instructor'" routerLink="/studentDetails" class="profile">View public profile</a>
       <button type="submit" class="save" [ngClass]="{'send': saving}">
         <span>Save</span>
       </button>

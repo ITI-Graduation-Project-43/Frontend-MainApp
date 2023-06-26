@@ -45,6 +45,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
             this.router.navigateByUrl('/instructor');
           }
         }
+        if(data.message == 'newName') {
+          this.User = this.LocalStorageService.getUserInfo().firstName;
+
+        }
         if(data.message == 'Your account has been deleted, Goodbye' || data.message == 'Your account has been deactivated, see you soon') {
           this.signout();
         }

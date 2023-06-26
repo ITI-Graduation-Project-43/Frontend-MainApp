@@ -147,6 +147,7 @@ export class ProfileComponent implements OnInit {
           }
         },
         complete: () => {
+          this.Notification.notify("newName", "hide");
           if(!isLinksUpdated && !isImageUpated) {
             this.Notification.notify("Save!")
           }

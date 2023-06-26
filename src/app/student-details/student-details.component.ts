@@ -19,6 +19,7 @@ export class StudentDetailsComponent implements OnInit {
   constructor(private studentService: StudentService) {}
 
   ngOnInit() {
+    document.querySelector(".app-header")?.classList.add("dark-background")
     this.loadStudentCourses();
     this.studentService
       .getAllCourses(this.studentId)

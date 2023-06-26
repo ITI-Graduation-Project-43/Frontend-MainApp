@@ -5,7 +5,7 @@ import { CreateChapterLessonComponent } from './Components/create-chapter-lesson
 import { CreationDoneComponent } from './Components/creation-done/creation-done.component';
 
 const routes: Routes = [
-  { path: '', component: CreateCourseComponent },
+  { path: 'step1', component: CreateCourseComponent },
   { path: 'step2', component: CreateChapterLessonComponent },
   { path: 'step3', component: CreationDoneComponent },
 ];

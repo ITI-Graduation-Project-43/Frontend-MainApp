@@ -52,6 +52,7 @@ export class CourseComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    document.querySelector(".app-header")?.classList.add("dark-background")
     this.route.params.subscribe((params) => {
       this.courseId = +params['id'];
       this.courseService.courseId = this.courseId;

@@ -47,7 +47,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         }
         if(data.message == 'newName') {
           this.User = this.LocalStorageService.getUserInfo().firstName;
-
         }
         if(data.message == 'Your account has been deleted, Goodbye' || data.message == 'Your account has been deactivated, see you soon') {
           this.signout();
@@ -80,9 +79,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       this.Id = user.Id;
       this.Role = user.Role;
       this.User = user.FullName;
-    }
-    else {
-      this.router.navigateByUrl("/login");
     }
   }
 

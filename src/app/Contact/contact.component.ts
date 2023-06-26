@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./contact.component.scss']
 })
 export class ContactComponent {
-
+  constructor() {
+    document.querySelector(".app-header")?.classList.remove("dark-background")
+  }
 }

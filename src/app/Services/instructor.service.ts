@@ -1,6 +1,5 @@
 import { Observable, catchError, retry } from 'rxjs';
 import { Injectable } from '@angular/core';
-
 import { environment } from 'src/environments/environment';
 import { APIResponseVM } from '../Shared/ViewModels/apiresponse-vm';
 import { APIService } from '../Shared/Services/api.service';

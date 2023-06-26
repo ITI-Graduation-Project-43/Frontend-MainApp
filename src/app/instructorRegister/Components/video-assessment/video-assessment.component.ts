@@ -22,6 +22,7 @@ export class VideoAssessmentComponent {
     this.myForm = this.fb.group({
       assessment: ['', Validators.required],
     });
+    document.querySelector(".app-header")?.classList.remove("dark-background")
   }
   goback() {
     this.router.navigateByUrl('instructorRegister');

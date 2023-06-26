@@ -5,6 +5,52 @@
   background-color: $mainColorLight;
   font-size: $fs-24;
 
+  &.dark-background {
+    background-color: $blackColor;
+    * {
+      color: $whiteColor !important;
+    }
+
+    .nav-item {
+      a {
+        &::after {
+          background-color: $whiteColor;
+        }
+      }
+    }
+
+    .register-button {
+      color: $blackColor !important;
+    }
+
+    .navbar-brand {
+      path {
+        fill: white !important;
+      }
+    }
+
+    .navbar-text {
+      .profile {
+        .options {
+          li {
+            * {
+              color: $blackColor !important;
+            }
+          }
+        }
+        .user-letter {
+          color: $blackColor !important;
+        }
+      }
+    }
+
+    .navbar__cart-icon {
+      path {
+        fill: $whiteColor;
+      }
+    }
+  }
+
   .navbar-brand {
     .navbar__brand-logo {
       &__brand-name{
@@ -18,6 +64,7 @@
   .navbar-toggler {
     box-shadow: none;
   }
+
   a {
     text-decoration: none;
   }
@@ -147,8 +194,8 @@
 
   .navbar__register-btn {
     .register-button {
-      @include custom-button($greenColor,$blackColor,$whiteColor,22px);
-      padding: 7px 22px;
+      @include custom-button($greenColor,$blackColor,$whiteColor,43px);
+      // padding: 7px 22px;
     }
   }
 }

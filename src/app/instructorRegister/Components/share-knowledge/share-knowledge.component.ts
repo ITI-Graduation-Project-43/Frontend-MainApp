@@ -20,6 +20,7 @@ export class ShareKnowledgeComponent {
     this.myForm = this.fb.group({
       teaching: ['', Validators.required],
     });
+    document.querySelector(".app-header")?.classList.remove("dark-background")
   }
 
   onSubmit() {

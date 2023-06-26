@@ -20,6 +20,7 @@ section {
         position: relative;
         padding: 10px;
         font-size: 18px;
+        background-color: $whiteColor;
 
         svg {
           position: absolute;
@@ -102,7 +103,6 @@ section {
         box-shadow: none;
         opacity: 0.7;
         cursor: not-allowed;
-        padding: 7px 10px;
 
         &.active {
           @include custom-button($greenColor,$blackColor,$blackColor, 22px);
@@ -133,7 +133,7 @@ section {
               content: "";
               width: 20px;
               height: 20px;
-              border: 3px solid black;
+              border: 3px solid $blackColor;
               border-left: 3px solid transparent;
               animation-name: load;
               animation-timing-function: linear;

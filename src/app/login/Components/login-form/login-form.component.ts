@@ -21,6 +21,7 @@ export class LoginFormComponent {
   wrongEmailOrPassword : boolean = false;
 
   constructor(private http: APIService, private fb: FormBuilder, private NotificationService: NotificationService) {
+    document.querySelector(".app-header")?.classList.remove("dark-background");
     let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     this.loginForm = fb.group({
       email: ['', [Validators.required, Validators.pattern(emailRegex)]],

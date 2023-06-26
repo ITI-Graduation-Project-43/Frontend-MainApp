@@ -25,7 +25,7 @@ export class StatisticsSectionComponent {
     let obvserver = {
       next: (data: APIResponseVM) : any => {
         if(data) {
-          this.numberOfCoursesAvailable = data.items.length;
+          this.numberOfCoursesAvailable = data.items[0];
         }
       },
       complete: () => {
@@ -35,7 +35,7 @@ export class StatisticsSectionComponent {
         console.log(error);
       }
     }
-    this.http.getAllItem("course").subscribe(obvserver)
+    this.http.getAllItem("course/count").subscribe(obvserver)
   }
 
   ngOnDestroy(): void {

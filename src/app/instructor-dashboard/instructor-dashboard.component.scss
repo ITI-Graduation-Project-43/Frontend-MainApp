@@ -26,7 +26,6 @@
   }
   .upload-btn {
     @include custom-button($greenColor, $blackColor, $blackColor, 43px);
-    max-width: 150px;
 
   }
   @media (max-width: 767px) {

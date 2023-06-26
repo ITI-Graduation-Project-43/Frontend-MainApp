@@ -24,6 +24,14 @@ export class ProfileSettingComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    if(this.role == 'Student') {
+      document.querySelector(".app-header")?.classList.remove("dark-background")
+    }
+    else {
+      document.querySelector(".app-header")?.classList.add("dark-background")
+    }
+
     let UpdateUserObserver = {
       next: (data: any) => {
         if (data.message == 'new') {

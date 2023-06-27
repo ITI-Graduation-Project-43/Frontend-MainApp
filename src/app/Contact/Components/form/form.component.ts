@@ -9,6 +9,7 @@ import { NotificationService } from 'src/app/Shared/Services/notification.servic
 })
 export class FormComponent implements OnInit {
   form: FormGroup;
+  submit: boolean = false;
   constructor(
     private fb: FormBuilder,
     private apiService: APIService,
@@ -23,13 +24,18 @@ export class FormComponent implements OnInit {
   ngOnInit(): void {}
   onSubmit() {
     if (this.form.invalid) {
+      this.notification.notify(
+        'Complete Fields First with Valid data',
+        'error'
+      );
+
       return;
     } else {
+      this.submit = true;
       this.apiService.addItem('Message', this.form.value).subscribe((data) => {
         this.notification.notify('Message has been sent');
-        // Submit the complaint form data to the server
-        console.log('Form submitted successfully:', this.form.value);
         this.form.reset();
+        this.submit = false;
       });
     }
   }

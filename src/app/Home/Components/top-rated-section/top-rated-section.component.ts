@@ -24,7 +24,6 @@ export class TopRatedSectionComponent implements OnInit, OnDestroy {
       next: (data: APIResponseVM) => {
         if(data) {
           this.courses = data.items;
-          console.log(this.courses);
         }
       },
       complete: () => {

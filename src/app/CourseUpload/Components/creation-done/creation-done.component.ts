@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class CreationDoneComponent {
 
+  constructor() {
+    document.querySelector(".app-header")?.classList.remove("dark-background")
+
+  }
 }

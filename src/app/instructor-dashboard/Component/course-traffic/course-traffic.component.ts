@@ -55,7 +55,7 @@ export class CourseTrafficComponent implements OnInit {
     private localStorageService: LocalStorageService
   ) {
 
-    this.instructorId = this.localStorageService.decodeToken().id;
+    this.instructorId = this.localStorageService.decodeToken().Id;
 
     this.chartOptions = {
       series: [

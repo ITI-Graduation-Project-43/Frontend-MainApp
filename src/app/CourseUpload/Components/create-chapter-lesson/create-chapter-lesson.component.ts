@@ -66,6 +66,8 @@ export class CreateChapterLessonComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    document.querySelector(".app-header")?.classList.remove("dark-background")
+
     const storedChapters = localStorage.getItem('chapters');
     if (storedChapters) {
       this.chapters = JSON.parse(storedChapters);

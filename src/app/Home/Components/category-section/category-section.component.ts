@@ -27,7 +27,7 @@ export class CategorySectionComponent {
           console.log(error);
         }
       }
-      this.http.getAllItem("category").subscribe(obvserver)
+      this.http.getAllItem("category/type/0").subscribe(obvserver)
   }
 
   goToCategory(id: number) {

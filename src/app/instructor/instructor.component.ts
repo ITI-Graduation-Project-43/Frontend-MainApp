@@ -26,6 +26,7 @@ export class InstructorComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    document.querySelector(".app-header")?.classList.add("dark-background");
     this.loadInstructorFeedback();
     this.loadInstructorCourses();
     this.instructorService

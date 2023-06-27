@@ -20,8 +20,7 @@ export class CourseService extends APIService {
 
   constructor(
     http: HttpClient,
-    private localStorageService: LocalStorageService,
-    private route: ActivatedRoute
+    private localStorageService: LocalStorageService
   ) {
     super(http);
     if (localStorageService.checkTokenExpiration()) {
@@ -33,6 +32,7 @@ export class CourseService extends APIService {
   }
 
   checkEnrolledIn() {
+    if (!this.studentId || this.studentId < 1) return;
     this.getAllItem(
       `Enrollment/Student/${this.studentId}/Course/${this.courseId}`
     ).subscribe(

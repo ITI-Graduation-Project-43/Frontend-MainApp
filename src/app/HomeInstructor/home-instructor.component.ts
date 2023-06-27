@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./home-instructor.component.scss']
 })
 export class HomeInstructorComponent {
-
+  constructor() {
+    document.querySelector(".app-header")?.classList.remove("dark-background")
+  }
 }

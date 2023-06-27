@@ -52,8 +52,14 @@
     <div class="suggested-courses-section">
       <div class="course-cards">
         <!-- Loop through courses array -->
-        <ng-container *ngFor="let course of courses; let i = index">
-          <div class="course-card" (click)="navigateToCourseDetails(course.courseId)">
+        <div
+          class="course-card-container"
+          *ngFor="let course of courses; let i = index"
+        >
+          <div
+            class="course-card"
+            (click)="navigateToCourseDetails(course.courseId)"
+          >
             <img
               [src]="course.courseImageUrl"
               alt="{{ course.courseTitle + 'image ' }}"
@@ -130,7 +136,7 @@
               <div class="course-price">{{ course.price }} EGP</div>
             </div>
           </div>
-        </ng-container>
+        </div>
         <!-- End of loop -->
       </div>
       <div *ngIf="pageNumber * pageSize < coursesTotalCount">

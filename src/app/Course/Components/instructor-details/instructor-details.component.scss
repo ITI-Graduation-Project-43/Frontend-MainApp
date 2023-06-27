@@ -79,3 +79,9 @@
   height: 2rem;
   max-width: 200px;
 }
+@media screen and (max-width: 800px){
+  .instructor-details-card{
+    flex-direction: column;
+    align-items: center;
+  }
+}

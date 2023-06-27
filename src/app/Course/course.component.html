@@ -9,30 +9,34 @@
 </div>
 
 <div class="course-header-wrapper" *ngIf="!errorMessage">
-  <!--Course Title-->
-  <app-course-title
-    [title]="course.title"
-    [description]="course.shortDescription"
-    [loading]="loading"
-  ></app-course-title>
-
-  <!-- Breadcrumb navigation component -->
-  <app-breadcrumb-navigation
-    [categoryId]="course.categoryId"
-    [categoryName]="course.categoryName"
-    [subCategoryName]="course.subCategoryName"
-    [topicName]="course.topicName"
-    [loading]="loading"
-  >
-  </app-breadcrumb-navigation>
+  <div class="course-header-element course-header-title">
+    <!--Course Title-->
+    <app-course-title
+      [title]="course.title"
+      [description]="course.shortDescription"
+      [loading]="loading"
+    ></app-course-title>
+  </div>
+  <div class="course-header-element course-header-breadcrumb">
+    <!-- Breadcrumb navigation component -->
+    <app-breadcrumb-navigation
+      [categoryId]="course.categoryId"
+      [categoryName]="course.categoryName"
+      [subCategoryName]="course.subCategoryName"
+      [topicName]="course.topicName"
+      [loading]="loading"
+    >
+    </app-breadcrumb-navigation>
+  </div>
 
   <!--Course Card-->
-  <app-course-card
-    class="course-main-card"
-    [course]="course"
-    [studentInCourse]="studentInCourse"
-    [loading]="loading"
-  ></app-course-card>
+  <div class="main-course-card-container" #courseCard>
+    <app-course-card
+      [course]="course"
+      [studentInCourse]="studentInCourse"
+      [loading]="loading"
+    ></app-course-card>
+  </div>
 </div>
 <div class="course-content-wrapper" *ngIf="!errorMessage">
   <!-- What You Will Learn Card -->
@@ -91,5 +95,8 @@
   </other-courses-card>
 
   <!--Course Feedback section-->
-  <app-student-feedback [loading]="loading"></app-student-feedback>
+  <app-student-feedback
+    [loading]="loading"
+    [courseId]="courseId"
+  ></app-student-feedback>
 </div>

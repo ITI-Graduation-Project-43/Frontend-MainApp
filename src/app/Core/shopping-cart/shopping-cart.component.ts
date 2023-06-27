@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ShoppingCartService } from '../../Services/cart.service';
 import { Course } from 'src/app/Models/course';
 import { Observable, of } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -13,7 +14,10 @@ export class ShoppingCartComponent implements OnInit {
   totalPrice: number;
   totalCourses: number;
 
-  constructor(private cartService: ShoppingCartService) {
+  constructor(
+    private cartService: ShoppingCartService,
+    private router: Router
+  ) {
     this.cartItems = of(this.cartService.getItems());
     this.totalCourses = this.cartService.getItems().length;
     this.totalPrice = cartService.calculateTotal();
@@ -43,6 +47,10 @@ export class ShoppingCartComponent implements OnInit {
 
   hideCart() {
     this.cartService.hideCart();
+  }
+  Checkout() {
+    this.hideCart();
+    this.router.navigate(['/checkout']);
   }
 
   removeItem(item: any): void {

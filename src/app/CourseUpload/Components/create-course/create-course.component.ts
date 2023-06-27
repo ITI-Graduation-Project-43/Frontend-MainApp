@@ -65,6 +65,7 @@ export class CreateCourseComponent implements OnInit {
     console.log(this.localstorageService.decodeToken());
   }
   ngOnInit(): void {
+    document.querySelector(".app-header")?.classList.remove("dark-background");
     this.apiService
       .getAllItem('category/type/2')
       .subscribe((data: APIResponseVM) => {

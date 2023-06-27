@@ -23,6 +23,7 @@ section {
 
   .categories {
     .category {
+      cursor: pointer;
       border: 3px solid #ccc;
       &:first-child {
         background-color: $mainColorLight;

@@ -27,7 +27,7 @@
 }
 
 .child-two-child {
-  border: 1px solid black;
+  border: 1px solid $blackColor;
   margin-bottom: 8px;
   padding: 25px;
   display: flex;
@@ -59,13 +59,13 @@
   position: relative;
   width: 150px;
   height: 60px;
-  border: 1px solid black;
+  border: 1px solid $blackColor;
   background: $greenColor;
-  box-shadow: 5px 5px black;
+  box-shadow: 5px 5px $blackColor;
   border-radius: 50px;
   cursor: pointer;
   font-weight: 700;
-  color: black;
+  color: $blackColor;
   text-align: center;
 }
 svg {

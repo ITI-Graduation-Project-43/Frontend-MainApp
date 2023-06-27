@@ -19,6 +19,7 @@
   line-height: 29px;
   max-width: 100%;
   justify-self: center;
+  align-items: center;
   .new-course-text {
     @include style-font("Anton", 36px, 124.04%, $blackColor);
     text-align: left;
@@ -47,7 +48,7 @@
     grid-area: right;
     margin: 1rem;
     h1 {
-      @include style-font("Anton", 36px, 44.65px, $blackColor);
+      @include style-font($font-anton, 36px, 44.65px, $blackColor);
       font-weight: 400;
       font-size: 24px;
       grid-column: 1;
@@ -56,7 +57,7 @@
       background-color: $whiteColor;
       border: 2px solid $blackColor;
       width: 300px;
-      height: 370px;
+      min-height: 370px;
       margin: 38px 0px;
       .recent {
         display: flex;
@@ -65,7 +66,6 @@
         padding: 24px;
         gap: 10px;
         border: 2px solid $blackColor;
-        height: 92px;
         padding: 24px;
         .student-picture {
           img {
@@ -73,11 +73,11 @@
           }
         }
         .student-name {
-          @include style-font("Cabin", 24px, 29.77px, $blackColor);
+          @include style-font($font-cabin, 24px, 29.77px, $blackColor);
           font-weight: 700;
         }
         .student-title {
-          @include style-font("Cabin", 16px, 19.44px, $blackColor);
+          @include style-font($font-cabin, 16px, 19.44px, $blackColor);
           font-weight: 700;
         }
       }

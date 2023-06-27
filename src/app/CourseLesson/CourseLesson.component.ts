@@ -47,29 +47,37 @@ export class CourseLessonComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    document.querySelector(".app-header")?.classList.add("dark-background")
+    document.querySelector('.app-header')?.classList.add('dark-background');
 
     this.loading = true;
     this.route.params.subscribe((params) => {
       this.courseId = +params['courseId'];
       this.lessonId = +params['lessonId'];
-      this.loadCourseContent();
+      this.loadChapters();
     });
-  }
-
-  loadCourseContent() {
-    this.loadChapters();
-    this.loadLesson();
   }
 
   loadChapters() {
     this.courseService.getItemById(CHAPTER_BY_COURSE, this.courseId).subscribe(
-      (data) => this.handleChaptersResponse(data),
+      (data) => {
+        this.handleChaptersResponse(data);
+        this.loadLesson();
+      },
       (error) => this.handleError(error)
     );
   }
 
   loadLesson() {
+    if (!this.lessonId || this.lessonId === -1) {
+      const firstLesson = this.chapters[0]?.lessons[0];
+      if (firstLesson) {
+        this.lessonId = firstLesson.id;
+      } else {
+        this.errorMessage = 'No lessons available.';
+        this.loading = false;
+        return;
+      }
+    }
     if (this.lessonId) {
       this.courseService.getItemById(LESSON_API_ROUTE, this.lessonId).subscribe(
         (data) => this.handleLessonResponse(data),
@@ -175,6 +183,15 @@ export class CourseLessonComponent implements OnInit {
     this.quizAnswers = {};
   }
 
+  formatHours(hours: number): string {
+    if (hours < 1) {
+      const minutes = hours * 60;
+      return minutes.toFixed(0) + ' Min(s)';
+    } else {
+      return hours.toFixed(1) + ' Hour(s)';
+    }
+  }
+
   handleChaptersResponse(response: APIResponseVM) {
     this.handleAPIResponse(response, (items: Chapter[]) => {
       items.forEach((chapter) => {
@@ -184,6 +201,7 @@ export class CourseLessonComponent implements OnInit {
         });
       });
       this.chapters = items;
+
       this.totalHoursCount = this.getTotalHoursCount();
       this.totalLessonCount = this.getTotalLessonCount();
 
@@ -192,9 +210,6 @@ export class CourseLessonComponent implements OnInit {
         this.chapters[this.chapters.length - 1].lessons[
           this.chapters[this.chapters.length - 1].lessons.length - 1
         ].id;
-
-      console.log(this.firstLessonId);
-      console.log(this.lastLessonId);
     });
   }
 

@@ -48,6 +48,12 @@ export class QuizLessonComponent implements OnInit {
           },
         ],
       };
+    } else {
+      this.selectedRadioIndices = this.editedQuiz.quiz.questions.map(
+        (question) => {
+          return question.choices.indexOf(question.correctAnswer);
+        }
+      );
     }
   }
 
@@ -99,6 +105,23 @@ export class QuizLessonComponent implements OnInit {
     question.choices.splice(choiceIndex, 1);
     if (question.correctAnswer === question.choices[choiceIndex]) {
       question.correctAnswer = '';
+    }
+  }
+
+  onEditChoice(
+    question: Question,
+    choiceIndex: number,
+    newChoice: string
+  ): void {
+    newChoice = question.choices[choiceIndex];
+
+    if (
+      question.correctAnswer !== newChoice &&
+      this.selectedRadioIndices[
+        this.editedQuiz.quiz!.questions!.indexOf(question)
+      ] == choiceIndex
+    ) {
+      question.correctAnswer = newChoice;
     }
   }
 

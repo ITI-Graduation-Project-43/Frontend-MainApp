@@ -76,7 +76,7 @@
   height: 5rem;
 }
 
-@media screen and (max-width: 1600px) {
+@media screen and (max-width: 1000px) {
   .course-content-modules{
     width: 80vw;
   }
@@ -89,7 +89,7 @@
   }
 }
 
-@media screen and (max-width: 600px){
+@media screen and (max-width: 500px){
   .course-content-section{
     align-items: center !important;
   }

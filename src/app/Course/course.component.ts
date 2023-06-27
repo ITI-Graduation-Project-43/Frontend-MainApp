@@ -81,7 +81,7 @@ export class CourseComponent implements OnInit, AfterViewInit {
   onWindowScroll() {
     const viewportWidth = window.innerWidth;
 
-    if (viewportWidth > 1600) {
+    if (viewportWidth > 1300) {
       const scrollTop =
         window.pageYOffset ||
         document.documentElement.scrollTop ||
@@ -90,7 +90,7 @@ export class CourseComponent implements OnInit, AfterViewInit {
 
       if (scrollTop < this.headerHeight) {
         this.courseCard.style.position = 'absolute';
-        this.courseCard.style.top = '3.2rem';
+        this.courseCard.style.top = '0.5rem';
       } else if (
         scrollTop + this.windowHeight >
         document.body.clientHeight - this.footerHeight

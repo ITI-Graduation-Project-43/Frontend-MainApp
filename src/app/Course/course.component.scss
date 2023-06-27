@@ -48,7 +48,7 @@
 
 
 
-@media screen and (max-width: 1600px) {
+@media screen and (max-width: 1300px) {
   .main-course-card-container {
     position: static !important;
     width: 100%;
@@ -65,7 +65,7 @@
     }
   }
 }
-@media screen and (max-width: 600px){
+@media screen and (max-width: 500px){
   .course-header-breadcrumb{
     display: none;
   }

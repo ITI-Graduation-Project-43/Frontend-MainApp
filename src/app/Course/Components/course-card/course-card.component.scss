@@ -99,7 +99,7 @@
   }
 }
 
-@media screen and (max-width: 1600px) {
+@media screen and (max-width: 1300px) {
   .course-details-card {
     min-width: 80vw;
     .course-picture {
@@ -113,6 +113,9 @@
   }
 }
 
+.course-details-name{
+  @include style-font($font-anton, 32px, 124.04%, $blackColor);
+}
 
 
 

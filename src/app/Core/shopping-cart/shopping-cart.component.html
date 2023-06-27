@@ -12,10 +12,10 @@
       </p>
     </div>
     <ng-container *ngIf="totalCourses !== 0">
-    <div class="cart-course" *ngFor="let course of cartItems | async">
-      <div class="course-image">
-        <img [src]="course.imageUrl" alt="course image" />
-      </div>
+      <div class="cart-course" *ngFor="let course of cartItems | async">
+        <div class="course-image">
+          <img [src]="course.imageUrl" alt="course image" />
+        </div>
         <div class="course-info">
           <div class="course-main-info">
             <div class="course-rating">
@@ -58,6 +58,6 @@
       <div>Total</div>
       <div>{{ totalPrice | currency }}</div>
     </div>
-    <Button routerLink="/checkout">Checkout</Button>
+    <Button (click)="Checkout()">Checkout</Button>
   </div>
 </div>

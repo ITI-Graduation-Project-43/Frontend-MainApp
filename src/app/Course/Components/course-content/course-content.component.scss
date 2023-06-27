@@ -75,3 +75,28 @@
 .course-chapter.skeleton{
   height: 5rem;
 }
+
+@media screen and (max-width: 1600px) {
+  .course-content-modules{
+    width: 80vw;
+  }
+
+  .course-content-modules > * {
+      width: inherit;
+  }
+  .course-chapter-heading{
+    width: 80vw !important;
+  }
+}
+
+@media screen and (max-width: 600px){
+  .course-content-section{
+    align-items: center !important;
+  }
+  .chapter-stats , .lesson-stats{
+    display: none !important;
+  }
+  .course-content-details{
+    flex-direction: column !important;
+  }
+}

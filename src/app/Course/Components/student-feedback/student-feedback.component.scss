@@ -98,3 +98,9 @@
   height: 3rem;
   max-width: 600px;
 }
+@media screen and (max-width: 600px){
+  .student-feedback-card{
+    flex-direction: column !important;
+    align-items: center!important;
+  }
+}

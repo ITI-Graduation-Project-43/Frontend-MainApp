@@ -71,3 +71,15 @@
   height: 2rem;
 }
 
+@media screen and (max-width: 1028px){
+  .learn-card{
+    width: 80vw;
+  }
+  .learn-item-row{
+    flex-direction: column !important;
+    align-items: center;
+    .learn-item {
+      width: 80% !important;
+    }
+  }
+}

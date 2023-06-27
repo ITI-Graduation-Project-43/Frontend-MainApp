@@ -30,12 +30,13 @@
   </div>
 
   <!--Course Card-->
-  <app-course-card
-    class="course-main-card"
-    [course]="course"
-    [studentInCourse]="studentInCourse"
-    [loading]="loading"
-  ></app-course-card>
+  <div class="main-course-card-container" #courseCard>
+    <app-course-card
+      [course]="course"
+      [studentInCourse]="studentInCourse"
+      [loading]="loading"
+    ></app-course-card>
+  </div>
 </div>
 <div class="course-content-wrapper" *ngIf="!errorMessage">
   <!-- What You Will Learn Card -->

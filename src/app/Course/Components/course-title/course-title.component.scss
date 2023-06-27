@@ -33,3 +33,14 @@
   height: 3rem;
 }
 
+@media screen and (max-width: 1600px){
+  .course-title{
+    margin: 0 40px;
+  }
+}
+@media screen and (max-width: 600px){
+  .main-title{
+    font-size: 48px !important;
+    line-height: 64px !important;
+  }
+}

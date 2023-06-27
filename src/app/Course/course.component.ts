@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { CourseService } from '../Services/course.service';
@@ -25,7 +32,13 @@ const DEFAULT_PAGE_SIZE = 4;
   templateUrl: './course.component.html',
   styleUrls: ['./course.component.scss'],
 })
-export class CourseComponent implements OnInit {
+export class CourseComponent implements OnInit, AfterViewInit {
+  @ViewChild('courseCard') courseCardRef!: ElementRef;
+  private courseCard!: HTMLElement;
+  private windowHeight: number = 0;
+  private headerHeight: number = 0;
+  private footerHeight: number = 0;
+
   // Properties
   courseId: number = 11;
   pageNumber: number = INITIAL_PAGE_NUMBER;
@@ -57,6 +70,39 @@ export class CourseComponent implements OnInit {
       this.courseService.courseId = this.courseId;
       this.loadData();
     });
+  }
+  ngAfterViewInit(): void {
+    this.courseCard = this.courseCardRef.nativeElement;
+    this.windowHeight = window.innerHeight;
+    this.headerHeight = 80;
+    this.footerHeight = 310;
+  }
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const viewportWidth = window.innerWidth;
+
+    if (viewportWidth > 1600) {
+      const scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop ||
+        0;
+
+      if (scrollTop < this.headerHeight) {
+        this.courseCard.style.position = 'absolute';
+        this.courseCard.style.top = '3.2rem';
+      } else if (
+        scrollTop + this.windowHeight >
+        document.body.clientHeight - this.footerHeight
+      ) {
+        this.courseCard.style.position = 'fixed';
+        this.courseCard.style.bottom = '30rem';
+        this.courseCard.style.top = 'auto';
+      } else {
+        this.courseCard.style.position = 'fixed';
+        this.courseCard.style.top = '1.6rem';
+      }
+    }
   }
 
   loadData() {

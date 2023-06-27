@@ -3,24 +3,22 @@
 section {
   background-color: $mainColorLight;
 }
-// .container {
-//   display: grid;
-//   grid-template-columns: 1fr;
-//   align-items: center;
-//   justify-content: center;
-// }
-// @media screen and (min-width: 992px) {
-//   .container {
-//     grid-template-columns: repeat(2, 1fr);
-//   }
-// }
 .container {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-content: center;
+  gap: 100px;
 }
-// .info {
-//   padding: 30px;
-// }
+@media screen and (min-width: 992px) {
+  .container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.info {
+  padding: 30px;
+}
 h2 {
   font-size: $fs-48;
   font-weight: 400;

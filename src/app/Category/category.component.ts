@@ -17,7 +17,7 @@ export class CategoryComponent implements OnInit {
   constructor(
     private apiService: APIService,
     private activeRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
   ) { }
 
 
@@ -36,7 +36,7 @@ export class CategoryComponent implements OnInit {
   //Feature this week
   featureThisWeekItems: Course[] = [];
   featureThisWeekCourse!: Course | undefined;
-  loadFeature : boolean = true;
+  loadFeature: boolean = true;
 
   //Arrays of viewed data
   latestCourses: Course[] = [];
@@ -44,7 +44,11 @@ export class CategoryComponent implements OnInit {
   filteredCourses: any[] = [];
   entryLevelCourses: Course[] = [];
   topInstructorsItems: Instructor[] = [];
-  topInstructors!: Instructor | undefined;
+  topInstructorOne!: Instructor | undefined;
+  topInstructorTwo!: Instructor | undefined;
+  topInstructorThree!: Instructor | undefined;
+  topInstructorFour!: Instructor | undefined;
+
 
   //filtering objects
   ratingFilters: any = { rating: 'all' };
@@ -67,14 +71,18 @@ export class CategoryComponent implements OnInit {
   //subcategories
   subcategories: Category[] = [];
 
+  //No Data Fetched
+  noData: boolean = false;
+
   ngOnInit(): void {
     this.initPage();
+    console.log(this.CategoryId)
   }
 
   initPage() {
 
     //Main Category
-    this.checkCategoryId();
+    this.getCategoryId();
     this.loadMainCategoryItems();
 
     //**************************************************************************** */
@@ -248,16 +256,19 @@ export class CategoryComponent implements OnInit {
   }
 
   async loadCoursesPage(pageNumber: number, pageSize: number): Promise<Course[]> {
-    const data: APIResponseVM | undefined = await this.apiService
+    this.apiService
       .getAllItem(`Course/category/${this.CategoryId}?PageNumber=${pageNumber}&PageSize=${pageSize}`)
-      .toPromise();
-    this.relatedCourses = await data?.items ?? [];
-    this.filteredCourses = this.relatedCourses;
+      .subscribe((data: APIResponseVM) => {
+        this.relatedCourses = data.items as Course[];
+        this.filteredCourses = this.relatedCourses;
+      },(error)=>{
+        this.noData = true;
+      });
     return this.relatedCourses;
   }
 
   loadMainCategoryItems() {
-    this.apiService.getItemById("Category/Parent", this.CategoryId).subscribe((data: APIResponseVM) => {
+    this.apiService.getItemById("Category", this.CategoryId).subscribe((data: APIResponseVM) => {
       this.mainCategoryItems = data.items;
       this.mainCategory = this.mainCategoryItems[0] as Category;
     }, (erorr => {
@@ -273,7 +284,8 @@ export class CategoryComponent implements OnInit {
     })
   }
 
-  async loadEntryLevelCourses() {
+  loadEntryLevelCourses() {
+    this.entryLevelCourses = [];
 
     this.apiService.getAllItem(`Course/category/${this.CategoryId}?PageNumber=1&PageSize=10`)
       .subscribe((data: APIResponseVM) => {
@@ -293,7 +305,10 @@ export class CategoryComponent implements OnInit {
       .getAllItem('Instructor/TopTenInstructors?topNumber=4')
       .subscribe((data: APIResponseVM) => {
         this.topInstructorsItems = data.items as Instructor[];
-        this.topInstructors = this.topInstructorsItems[0] as Instructor;
+        this.topInstructorOne = this.topInstructorsItems[0] as Instructor;
+        this.topInstructorTwo = this.topInstructorsItems[1] as Instructor;
+        this.topInstructorThree = this.topInstructorsItems[2] as Instructor;
+        this.topInstructorFour = this.topInstructorsItems[3] as Instructor;
       });
   }
 
@@ -309,7 +324,7 @@ export class CategoryComponent implements OnInit {
   }
 
   loadFeatureThisWeek() {
-    this.apiService.getAllItem("Course/featureThisWeek").subscribe((data: APIResponseVM) => {
+    this.apiService.getAllItem(`Course/featureThisWeek/${this.CategoryId}`).subscribe((data: APIResponseVM) => {
       this.featureThisWeekItems = data.items as Course[];
       this.featureThisWeekCourse = this.featureThisWeekItems[0] as Course;
       this.loadFeature = false;
@@ -318,11 +333,10 @@ export class CategoryComponent implements OnInit {
 
 
   ///////////////Helper Methodes
-  checkCategoryId() {
-    this.activeRoute.params.subscribe(
+  getCategoryId() {
+    this.activeRoute.paramMap.subscribe(
       (route: any) => {
-        if (isNaN(+route.id)) this.router.navigateByUrl('header');
-        this.CategoryId = route.id;
+        this.CategoryId = route.get('id');
       },
       (erorr) => {
         console.log(erorr);
@@ -335,7 +349,7 @@ export class CategoryComponent implements OnInit {
       this.subcategoryFilters[subCat.name] = false;
     })
 
-    this.apiService.getItemById('Category/Parent', this.CategoryId).subscribe(
+    this.apiService.getItemById('Category', this.CategoryId).subscribe(
       (data: APIResponseVM) => {
         this.mainCategoryItems = data.items;
       },
@@ -344,4 +358,10 @@ export class CategoryComponent implements OnInit {
       }
     );
   }
+
+  newCategory(id: number) {
+    location.replace(`/category/${id}`);
+  }
+
+  isTopic = false;
 }

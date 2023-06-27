@@ -12,10 +12,12 @@
 <nav aria-label="subcategory" class="subcategory">
     <ol>
         <li class="subcategory__item subcategory__item--active">
-            <a href="#" class="subcategory__link">{{mainCategory?.name}}</a>
+            <a class="subcategory__link" routerLink="/category/{{mainCategory?.id}}">{{mainCategory?.name}}</a>
             <!-- Separator (SVG) -->
             <div class="subcategory__separator">
-                <svg xmlns="http://www.w3.org/2000/svg" width="1" height="70" viewBox="0 0 1 77" fill="none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1" height="70" viewBox="0 0 1 77" fill="none"
+                [ngStyle]="{'display': subcategories.length ? 'inline' : 'none'}"
+                [ngStyle]="{'padding': subcategories.length ? '0' : '1rem'}">
                     <line x1="0.5" y1="77" x2="0.5" stroke="#303030" />
                 </svg>
             </div>
@@ -23,7 +25,7 @@
 
         <!-- Subcategories names -->
         <li class="subcategory__item" *ngFor="let subCat of subcategories">
-            <a class="subcategory__link">{{subCat.name}}</a>
+            <a class="subcategory__link" (click)="newCategory(subCat.id)">{{subCat?.name}}</a>
         </li>
     </ol>
 </nav>
@@ -107,48 +109,48 @@
         <div class="first-two-cards">
             <div class="Instructor-card first">
                 <div>
-                    <img src={{topInstructors?.profilePicture}} alt="">
+                    <img src={{topInstructorOne?.profilePicture}} alt="">
                 </div>
                 <section>
-                    <p>{{topInstructors?.avgRating}} Instructor Rating</p>
-                    <h1>{{topInstructors?.firstName}} {{topInstructors?.lastName}}</h1>
-                    <p>{{topInstructors?.title}}</p>
-                    <p>{{topInstructors?.noOfStudents}} Students | {{topInstructors?.noOfCourses}} Courses</p>
+                    <p>{{topInstructorOne?.avgRating}} Instructor Rating</p>
+                    <h1>{{topInstructorOne?.firstName}} {{topInstructorOne?.lastName}}</h1>
+                    <p>{{topInstructorOne?.title}}</p>
+                    <p>{{topInstructorOne?.noOfStudents}} Students | {{topInstructorOne?.noOfCourses}} Courses</p>
                 </section>
             </div>
             <div class="Instructor-card second">
                 <div>
-                    <img src="../../assets/images/instructor.webp" alt="">
+                    <img src={{topInstructorTwo?.profilePicture}} alt="">
                 </div>
                 <section>
-                    <p>4.7 Instructor Rating</p>
-                    <h1>Ben Geller</h1>
-                    <p>Flutter Developer</p>
-                    <p>10,620 Students | 7 Courses</p>
+                    <p>{{topInstructorTwo?.avgRating}} Instructor Rating</p>
+                    <h1>{{topInstructorTwo?.firstName}} {{topInstructorTwo?.lastName}}</h1>
+                    <p>{{topInstructorTwo?.title}}</p>
+                    <p>{{topInstructorTwo?.noOfStudents}} Students | {{topInstructorTwo?.noOfCourses}} Courses</p>
                 </section>
             </div>
         </div>
         <div class="second-two-cards">
             <div class="Instructor-card third">
                 <div>
-                    <img src="../../assets/images/instructor.webp" alt="">
+                    <img src={{topInstructorThree?.profilePicture}} alt="">
                 </div>
                 <section>
-                    <p>4.7 Instructor Rating</p>
-                    <h1>Ben Geller</h1>
-                    <p>Flutter Developer</p>
-                    <p>10,620 Students | 7 Courses</p>
+                    <p>{{topInstructorThree?.avgRating}} Instructor Rating</p>
+                    <h1>{{topInstructorThree?.firstName}} {{topInstructorThree?.lastName}}</h1>
+                    <p>{{topInstructorThree?.title}}</p>
+                    <p>{{topInstructorThree?.noOfStudents}} Students | {{topInstructorThree?.noOfCourses}} Courses</p>
                 </section>
             </div>
             <div class="Instructor-card forth">
                 <div>
-                    <img src="../../assets/images/instructor.webp" alt="">
+                    <img src={{topInstructorFour?.profilePicture}} alt="">
                 </div>
                 <section>
-                    <p>4.7 Instructor Rating</p>
-                    <h1>Ben Geller</h1>
-                    <p>Flutter Developer</p>
-                    <p>10,620 Students | 7 Courses</p>
+                    <p>{{topInstructorFour?.avgRating}} Instructor Rating</p>
+                    <h1>{{topInstructorFour?.firstName}} {{topInstructorFour?.lastName}}</h1>
+                    <p>{{topInstructorFour?.title}}</p>
+                    <p>{{topInstructorFour?.noOfStudents}} Students | {{topInstructorFour?.noOfCourses}} Courses</p>
                 </section>
             </div>
         </div>
@@ -386,7 +388,7 @@
                 </div>
             </section>
         </div>
-        <div class="search-results">
+        <div class="search-results" *ngIf="filteredCourses.length">
             <div class="search-result-container" *ngFor="let course of filteredCourses">
                 <div class="weekfeature" routerLink="/courseDetails/{{course.id}}">
                     <div class="image me-1">
@@ -436,6 +438,9 @@
             <div class="view-more">
                 <button (click)="viewMore()">View more</button>
             </div>
+        </div>
+        <div class="no-data" *ngIf="noData">
+            <img src="../../assets/images/No data-rafiki.png" alt="No Data Available">
         </div>
     </div>
 

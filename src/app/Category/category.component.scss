@@ -60,6 +60,11 @@
   &__link {
     text-decoration: none;
     color: inherit;
+    cursor: pointer;
+
+    &:hover{
+      font-weight: bold;
+    }
   }
 }
 
@@ -370,6 +375,13 @@
         padding: 0;
         background-color: transparent;
         width: 100%;
+      }
+    }
+
+    .no-data{
+      grid-column: 2/5;
+      img{
+        width: 70%;
       }
     }
 

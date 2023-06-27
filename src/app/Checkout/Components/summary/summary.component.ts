@@ -22,6 +22,7 @@ export class SummaryComponent implements OnInit {
 
   code: string = '';
   siteCouponDisable: boolean = false;
+  isDone:boolean = false;
 
   ngOnInit(): void {
     this.service.calcTotalPrice();
@@ -64,6 +65,7 @@ export class SummaryComponent implements OnInit {
 
 
   performPaymentProcess() {
+    this.isDone = true;
     console.log(this.setPaymentObj());
     this.apiService.addItem("Payment", this.setPaymentObj()).subscribe((data) => {
       this.performEnrollmentProcess();
@@ -72,6 +74,7 @@ export class SummaryComponent implements OnInit {
       this.resetSummaryForm();
       this.service.setOrderdItems();
       this.notification.notify("Successful Enrollment Process");
+      this.isDone = false;
       setTimeout(() => {
         this.navigator.navigateByUrl('/mycourses');
       }, 500);

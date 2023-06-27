@@ -78,4 +78,11 @@
       font-weight: 100;
     }
   }
+
+  app-loader{
+    position: absolute;
+    bottom: 8.2rem;
+    z-index: 1;
+    right: 12rem;
+  }
 }

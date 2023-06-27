@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Chapter } from '../Models/chapter';
@@ -10,6 +10,8 @@ import { Lesson } from '../Models/lesson';
 import { QuizService } from '../Services/quiz.service';
 import { CourseContentNavigationService } from '../Services/course-content-navigation.service';
 import { NotificationService } from 'src/app/Shared/Services/notification.service';
+import { LocalStorageService } from '../Shared/Helper/local-storage.service';
+import { TimeTrackingService } from '../Services/time-tracking.service';
 
 const CHAPTER_BY_COURSE = 'Chapter/byCourse';
 const LESSON_API_ROUTE = 'Lesson';
@@ -21,9 +23,10 @@ const LESSON_API_ROUTE = 'Lesson';
 })
 
 //TODO : Refactor code , Style the HTML
-export class CourseLessonComponent implements OnInit {
+export class CourseLessonComponent implements OnInit, OnDestroy {
   courseId: number = 0;
   lessonId: number = 0;
+  login!: boolean;
   firstLessonId: number = 0;
   lastLessonId: number = 0;
   loading: boolean = true;
@@ -43,7 +46,9 @@ export class CourseLessonComponent implements OnInit {
     private courseService: CourseService,
     private navigationService: CourseContentNavigationService,
     private quizService: QuizService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private LocalStorageService: LocalStorageService,
+    private timeTrackingService: TimeTrackingService
   ) {}
 
   ngOnInit() {
@@ -55,6 +60,20 @@ export class CourseLessonComponent implements OnInit {
       this.lessonId = +params['lessonId'];
       this.loadChapters();
     });
+    this.login = this.LocalStorageService.checkTokenExpiration();
+    let user = this.LocalStorageService.decodeToken();
+    if (user.Role == 'Student') {
+      this.timeTrackingService
+        .recordStartTime(user.Id, this.courseId)
+        .subscribe(
+          (response: any) => {
+            console.log(response);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    }
   }
 
   loadChapters() {
@@ -246,5 +265,19 @@ export class CourseLessonComponent implements OnInit {
         ? 'There was a problem with the server. Please try again later.'
         : 'An error occurred while loading the data. Please try again later.';
     this.loading = false;
+  }
+  ngOnDestroy() {
+    this.login = this.LocalStorageService.checkTokenExpiration();
+    let user = this.LocalStorageService.decodeToken();
+    if (user.Role == 'Student') {
+      this.timeTrackingService.recordEndTime(user.Id, this.courseId).subscribe(
+        (response: any) => {
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
   }
 }

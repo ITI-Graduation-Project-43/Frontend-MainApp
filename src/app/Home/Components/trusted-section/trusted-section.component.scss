@@ -5,4 +5,13 @@ section {
   h2 {
     @include style-font($font-anton, 2.5rem, 124.04%, $blackColor);
   }
+  .container-fluid{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .cards{
+    gap: 40px;
+    max-width: 952px;
+  }
 }

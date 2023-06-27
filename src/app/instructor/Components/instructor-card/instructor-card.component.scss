@@ -1,6 +1,6 @@
-@use "../../../assets/style/abstracts/variables.scss" as *;
-@use "../../../assets/style/abstracts/mixins.scss" as *;
-@use "../../../assets/style/abstracts/_placeholders.scss" as *;
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/_placeholders.scss" as *;
 
 .instructor-details-card {
   @include course-card;

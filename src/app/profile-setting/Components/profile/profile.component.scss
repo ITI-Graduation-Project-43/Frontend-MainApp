@@ -15,11 +15,146 @@ section {
   }
 
   form {
+    picture {
+      position: relative;
+      display: block;
+      width: 200px;
+      max-height: 200px;
+
+      .newImage {
+        cursor: pointer;
+        opacity: 0;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 100;
+        width: 100%;
+        height: 100%;
+
+        &.load {
+          z-index: -1000000000;
+        }
+      }
+
+      .overlayer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        background-color: rgba(24, 24, 24, 0.5);
+        color: white;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transition: 0.3s;
+        -webkit-transition: 0.3s;
+        -moz-transition: 0.3s;
+        -ms-transition: 0.3s;
+        -o-transition: 0.3s;
+        &.active {
+          opacity: 1;
+          cursor: wait;
+        }
+      }
+
+      &:hover {
+        .overlayer {
+          opacity: 1;
+        }
+      }
+
+      img {
+        object-fit: cover;
+        width: 100%;
+        max-height: inherit;
+      }
+
+      .loader {
+        z-index: -12;
+        top: 50%;
+        left: 50%;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+
+        &::after {
+          content: "";
+          width: 20px;
+          height: 20px;
+          border: 3px solid #ccc;
+          border-left: 3px solid transparent;
+          animation-name: load;
+          animation-timing-function: linear;
+          animation-duration: 0.7s;
+          animation-iteration-count: infinite;
+          border-radius: 50%;
+          -webkit-border-radius: 50%;
+          -moz-border-radius: 50%;
+          -ms-border-radius: 50%;
+          -o-border-radius: 50%;
+        }
+
+        &.active {
+          z-index: 10000000000000000000000;
+        }
+      }
+    }
+
     div {
       position: relative;
+
+      input {
+        border: 1px solid $blackColor;
+        width: 100%;
+        padding: 18px;
+        font-size: 24px;
+
+        &:read-only,
+        &::placeholder {
+          color: rgba(0, 0, 0, 0.248);
+          border-color:rgba(0, 0, 0, 0.248);
+        }
+
+
+        &:focus {
+          outline: none;
+        }
+      }
+
       &.basics {
+        padding-bottom: 20px;
+        border-bottom: 1px solid #ccc;
         .form-outline {
-          border: 1px solid $blackColor;
+          &.bio {
+            position: relative;
+            border: 1px solid $blackColor;
+            &.send {
+              color: rgba(0, 0, 0, 0.248);
+              border-color:rgba(0, 0, 0, 0.248);
+            }
+
+            .number {
+              position: absolute;
+              right: 0;
+              bottom: -30px;
+              font-size: 16px;
+              color: gray;
+              padding: 0;
+            }
+          }
+
           > * {
             padding: 10px;
             font-size: 24px;
@@ -39,17 +174,12 @@ section {
           }
 
           textarea {
+            height: 150px;
             border: none;
             resize: none;
             outline: none;
             color: $blackColor;
             padding: 10px;
-          }
-
-          input {
-            border: none;
-            width: 100%;
-
             &:read-only {
               color: rgba(0, 0, 0, 0.248);
               border-color:rgba(0, 0, 0, 0.248);
@@ -58,82 +188,102 @@ section {
             &:focus {
               outline: none;
             }
+
           }
         }
       }
 
       &.links {
+        display: flex;
+        flex-direction: column;
+
         .form-outline {
-          display: flex;
-          border: 1px solid $blackColor;
-          font-size: 18px;
-          span {
+          &.order-1 {
+            order: 1;
+          }
+
+          &.order-2 {
+            order: 2;
+          }
+
+          &:not(.website) {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: $secondaryColor;
-            padding: 0 15px;
-            border-right: inherit;
-          }
-          input {
-            width: 100%;
-            border: 0;
-            padding: 15px;
-          }
-        }
-      }
-    }
-
-  .btns {
-      width: fit-content;
-      margin-left: auto;
-
-      .profile {
-        @include custom-button($mainColorLight,$blackColor,$blackColor,22px);
-        margin-right: 20px;
-        padding: 7px 10px;
-      }
-
-      .save {
-        @include custom-button($greenColor,$blackColor,$blackColor, 22px);
-        padding: 7px 10px;
-        &.send {
-          display: block;
-          position: relative;
-          opacity: 0.7;
-          box-shadow: none;
-          cursor: not-allowed;
-          &:active {
-            transform: translate(0px, 0px);
-            -webkit-transform: translate(0px, 0px);
-            -moz-transform: translate(0px, 0px);
-            -ms-transform: translate(0px, 0px);
-            -o-transform: translate(0px, 0px);
-          }
-
-          span {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            &::after {
-              content: "";
-              width: 20px;
-              height: 20px;
-              border: 3px solid black;
-              border-left: 3px solid transparent;
-              animation-name: load;
-              animation-timing-function: linear;
-              animation-duration: 0.7s;
-              animation-iteration-count: infinite;
-              border-radius: 50%;
-              -webkit-border-radius: 50%;
-              -moz-border-radius: 50%;
-              -ms-border-radius: 50%;
-              -o-border-radius: 50%;
+            border: 1px solid $blackColor;
+            span {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background-color: $secondaryColor;
+              padding: 0 15px;
+              border-right: inherit;
+              font-size: 24px;
+            }
+            input {
+              border: 0;
             }
           }
+
+          &.send {
+            color: rgba(0, 0, 0, 0.248);
+            border-color:rgba(0, 0, 0, 0.248);
+          }
+
         }
+      }
+
+      &.btns {
+          width: fit-content;
+          margin-left: auto;
+
+          .profile {
+            @include custom-button($mainColorLight,$blackColor,$blackColor,22px);
+            margin-right: 20px;
+            padding-top: 7px;
+            padding-bottom: 7px;
+          }
+
+          .save {
+            @include custom-button($greenColor,$blackColor,$blackColor, 22px);
+            padding-top: 7px;
+            padding-bottom: 7px;
+            &.send {
+              position: relative;
+              padding: 7px 9px;
+              opacity: 0.7;
+              box-shadow: none;
+              cursor: not-allowed;
+              &:active {
+                transform: translate(0px, 0px);
+                -webkit-transform: translate(0px, 0px);
+                -moz-transform: translate(0px, 0px);
+                -ms-transform: translate(0px, 0px);
+                -o-transform: translate(0px, 0px);
+              }
+
+              span {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
+                &::after {
+                  content: "";
+                  width: 20px;
+                  height: 20px;
+                  border: 3px solid black;
+                  border-left: 3px solid transparent;
+                  animation-name: load;
+                  animation-timing-function: linear;
+                  animation-duration: 0.7s;
+                  animation-iteration-count: infinite;
+                  border-radius: 50%;
+                  -webkit-border-radius: 50%;
+                  -moz-border-radius: 50%;
+                  -ms-border-radius: 50%;
+                  -o-border-radius: 50%;
+                }
+              }
+            }
+          }
       }
     }
   }

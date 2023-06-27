@@ -16,6 +16,22 @@ section {
         position: relative;
         display: block;
         width: 200px;
+        max-height: 200px;
+
+        .newImage {
+          cursor: pointer;
+          opacity: 0;
+          position: absolute;
+          left: 0;
+          top: 0;
+          z-index: 100;
+          width: 100%;
+          height: 100%;
+
+          &.load {
+            z-index: -1000000000;
+          }
+        }
 
         .overlayer {
           display: flex;
@@ -37,6 +53,10 @@ section {
           -moz-transition: 0.3s;
           -ms-transition: 0.3s;
           -o-transition: 0.3s;
+          &.active {
+            opacity: 1;
+            cursor: wait;
+          }
         }
 
         &:hover {
@@ -46,7 +66,46 @@ section {
         }
 
         img {
-          max-width: 100%;
+          object-fit: cover;
+          width: 100%;
+          max-height: inherit;
+        }
+
+        .loader {
+          z-index: -12;
+          top: 50%;
+          left: 50%;
+          position: absolute;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 5px;
+          transform: translate(-50%, -50%);
+          -webkit-transform: translate(-50%, -50%);
+          -moz-transform: translate(-50%, -50%);
+          -ms-transform: translate(-50%, -50%);
+          -o-transform: translate(-50%, -50%);
+
+          &::after {
+            content: "";
+            width: 20px;
+            height: 20px;
+            border: 3px solid #ccc;
+            border-left: 3px solid transparent;
+            animation-name: load;
+            animation-timing-function: linear;
+            animation-duration: 0.7s;
+            animation-iteration-count: infinite;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+          }
+
+          &.active {
+            z-index: 10000000000000000000000;
+          }
         }
       }
 
@@ -57,12 +116,13 @@ section {
           @include style-font($font-cabin, 24px, 124.04%, $blackColor);
           list-style: none;
           padding: 15px 0;
+          cursor: pointer;
 
           &:not(:last-child) {
             border-bottom: 1px solid #ccc;
           }
 
-          a.active {
+          &.active {
             font-weight: bold;
           }
         }
@@ -72,5 +132,89 @@ section {
     div {
       flex: 1;
     }
+  }
+
+}
+
+.instructor-style {
+  padding: 50px 0 0 !important;
+  background-color: black;
+
+  h1 {
+    color: white !important;
+    padding: 0 20px;
+    margin-bottom: 20px !important;
+  }
+  .container-fluid {
+    border: none;
+    padding: 0 !important;
+    background-color: black !important;
+    display: flex;
+    flex-direction: column;
+    .content {
+      flex-direction: column;
+      aside {
+        display: flex;
+        flex-direction: column;
+        background-color: transparent;
+        border: none;
+
+        ul {
+          background-color: $blackColor;
+          order: -1;
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          margin: 0;
+
+          li {
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0;
+            border: none;
+            font-size: 24px;
+            background-color: white;
+            padding: 10px 35px;
+            border-radius: 30px;
+            -webkit-border-radius: 30px;
+            -moz-border-radius: 30px;
+            -ms-border-radius: 30px;
+            -o-border-radius: 30px;
+            transition: 0.3s;
+            -webkit-transition: 0.3s;
+            -moz-transition: 0.3s;
+            -ms-transition: 0.3s;
+            -o-transition: 0.3s;
+            &.active {
+              border: 1px solid $blackColor;
+              background: $secondaryColor;
+              box-shadow: -5px -5px $whiteColor, 5px 5px 0px 1px $blackColor;
+            }
+          }
+        }
+      }
+      .router-outlet {
+        padding: 80px 40px;
+        width: 100%;
+        background-color: $mainColorLight;
+      }
+    }
+  }
+}
+
+@keyframes load {
+  0% {
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(350deg);
+    -webkit-transform: rotate(350deg);
+    -moz-transform: rotate(350deg);
+    -ms-transform: rotate(350deg);
+    -o-transform: rotate(350deg);
   }
 }

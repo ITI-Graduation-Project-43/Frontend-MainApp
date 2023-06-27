@@ -40,18 +40,22 @@
       </div>
     </div>
   </div>
-  <button class="view-more-btn">View more</button>
+  <!-- <button class="view-more-btn">View more</button> -->
 </div>
 
 <ng-template #content>
-  <div class="student-feedback-section">
+  <div class="student-feedback-section" *ngIf="courseFeedbacks.length > 0">
     <div class="students-feedback">
       <div
         class="student-feedback-card"
         *ngFor="let feedback of courseFeedbacks"
       >
         <div class="student-image">
-          <img [src]="feedback.studentImage" alt="student image" />
+          <img
+            [src]="feedback.studentImage"
+            alt="student image"
+            loading="lazy"
+          />
         </div>
         <div class="student-feedback">
           <div class="student-review">
@@ -64,10 +68,8 @@
                 <img
                   src="../../assets/svg/rating-star.svg"
                   alt="rating-star"
-                  *ngFor="
-                    let n of [].constructor(feedback.courseRating);
-                    let i = index
-                  "
+                  *ngFor="let star of getStarArray(feedback.courseRating)"
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -78,12 +80,13 @@
         </div>
       </div>
     </div>
+
     <button
       class="view-more-btn"
       (click)="loadMoreFeedbacks()"
-      *ngIf="courseFeedbacks.length < totalSize"
+      *ngIf="showViewMoreButton()"
     >
-      View more
+      {{ getShowMoreButtonText() }}
     </button>
   </div>
 </ng-template>

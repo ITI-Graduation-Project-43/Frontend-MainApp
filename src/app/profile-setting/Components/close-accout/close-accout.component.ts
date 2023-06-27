@@ -1,51 +1,56 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnDestroy } from '@angular/core';
 import { APIService } from 'src/app/Shared/Services/api.service';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import {LocalStorageService} from '../../../Shared/Helper/local-storage.service'
 import { NotificationService } from 'src/app/Shared/Services/notification.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
+import { ConfirmationComponent } from '../confirmation/confirmation.component';
+import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-close-accout',
   templateUrl: './close-accout.component.html',
   styleUrls: ['./close-accout.component.scss']
 })
-export class CloseAccoutComponent {
-  send: boolean = false;
+export class CloseAccoutComponent implements OnDestroy {
+  numberOfStudentCourses : number = 0;
   confirmDeleteForm !: FormGroup;
-  constructor(private http: APIService, private router: Router, private fb: FormBuilder, private LocalStorageService: LocalStorageService, private Notification: NotificationService) {
-    this.confirmDeleteForm = fb.group({
-      email: ['', [Validators.required, Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)]],
-      password: ['', [Validators.required]],
-    })
+  dialogRef !: MatDialogRef<ConfirmationComponent>;
+  unSubscribe !: Subscription;
+
+  constructor(private http: APIService, private dialog: MatDialog, private Notification: NotificationService, private LocalStorageService: LocalStorageService) {
+    this.getStudentCourses();
   }
 
-  get newEmail() {
-    return this.confirmDeleteForm.get('email')
-  }
-
-  get password() {
-    return this.confirmDeleteForm.get('password')
-  }
-
-  closeAccount() {
-    if(confirm("Are you sure to close your account?")) {
-      this.send = true;
-      let observer = {
-        next: (data: any) => {
-          if(data.success) {
-          }
-        },
-        complete: () => {
-          this.send = false;
-          localStorage.removeItem("MindMission");
-        },
-        error: () => {
-          this.send = false;
-          this.Notification.notify("The email is updated successfully");
+  getStudentCourses() {
+    let observer = {
+      next: (data: APIResponseVM) => {
+        if(data.success) {
+          this.numberOfStudentCourses = data.items.length;
         }
+      },
+      complete: () => {
+      },
+      error: () => {
       }
-      this.http.addItem("User/Delete", {}).subscribe(observer);
     }
+    this.unSubscribe = this.http.getAllItem(`Enrollment/Student/${this.LocalStorageService.getUserInfo().Id}`).subscribe(observer);
+  }
+
+  confirmation(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {action: "delete", title: "Close your account", button: "Close Account"};
+    this.dialogRef = this.dialog.open(ConfirmationComponent, dialogConfig);
+
+    this.dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.Notification.notify("Your account has been deleted, Goodbye");
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.unSubscribe.unsubscribe();
   }
 }

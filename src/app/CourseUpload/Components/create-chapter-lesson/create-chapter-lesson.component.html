@@ -1,5 +1,5 @@
 <div class="upload-course-wrapper">
-  <div class="upload-course-sec">
+  <div class="upload-course-sec" *ngIf="!uploadingToDb">
     <div class="upload-heading">
       <div class="steps">Step 2 of 3</div>
       <div class="heading">Upload your course</div>
@@ -9,17 +9,13 @@
         <div
           *ngFor="let chapter of chapters; let i = index"
           class="chapter-lesson"
-          cdkDrag
         >
-          <div class="chapter-heading">
+          <div class="chapter-heading" *ngIf="!chapter.editMode" cdkDrag>
             <div class="chapter-data">
               <span class="input-title-style">Chapter {{ i + 1 }}:</span>
-              <ng-container *ngIf="!chapter.editMode; else editChapterInput">
-                {{ chapter.name }}
+              <ng-container>
+                {{ chapter.title }}
               </ng-container>
-              <ng-template #editChapterInput>
-                <input [(ngModel)]="chapter.name" placeholder="Chapter name" />
-              </ng-template>
             </div>
             <div class="chapter-actions">
               <button (click)="toggleEditMode(i)">
@@ -49,7 +45,10 @@
               </button>
             </div>
           </div>
-          <div class="chapter-body" *ngIf="!isChapterCollapsed[i]">
+          <div
+            class="chapter-body"
+            *ngIf="!isChapterCollapsed[i] && !chapter.editMode"
+          >
             <div
               class="chapter-lessons"
               cdkDropList
@@ -58,14 +57,18 @@
               <div
                 *ngFor="let lesson of chapter.lessons; let j = index"
                 class="lesson-sec"
-                cdkDrag
               >
                 <div class="lesson" *ngIf="!lesson.editMode">
-                  <div class="lesson-heading">
+                  <div class="lesson-heading" cdkDrag>
                     <div class="lesson-data word-wrap">
                       <span class="input-title-style">Lesson {{ j + 1 }}:</span>
 
-                      {{ lesson.title }}
+                      <span
+                        matTooltip="{{ lesson.description }}"
+                        matTooltipPosition="above"
+                      >
+                        {{ lesson.title }}
+                      </span>
                     </div>
                     <div class="lesson-actions">
                       <button (click)="editLesson(i, j)">
@@ -91,31 +94,46 @@
                   </div>
                   <div class="lesson-body" *ngIf="!isCollapsed[j]">
                     <div *ngIf="lesson.type == articleType">
-                      <div class="word-wrap">{{ lesson.content }}</div>
+                      <div
+                        class="word-wrap article-sec"
+                        [innerHTML]="lesson.article!.content"
+                      ></div>
                     </div>
                     <div
                       class="video-wrapper"
                       *ngIf="lesson.type === videoType"
                     >
-                      <video
-                        [src]="getVideoURL(lesson.videoFile!)"
-                        controls
-                      ></video>
+                      <video [src]="lesson.video!.videoUrl" controls></video>
                     </div>
                     <div *ngIf="lesson.type === quizType">
-                      <div *ngFor="let question of lesson.questions">
-                        <p class="word-wrap">{{ question.questionText }}</p>
-                        <ul>
-                          <li
-                            class="word-wrap"
-                            *ngFor="let choice of question.choices"
-                          >
-                            {{ choice }}
-                          </li>
-                        </ul>
+                      <div
+                        *ngFor="
+                          let question of lesson.quiz?.questions;
+                          let qNumber = index
+                        "
+                      >
                         <p class="word-wrap">
-                          Correct Answer: {{ question.correctAnswer }}
+                          Q{{ qNumber + 1 }}: {{ question.questionText }}
                         </p>
+                        <ul>
+                          <ng-container
+                            *ngFor="
+                              let choice of question.choices;
+                              let idx = index
+                            "
+                          >
+                            <li
+                              *ngIf="choice.length > 0"
+                              class="word-wrap choice-style"
+                              [ngClass]="{
+                                'correct-answer':
+                                  question.correctAnswer === choice
+                              }"
+                            >
+                              {{ getChoiceIdentifier(idx) }}) {{ choice }}
+                            </li>
+                          </ng-container>
+                        </ul>
                       </div>
                     </div>
 
@@ -124,6 +142,10 @@
                       *ngIf="!chapters[i].lessons[j].attachment"
                     >
                       <button (click)="onFileInputClick(i, j)">
+                        <img
+                          src="../../../../assets/svg/plus.svg"
+                          alt="plus icon"
+                        />
                         Add an attachment
                       </button>
                       <input
@@ -135,9 +157,12 @@
                     </div>
                     <div
                       class="uploaded-attachment"
-                      *ngIf="chapters[i].lessons[j].attachment"
+                      *ngIf="chapters[i].lessons[j].attachment?.attachmentUrl"
                     >
-                      <span>{{ chapters[i].lessons[j].attachment?.name }}</span>
+                      <span>{{
+                        chapters[i].lessons[j].attachment?.attachmentName
+                      }}</span>
+                      {{ chapters[i].lessons[j].attachment?.attachmentSize }}
                       <button (click)="deleteFile(i, j)">
                         <img
                           src="../../../../assets/svg/delete-ico.svg"
@@ -171,12 +196,6 @@
                   [editMode]="lesson.editMode"
                   (cancel)="cancelEditLesson(i, j)"
                   (save)="saveEditedLesson(i, j, $event)"
-                  (addQuestion)="addQuestion(i)"
-                  (deleteQuestion)="deleteQuestion(i, $event)"
-                  (addChoice)="addChoice(i, $event)"
-                  (deleteChoice)="
-                    deleteChoice(i, $event.question, $event.index)
-                  "
                 ></app-quiz-lesson>
               </div>
 
@@ -210,12 +229,6 @@
                   [editMode]="editLessonMode"
                   (cancel)="cancelAddLesson(i)"
                   (save)="saveLesson(i, quizType)"
-                  (addQuestion)="addQuestion(i)"
-                  (deleteQuestion)="deleteQuestion(i, $event)"
-                  (addChoice)="addChoice(i, $event)"
-                  (deleteChoice)="
-                    deleteChoice(i, $event.question, $event.index)
-                  "
                 ></app-quiz-lesson>
               </ng-container>
               <!--Add lesson-->
@@ -248,32 +261,24 @@
               </div>
             </div>
           </div>
+          <app-chapter
+            *ngIf="chapter.editMode"
+            [chapterName]="chapter.title"
+            [editMode]="true"
+            (cancel)="toggleEditMode(i)"
+            (save)="updateChapterName(i, $event)"
+          ></app-chapter>
         </div>
       </div>
 
       <!--Add new Chapter form-->
-      <div class="add-new" *ngIf="showAddNewChapter">
-        <div class="add-new-heading-title">
-          <div class="add-new-heading">
-            <div class="main-title">Chapter Title</div>
-            <div class="delete-content">
-              <button (click)="cancelAddChapter()">
-                <img src="../../../../assets/svg/x-icon.svg" alt="" />
-              </button>
-            </div>
-          </div>
-          <div class="title-data">
-            <input
-              [(ngModel)]="newChapterName"
-              type="text"
-              placeholder="Give this chapter a title"
-            />
-          </div>
-        </div>
-        <div class="add-new-action">
-          <button (click)="saveChapter()">Add</button>
-        </div>
-      </div>
+      <app-chapter
+        class="width100"
+        *ngIf="showAddNewChapter"
+        [(chapterName)]="newChapterName"
+        (cancel)="cancelAddChapter()"
+        (save)="saveChapter()"
+      ></app-chapter>
 
       <!--Add new chapter button-->
       <button
@@ -288,8 +293,20 @@
       </button>
     </div>
     <div class="create-course-actions">
-      <button class="back-btn">Back</button>
-      <button class="continue-btn">Continue</button>
+      <button class="back-btn" (click)="backTocreateCourse()">Back</button>
+      <button class="continue-btn" (click)="submitCourse()">
+        Submit Course
+      </button>
+    </div>
+  </div>
+  <div class="loading-wrapper" *ngIf="uploadingToDb">
+    <div class="book">
+      <div class="book__pg-shadow"></div>
+      <div class="book__pg"></div>
+      <div class="book__pg book__pg--2"></div>
+      <div class="book__pg book__pg--3"></div>
+      <div class="book__pg book__pg--4"></div>
+      <div class="book__pg book__pg--5"></div>
     </div>
   </div>
 </div>

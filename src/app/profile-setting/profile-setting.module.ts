@@ -11,8 +11,10 @@ import { NotificationsComponent } from './Components/notifications/notifications
 import { CloseAccoutComponent } from './Components/close-accout/close-accout.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DeactivateAccoutComponent } from './Components/deactivate-accout/deactivate-accout.component';
-import { ConfirmCloseAccountComponent } from './Components/confirm-close-account/confirm-close-account.component';
-
+import { ConfirmationComponent } from './Components/confirmation/confirmation.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { CheckoutModule } from '../Checkout/checkout.module';
 
 
 @NgModule({
@@ -25,13 +27,16 @@ import { ConfirmCloseAccountComponent } from './Components/confirm-close-account
     NotificationsComponent,
     CloseAccoutComponent,
     DeactivateAccoutComponent,
-    ConfirmCloseAccountComponent,
+    ConfirmationComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
     ProfileSettingRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatButtonModule,
+    CheckoutModule
   ]
 })
 export class ProfileSettingModule { }

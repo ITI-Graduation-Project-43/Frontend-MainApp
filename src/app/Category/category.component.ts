@@ -76,7 +76,7 @@ export class CategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.initPage();
-    console.log(this.CategoryId)
+    document.querySelector(".app-header")?.classList.add("dark-background");
   }
 
   initPage() {

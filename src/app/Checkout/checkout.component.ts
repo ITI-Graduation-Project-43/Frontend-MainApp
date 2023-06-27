@@ -11,12 +11,13 @@ import { NotificationService } from '../Shared/Services/notification.service';
   styleUrls: ['./checkout.component.scss']
 })
 export class CheckoutComponent implements OnInit {
-  constructor(private localStorageService: LocalStorageService, 
-    private router: Router, 
+  constructor(private localStorageService: LocalStorageService,
+    private router: Router,
     private shoppingSerive: ShoppingCartService,
     private notification: NotificationService) { }
 
   ngOnInit(): void {
+    document.querySelector(".app-header")?.classList.remove("dark-background");
     if (!this.localStorageService.checkTokenExpiration()) {
       this.notification.notify("You have to sign in first");
       this.router.navigateByUrl('/login');

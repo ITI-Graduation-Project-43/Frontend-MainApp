@@ -23,10 +23,11 @@
 
 <ng-template #content>
   <div class="course-details-card">
-    <div class="course-picture">
+    <div class="course-details-name" *ngIf="isScroll">{{ course.title }}</div>
+    <div class="course-picture" *ngIf="!isScroll">
       <img [src]="course.imageUrl" alt="course image" />
     </div>
-    <div class="course-info">
+    <div class="course-info" *ngIf="!isScroll">
       <div class="course-rating">
         <img
           *ngFor="let star of ' '.repeat(course.avgReview).split('')"
@@ -60,11 +61,23 @@
       </div>
     </div>
     <div class="course-action">
-      <button class="add-to-cart" (click)="addCourseToCart(course)" *ngIf="!courseService.enrolledIn">
+      <button
+        class="add-to-cart"
+        (click)="addCourseToCart(course)"
+        *ngIf="!courseService.enrolledIn"
+      >
         Add to Cart
       </button>
-      <button class="add-to-wishlist" *ngIf="!courseService.enrolledIn">Add to Wishlist</button>
-      <button class="go-to-course" *ngIf="courseService.enrolledIn" routerLink="/courses/{{course.title}}/{{course.id}}/lesson/3">Go to course</button>
+      <button class="add-to-wishlist" *ngIf="!courseService.enrolledIn">
+        Add to Wishlist
+      </button>
+      <button
+        class="go-to-course"
+        *ngIf="courseService.enrolledIn"
+        routerLink="/courses/{{ course.title }}/{{ course.id }}/lesson/3"
+      >
+        Go to course
+      </button>
     </div>
     <div class="course-details">
       <h2>This course includes:</h2>

@@ -28,7 +28,7 @@ section {
     margin-left: auto;
 
     .save {
-      @include custom-button(red,$blackColor,$blackColor, 22px);
+      @include custom-button(red,$whiteColor,$blackColor, 22px);
       color: white;
       padding: 7px 10px;
       &.send {

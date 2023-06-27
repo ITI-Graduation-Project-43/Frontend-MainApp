@@ -21,6 +21,7 @@ export class LoginFormComponent {
   wrongEmailOrPassword : boolean = false;
 
   constructor(private http: APIService, private fb: FormBuilder, private NotificationService: NotificationService) {
+    document.querySelector(".app-header")?.classList.remove("dark-background");
     let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     this.loginForm = fb.group({
       email: ['', [Validators.required, Validators.pattern(emailRegex)]],
@@ -31,14 +32,14 @@ export class LoginFormComponent {
   get email() {
     return this.loginForm.get('email')
   }
+
   get password() {
     return this.loginForm.get('password')
   }
 
-  login(e: Event, submit: HTMLElement) {
+  login(e: Event) {
     e.preventDefault();
     if(this.loginForm.valid && !this.loging) {
-      submit.classList.add("send");
       this.loging = true;
       let observer = {
         next: (data: any) => {
@@ -47,15 +48,19 @@ export class LoginFormComponent {
             let decodedToken = this.helper.decodeToken(token);
             this.Id = decodedToken.Id;
             this.Role = decodedToken.Role;
-            this.getUser(token);
-            submit.classList.remove("send");
+            let encryptedUserData = CryptoJS.AES.encrypt(JSON.stringify({User: {}, Token: token}), environment.secretKey).toString();
+            localStorage.setItem('MindMission', encryptedUserData);
+            this.NotificationService.notify("login");
+            this.loging = false;
+          }
+          else {
+            this.wrongEmailOrPassword = true;
+            this.loginForm.markAllAsTouched();
             this.loging = false;
           }
         },
         error: () => {
           this.wrongEmailOrPassword = true;
-          this.loginForm.markAllAsTouched();
-          submit.classList.remove("send");
           this.loging = false;
         }
       }
@@ -64,22 +69,6 @@ export class LoginFormComponent {
     else {
       this.loginForm.markAllAsTouched();
     }
-  }
-
-  getUser(token: any): void {
-    let obvserver = {
-      next: (data: any) => {
-        if(data) {
-          let encryptedUserData = CryptoJS.AES.encrypt(JSON.stringify({User: data.items[0], Token: token}), environment.secretKey).toString();
-          localStorage.setItem('MindMission', encryptedUserData);
-          this.NotificationService.notify("login");
-        }
-      },
-      error: (error: Error) => {
-        console.log(error.message);
-      }
-    }
-    this.http.getItemById(`${this.Role}`, this.Id).subscribe(obvserver)
   }
 
   showPassword(password: any): void {

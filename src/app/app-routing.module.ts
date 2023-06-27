@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ProfileSettingComponent } from './profile-setting/profile-setting.component';
 import { AuthenticationGuard } from './Guards/authentication.guard';
 import { HomeInstructorComponent } from './HomeInstructor/home-instructor.component';
+import { HideLoginAndRegisterGuard } from './Guards/hide-login-and-register.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -66,11 +67,13 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () =>
       import('../app/login/login.module').then((m) => m.LoginModule),
+    canActivate: [HideLoginAndRegisterGuard]
   },
   {
     path: 'register',
     loadChildren: () =>
       import('../app/register/register.module').then((m) => m.RegisterModule),
+    canActivate: [HideLoginAndRegisterGuard]
   },
   {
     path: 'setting',
@@ -109,9 +112,8 @@ const routes: Routes = [
     loadChildren: () =>
       import('../app/CourseUpload/creating-course.module').then(
         (m) => m.CreatingCourseModule
-      ),
+      )
   },
-
   {
     path: 'instructorCourses',
     loadChildren: () =>

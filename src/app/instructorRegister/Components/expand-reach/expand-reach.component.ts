@@ -17,6 +17,7 @@ export class ExpandReachComponent {
     this.myForm = this.fb.group({
       reach: ['', Validators.required],
     });
+    document.querySelector(".app-header")?.classList.remove("dark-background");
   }
   goback() {
     this.router.navigateByUrl('instructorRegister/videoAssessment');

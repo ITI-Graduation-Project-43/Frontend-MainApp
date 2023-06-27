@@ -18,27 +18,34 @@ export class CourseService extends APIService {
   studentId: number = -1;
   courseId: number = -1;
 
-  constructor(http: HttpClient,
-    private localStorageService: LocalStorageService,
-    private route: ActivatedRoute) {
+  constructor(
+    http: HttpClient,
+    private localStorageService: LocalStorageService
+  ) {
     super(http);
     if (localStorageService.checkTokenExpiration()) {
       this.loggedIn = true;
       this.studentId = localStorageService.decodeToken().Id;
     } else {
-      this.loggedIn = false
+      this.loggedIn = false;
     }
   }
 
   checkEnrolledIn() {
-    this.getAllItem(`Enrollment/Student/${this.studentId}/Course/${this.courseId}`).subscribe((data: APIResponseVM) => {
-      if (data.success) {
-        this.enrolledIn = true;
+    if (!this.studentId || this.studentId < 1) return;
+    this.getAllItem(
+      `Enrollment/Student/${this.studentId}/Course/${this.courseId}`
+    ).subscribe(
+      (data: APIResponseVM) => {
+        if (data.success) {
+          this.enrolledIn = true;
+        }
+      },
+      (error) => {
+        this.enrolledIn = false;
       }
-    }, (error) => {
-      this.enrolledIn = false;
-    })
-  };
+    );
+  }
 
   getRelatedCourses(
     courseId: number,

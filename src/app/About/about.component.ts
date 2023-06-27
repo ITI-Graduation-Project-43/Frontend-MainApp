@@ -6,4 +6,7 @@ import { Component} from '@angular/core';
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent {
+  constructor() {
+    document.querySelector(".app-header")?.classList.add("dark-background")
+  }
 }

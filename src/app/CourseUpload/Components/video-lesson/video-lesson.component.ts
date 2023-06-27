@@ -1,6 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Lesson } from '../create-chapter-lesson/create-chapter-lesson.component';
 
+import { Lesson } from 'src/app/Models/courseChapter';
+import { NotificationService } from '../../../Shared/Services/notification.service';
+import { ChapterValidationService } from 'src/app/Services/validation/lesson-validation.services';
+import { ERROR_MESSAGES } from '../../../Shared/Helper/error-messages';
+import { UploadService } from 'src/app/Shared/Services/upload.service';
 @Component({
   selector: 'app-video-lesson',
   templateUrl: './video-lesson.component.html',
@@ -9,54 +13,77 @@ import { Lesson } from '../create-chapter-lesson/create-chapter-lesson.component
 export class VideoLessonComponent implements OnInit {
   @Input() editMode: boolean = false;
   @Input() video: Lesson = {} as Lesson;
+
   @Output() videoChange = new EventEmitter<Lesson>();
   @Output() cancel = new EventEmitter<void>();
   @Output() save = new EventEmitter<any>();
 
   editedVideo: Lesson = {} as Lesson;
-  originalFile: File | undefined = undefined;
 
-  progress = 0;
-  videoUrl: string | null = null;
-  constructor() {}
+  saveAttempted: boolean = false;
+  videoValid: boolean = true;
+  touchedFields: any = {};
+
+  errorMessages = ERROR_MESSAGES;
+  uploadError: string | null = null;
+
+  constructor(
+    private notificationService: NotificationService,
+    private chapterValidationService: ChapterValidationService,
+    private uploadService: UploadService
+  ) {}
 
   ngOnInit() {
-    // Deep copy the video data when the component is initialized
     this.editedVideo = JSON.parse(JSON.stringify(this.video));
-    // Save the original file
-    if (this.editMode) {
-      this.originalFile = this.video.videoFile;
-      if (this.originalFile) {
-        // Create a URL for the original file
-        this.videoUrl = URL.createObjectURL(this.originalFile);
-      }
-    }
   }
-
-  getProgressBarColor(): string {
-    return `linear-gradient(to right, #FDF6EB ${this.progress}%, transparent ${this.progress}%)`;
-  }
-
-  onVideoSelected(event: any): void {
+  async onVideoSelected(event: any): Promise<void> {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-
-      this.editedVideo.videoFile = file;
-      this.originalFile = file;
-      this.videoUrl = URL.createObjectURL(file);
-
-      let interval = setInterval(() => {
-        this.progress += 10;
-        if (this.progress >= 100) {
-          clearInterval(interval);
+      if (!this.chapterValidationService.isValidVideoFile(file)) {
+        this.notificationService.notify(
+          this.errorMessages.invalidVideoFileType,
+          'error'
+        );
+      }
+      this.uploadService.uploadFile(file, 'Video').subscribe(
+        (response) => {
+          if (response.success) {
+            this.editedVideo.video = {
+              id: 0,
+              lessonId: 0,
+              videoUrl: (response.items[0] as string) || null,
+            };
+            this.uploadError = null;
+          } else {
+            this.uploadError =
+              'Upload failed, please try again 🥺' || response.message;
+          }
+        },
+        (error) => {
+          this.uploadError = error;
         }
-      }, 500);
+      );
     }
   }
-
   onDeleteVideo(): void {
-    this.videoUrl = null;
-    this.editedVideo.videoFile = undefined;
+    if (this.editedVideo.video && this.editedVideo.video!.videoUrl) {
+      const fileUrl = this.editedVideo.video.videoUrl;
+
+      this.uploadService.deleteFile(fileUrl, 'Video').subscribe(
+        (response) => {
+          if (response.success) {
+            this.editedVideo.video!.videoUrl = null;
+            this.editedVideo.video = undefined;
+            this.notificationService.notify('video deleted successfully');
+          } else {
+            this.notificationService.notify(response.message, 'error');
+          }
+        },
+        (error) => {
+          this.notificationService.notify('Failed to delete video', 'error');
+        }
+      );
+    }
   }
 
   onCancel(): void {
@@ -64,11 +91,87 @@ export class VideoLessonComponent implements OnInit {
   }
 
   onSave(): void {
-    // this.video = JSON.parse(JSON.stringify(this.editedVideo));
-    // this.video.videoFile = this.editedVideo.videoFile;
-    // this.save.emit(this.video);
+    this.saveAttempted = true;
+    if (this.isVideoValid()) {
+      this.videoChange.emit(this.editedVideo);
+      this.save.emit(this.editedVideo);
+    } else {
+      this.notificationService.notify(
+        this.errorMessages.generalValidation,
+        'error'
+      );
+    }
+  }
 
-    this.videoChange.emit(this.editedVideo);
-    this.save.emit(this.editedVideo);
+  isInvalidVideoTitle(): string | null {
+    if (this.touchedFields.videoTitle || this.editMode || this.saveAttempted) {
+      const { title } = this.editedVideo;
+      const fieldName = 'title';
+      if (!title) {
+        return this.errorMessages.requiredField(fieldName);
+      } else if (
+        !this.chapterValidationService.validateSentenceLength(title, 5, 100)
+      ) {
+        return this.errorMessages.sentenceLength(fieldName, 5, 100);
+      } else if (!this.chapterValidationService.validateWordLength(title)) {
+        return this.errorMessages.wordLength;
+      }
+    }
+    return null;
+  }
+  isInvalidVideoDescription(): string | null {
+    if (
+      this.touchedFields.videoDescription ||
+      this.editMode ||
+      this.saveAttempted
+    ) {
+      const { description } = this.editedVideo;
+      const fieldName = 'description';
+      if (!description) {
+        return this.errorMessages.requiredField(fieldName);
+      } else if (
+        !this.chapterValidationService.validateSentenceLength(
+          description,
+          10,
+          500
+        )
+      ) {
+        return this.errorMessages.sentenceLength(fieldName, 10, 500);
+      } else if (
+        !this.chapterValidationService.validateWordLength(description)
+      ) {
+        return this.errorMessages.wordLength;
+      }
+    }
+    return null;
+  }
+  isInvalidVideoRequiredHours(): string | null {
+    if (
+      this.touchedFields.videoRequiredHours ||
+      this.editMode ||
+      this.saveAttempted
+    ) {
+      const { noOfHours } = this.editedVideo;
+      const fieldName = 'Required Hours';
+      if (!noOfHours || noOfHours === 0) {
+        return this.errorMessages.requiredField(fieldName);
+      } else if (isNaN(noOfHours)) {
+        return this.errorMessages.mustBeNumber;
+      } else if (noOfHours > 6 || noOfHours <= 0) {
+        return this.errorMessages.invalidRequiredHours;
+      }
+    }
+    return null;
+  }
+  isVideoValid(): boolean {
+    if (
+      this.isInvalidVideoTitle() !== null ||
+      this.isInvalidVideoDescription() !== null ||
+      this.editedVideo.video?.videoUrl == null ||
+      this.isInvalidVideoRequiredHours() !== null
+    ) {
+      return false;
+    }
+    return true;
   }
 }

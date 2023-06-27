@@ -1,17 +1,15 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormArray,
-  FormControl,
-} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { Router } from '@angular/router';
+
 import { Category } from 'src/app/Models/category';
 import { APIService } from 'src/app/Shared/Services/api.service';
 import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
 import { Language } from '../../../Models/Enums/CourseLanguage';
 import { Level } from '../../../Models/Enums/CourseLevel';
-import { Router } from '@angular/router';
+import { NotificationService } from 'src/app/Shared/Services/notification.service';
+import { UploadService } from 'src/app/Shared/Services/upload.service';
+import { LocalStorageService } from 'src/app/Shared/Helper/local-storage.service';
 
 @Component({
   selector: 'app-create-course',
@@ -19,78 +17,100 @@ import { Router } from '@angular/router';
   styleUrls: ['./create-course.component.scss'],
 })
 export class CreateCourseComponent implements OnInit {
+  inputFileShowStatus: boolean = true;
+  renderImage: string | null = null;
   languages = Object.values(Language).filter(
     (language) => typeof language === 'string'
   );
   levels = Object.values(Level).filter((level) => typeof level === 'string');
   CreateCourse: FormGroup;
   categories: Category[] = [];
-  file: any = null;
-  CourseImage: any = null;
-  addCourseTeachingButton: boolean = true;
-  addTargetStudentButton: boolean = true;
-  addCourseRequirementButton: boolean = true;
+  courseImg: File | undefined;
   constructor(
     private fb: FormBuilder,
     private apiService: APIService,
-    private router: Router
+    private router: Router,
+    private notification: NotificationService,
+    private uploadService: UploadService,
+    private localstorageService: LocalStorageService
   ) {
     this.CreateCourse = this.fb.group({
-      instructorId: ['43e4ac2d-03c4-4f6a-b554-4567810fbf7e'],
-      imageUrl: [null],
-      title: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(100),
-        ],
-      ],
+      instructorId: [this.localstorageService.decodeToken().Id],
+      title: ['', Validators.required],
+      shortDescription: ['', Validators.required],
+      description: ['', Validators.required],
       categoryId: ['', Validators.required],
-      shortDescription: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(10),
-          Validators.maxLength(2048),
-        ],
-      ],
-      description: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(10),
-          Validators.maxLength(2048),
-        ],
-      ],
-      language: ['', [Validators.required]],
-      price: ['', [Validators.required, Validators.min(0)]],
-      level: ['', [Validators.required]],
-      learningItems: fb.array([
+      language: ['', Validators.required],
+      price: ['', Validators.required],
+      level: ['', Validators.required],
+      courseImage: [''],
+      learningItems: this.fb.array([
         this.fb.group({
           title: ['', Validators.required],
           description: ['', Validators.required],
         }),
       ]),
-      enrollmentItems: fb.array(['']),
-      courseRequirements: fb.array([
+      enrollmentItems: this.fb.array([
+        this.fb.group({
+          title: ['', Validators.required],
+        }),
+      ]),
+      courseRequirements: this.fb.array([
         this.fb.group({
           title: ['', Validators.required],
           description: ['', Validators.required],
         }),
       ]),
     });
+    console.log(this.localstorageService.decodeToken());
   }
   ngOnInit(): void {
-    this.apiService.getAllItem('category').subscribe((data: APIResponseVM) => {
-      this.categories = data.items;
-    });
+    document.querySelector(".app-header")?.classList.remove("dark-background");
+    this.apiService
+      .getAllItem('category/type/2')
+      .subscribe((data: APIResponseVM) => {
+        this.categories = data.items;
+      });
+    const storedCourse = localStorage.getItem('CreatedCourse');
+    if (storedCourse) {
+      const createdCourse = JSON.parse(storedCourse);
+      this.renderImage = createdCourse.courseImage;
+      this.inputFileShowStatus = false;
+      if (createdCourse.enrollmentItems.length > 0) {
+        for (let i = 0; i < createdCourse.enrollmentItems.length - 1; i++) {
+          const newForm = this.fb.group({
+            title: ['', Validators.required],
+          });
+          this.TargetStudents.push(newForm);
+        }
+      }
+      if (createdCourse.courseRequirements.length > 0) {
+        for (let i = 0; i < createdCourse.courseRequirements.length - 1; i++) {
+          const newForm = this.fb.group({
+            title: ['', Validators.required],
+            description: ['', Validators.required],
+          });
+          this.CourseRequirements.push(newForm);
+        }
+      }
+      if (createdCourse.learningItems.length > 0) {
+        for (let i = 0; i < createdCourse.learningItems.length - 1; i++) {
+          const newForm = this.fb.group({
+            title: ['', Validators.required],
+            description: ['', Validators.required],
+          });
+          this.CourseTeachings.push(newForm);
+        }
+      }
+      this.CreateCourse.setValue(createdCourse);
+      console.log(createdCourse);
+    }
   }
 
   get title() {
     return this.CreateCourse.get('title');
   }
-  get category() {
+  get categoryId() {
     return this.CreateCourse.get('categoryId');
   }
   get shortDescription() {
@@ -119,82 +139,86 @@ export class CreateCourseComponent implements OnInit {
   }
 
   addCourseTeachingInput() {
-    const newForm = this.fb.group({
-      title: ['', Validators.required],
-      description: ['', Validators.required],
-    });
-    this.CourseTeachings.push(newForm);
-    this.addCourseTeachingButton = true;
+    this.addFormArrayInput(this.CourseTeachings);
   }
   addTargetStudentInput() {
-    this.TargetStudents.push(new FormControl(''));
-    this.addTargetStudentButton = true;
+    let hasEmptyFields = false;
+    for (let i = 0; i < this.TargetStudents.length; i++) {
+      const formGroup = this.TargetStudents.at(i) as FormGroup;
+      if (formGroup.controls?.['title'].value.trim() == '') {
+        this.notification.notify('Complete Fields', 'error');
+        hasEmptyFields = true;
+      }
+    }
+    if (!hasEmptyFields) {
+      const newForm = this.fb.group({
+        title: ['', Validators.required],
+      });
+      this.TargetStudents.push(newForm);
+    }
   }
   addCourseRequirmentInput() {
-    const newForm = this.fb.group({
-      title: ['', Validators.required],
-      description: ['', Validators.required],
-    });
-    this.CourseRequirements.push(newForm);
-    this.addCourseRequirementButton = true;
-  }
-
-  checkCourseTeachings(event: any): boolean {
-    if (event.target.value.trim() == '') {
-      this.addCourseTeachingButton = true;
-      return this.addCourseTeachingButton;
-    } else {
-      this.addCourseTeachingButton = false;
-      return this.addCourseTeachingButton;
-    }
-  }
-  checkTargetStudents(event: any): boolean {
-    if (event.target.value.trim() == '') {
-      this.addTargetStudentButton = true;
-      return this.addTargetStudentButton;
-    } else {
-      this.addTargetStudentButton = false;
-      return this.addTargetStudentButton;
-    }
-  }
-  checkCourseRequirement(event: any): boolean {
-    if (event.target.value.trim() == '') {
-      this.addCourseRequirementButton = true;
-      return this.addCourseRequirementButton;
-    } else {
-      this.addCourseRequirementButton = false;
-      return this.addCourseRequirementButton;
-    }
+    this.addFormArrayInput(this.CourseRequirements);
   }
 
   onFileSelected($event: any) {
-    this.file = $event.target.files[0];
-
-    const reader = new FileReader();
-    reader.onload = (e) => (this.CourseImage = reader.result);
-
-    reader.readAsDataURL(this.file);
+    this.courseImg = $event.target.files[0];
+    const file = $event.target.files[0];
+    this.uploadService.uploadFile(file, 'Image').subscribe(
+      (response) => {
+        if (response.success) {
+          (this.CreateCourse.value.courseImage =
+            (response.items[0] as string) || null),
+            (this.renderImage = (response.items[0] as string) || null),
+            this.notification.notify('File uploaded successfully');
+          this.inputFileShowStatus = false;
+        } else {
+          this.notification.notify('File upload error', 'error');
+        }
+      },
+      (error) => {
+        this.notification.notify('File upload error', 'error');
+      }
+    );
   }
 
   CreateCourseSubmit() {
-    if (this.CreateCourse.invalid) return;
-    const form = new FormData();
-    if (this.file) {
-      form.append('imageUrl', this.file, this.file?.name);
+    if (this.CreateCourse.invalid) {
+      return;
     }
-    form.append('name', this.title?.value);
-    const observer = {
-      next: (result: any) => {
-        this.router.navigate(['createCourse/step2']);
-      },
-      error: (err: any) => {
-        console.log(err.message);
-      },
-    };
+    this.CreateCourse.value.courseImage = this.renderImage;
+    const postCourseDto = JSON.parse(JSON.stringify(this.CreateCourse.value));
 
-    this.apiService
-      .addItem('Course', this.CreateCourse.value)
-      .subscribe(observer);
-    console.log(this.CreateCourse.value);
+    localStorage.setItem('CreatedCourse', JSON.stringify(postCourseDto));
+    this.router.navigate(['createCourse/step2']);
+  }
+
+  addFormArrayInput(formArray: FormArray) {
+    let hasEmptyFields = false;
+    for (let i = 0; i < formArray.length; i++) {
+      const formGroup = formArray.at(i) as FormGroup;
+      if (
+        formGroup.controls?.['title'].value.trim() == '' ||
+        formGroup.controls?.['description'].value.trim() == ''
+      ) {
+        this.notification.notify('Complete Fields', 'error');
+        hasEmptyFields = true;
+      }
+    }
+    if (!hasEmptyFields) {
+      const newForm = this.fb.group({
+        title: ['', Validators.required],
+        description: ['', Validators.required],
+      });
+      formArray.push(newForm);
+    }
+  }
+  back() {
+    this.router.navigate([`instructor`]);
+  }
+  onDeleteImage() {
+    this.courseImg = undefined;
+    this.CreateCourse.value.courseImage = '';
+    this.inputFileShowStatus = true;
   }
 }

@@ -31,7 +31,7 @@ import { LoaderComponent } from './Components/loader/loader.component';
     FormsModule,
     ReactiveFormsModule,
     RouterModule
-
-  ]
+  ],
+  exports: [PaymentMethodComponent]
 })
 export class CheckoutModule { }

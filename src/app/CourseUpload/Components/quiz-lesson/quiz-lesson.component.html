@@ -1,3 +1,4 @@
+<!-- Quiz Title -->
 <div class="add-new-heading-title">
   <div class="add-new-heading">
     <div class="main-title">Quiz Title</div>
@@ -10,9 +11,16 @@
       [(ngModel)]="editedQuiz.title"
       type="text"
       placeholder="Give this quiz a title"
+      (blur)="touchedFields.quizTitle = true"
     />
+    <!-- Error message for Quiz Title -->
+    <div *ngIf="isInvalidQuizTitle()" class="error-message error">
+      {{ isInvalidQuizTitle() }}
+    </div>
   </div>
 </div>
+
+<!-- Quiz Description -->
 <div class="description">
   <div class="description-heading">
     <div class="input-title-style">Quiz Description</div>
@@ -23,14 +31,38 @@
       class="input-style"
       type="text"
       placeholder="Give this quiz a description"
+      (blur)="touchedFields.quizDescription = true"
     />
+    <!-- Error message for Quiz Description -->
+    <div *ngIf="isInvalidQuizDescription()" class="error-message error">
+      {{ isInvalidQuizDescription() }}
+    </div>
+  </div>
+</div>
+<div class="required-hours">
+  <div class="required-hours-heading">
+    <div class="input-title-style">Article required hourse</div>
+  </div>
+  <div class="required-hours-data">
+    <input
+      [(ngModel)]="editedQuiz.noOfHours"
+      class="input-style"
+      type="text"
+      placeholder="How many hours required to study this?"
+      (blur)="touchedFields.quizRequiredHours = true"
+    />
+    <!-- Error message for Article Description -->
+    <div *ngIf="isInvalidQuizRequiredHours()" class="error-message error">
+      {{ isInvalidQuizRequiredHours() }}
+    </div>
   </div>
 </div>
 <div
   class="lesson-content"
-  *ngFor="let question of editedQuiz.questions; let qIndex = index"
+  *ngFor="let question of editedQuiz.quiz?.questions; let qIndex = index"
 >
   <div class="lesson-content-heading">
+    <!-- Question Heading -->
     <div class="question-heading">
       <div class="main-title">Question {{ qIndex + 1 }}</div>
       <div>
@@ -47,9 +79,15 @@
         [(ngModel)]="question.questionText"
         class="input-style"
         placeholder="Enter question {{ qIndex + 1 }}"
+        (blur)="touchedFields['questionText_' + question.questionText] = true"
       />
+      <!-- Error message for Question Text -->
+      <div *ngIf="isInvalidQuestionText(question)" class="error-message error">
+        {{ isInvalidQuestionText(question) }}
+      </div>
     </div>
   </div>
+
   <div class="lesson-content-data quiz-content-data">
     <div class="question-text-heading">
       <div class="input-title-style">Question {{ qIndex + 1 }} Choices</div>
@@ -60,22 +98,32 @@
         <img src="../../../../assets/svg/plus.svg" alt="plus icon" />
       </button>
     </div>
+
     <div class="question-choices">
       <div
         class="question-choice"
-        *ngFor="let choice of question.choices; let cIndex = index"
+        *ngFor="
+          let choice of question.choices;
+          let cIndex = index;
+          trackBy: trackByFn
+        "
       >
         <input
           type="radio"
           name="correctChoice{{ qIndex }}"
-          [(ngModel)]="question.correctAnswer"
-          [value]="choice"
+          [(ngModel)]="selectedRadioIndices[qIndex]"
+          [value]="cIndex"
+          (ngModelChange)="onRadioChange(question, cIndex)"
         />
         <input
           [(ngModel)]="question.choices[cIndex]"
           type="text"
-          name="choice{{ cIndex }}"
+          name="choice{{ qIndex }}{{ cIndex }}"
+          id="choice{{ qIndex }}{{ cIndex }}"
           placeholder="choice {{ cIndex + 1 }}"
+          (blur)="
+            touchedFields['questionChoices_' + question.questionText] = true
+          "
         />
         <button
           *ngIf="question.choices.length > 2"
@@ -85,9 +133,28 @@
         </button>
       </div>
     </div>
-    <div>Make sure to select the correct answer.</div>
+    <div class="errors-sec">
+      <!-- Error message for Question Choices -->
+
+      <div
+        *ngIf="isInvalidQuestionChoices(question)"
+        class="error-message error"
+      >
+        {{ isInvalidQuestionChoices(question) }}
+      </div>
+
+      <!-- Error message for Correct Answer -->
+      <div *ngIf="isInvalidCorrectAnswer(question)" class="error-message error">
+        {{ isInvalidCorrectAnswer(question) }}
+      </div>
+      <!-- Error message for Unique Choices -->
+      <div *ngIf="isInvalidUniqueChoices(question)" class="error-message error">
+        {{ isInvalidUniqueChoices(question) }}
+      </div>
+    </div>
   </div>
 </div>
+
 <div class="add-new-action">
   <button (click)="onSave()">{{ editMode ? "Save" : "Add" }}</button>
 </div>

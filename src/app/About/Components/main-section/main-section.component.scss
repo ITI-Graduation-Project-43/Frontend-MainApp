@@ -8,13 +8,13 @@
 }
 
 img {
-  box-shadow: 3px 3px 0 white;
-  border: 3px solid black;
+  box-shadow: 3px 3px 0 $whiteColor;
+  border: 3px solid $blackColor;
   width: 400px;
   height: 400px;
 }
 .main {
-  background-color: black;
+  background-color: $blackColor;
   padding: 40px;
   display: flex;
 }

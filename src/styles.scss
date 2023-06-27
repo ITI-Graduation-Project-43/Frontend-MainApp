@@ -1,7 +1,10 @@
 @use "./assets/style/abstracts/placeholders" as *;
+@use "./assets/style/abstracts/variables.scss" as *;
+@use "./assets/style/abstracts/mixins.scss" as *;
 @use "./assets/style/components/title" as *;
 @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
 *{
   box-sizing: border-box;
@@ -72,3 +75,54 @@ a {
 
 /* Importing Bootstrap SCSS file. */
 // @import 'bootstrap/scss/bootstrap';
+
+
+
+.errors-sec{
+  @include style-display-column(8px, 0px);
+}
+.error-message{
+  color: $error-color;
+}
+
+
+.font-bold {
+  font-weight: bold;
+}
+
+.font-italic {
+  font-style: italic;
+}
+
+
+
+
+.article-sec img,
+.article-sec video,
+.article-sec object,
+.article-sec embed {
+  max-width: 100% !important;
+}
+
+.article-sec *,
+.article-sec * img {
+  max-width: 100% !important;
+}
+
+.article-sec img {
+  object-fit: cover;
+}
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+

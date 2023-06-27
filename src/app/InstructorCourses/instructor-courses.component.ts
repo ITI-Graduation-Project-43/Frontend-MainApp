@@ -21,8 +21,9 @@ export class InstructorCoursesComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getWaitList(this.localStorage.decodeToken().Id);
-    this.getMyCourses(this.localStorage.decodeToken().Id);
+    document.querySelector(".app-header")?.classList.remove("dark-background");
+    this.getWaitList(this.localStorage.decodeToken()?.Id);
+    this.getMyCourses(this.localStorage.decodeToken()?.Id);
   }
 
   // InstructorId: string = this.localStorageService.decodeToken().Id;

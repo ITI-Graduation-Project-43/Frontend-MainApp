@@ -18,6 +18,7 @@ import {
 } from 'ng-apexcharts';
 import { InstructorService } from 'src/app/Services/instructor.service';
 import { TimeTrackingService } from 'src/app/Services/time-tracking.service';
+import { LocalStorageService } from 'src/app/Shared/Helper/local-storage.service';
 import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
 
 export type ChartOptions = {
@@ -36,22 +37,26 @@ export type ChartOptions = {
   styleUrls: ['course-traffic.component.scss'],
 })
 export class CourseTrafficComponent implements OnInit {
-  instructorId: string = '4ae72bce-ddd7-45da-ac42-780deb784c9d';
+  instructorId: string;
   courseId!: number;
   status: string = 'Hours';
   hourlyCounts: number[] = [];
   dailyCounts: number[] = [];
   monthlyCounts: number[] = [];
   @Output() courseIdChanged = new EventEmitter<number>();
-  instructorCourses: any[] = [];
+  instructorCourses: any;
 
   @ViewChild('chart') chart: ChartComponent | any;
   public chartOptions: ChartOptions;
 
   constructor(
     private instructorService: InstructorService,
-    private timeTrackingService: TimeTrackingService
+    private timeTrackingService: TimeTrackingService,
+    private localStorageService: LocalStorageService
   ) {
+
+    this.instructorId = this.localStorageService.decodeToken().Id;
+
     this.chartOptions = {
       series: [
         {
@@ -115,7 +120,9 @@ export class CourseTrafficComponent implements OnInit {
         show: false,
       },
     };
+
   }
+
   ngOnInit() {
     this.instructorService
       .getAllCourses(this.instructorId)
@@ -123,6 +130,7 @@ export class CourseTrafficComponent implements OnInit {
         this.instructorCourses = data.items;
       });
   }
+
   updateChartOptions(categories: string[], counts: number[]) {
     this.chartOptions.xaxis = {
       type: 'category',
@@ -142,6 +150,7 @@ export class CourseTrafficComponent implements OnInit {
       },
     };
   }
+
   fetchData() {
     this.timeTrackingService
       .GetCourseVisitCount(this.courseId)

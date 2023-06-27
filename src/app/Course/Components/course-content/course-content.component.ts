@@ -17,7 +17,11 @@ export class CourseContentComponent implements OnInit {
   @Input() loading: boolean = true;
 
   isLoggedIn: boolean = true;
-  constructor(private router: Router, private courseService:CourseService, private notification:NotificationService) {}
+  constructor(
+    private router: Router,
+    private courseService: CourseService,
+    private notification: NotificationService
+  ) {}
 
   ngOnInit() {}
 
@@ -43,11 +47,22 @@ export class CourseContentComponent implements OnInit {
       this.router.navigate([
         `/courses/${this.course.title}/${this.course.id}/lesson/${lessonId}`,
       ]);
-    } else if(!this.courseService.loggedIn){
-      this.notification.notify("You have to sign in first");
+    } else if (!this.courseService.loggedIn) {
+      this.notification.notify('You have to sign in first');
       this.router.navigate(['/login']);
-    }else{
-      this.notification.notify("You must enroll to course to view this content");
+    } else {
+      this.notification.notify(
+        'You must enroll to course to view this content'
+      );
+    }
+  }
+
+  formatHours(hours: number): string {
+    if (hours < 1) {
+      const minutes = hours * 60;
+      return minutes.toFixed(0) + ' Min(s)';
+    } else {
+      return hours.toFixed(1) + ' Hour(s)';
     }
   }
 }

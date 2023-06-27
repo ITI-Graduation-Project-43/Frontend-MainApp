@@ -3,13 +3,10 @@
   <div class="grid-container-sub-header row">
     <div class="instructor-details-card col-md-11 col-lg-2">
       <div class="instructor-picture">
-        <img [src]="instructor[0].profilePicture" alt="instructor image" />
-        <!-- <img src="../../../../assets/images/student1.jpg" alt="instructor image"/> -->
+        <img [src]="instructor.profilePicture" alt="instructor image" />
       </div>
-      <h2>{{ instructor[0].firstName }} {{ instructor[0].lastName }}</h2>
-      <!-- <h2>Chandler Bing</h2> -->
-      <h3>{{ instructor[0].title }}</h3>
-      <!-- <h3>Back-end Developer</h3> -->
+      <h2>{{ instructor.firstName }} {{ instructor.lastName }}</h2>
+      <h3>{{ instructor.title }}</h3>
     </div>
     <div class="instructor-icons item2 col-md-11 col-lg-9">
       <div class="instructor-icon">
@@ -124,7 +121,7 @@
           </svg>
         </div>
         <div class="icon-info">
-          <h4>{{ instructor[0].noOfStudents }}</h4>
+          <h4>{{ instructor.noOfStudents }}</h4>
           <h5>Number of Students</h5>
         </div>
       </div>
@@ -188,7 +185,7 @@
           </svg>
         </div>
         <div class="icon-info">
-          <h4>{{ instructor[0].noOfCources }}</h4>
+          <h4>{{ instructor.noOfCources }}</h4>
           <h5>Number of courses</h5>
         </div>
       </div>
@@ -380,7 +377,7 @@
           </svg>
         </div>
         <div class="icon-info">
-          <h4>{{ instructor[0].noOfRating }}</h4>
+          <h4>{{ instructor.noOfRating }}</h4>
           <h5>Number of Rating</h5>
         </div>
       </div>
@@ -482,7 +479,7 @@
           </svg>
         </div>
         <div class="icon-info">
-          <h4>{{ instructor[0].noOfRating }}</h4>
+          <h4>{{ instructor.noOfRating }}</h4>
           <h5>Number of Reviews</h5>
         </div>
       </div>
@@ -530,7 +527,7 @@
           </svg>
         </div>
         <div class="icon-info">
-          <h4>{{ instructor[0].avgRating }}</h4>
+          <h4>{{ instructor.avgRating }}</h4>
           <h5>Overall Avg Rating</h5>
         </div>
       </div>

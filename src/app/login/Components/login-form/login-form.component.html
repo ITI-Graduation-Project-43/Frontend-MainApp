@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="login-container m-auto bg-whiteColor">
       <h2>Login to your account</h2>
-      <form (submit)="login($event, submit)" [formGroup]="this.loginForm">
+      <form (submit)="login($event)" [formGroup]="this.loginForm">
         <div class="form-outline mb-4">
           <input type="email" placeholder="Email" formControlName="email" [readOnly]="loging"/>
         </div>
@@ -26,7 +26,7 @@
             <a routerLink="/login/forgetpassword" class="forget-password">Forgot Password ?</a>
           </div>
         </div>
-        <button #submit type="submit" class="login w-100">
+        <button type="submit" [ngClass]="{'login w-100': true, 'send': loging}">
           <span>Login</span>
         </button>
       </form>

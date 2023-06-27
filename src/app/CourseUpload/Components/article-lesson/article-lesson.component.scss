@@ -32,7 +32,7 @@
     }
   }
 }
-.description , .lesson-content{
+.description , .lesson-content, .required-hours{
   width: 100%;
   @include style-display-column(16px, 0px);
   > * {
@@ -51,24 +51,6 @@
       @include style-display-row(24px, 20px, 24px);
       width: 100%;
       border-bottom: 1px solid $blackColor;
-      .controls{
-        @include style-font($font-cabin,  24px, 29px, $blackColor, 700);
-      }
-      .italic{
-        font-family: 'Times New Roman';
-        font-style: italic;
-        font-weight: 700;
-        font-size: 24px;
-        line-height: 28px;
-
-      }
-    }
-    textarea{
-      width: 100%;
-      min-height: 200px;
-      resize: none;
-      border: none;
-      outline: none;
     }
   }
 }
@@ -121,3 +103,5 @@
     color: $whiteColor;
   }
 }
+
+

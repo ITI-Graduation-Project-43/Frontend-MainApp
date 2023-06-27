@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import * as CryptoJS from 'crypto-js';
 import { environment } from 'src/environments/environment';
+import { NotificationService } from '../Services/notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class LocalStorageService {
   user !: any;
   encryptedToken !: string;
 
-  constructor() {
+  constructor(private NotificationService: NotificationService) {
     this.decryptLocalStorageData();
   }
 
@@ -39,6 +40,13 @@ export class LocalStorageService {
   }
 
   getUserInfo(): any {
+    this.decryptLocalStorageData();
     return JSON.parse(this.decryptedData).User;
+  }
+
+  updateUserInfo(user: any) {
+    let encryptedUserData = CryptoJS.AES.encrypt(JSON.stringify({User: user, Token: this.encryptedToken}), environment.secretKey).toString();
+    localStorage.setItem("MindMission", encryptedUserData);
+    this.NotificationService.notify("new", "hide");
   }
 }

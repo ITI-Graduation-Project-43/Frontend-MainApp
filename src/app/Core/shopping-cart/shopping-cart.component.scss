@@ -26,7 +26,6 @@
     grid-row: 2;
     @include style-display-column-center(16px, 24px, 40px);
     padding: 24px;
-    justify-content: center;
     background: $secondaryColor;
     overflow-y: auto;
     overflow-x: hidden;
@@ -136,8 +135,11 @@
 }
 
 
-@media screen and (max-width: 540px) {
+@media screen and (max-width: 600px) {
   .shopping-cart {
     width: 100%;
+  }
+  .cart-course{
+    flex-direction: column !important;
   }
 }

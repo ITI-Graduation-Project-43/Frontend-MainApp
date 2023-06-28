@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FeedbackService } from '../Services/feedback.service';
 import { APIResponseVM } from '../Shared/ViewModels/apiresponse-vm';
 import { InstructorService } from '../Services/instructor.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-instructor',
@@ -12,37 +12,51 @@ import { Router } from '@angular/router';
 export class InstructorComponent implements OnInit {
   instructorId: string = '4ae72bce-ddd7-45da-ac42-780deb784c9d';
   instructor: any[] = [];
+  accounts: any[] = [];
   instructorFeedbacks: any[] = [];
   instructorCourses: any[] = [];
   pageNumber: number = 1;
   CoursesPageNumber: number = 1;
   pageSize: number = 4;
+  feedbackPageSize: number = 4;
   totalSize!: number;
+  feedbackTotalSize!: number;
 
   constructor(
     private instructorService: InstructorService,
     private feedbackService: FeedbackService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    document.querySelector(".app-header")?.classList.add("dark-background");
+    document.querySelector('.app-header')?.classList.add('dark-background');
+    this.route.params.subscribe((params) => {
+      this.instructorId = params['id'];
+    });
     this.loadInstructorFeedback();
     this.loadInstructorCourses();
-    this.instructorService
-      .getAllCourses(this.instructorId)
-      .subscribe((data: APIResponseVM) => {
-        this.totalSize = data.items.length;
-      });
+    // this.instructorService
+    //   .getAllCourses(this.instructorId)
+    //   .subscribe((data: APIResponseVM) => {
+    //     this.totalSize = (data.totalPages - 1) * data.itemsPerPage;
+    //   });
     this.instructorService
       .getItemById('Instructor', this.instructorId)
       .subscribe(
         (data: APIResponseVM) => {
-          this.instructor = data.items;
-          console.log(this.instructor[0]);
+          if (data.items && data.items.length > 0) {
+            this.instructor = data.items;
+            console.log(this.instructor[0]);
+            this.accounts = this.instructor[0].accounts;
+            this.totalSize = this.instructor[0].noOfCources;
+            this.feedbackTotalSize = this.instructor[0].noOfRating;
+          } else {
+            console.log('No instructor data available.');
+          }
         },
         (error) => {
-          this.router.navigateByUrl('');
+          console.log('failed to get instructor');
         }
       );
   }
@@ -73,10 +87,19 @@ export class InstructorComponent implements OnInit {
     this.CoursesPageNumber++;
     this.loadInstructorCourses();
   }
+  viewLessCourses() {
+    this.pageSize = 4;
+    this.instructorCourses = [];
+    this.loadInstructorCourses();
+  }
 
   loadInstructorFeedback() {
     this.feedbackService
-      .getInstructorFeedback(this.instructorId, this.pageNumber, this.pageSize)
+      .getInstructorFeedback(
+        this.instructorId,
+        this.pageNumber,
+        this.feedbackPageSize
+      )
       .subscribe(
         (data: APIResponseVM) => {
           if (
@@ -98,6 +121,12 @@ export class InstructorComponent implements OnInit {
 
   loadMoreFeedbacks() {
     this.pageNumber++;
+    this.loadInstructorFeedback();
+  }
+
+  viewLessFeedbacks() {
+    this.feedbackPageSize = 4;
+    this.instructorFeedbacks = [];
     this.loadInstructorFeedback();
   }
 }

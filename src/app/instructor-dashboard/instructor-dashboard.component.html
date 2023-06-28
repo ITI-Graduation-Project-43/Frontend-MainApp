@@ -13,7 +13,11 @@
     <div class="recent-student">
       <h1>Recent Students</h1>
       <div class="Recent-Students">
-        <div class="recent" *ngFor="let student of recentStudents">
+        <div
+          class="recent"
+          *ngFor="let student of recentStudents"
+          routerLink="/studentDetails/{{ student.id }}"
+        >
           <div class="student-picture">
             <img [src]="student.profilePicture" alt="student-picture" />
           </div>
@@ -21,7 +25,7 @@
             <div class="student-name">
               {{ student.firstName }} {{ student.lastName }}
             </div>
-            <div class="student-title">Back-end Developer</div>
+            <div class="student-title">Student</div>
           </div>
         </div>
       </div>

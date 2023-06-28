@@ -80,6 +80,7 @@
       max-height: 550px;
 
       .course-image {
+        cursor: pointer;
         width: 100%;
       }
 
@@ -88,9 +89,12 @@
         .course-rating {
           @include style-display-row(5.6px, 0);
         }
-
+        .course-category {
+          cursor: pointer;
+        }
         .course-name {
           @include style-font("Anton", 32px, 124.04%, $blackColor);
+          cursor: pointer;
         }
       }
 
@@ -117,7 +121,7 @@
 
         .course-instructor {
           @include style-display-row-center(16px, 0);
-
+          cursor: pointer;
           .instructor-picture {
             img {
               @include make-avatar(42px, 42px);

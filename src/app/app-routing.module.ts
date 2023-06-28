@@ -29,14 +29,14 @@ const routes: Routes = [
       import('../app/Category/category.module').then((m) => m.CategoryModule),
   },
   {
-    path: 'instructorDetails',
+    path: 'instructorDetails/:id',
     loadChildren: () =>
       import('../app/instructor/instructor.module').then(
         (m) => m.InstructorModule
       ),
   },
   {
-    path: 'studentDetails',
+    path: 'studentDetails/:id',
     loadChildren: () =>
       import('../app/student-details/student-details.module').then(
         (m) => m.StudentDetailsModule

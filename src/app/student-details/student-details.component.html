@@ -1,21 +1,18 @@
 <!-- Instructor Title -->
 <div class="grid-container-sub-header">
-  <app-student-card class="item1" [student]="student"></app-student-card>
+  <app-student-card
+    class="item1"
+    [student]="student"
+    [accounts]="accounts"
+  ></app-student-card>
   <div class="instructor-description item2">
-    <div class="instructor-title">
-      {{ student[0]?.bio }}
-    </div>
+    <div class="instructor-title">Student</div>
     <div class="instructor-name">
       {{ student[0]?.firstName }} {{ student[0]?.lastName }}
     </div>
     <div class="About-me">About me</div>
     <div class="description">
-      I am a passionate UX/UI design student with a strong focus on aesthetics.
-      Though I have minimal experience, I possess a natural talent and drive to
-      excel in user experience design. I actively apply my theoretical knowledge
-      to real-world projects and continuously seek opportunities for
-      improvement. I am eager to contribute to a design team, create engaging
-      digital experiences, and shape the future of user interactions.
+      {{ student[0]?.bio }}
     </div>
   </div>
 </div>
@@ -33,6 +30,7 @@
         [src]="course?.courseImageUrl"
         alt="{{ course?.courseTitle + ' image' }}"
         class="course-image"
+        routerLink="/courseDetails/{{ course.courseId }}"
       />
       <div class="course-info">
         <div class="course-rating">
@@ -43,8 +41,18 @@
             [class.highlighted]="star <= course?.courseAvgReview"
           />
         </div>
-        <div class="course-category">{{ course?.categoryName }}</div>
-        <div class="course-name">{{ course?.courseTitle }}</div>
+        <div
+          class="course-category"
+          routerLink="/category/{{ course.categoryId }}"
+        >
+          {{ course?.categoryName }}
+        </div>
+        <div
+          class="course-name"
+          routerLink="/courseDetails/{{ course.courseId }}"
+        >
+          {{ course?.courseTitle | truncate }}
+        </div>
         <div class="course-students">
           <div class="student-pictures">
             <img
@@ -95,7 +103,10 @@
       </div>
 
       <div class="course-instructor-price">
-        <div class="course-instructor">
+        <div
+          class="course-instructor"
+          routerLink="/instructorDetails/{{ course.instructorId }}"
+        >
           <div class="instructor-picture">
             <img
               [src]="course?.instructorProfilePicture"
@@ -113,9 +124,15 @@
     <button
       class="view-more-btn"
       (click)="loadMoreCourses()"
-      *ngIf="studentCourses.length < totalSize"
+      *ngIf="studentCourses.length < totalSize; else viewLess"
     >
       View more
     </button>
+
+    <ng-template #viewLess>
+      <button class="view-more-btn" (click)="viewLessCourses()">
+        View less
+      </button>
+    </ng-template>
   </div>
 </div>

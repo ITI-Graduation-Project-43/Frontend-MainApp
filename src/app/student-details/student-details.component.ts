@@ -77,8 +77,6 @@ export class StudentDetailsComponent implements OnInit {
     this.loadStudentCourses();
   }
   viewLessCourses() {
-    this.pageSize = 4;
-    this.studentCourses = [];
-    this.loadStudentCourses();
+    this.studentCourses.splice(4);
   }
 }

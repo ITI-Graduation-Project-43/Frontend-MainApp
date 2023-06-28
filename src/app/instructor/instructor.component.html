@@ -3,18 +3,19 @@
   <app-instructor-card
     class="item1"
     [instructor]="instructor"
+    [accounts]="accounts"
   ></app-instructor-card>
   <div class="instructor-description item2">
     <div class="instructor-name">
-      {{ instructor[0].firstName }} {{ instructor[0].lastName }}
+      {{ instructor[0]?.firstName }} {{ instructor[0]?.lastName }}
     </div>
-    <div class="description">{{ instructor[0].description }}</div>
+    <div class="description">{{ instructor[0]?.description }}</div>
   </div>
 </div>
 
 <!--instructor's courses-->
 <div class="courses-section">
-  <h1>{{ instructor[0].firstName }}'s Courses</h1>
+  <h1>{{ instructor[0]?.firstName }}'s Courses</h1>
 
   <div class="suggested-courses-section">
     <div
@@ -82,12 +83,12 @@
         <div class="course-instructor">
           <div class="instructor-picture">
             <img
-              [src]="instructor[0].profilePicture"
+              [src]="instructor[0]?.profilePicture"
               alt="instructor-picture"
             />
           </div>
           <div class="instructor-name">
-            {{ instructor[0].firstName }} {{ instructor[0].lastName }}
+            {{ instructor[0]?.firstName }} {{ instructor[0]?.lastName }}
           </div>
         </div>
         <div class="course-price">{{ course.price }}</div>
@@ -97,15 +98,20 @@
     <button
       class="view-more-btn"
       (click)="loadMoreCourses()"
-      *ngIf="instructorCourses.length < totalSize"
+      *ngIf="instructorCourses.length < totalSize; else viewLess"
     >
       View more
     </button>
+    <ng-template #viewLess>
+      <button class="view-more-btn" (click)="viewLessCourses()">
+        View less
+      </button>
+    </ng-template>
   </div>
 </div>
 <!--Course Feedback section-->
 <div class="Review-section">
-  <h1>{{ instructor[0].firstName }}'s Reviews</h1>
+  <h1>{{ instructor[0]?.firstName }}'s Reviews</h1>
   <div class="student-feedback-section">
     <div class="students-feedback">
       <div
@@ -113,7 +119,7 @@
         *ngFor="let feedback of instructorFeedbacks"
       >
         <div class="student-image">
-          <img [src]="feedback.studentImage" alt="student image" />
+          <img [src]="feedback?.studentImage" alt="student image" />
         </div>
         <div class="student-feedback">
           <div class="student-review">
@@ -121,13 +127,13 @@
               {{ feedback.feedbackText }}
             </div>
             <div class="student-rating">
-              <div class="student-name">Monica Geller</div>
+              <div class="student-name">{{ feedback?.studentName }}</div>
               <div class="student-course-rating">
                 <img
                   src="../../assets/svg/rating-star.svg"
                   alt="rating-star"
                   *ngFor="
-                    let n of [].constructor(feedback.courseRating);
+                    let n of [].constructor(feedback?.courseRating);
                     let i = index
                   "
                 />
@@ -135,7 +141,7 @@
             </div>
           </div>
           <div class="student-course">
-            Completed the "{{ feedback.courseName }}" course
+            Completed the "{{ feedback?.courseName }}" course
           </div>
         </div>
       </div>
@@ -143,9 +149,14 @@
     <button
       class="view-more-btn"
       (click)="loadMoreFeedbacks()"
-      *ngIf="instructorFeedbacks.length < totalSize"
+      *ngIf="instructorFeedbacks.length < feedbackTotalSize; else viewLess"
     >
       View more
     </button>
+    <ng-template #viewLess>
+      <button class="view-more-btn" (click)="viewLessFeedbacks()">
+        View less
+      </button>
+    </ng-template>
   </div>
 </div>

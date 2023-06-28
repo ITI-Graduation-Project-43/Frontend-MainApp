@@ -8,15 +8,10 @@ import { Instructor } from 'src/app/Models/instructor';
 })
 export class InstructorCardComponent {
   @Input() instructor: Instructor[] = [];
+  @Input() accounts: any[] = [];
 
   constructor() {}
-  redirectToGitHub() {
-    window.open(this.instructor[0].accounts.GitHub, '_blank');
-  }
-  redirectToLinkedin() {
-    window.open(this.instructor[0].accounts.Linkedin, '_blank');
-  }
-  redirectToTwitter() {
-    window.open(this.instructor[0].accounts.Twitter, '_blank');
+  redirectToLink(i: number) {
+    window.open(this.accounts[i].accountDomain, '_blank');
   }
 }

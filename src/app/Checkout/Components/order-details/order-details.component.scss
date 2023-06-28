@@ -11,7 +11,7 @@
   }
 
   h1 {
-    @include style-font('Cabin', 15, 124.04%, $blackColor, 600);
+    @include style-font($font-cabin, 15, 124.04%, $blackColor, 600);
     margin-bottom: 0;
     font-size: 24px;
     margin-bottom: 1rem
@@ -55,7 +55,7 @@
         }
 
         .instructor-name {
-          @include style-font('Cabin', 16px, 19px, $darkGreyColor, 700);
+          @include style-font($font-cabin, 16px, 19px, $darkGreyColor, 700);
         }
 
       }
@@ -65,10 +65,10 @@
         background: $greenColor;
         border: 2px solid $blackColor;
         border-radius: 33px;
-        @include style-font('Cabin', 16px, 19px, $darkGreyColor, 700);
+        @include style-font($font-cabin, 16px, 19px, $darkGreyColor, 700);
       }
 
-      
+
     }
     .use-coupon {
       display: flex;
@@ -81,7 +81,7 @@
         background: #ffce51;
         border: 2px solid $blackColor;
         border-radius: 33px;
-        @include style-font('Cabin', 16px, 19px, $darkGreyColor, 700);
+        @include style-font($font-cabin, 16px, 19px, $darkGreyColor, 700);
       }
     }
   }

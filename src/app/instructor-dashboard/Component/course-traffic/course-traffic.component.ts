@@ -54,7 +54,6 @@ export class CourseTrafficComponent implements OnInit {
     private timeTrackingService: TimeTrackingService,
     private localStorageService: LocalStorageService
   ) {
-
     this.instructorId = this.localStorageService.decodeToken().Id;
 
     this.chartOptions = {
@@ -120,7 +119,6 @@ export class CourseTrafficComponent implements OnInit {
         show: false,
       },
     };
-
   }
 
   ngOnInit() {
@@ -128,6 +126,11 @@ export class CourseTrafficComponent implements OnInit {
       .getAllCourses(this.instructorId)
       .subscribe((data: APIResponseVM) => {
         this.instructorCourses = data.items;
+        if (this.instructorCourses.length > 0) {
+          this.courseId = this.instructorCourses[0].id;
+          this.courseIdChanged.emit(this.courseId);
+          this.fetchData();
+        }
       });
   }
 

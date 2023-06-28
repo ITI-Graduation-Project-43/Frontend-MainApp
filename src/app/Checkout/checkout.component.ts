@@ -8,25 +8,28 @@ import { NotificationService } from '../Shared/Services/notification.service';
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
-  styleUrls: ['./checkout.component.scss']
+  styleUrls: ['./checkout.component.scss'],
 })
 export class CheckoutComponent implements OnInit {
-  constructor(private localStorageService: LocalStorageService,
+  isThereItems: boolean = true;
+  constructor(
+    private localStorageService: LocalStorageService,
     private router: Router,
     private shoppingSerive: ShoppingCartService,
-    private notification: NotificationService) { }
+    private notification: NotificationService
+  ) {}
 
   ngOnInit(): void {
-    document.querySelector(".app-header")?.classList.remove("dark-background");
+    document.querySelector('.app-header')?.classList.remove('dark-background');
     if (!this.localStorageService.checkTokenExpiration()) {
-      this.notification.notify("You have to sign in first");
+      this.notification.notify('You have to sign in first', 'info');
       this.router.navigateByUrl('/login');
     } else if (!this.shoppingSerive.calculateTotal()) {
-      this.notification.notify("You have to add courses to your cart first");
-      this.router.navigateByUrl('/home');
+      this.isThereItems = false;
     }
   }
 
-
-
+  returnToShop() {
+    this.router.navigate(['/home'], { fragment: 'courses' });
+  }
 }

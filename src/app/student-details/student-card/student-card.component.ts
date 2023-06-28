@@ -7,15 +7,11 @@ import { Component, Input } from '@angular/core';
 })
 export class StudentCardComponent {
   @Input() student: any[] = [];
+  @Input() accounts: any[] = [];
 
   constructor() {}
-  redirectToGitHub() {
-    window.open(this.student[0].accounts.GitHub, '_blank');
-  }
-  redirectToLinkedin() {
-    window.open(this.student[0].accounts.Linkedin, '_blank');
-  }
-  redirectToTwitter() {
-    window.open(this.student[0].accounts.Twitter, '_blank');
+
+  redirectToLink(i: number) {
+    window.open(this.accounts[i].accountDomain, '_blank');
   }
 }

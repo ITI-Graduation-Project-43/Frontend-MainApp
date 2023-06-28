@@ -5,7 +5,10 @@
       <img src="../../../assets/svg/x.svg" alt="close icon" />
     </div>
   </div>
-  <div class="cart-content">
+  <div
+    class="cart-content"
+    [ngClass]="{ 'cart-content-center': totalCourses === 0 }"
+  >
     <div *ngIf="totalCourses === 0">
       <p class="empty-cart">
         Your cart is currently empty. Start adding courses!

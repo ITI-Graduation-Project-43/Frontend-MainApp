@@ -1,13 +1,29 @@
 <div class="wrapper">
-    <div class="business">
-        <div class="left-side">
-            <h1>Checkout</h1>
-            <app-country></app-country>
-            <app-payment-method></app-payment-method>
-            <app-order-details></app-order-details>
-        </div>
-        <div class="right-side">
-            <app-summary></app-summary>
-        </div>
+  <div class="business" *ngIf="isThereItems">
+    <div class="left-side">
+      <h1>Checkout</h1>
+      <app-country></app-country>
+      <app-payment-method></app-payment-method>
+      <app-order-details></app-order-details>
     </div>
+    <div class="right-side">
+      <app-summary></app-summary>
+    </div>
+  </div>
+  <div *ngIf="!isThereItems" class="no-items-sec">
+    <div>
+      <img
+        src="../../assets/svg/cart.svg"
+        alt="shopping cart"
+        width="350px"
+        height="350px"
+      />
+    </div>
+    <div class="heading">Your cart is currently empty</div>
+    <div class="sub-heading">
+      No items in cart. Please add some products to your shopping basket first
+      and then checkout.
+    </div>
+    <button (click)="returnToShop()">Return to shop</button>
+  </div>
 </div>

@@ -88,9 +88,7 @@ export class InstructorComponent implements OnInit {
     this.loadInstructorCourses();
   }
   viewLessCourses() {
-    this.pageSize = 4;
-    this.instructorCourses = [];
-    this.loadInstructorCourses();
+    this.instructorCourses.splice(4);
   }
 
   loadInstructorFeedback() {
@@ -125,8 +123,6 @@ export class InstructorComponent implements OnInit {
   }
 
   viewLessFeedbacks() {
-    this.feedbackPageSize = 4;
-    this.instructorFeedbacks = [];
-    this.loadInstructorFeedback();
+    this.instructorFeedbacks.splice(4);
   }
 }

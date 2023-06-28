@@ -17,6 +17,7 @@ export class CourseService extends APIService {
 
   studentId: number = -1;
   courseId: number = -1;
+  enrollmentData: any;
 
   constructor(
     http: HttpClient,
@@ -38,10 +39,15 @@ export class CourseService extends APIService {
     ).subscribe(
       (data: APIResponseVM) => {
         if (data.success) {
+          this.enrollmentData = data.items[0];
           this.enrolledIn = true;
+        } else {
+          this.enrollmentData = null;
+          this.enrolledIn = false;
         }
       },
       (error) => {
+        this.enrollmentData = null;
         this.enrolledIn = false;
       }
     );
@@ -101,6 +107,16 @@ export class CourseService extends APIService {
     pageSize: number = 2
   ): Observable<APIResponseVM> {
     const url = `${environment.APIURL}Course/${courseId}/instructor/${instructorId}/${studentsNumber}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+    return this.http
+      .get<APIResponseVM>(url)
+      .pipe(retry(3), catchError(this.handleError));
+  }
+
+  getCourseFeedback(
+    courseId: number,
+    studentId: string
+  ): Observable<APIResponseVM> {
+    const url = `${environment.APIURL}CourseFeedback/StudentFeedback?studentId=${studentId}&courseId=${courseId}`;
     return this.http
       .get<APIResponseVM>(url)
       .pipe(retry(3), catchError(this.handleError));

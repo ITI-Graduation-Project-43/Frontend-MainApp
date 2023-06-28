@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./category.component.scss'],
 })
 export class CategoryComponent {
-
+  constructor() {
+    document.querySelector('.app-header')?.classList.add('dark-background');
+  }
 }

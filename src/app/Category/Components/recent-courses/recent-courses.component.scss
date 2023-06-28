@@ -4,6 +4,7 @@
 
 .get-started {
     @include custom-header();
+    background-color: $mainColorLight
   }
 
   h1 {
@@ -99,11 +100,11 @@
     @include style-display-column(32px, 0);
     padding: 24px;
     background-color: #FBE6E9;
-  
+
     .suggested-courses-section {
       width: 100%;
       margin-bottom: 5rem;
-  
+
       .course-cards {
         .course-card {
           background-color: #FFFFFF;

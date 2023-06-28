@@ -10,6 +10,7 @@ import { courseStudents } from 'src/app/Models/courseStudents';
 })
 export class OtherCoursesCardComponent implements OnInit {
   @Input() title: string = '';
+
   @Input() courses: courseStudents[] = [];
   @Input() coursesTotalCount: number = 0;
   @Input() pageNumber: number = 1;

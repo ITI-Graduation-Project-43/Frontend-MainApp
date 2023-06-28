@@ -23,9 +23,7 @@
         height: 620px;
       }
       .course-card{
-        flex: 1;
         @include course-card;
-        justify-content: space-between;
         width: 402px;
         cursor: pointer;
         .course-image{
@@ -149,3 +147,14 @@ h1.skeleton{
     }
   }
 }
+
+.description {
+    display: flex;
+    margin-top: 16px;
+    height: 40px;
+    align-items: center;
+    p {
+      margin: 0;
+    }
+}
+

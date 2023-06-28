@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { Course } from 'src/app/Models/course';
 import { WishList } from 'src/app/Models/wishlist';
 import { ShoppingCartService } from 'src/app/Services/cart.service';
@@ -12,14 +13,14 @@ import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
   styleUrls: ['./course-card.component.scss'],
 })
 export class CourseCardComponent {
+  @Input() course: any;
+  @Input() buttonText: string = '';
+
   constructor(
     private shopCart: ShoppingCartService,
     private apiService: APIService,
     private navigator: Router
   ) {}
-
-  @Input() course: any;
-  @Input() buttonText: string = '';
 
   chooseAction(buttonText: string, wishList: WishList) {
     switch (buttonText) {

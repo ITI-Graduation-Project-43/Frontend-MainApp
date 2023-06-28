@@ -1,0 +1,119 @@
+<section>
+  <div class="feedback-wrapper" *ngIf="editMode">
+    <h2>
+      Hi there! We'd love to hear your thoughts about the course. Your feedback
+      helps us to improve.
+    </h2>
+
+    <form [formGroup]="feedbackForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="instructorRating">Instructor Rating</label>
+        <div class="rating">
+          <img
+            *ngFor="let r of [1, 2, 3, 4, 5]; let i = index"
+            src="../../../assets/svg/{{
+              i < feedbackForm.get('instructorRating')?.value
+                ? 'rating-star'
+                : 'NoneFill-RatingStar'
+            }}.svg"
+            alt=""
+            (click)="feedbackForm.get('instructorRating')?.setValue(i + 1)"
+            class="rating-star"
+            loading="lazy"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="courseRating">Course Rating</label>
+        <div class="rating">
+          <img
+            *ngFor="let r of [1, 2, 3, 4, 5]; let i = index"
+            src="../../../assets/svg/{{
+              i < feedbackForm.get('courseRating')?.value
+                ? 'rating-star'
+                : 'NoneFill-RatingStar'
+            }}.svg"
+            alt=""
+            (click)="feedbackForm.get('courseRating')?.setValue(i + 1)"
+            class="rating-star"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="feedbackText">Feedback</label>
+        <div class="feedback-sec">
+          <textarea
+            formControlName="feedbackText"
+            rows="4"
+            cols="50"
+            minlength="10"
+            maxlength="500"
+          ></textarea>
+          <div class="character-count">
+            {{ feedbackForm.get("feedbackText")?.value?.length || 0 }}/500
+          </div>
+          <div
+            *ngIf="
+              feedbackForm.get('feedbackText')?.invalid &&
+              (feedbackForm.get('feedbackText')?.dirty ||
+                feedbackForm.get('feedbackText')?.touched)
+            "
+            class="error"
+          >
+            Feedback is required and should be at least 10 characters long
+          </div>
+        </div>
+      </div>
+      <div class="form-action">
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+  <div class="feedback-display" *ngIf="!editMode">
+    <h2>Your feedback:</h2>
+    <div class="feedback-details">
+      <div class="feedback-item">
+        <span>Instructor rating:</span>
+        <div class="rating">
+          <img
+            *ngFor="let r of [1, 2, 3, 4, 5]; let i = index"
+            src="../../../assets/svg/{{
+              i < courseFeedback.instructorRating
+                ? 'rating-star'
+                : 'NoneFill-RatingStar'
+            }}.svg"
+            alt=""
+            class="rating-star"
+            loading="lazy"
+          />
+        </div>
+      </div>
+      <div class="feedback-item">
+        <span>Course rating:</span>
+        <div class="rating">
+          <img
+            *ngFor="let r of [1, 2, 3, 4, 5]; let i = index"
+            src="../../../assets/svg/{{
+              i < courseFeedback.courseRating
+                ? 'rating-star'
+                : 'NoneFill-RatingStar'
+            }}.svg"
+            alt=""
+            class="rating-star"
+            loading="lazy"
+          />
+        </div>
+      </div>
+      <div class="feedback-item">
+        <span>Feedback:</span>
+        <div class="feedback-text">{{ courseFeedback.feedbackText }}</div>
+      </div>
+      <div class="feedback-action">
+        <button (click)="edit()">Edit</button>
+      </div>
+    </div>
+  </div>
+  <h2 *ngIf="submitted">Thank you for your feedback!</h2>
+</section>

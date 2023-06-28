@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Chapter } from '../Models/chapter';
 import { CourseService } from '../Services/course.service';
@@ -12,6 +12,7 @@ import { CourseContentNavigationService } from '../Services/course-content-navig
 import { NotificationService } from 'src/app/Shared/Services/notification.service';
 import { LocalStorageService } from '../Shared/Helper/local-storage.service';
 import { TimeTrackingService } from '../Services/time-tracking.service';
+import { CourseDataService } from '../Services/course-data.service';
 
 const CHAPTER_BY_COURSE = 'Chapter/byCourse';
 const LESSON_API_ROUTE = 'Lesson';
@@ -21,10 +22,11 @@ const LESSON_API_ROUTE = 'Lesson';
   templateUrl: './CourseLesson.component.html',
   styleUrls: ['./CourseLesson.component.scss'],
 })
-
-//TODO : Refactor code , Style the HTML
 export class CourseLessonComponent implements OnInit, OnDestroy {
   courseId: number = 0;
+  isAuthorized = true;
+  user: any;
+  instructorId: string = '';
   lessonId: number = 0;
   login!: boolean;
   firstLessonId: number = 0;
@@ -48,30 +50,40 @@ export class CourseLessonComponent implements OnInit, OnDestroy {
     private quizService: QuizService,
     private notificationService: NotificationService,
     private LocalStorageService: LocalStorageService,
-    private timeTrackingService: TimeTrackingService
+    private timeTrackingService: TimeTrackingService,
+    private router: Router,
+    private locatStorageService: LocalStorageService,
+    private courseDataService: CourseDataService
   ) {}
 
   ngOnInit() {
     document.querySelector('.app-header')?.classList.add('dark-background');
-
     this.loading = true;
     this.route.params.subscribe((params) => {
       this.courseId = +params['courseId'];
       this.lessonId = +params['lessonId'];
-      this.loadChapters();
     });
+
+    this.courseService.courseId = this.courseId;
+    this.courseService.checkEnrolledIn();
+
+    if (!this.courseService.enrollmentData) {
+      this.loadChapters();
+    } else {
+      this.isAuthorized = false;
+      setTimeout(() => {
+        this.router.navigate(['home']);
+      }, 5000);
+    }
+
     this.login = this.LocalStorageService.checkTokenExpiration();
-    let user = this.LocalStorageService.decodeToken();
-    if (user.Role == 'Student') {
+    this.user = this.LocalStorageService.decodeToken();
+    if (this.user.Role == 'Student') {
       this.timeTrackingService
-        .recordStartTime(user.Id, this.courseId)
+        .recordStartTime(this.user.Id, this.courseId)
         .subscribe(
-          (response: any) => {
-            console.log(response);
-          },
-          (error) => {
-            console.log(error);
-          }
+          (response: any) => {},
+          (error) => {}
         );
     }
   }
@@ -151,6 +163,12 @@ export class CourseLessonComponent implements OnInit, OnDestroy {
         },
         (error) => this.handleError(error)
       );
+    } else {
+      this.courseDataService.instructorId =
+        this.courseService.enrollmentData.instructorId;
+      this.courseDataService.courseId = this.courseId;
+      this.courseDataService.studentId = this.user.Id;
+      this.router.navigate(['courseFeedback'], { relativeTo: this.route });
     }
   }
 

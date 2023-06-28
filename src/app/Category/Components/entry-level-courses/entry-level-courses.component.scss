@@ -4,6 +4,8 @@
 
 .get-started {
     @include custom-header();
+    background-color: $secondaryColor;
+    margin: 24px 0;
   }
 
   h1 {

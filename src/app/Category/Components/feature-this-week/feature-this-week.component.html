@@ -1,47 +1,73 @@
 <!-- Feature this week -->
-<app-loader *ngIf="loadFeature"></app-loader>
-<div *ngIf="!loadFeature" class="featurecontainer">
-    <h1 class="mt-5 mb-2">Feature This Week</h1>
-    <div class="weekfeature" routerLink="/courseDetails/{{featureThisWeekCourse?.id}}">
-        <div class="image me-1">
-            <img class="featureImg" src={{featureThisWeekCourse?.imageUrl}} alt="">
-        </div>
-        <div class="details">
-            <div class="upsection">
-                <div class="course-rating">
-                    <img src="../../assets/svg/rating-star.svg" alt="rating-star"
-                        *ngFor="let star of ' '.repeat(3.5).split('')">
-                </div>
-                <h6>{{featureThisWeekCourse?.subCategoryName}}</h6>
-                <h1>{{featureThisWeekCourse?.title}}</h1>
-                <div class="course-students">
-                    <div class="student-pictures">
-                        <img class="course-students-pic" src="../../assets/images/student1.webp"
-                            alt="student-picture" />
-                        <img class="course-students-pic" src="../../assets/images/student1.webp"
-                            alt="student-picture" />
-                        <img class="course-students-pic" src="../../assets/images/student1.webp"
-                            alt="student-picture" />
-                    </div>
-                    <div class="enrollments-number">{{featureThisWeekCourse?.noOfStudents}} enrolled</div>
-                </div>
-            </div>
-            <div class="midsection mt-3">
-                <p>
-                    {{featureThisWeekCourse?.description}}
-                </p>
-            </div>
-            <div class="downsection">
-                <div class="course-instructor-price">
-                    <div class="course-instructor">
-                        <div class="instructor-picture">
-                            <img src={{featureThisWeekCourse?.instructorProfilePicture}} alt="instructor-picture" />
-                        </div>
-                        <div class="instructor-name">{{featureThisWeekCourse?.instructorName}}</div>
-                    </div>
-                    <div class="course-price">{{featureThisWeekCourse?.price}} USD</div>
-                </div>
-            </div>
-        </div>
+<app-loader *ngIf="loadFeature && !noCourses"></app-loader>
+<div *ngIf="!loadFeature && !noCourses" class="featurecontainer">
+  <h1 class="mt-5 mb-2">Feature This Week</h1>
+  <div
+    class="weekfeature"
+    routerLink="/courseDetails/{{ featureThisWeekCourse?.id }}"
+  >
+    <div class="image me-1">
+      <img
+        class="featureImg"
+        src="{{ featureThisWeekCourse?.imageUrl }}"
+        alt=""
+      />
     </div>
+    <div class="details">
+      <div class="upsection">
+        <div class="course-rating">
+          <img
+            src="../../assets/svg/rating-star.svg"
+            alt="rating-star"
+            *ngFor="let star of ' '.repeat(3.5).split('')"
+          />
+        </div>
+        <h6>{{ featureThisWeekCourse?.subCategoryName }}</h6>
+        <h1>{{ featureThisWeekCourse?.title }}</h1>
+        <div class="course-students">
+          <div class="student-pictures">
+            <img
+              class="course-students-pic"
+              src="../../assets/images/student1.webp"
+              alt="student-picture"
+            />
+            <img
+              class="course-students-pic"
+              src="../../assets/images/student1.webp"
+              alt="student-picture"
+            />
+            <img
+              class="course-students-pic"
+              src="../../assets/images/student1.webp"
+              alt="student-picture"
+            />
+          </div>
+          <div class="enrollments-number">
+            {{ featureThisWeekCourse?.noOfStudents }} enrolled
+          </div>
+        </div>
+      </div>
+      <div class="midsection mt-3">
+        <p>
+          {{ featureThisWeekCourse?.description }}
+        </p>
+      </div>
+      <div class="downsection">
+        <div class="course-instructor-price">
+          <div class="course-instructor">
+            <div class="instructor-picture">
+              <img
+                src="{{ featureThisWeekCourse?.instructorProfilePicture }}"
+                alt="instructor-picture"
+              />
+            </div>
+            <div class="instructor-name">
+              {{ featureThisWeekCourse?.instructorName }}
+            </div>
+          </div>
+          <div class="course-price">{{ featureThisWeekCourse?.price }} USD</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

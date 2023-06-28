@@ -75,7 +75,7 @@ export class CourseComponent implements OnInit, AfterViewInit {
     this.courseCard = this.courseCardRef.nativeElement;
     this.windowHeight = window.innerHeight;
     this.headerHeight = 80;
-    this.footerHeight = 310;
+    this.footerHeight = 400;
   }
   @HostListener('window:scroll', [])
   onWindowScroll() {

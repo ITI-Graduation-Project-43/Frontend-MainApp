@@ -77,7 +77,14 @@
                 />
               </div>
               <div class="course-category">{{ course.courseCategoryName }}</div>
-              <div class="course-name">{{ course.courseTitle }}</div>
+              <div class="course-name" [attr.title]="course.courseTitle">
+                {{
+                  course.courseTitle.length > 30
+                    ? (course.courseTitle | slice : 0 : 30) + "..."
+                    : course.courseTitle
+                }}
+              </div>
+
               <div class="course-students">
                 <div class="student-pictures">
                   <img
@@ -119,6 +126,15 @@
                   {{ course.courseNoOfStudents / 1000000 | number : "1.0-4" }}M
                   enrolled
                 </div>
+              </div>
+              <div class="description">
+                <p [attr.title]="course.courseDescription">
+                  {{
+                    course.courseDescription.length > 100
+                      ? (course.courseDescription | slice : 0 : 100) + "..."
+                      : course.courseDescription
+                  }}
+                </p>
               </div>
             </div>
 

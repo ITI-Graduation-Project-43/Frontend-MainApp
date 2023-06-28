@@ -1,4 +1,5 @@
-<div class="lesson-content" *ngIf="lesson && !loading">
+<div class="black-background"></div>
+<div class="lesson-content" *ngIf="lesson && !loading && isAuthorized">
   <button
     class="back-btn"
     (click)="goToPreviousLesson()"
@@ -153,12 +154,8 @@
     </div>
   </div>
   <div class="next-control">
-    <button
-      class="next-btn"
-      (click)="goToNextLesson()"
-      *ngIf="lessonId !== lastLessonId"
-    >
-      Next Lesson
+    <button class="next-btn" (click)="goToNextLesson()">
+      {{ lessonId !== lastLessonId ? "Next Lesson" : "Finish Course" }}
     </button>
   </div>
 </div>
@@ -174,7 +171,7 @@
 </div>
 
 <ng-template #content>
-  <div class="course-content-section">
+  <div class="course-content-section" *ngIf="isAuthorized">
     <h1>Course Content</h1>
     <div class="course-content-details">
       <div class="course-content-details-item">
@@ -252,3 +249,12 @@
     </div>
   </div>
 </ng-template>
+
+<div *ngIf="!isAuthorized">
+  You are not authorized to access this page
+  <img
+    src="../../assets/svg/Unauthorized-rafiki.svg"
+    alt="Unauthorized"
+    loading="lazy"
+  />
+</div>

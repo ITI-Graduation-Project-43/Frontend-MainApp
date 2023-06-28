@@ -43,7 +43,7 @@
     .course-lessons{
       .course-lesson{
         @include style-display-row-center(10px, 0px,  32px);
-        width: 100%;
+        max-width: 820px;
         justify-content: space-between;
 
         background: $whiteColor;

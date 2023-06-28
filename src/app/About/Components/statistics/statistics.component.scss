@@ -1,8 +1,8 @@
 @use "../../../../assets/style/abstracts/variables.scss" as *;
 
 .statistics {
-  background-color: white;
-  padding: 1.5rem;
+  background-color: $whiteColor;
+  padding: 88px 40px;
 }
 .main-statistics {
   display: grid;
@@ -20,7 +20,6 @@
 }
 .child {
   text-align: center;
-  padding: 1rem;
 }
 .child > h2 {
   font-size: 64px;

@@ -26,6 +26,7 @@
         [src]="course.imageUrl"
         alt="{{ course.title + ' image' }}"
         class="course-image"
+        loading="lazy"
       />
       <div class="course-info">
         <div class="course-rating">
@@ -34,6 +35,7 @@
             [src]="'../../assets/svg/rating-star.svg'"
             alt="rating-star"
             [class.highlighted]="star <= course.avgReview"
+            loading="lazy"
           />
         </div>
         <div class="course-category">{{ course.categoryName }}</div>
@@ -44,21 +46,25 @@
               class="course-students-pic"
               src="../../assets/images/student1.webp"
               alt="student-picture"
+              loading="lazy"
             />
             <img
               class="course-students-pic"
               src="../../assets/images/student2.webp"
               alt="student-picture"
+              loading="lazy"
             />
             <img
               class="course-students-pic"
               src="../../assets/images/student3.webp"
               alt="student-picture"
+              loading="lazy"
             />
             <img
               class="course-students-pic"
               src="../../assets/images/student4.webp"
               alt="student-picture"
+              loading="lazy"
             />
           </div>
           <div class="enrollments-number" *ngIf="course.noOfStudents < 1000">
@@ -85,6 +91,7 @@
             <img
               [src]="instructor[0]?.profilePicture"
               alt="instructor-picture"
+              loading="lazy"
             />
           </div>
           <div class="instructor-name">
@@ -119,7 +126,11 @@
         *ngFor="let feedback of instructorFeedbacks"
       >
         <div class="student-image">
-          <img [src]="feedback?.studentImage" alt="student image" />
+          <img
+            [src]="feedback?.studentImage"
+            alt="student image"
+            loading="lazy"
+          />
         </div>
         <div class="student-feedback">
           <div class="student-review">
@@ -136,6 +147,7 @@
                     let n of [].constructor(feedback?.courseRating);
                     let i = index
                   "
+                  loading="lazy"
                 />
               </div>
             </div>

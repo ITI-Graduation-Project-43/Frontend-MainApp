@@ -1,0 +1,26 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/placeholders" as *;
+
+
+// Category Title
+.category-title {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    gap: 24px;
+  
+    background-color: $blackColor;
+    color: $whiteColor;
+  
+  
+    .main-title {
+      max-width: 844px;
+      @include style-font('Anton', 64px, 79px, $whiteColor)
+    }
+  
+    .description {
+      max-width: 844px;
+      @include style-font('Cabin', 24px, 29px, $whiteColor)
+    }
+  }

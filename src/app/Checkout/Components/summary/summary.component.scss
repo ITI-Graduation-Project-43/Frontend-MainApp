@@ -34,7 +34,7 @@
         background-color: lightgray;
         color: rgb(160, 160, 160);
         transform: translate(0px, 0px);
-        box-shadow: 5px 5px black, 5px 5px 0px 1px black;
+        box-shadow: 5px 5px $blackColor, 5px 5px 0px 1px $blackColor;
       }
     }
   }
@@ -65,7 +65,7 @@
       background-color: lightgray;
       color: rgb(160, 160, 160);
       transform: translate(0px, 0px);
-      box-shadow: 5px 5px black, 5px 5px 0px 1px black;
+      box-shadow: 5px 5px black, 5px 5px 0px 1px $blackColor;
 
     }
   }

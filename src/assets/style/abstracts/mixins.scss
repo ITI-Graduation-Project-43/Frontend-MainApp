@@ -23,8 +23,8 @@
 @mixin custom-header() {
   font-size: 1.6rem;
   padding: 8px 40px;
-  border: 1px solid black;
-  box-shadow: -3px -3px black;
+  border: 1px solid $blackColor;
+  box-shadow: -3px -3px $blackColor;
   border-radius: 50px;
   font-weight: 400;
   margin-bottom: 10px;

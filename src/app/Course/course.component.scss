@@ -38,7 +38,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  @include style-font($font-cabin, 24px, 32px, #721c24,400);
+  @include style-font($font-cabin, 24px, 32px, $error-color, 400);
   .error-message-photo{
     width: 80vh;
     object-fit: cover;

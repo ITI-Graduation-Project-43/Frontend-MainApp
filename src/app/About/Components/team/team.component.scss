@@ -1,37 +1,42 @@
 @use "../../../../assets/style/abstracts/variables.scss" as *;
 @use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/placeholders.scss" as *;
 
 * {
   font-family: $mainFontFamily;
 }
 .team {
-  padding: 2rem;
+  @include style-display-column-center (56px , 0);
+  padding: 88px 40px;
 }
 .header {
-  text-align: center;
-  margin-bottom: 40px;
+  @include style-display-column-center (24px , 0);
 }
 
 .header > h2 {
   @include custom-header;
-  margin: auto;
-  margin-bottom: 20px;
-  background-color: #fbe6e9;
+  background-color: $secondaryColor;
   text-transform: capitalize;
 }
 
-.header > p {
+.team-statements{
+  @include style-display-column-center (16px , 0);
+}
+.team-statements > p {
+  margin: 0;
   font-size: $fs-48;
   font-weight: 400;
+  line-height: 124.037%;
 }
 
-.header > p:last-child {
+.team-statements > p:last-child {
   font-size: $fs-24;
   font-family: $secondaryFontFamily;
 }
 .cards {
   display: grid;
   grid-template-columns: 1fr;
+  gap: 48px;
 }
 @media screen and (min-width: 441px) {
   .cards {
@@ -68,7 +73,6 @@
 }
 
 .contact {
-  padding: 2rem;
   text-align: center;
 }
 .contact button {

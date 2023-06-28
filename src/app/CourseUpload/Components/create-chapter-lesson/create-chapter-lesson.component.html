@@ -23,11 +23,13 @@
                   *ngIf="!this.chapters[i].editMode"
                   src="../../../../assets/svg/edit.svg"
                   alt="edit icon"
+                  loading="lazy"
                 />
                 <img
                   *ngIf="this.chapters[i].editMode"
                   src="../../../../assets/svg/tick.svg"
                   alt="save changes icon"
+                  loading="lazy"
                 />
               </button>
               <button>
@@ -35,12 +37,14 @@
                   src="../../../../assets/svg/delete-ico.svg"
                   alt="delete icon"
                   (click)="deleteChapter(i)"
+                  loading="lazy"
                 /></button
               ><button>
                 <img
                   src="../../../../assets/svg/menu.svg"
                   alt="collapse icon"
                   (click)="toggleChapterCollapse(i)"
+                  loading="lazy"
                 />
               </button>
             </div>
@@ -75,6 +79,7 @@
                         <img
                           src="../../../../assets/svg/edit.svg"
                           alt="edit icon"
+                          loading="lazy"
                         />
                       </button>
 
@@ -83,11 +88,13 @@
                           src="../../../../assets/svg/delete-ico.svg"
                           alt="delete icon"
                           (click)="deleteLesson(i, j)"
+                          loading="lazy"
                         /></button
                       ><button (click)="toggleCollapse(j)">
                         <img
                           src="../../../../assets/svg/menu.svg"
                           alt="collapse icon"
+                          loading="lazy"
                         />
                       </button>
                     </div>
@@ -145,6 +152,7 @@
                         <img
                           src="../../../../assets/svg/plus.svg"
                           alt="plus icon"
+                          loading="lazy"
                         />
                         Add an attachment
                       </button>
@@ -167,6 +175,7 @@
                         <img
                           src="../../../../assets/svg/delete-ico.svg"
                           alt="delete icon"
+                          loading="lazy"
                         />
                       </button>
                     </div>
@@ -238,7 +247,11 @@
                 (click)="toggleAddLessonOptions(i)"
               >
                 <div class="button-content">
-                  <img src="../../../../assets/svg/plus.svg" alt="plus icon" />
+                  <img
+                    src="../../../../assets/svg/plus.svg"
+                    alt="plus icon"
+                    loading="lazy"
+                  />
                   Add a lesson
                 </div>
               </button>
@@ -251,6 +264,7 @@
                   <img
                     src="../../../../assets/svg/back-arrow.svg"
                     alt="arrow"
+                    loading="lazy"
                   />
                 </button>
                 <button (click)="selectLessonType(i, 'Video')">Video</button>
@@ -287,8 +301,11 @@
         (click)="showAddNewChapter = true"
       >
         <div class="button-content">
-          <img src="../../../../assets/svg/plus.svg" alt="plus icon" />Add a
-          chapter
+          <img
+            src="../../../../assets/svg/plus.svg"
+            alt="plus icon"
+            loading="lazy"
+          />Add a chapter
         </div>
       </button>
     </div>

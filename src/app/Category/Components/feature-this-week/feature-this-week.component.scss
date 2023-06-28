@@ -1,0 +1,92 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/placeholders" as *;
+
+
+//Feature this week
+.featurecontainer,
+.search-result-container {
+  padding: 24px;
+  background-color: #FDF6EB;
+
+  .course-rating {
+    @include style-display-row(5.6px, 0);
+    width: 10rem;
+  }
+
+  .course-students {
+    @include style-display-row-center(8px, 0);
+
+    .student-pictures {
+      @include style-display-row(0, 0);
+      max-height: 24px;
+
+      img {
+        @include make-avatar(24px, 24px);
+        margin-left: -6px;
+      }
+    }
+
+    .enrollments-number {
+      @include style-font('Cabin', 16px, 19px, $darkGreyColor, 700);
+    }
+  }
+
+  h1 {
+    @include style-font('Anton', 24, 124.04%, $blackColor);
+    margin-bottom: 0;
+  }
+
+  .weekfeature {
+    @extend %flex-row;
+    box-sizing: border-box;
+    padding: 24px;
+    gap: 10px;
+    background: #FFFFFF;
+    border: 1px solid #181818;
+    order: 1;
+    cursor: pointer;
+
+    .image {
+      .featureImg {
+        border: 1px solid #181818;
+        width: 32rem;
+      }
+    }
+
+  }
+
+  .course-instructor-price {
+    @include style-display-row-center(0, 0);
+    justify-content: space-between;
+    width: 100%;
+
+    .course-instructor {
+      @include style-display-row-center(16px, 0);
+
+      .instructor-picture {
+        img {
+          @include make-avatar(42px, 42px);
+        }
+      }
+
+      .instructor-name {
+        @include style-font('Cabin', 16px, 19px, $darkGreyColor, 700);
+      }
+
+    }
+
+    .course-price {
+      @include style-display-column(10px, 15px, 24px);
+
+
+      background: $greenColor;
+      border: 2px solid $blackColor;
+      border-radius: 33px;
+
+
+      @include style-font('Cabin', 16px, 19px, $darkGreyColor, 700);
+    }
+  }
+}
+

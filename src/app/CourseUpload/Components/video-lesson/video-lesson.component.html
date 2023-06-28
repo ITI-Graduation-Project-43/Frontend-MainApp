@@ -3,7 +3,11 @@
     <div class="main-title">Video Title</div>
 
     <button (click)="onCancel()">
-      <img src="../../../../assets/svg/x-icon.svg" alt="" />
+      <img
+        src="../../../../assets/svg/x-icon.svg"
+        alt="close icon"
+        loading="lazy"
+      />
     </button>
   </div>
   <div class="title-data">
@@ -62,7 +66,11 @@
   <div class="lesson-content-data">
     <div class="dropzone-wrapper" *ngIf="!editedVideo.video?.videoUrl">
       <div class="dropzone-desc">
-        <img src="../../../../assets/svg/video-placeholder.svg" alt="" />
+        <img
+          src="../../../../assets/svg/video-placeholder.svg"
+          alt="video placholder"
+          loading="lazy"
+        />
         <input
           type="file"
           (change)="onVideoSelected($event)"
@@ -75,7 +83,11 @@
     <div class="video-wrapper" *ngIf="editedVideo.video?.videoUrl">
       <video [src]="editedVideo.video?.videoUrl" controls></video>
       <button (click)="onDeleteVideo()">
-        <img src="../../../../assets/svg/delete-ico.svg" alt="delete icon" />
+        <img
+          src="../../../../assets/svg/delete-ico.svg"
+          alt="delete icon"
+          loading="lazy"
+        />
       </button>
     </div>
   </div>

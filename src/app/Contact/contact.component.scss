@@ -2,15 +2,14 @@
 @use "../../assets/style/abstracts/mixins.scss" as *;
 section {
   background-color: $mainColorLight;
-  padding: 4rem;
+  padding: 88px 40px;
 }
 .card {
   display: grid;
-  grid-template: 1fr;
   background-color: transparent;
   border: none;
-  gap: 30px;
-  align-items: center;
+  gap: 40px;
+  align-items: start;
 }
 @media screen and (min-width: 768px) {
   .card {

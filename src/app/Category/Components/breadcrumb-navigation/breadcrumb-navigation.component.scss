@@ -1,0 +1,46 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/placeholders" as *;
+
+
+//NavBar Subcategory
+.subcategory {
+    background-color: $secondaryColor;
+    color: $blackColor;
+  
+    ol {
+      margin: 0;
+      @extend %flex-row-center;
+    }
+  
+    &__item {
+      @extend %flex-row-center;
+  
+      &:not(:last-child) {
+        margin-right: 1.2rem;
+      }
+  
+      // Styles for the active item
+      &--active .subcategory__link {
+        @include style-font('Anton', 24px, 124.04%, $blackColor);
+        font-weight: bold
+      }
+    }
+  
+    // Styles for separator
+    &__separator {
+      margin-left: 1.2rem;
+    }
+  
+    // Styles for links
+    &__link {
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+  
+      &:hover{
+        font-weight: bold;
+      }
+    }
+  }
+  

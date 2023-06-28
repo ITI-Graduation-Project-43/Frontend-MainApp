@@ -1,5 +1,7 @@
 @use "../../../../assets/style/abstracts/variables.scss" as *;
 @use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/placeholders.scss" as *;
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -29,22 +31,36 @@
 .child-two-child {
   border: 1px solid $blackColor;
   margin-bottom: 8px;
-  padding: 25px;
+  padding: 32px;
   display: flex;
   align-items: flex-start;
   justify-content: space-around;
   flex-flow: row wrap;
-  background-color: white;
-  gap: 15px;
+  background-color: $whiteColor;
 }
 .child-two-child div {
   width: 75%;
 }
-.child-two-child p {
-  font-family: $secondaryFontFamily;
-  font-size: 1.26rem;
-  text-align: start;
+.vision-statements{
+  @include style-display-column (24px , 0);
+  .vision-statements-heading{
+    margin: 0;
+    line-height: 124.037%;
+  }
+  .vision-statements-description{
+    width: 100%;
+    @include style-display-column (16px , 0);
+    p{
+      font-family: $font-cabin;
+      text-align: start;
+      color: #303030;
+      font-size: 20px;
+      margin: 0;
+      width: 100%;
+    }
+  }
 }
+
 
 @media screen and (max-width: 576px) {
   .child-two-child p {
@@ -55,7 +71,6 @@
   }
 }
 .child-two-child > h2 {
-  padding: 5px 40px;
   position: relative;
   width: 150px;
   height: 60px;
@@ -63,14 +78,11 @@
   background: $greenColor;
   box-shadow: 5px 5px $blackColor;
   border-radius: 50px;
-  cursor: pointer;
   font-weight: 700;
-  color: $blackColor;
-  text-align: center;
 }
-svg {
+img {
   position: absolute;
-  top: 25%;
+  top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
 }

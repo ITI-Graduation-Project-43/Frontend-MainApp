@@ -13,17 +13,25 @@
     <h1>Course Content</h1>
     <div class="course-content-details">
       <div class="course-content-details-item">
-        <img src="../../assets/svg/lecture.svg" alt="lecture-icon" />
+        <img
+          src="../../assets/svg/lecture.svg"
+          alt="lecture-icon"
+          loading="lazy"
+        />
         <div>{{ course.lessonCount }} Lectures</div>
       </div>
       <div class="ellipse-seperator"></div>
       <div class="course-content-details-item">
-        <img src="../../assets/svg/clock.svg" alt="clock icon" />
+        <img src="../../assets/svg/clock.svg" alt="clock icon" loading="lazy" />
         <div>{{ formatHours(course.noOfHours) }}</div>
       </div>
       <div class="ellipse-seperator"></div>
       <div class="course-content-details-item">
-        <img src="../../assets/svg/section.svg" alt="section icon" />
+        <img
+          src="../../assets/svg/section.svg"
+          alt="section icon"
+          loading="lazy"
+        />
         <div>{{ course.chapterCount }} Sections</div>
       </div>
     </div>
@@ -38,6 +46,7 @@
                   : '../../assets/svg/down arrow.svg'
               "
               alt="arrow"
+              loading="lazy"
             />
             <h2>{{ chapter.title }}</h2>
           </div>
@@ -55,7 +64,11 @@
           >
             <div class="lesson-main-data">
               <div class="lesson-heading">
-                <img [src]="getIconByType(lesson.type)" alt="icon" />
+                <img
+                  [src]="getIconByType(lesson.type)"
+                  alt="icon"
+                  loading="lazy"
+                />
                 <h3>{{ lesson.title }}</h3>
               </div>
               <div

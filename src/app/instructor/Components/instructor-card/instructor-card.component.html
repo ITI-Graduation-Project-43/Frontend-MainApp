@@ -1,10 +1,18 @@
 <div class="instructor-details-card">
   <div class="course-picture">
-    <img [src]="instructor[0].profilePicture" alt="instructor image" />
+    <img
+      [src]="instructor[0].profilePicture"
+      alt="instructor image"
+      loading="lazy"
+    />
   </div>
   <div class="course-info">
     <div class="course-rating">
-      <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+      <img
+        src="../../assets/svg/rating-star.svg"
+        alt="rating-star"
+        loading="lazy"
+      />
       <span> {{ instructor[0].avgRating }} Instructor Rating</span>
     </div>
     <div class="course-students">

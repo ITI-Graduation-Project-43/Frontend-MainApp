@@ -18,12 +18,17 @@
       [src]="course.instructorProfilePicture"
       alt="instrucotr-picture"
       class="instructor-avatar"
+      loading="lazy"
     />
 
     <div class="instructor-info-details">
       <div class="instructor-main-info">
         <div class="instructor-rating">
-          <img src="../../assets/svg/rating-star.svg" alt="star icon" />
+          <img
+            src="../../assets/svg/rating-star.svg"
+            alt="star icon"
+            loading="lazy"
+          />
           <span>{{ course.instructorAvgRating }} Instructor Rating </span>
         </div>
         <div class="instructor-name">{{ course.instructorName }}</div>

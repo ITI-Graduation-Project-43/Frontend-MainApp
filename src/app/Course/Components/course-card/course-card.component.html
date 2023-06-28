@@ -25,7 +25,7 @@
   <div class="course-details-card">
     <div class="course-details-name" *ngIf="isScroll">{{ course.title }}</div>
     <div class="course-picture" *ngIf="!isScroll">
-      <img [src]="course.imageUrl" alt="course image" />
+      <img [src]="course.imageUrl" alt="course image" loading="lazy" />
     </div>
     <div class="course-info" *ngIf="!isScroll">
       <div class="course-rating">
@@ -33,6 +33,7 @@
           *ngFor="let star of ' '.repeat(course.avgReview).split('')"
           src="../../assets/svg/rating-star.svg"
           alt="rating-star"
+          loading="lazy"
         />
       </div>
       <div class="course-students">
@@ -44,6 +45,7 @@
               student.profilePicture || '../../assets/images/student1.webp'
             "
             alt="{{ student.firstName + ' ' + student.lastName + ' photo' }}"
+            loading="lazy"
           />
         </div>
         <div class="enrollments-number" *ngIf="course.noOfStudents < 1000">
@@ -83,23 +85,43 @@
       <h2>This course includes:</h2>
       <ul class="course-details-items">
         <li class="course-details-item">
-          <img src="../../assets/svg/lecture.svg" alt="lecture-icon" />
+          <img
+            src="../../assets/svg/lecture.svg"
+            alt="lecture-icon"
+            loading="lazy"
+          />
           {{ course.lessonCount }} Lessons
         </li>
         <li class="course-details-item">
-          <img src="../../assets/svg/clock.svg" alt="clock-icon" />
+          <img
+            src="../../assets/svg/clock.svg"
+            alt="clock-icon"
+            loading="lazy"
+          />
           {{ course.noOfHours }} Hours
         </li>
         <li class="course-details-item">
-          <img src="../../assets/svg/article.svg" alt="article-icon" />
+          <img
+            src="../../assets/svg/article.svg"
+            alt="article-icon"
+            loading="lazy"
+          />
           {{ course.noOfArticles }} Articles
         </li>
         <li class="course-details-item">
-          <img src="../../assets/svg/pen.svg" alt="excercise-icon" />
+          <img
+            src="../../assets/svg/pen.svg"
+            alt="excercise-icon"
+            loading="lazy"
+          />
           {{ course.noOfQuizes }} Excercises
         </li>
         <li class="course-details-item">
-          <img src="../../assets/svg/completion.svg" alt="excercise-icon" />
+          <img
+            src="../../assets/svg/completion.svg"
+            alt="excercise-icon"
+            loading="lazy"
+          />
           Completion certificate
         </li>
       </ul>
@@ -110,6 +132,7 @@
           <img
             [src]="course.instructorProfilePicture"
             alt="instructor-picture"
+            loading="lazy"
           />
         </div>
         <div class="instructor-name">{{ course.instructorName }}</div>

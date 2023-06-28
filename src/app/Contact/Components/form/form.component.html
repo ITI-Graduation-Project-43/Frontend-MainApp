@@ -5,7 +5,11 @@
   <div class="parent">
     <div class="form-group name-field">
       <input type="text" formControlName="name" placeholder="  Name" />
-      <img src="../../../../assets/svg/user.svg" alt="" />
+      <img
+        src="../../../../assets/svg/user.svg"
+        alt="user icon"
+        loading="lazy"
+      />
       <div
         *ngIf="name?.invalid && (name?.dirty || name?.touched)"
         class="text-danger"
@@ -21,7 +25,11 @@
         formControlName="email"
         placeholder="  Email"
       />
-      <img src="../../../../assets/svg/email.svg" alt="" />
+      <img
+        src="../../../../assets/svg/email.svg"
+        alt="email icon"
+        loading="lazy"
+      />
       <div
         *ngIf="email?.invalid && (email?.dirty || email?.touched)"
         class="text-danger"
@@ -36,9 +44,13 @@
         rows="10"
         id="message"
         formControlName="message"
-        placeholder="  Message...."
+        placeholder="  Message..."
       ></textarea>
-      <img src="../../../../assets/svg/message.svg" alt="" />
+      <img
+        src="../../../../assets/svg/message.svg"
+        alt="message icon"
+        loading="lazy"
+      />
       <div
         *ngIf="message?.invalid && (message?.dirty || message?.touched)"
         class="text-danger"

@@ -3,7 +3,7 @@
 @use "../../../../assets/style/abstracts/placeholders" as *;
 
 .order-container {
-  background-color: #FDF6EB;
+  background-color:$mainColorLight;
 
   .course-rating {
     @include style-display-row(5.6px, 0);

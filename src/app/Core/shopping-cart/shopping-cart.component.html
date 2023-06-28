@@ -2,7 +2,7 @@
   <div class="cart-header">
     <div>Cart</div>
     <div (click)="hideCart()">
-      <img src="../../../assets/svg/x.svg" alt="close icon" />
+      <img src="../../../assets/svg/x.svg" alt="close icon" loading="lazy" />
     </div>
   </div>
   <div
@@ -17,7 +17,7 @@
     <ng-container *ngIf="totalCourses !== 0">
       <div class="cart-course" *ngFor="let course of cartItems | async">
         <div class="course-image">
-          <img [src]="course.imageUrl" alt="course image" />
+          <img [src]="course.imageUrl" alt="course image" loading="lazy" />
         </div>
         <div class="course-info">
           <div class="course-main-info">
@@ -30,6 +30,7 @@
                 "
                 src="../../../assets/svg/rating-star.svg"
                 alt="star"
+                loading="lazy"
               />
             </div>
             <div class="course-name">{{ course.title }}</div>
@@ -38,6 +39,7 @@
                 <img
                   [src]="course.instructorProfilePicture"
                   alt="instructor image"
+                  loading="lazy"
                 />
               </div>
 
@@ -49,7 +51,11 @@
               {{ course.price | currency : "USD" }}
             </div>
             <div class="delete-course" (click)="removeItem(course)">
-              <img src="../../../assets/svg/delete.svg" alt="delete icon" />
+              <img
+                src="../../../assets/svg/delete.svg"
+                alt="delete icon"
+                loading="lazy"
+              />
             </div>
           </div>
         </div>

@@ -4,7 +4,7 @@
 
 
 .wrapper {
-    font-family: Cabin;
+    font-family: $font-cabin;
     input[type="radio"]{
         width: 24px;
         height: 24px;
@@ -17,7 +17,7 @@
         justify-content: space-between;
 
         h1 {
-            @include style-font('Cabin', 15, 124.04%, $blackColor, 600);
+            @include style-font($font-cabin, 15, 124.04%, $blackColor, 600);
             font-size: 24px;
         }
 
@@ -62,7 +62,7 @@
             @extend %simple-black-border;
             padding: 1rem;
 
-            
+
 
             .input-sec {
                 @extend %flex-column;

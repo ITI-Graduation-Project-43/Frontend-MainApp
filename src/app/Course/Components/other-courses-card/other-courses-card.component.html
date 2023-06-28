@@ -64,6 +64,7 @@
               [src]="course.courseImageUrl"
               alt="{{ course.courseTitle + 'image ' }}"
               class="course-image"
+              loading="lazy"
             />
             <div class="course-info">
               <div class="course-rating">
@@ -72,6 +73,7 @@
                   [src]="'../../assets/svg/rating-star.svg'"
                   alt="rating-star"
                   [class.highlighted]="star <= course.courseAvgReview"
+                  loading="lazy"
                 />
               </div>
               <div class="course-category">{{ course.courseCategoryName }}</div>
@@ -91,6 +93,7 @@
                         student.studentLastName +
                         ' photo'
                     }}"
+                    loading="lazy"
                   />
                 </div>
                 <div
@@ -125,6 +128,7 @@
                   <img
                     [src]="course.instructorProfilePicture"
                     alt="instructor-picture"
+                    loading="lazy"
                   />
                 </div>
                 <div class="instructor-name">

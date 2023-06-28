@@ -1,33 +1,56 @@
 <div class="order-container">
-    <h1 class="mt-5 mb-2">Order details</h1>
-    <div class="order-course" *ngFor="let course of service.orderCourses">
-        <div class="image me-1">
-            <img class="order-img" src={{course.imageUrl}} alt="">
-        </div>
-        <div class="details">
-            <div class="upsection">
-                <div class="course-rating">
-                    <img src="../../../../assets/svg/rating-star.svg" alt="rating-star"
-                        *ngFor="let star of ' '.repeat(course.avgReview).split('')">
-                </div>
-                <h6>{{course.subCategoryName}}</h6>
-                <h1>{{course.title}}</h1>
-            </div>
-            <div class="downsection">
-                <div class="course-instructor-price">
-                    <div class="course-instructor">
-                        <div class="instructor-picture">
-                            <img src={{course.instructorProfilePicture}} alt="instructor-picture" />
-                        </div>
-                        <div class="instructor-name">{{course.instructorName}}</div>
-                    </div>
-                    <div class="course-price">{{course.price}} USD</div>
-                </div>
-                <div class="use-coupon">
-                    <app-course-coupon *ngIf="service.couponBtn && service.specificCard != course.id" [courseId]="course.id" [coursePrice]="course.price" [courseTitle]="course.title"></app-course-coupon>
-                    <div *ngIf="!(service.couponBtn && service.specificCard != course.id)" class="course-discount">-{{service.courseDiscount}} %</div>
-                </div>
-            </div>
-        </div>
+  <h1 class="mt-5 mb-2">Order details</h1>
+  <div class="order-course" *ngFor="let course of service.orderCourses">
+    <div class="image me-1">
+      <img
+        class="order-img"
+        src="{{ course.imageUrl }}"
+        alt="course image"
+        loading="lazy"
+      />
     </div>
+    <div class="details">
+      <div class="upsection">
+        <div class="course-rating">
+          <img
+            src="../../../../assets/svg/rating-star.svg"
+            alt="rating-star"
+            loading="lazy"
+            *ngFor="let star of ' '.repeat(course.avgReview).split('')"
+          />
+        </div>
+        <h6>{{ course.subCategoryName }}</h6>
+        <h1>{{ course.title }}</h1>
+      </div>
+      <div class="downsection">
+        <div class="course-instructor-price">
+          <div class="course-instructor">
+            <div class="instructor-picture">
+              <img
+                src="{{ course.instructorProfilePicture }}"
+                alt="instructor-picture"
+                loading="lazy"
+              />
+            </div>
+            <div class="instructor-name">{{ course.instructorName }}</div>
+          </div>
+          <div class="course-price">{{ course.price }} USD</div>
+        </div>
+        <div class="use-coupon">
+          <app-course-coupon
+            *ngIf="service.couponBtn && service.specificCard != course.id"
+            [courseId]="course.id"
+            [coursePrice]="course.price"
+            [courseTitle]="course.title"
+          ></app-course-coupon>
+          <div
+            *ngIf="!(service.couponBtn && service.specificCard != course.id)"
+            class="course-discount"
+          >
+            -{{ service.courseDiscount }} %
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

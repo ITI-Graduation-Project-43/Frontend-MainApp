@@ -7,17 +7,27 @@
     <!-- List to hold breadcrumb items -->
     <ol>
       <li class="breadcrumb__item breadcrumb__item--active">
-        <a class="breadcrumb__link" routerLink="/category/{{categoryId}}">{{ categoryName }}</a>
+        <a class="breadcrumb__link" routerLink="/category/{{ categoryId }}">{{
+          categoryName
+        }}</a>
         <!-- Breadcrumb separator (SVG) -->
         <div class="breadcrumb__separator">
-          <img src="../../assets/svg/breadcrum-vector.svg" alt="arrow" />
+          <img
+            src="../../assets/svg/breadcrum-vector.svg"
+            alt="arrow"
+            loading="lazy"
+          />
         </div>
       </li>
       <li class="breadcrumb__item">
         <a class="breadcrumb__link">{{ subCategoryName }}</a>
         <!-- Breadcrumb separator (SVG) -->
         <div class="breadcrumb__separator">
-          <img src="../../assets/svg/breadcrum-vector.svg" alt="arrow" />
+          <img
+            src="../../assets/svg/breadcrum-vector.svg"
+            alt="arrow"
+            loading="lazy"
+          />
         </div>
       </li>
       <li class="breadcrumb__item">

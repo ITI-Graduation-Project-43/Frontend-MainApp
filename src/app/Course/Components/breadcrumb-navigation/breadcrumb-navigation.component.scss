@@ -21,17 +21,14 @@
     &:not(:last-child) {
       margin-right: 1.2rem;
     }
-    // Additional styles for the active breadcrumb item
     &--active .breadcrumb__link {
       @include style-font($font-anton,24px,124.04%,$blackColor);
       font-weight:bold
     }
   }
-  // Styles for breadcrumb separator
   &__separator {
     margin-left: 1.2rem;
   }
-  // Styles for breadcrumb links
 
     &__link:not(:first-child){
       text-decoration: none;

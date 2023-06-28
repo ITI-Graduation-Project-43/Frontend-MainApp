@@ -1,0 +1,21 @@
+<!-- NavBar -->
+<nav aria-label="subcategory" class="subcategory">
+    <ol>
+        <li class="subcategory__item subcategory__item--active">
+            <a class="subcategory__link" routerLink="/category/{{categoryService.mainCategory?.id}}">{{categoryService.mainCategory?.name}}</a>
+            <!-- Separator (SVG) -->
+            <div class="subcategory__separator">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1" height="70" viewBox="0 0 1 77" fill="none"
+                [ngStyle]="{'display': subCategories.length ? 'inline' : 'none'}"
+                [ngStyle]="{'padding': subCategories.length ? '0' : '1rem'}">
+                    <line x1="0.5" y1="77" x2="0.5" stroke="#303030" />
+                </svg>
+            </div>
+        </li>
+
+        <!-- Subcategories names -->
+        <li class="subcategory__item" *ngFor="let subCat of subCategories">
+            <a class="subcategory__link" (click)="newCategory(subCat.id)">{{subCat?.name}}</a>
+        </li>
+    </ol>
+</nav>

@@ -1,21 +1,5 @@
-<app-category-title></app-category-title>
-<app-breadcrumb-navigation></app-breadcrumb-navigation>
-<app-feature-this-week></app-feature-this-week>
-
-<!-- Learning Journey -->
-<div class="learning-journey">
-    <app-entry-level-courses></app-entry-level-courses>
-    <app-top-instructors></app-top-instructors>
-</div>
-
-
-<app-recent-courses></app-recent-courses>
-
-<app-filter-courses></app-filter-courses>
-
-<!-- All Developement Courses -->
-<!-- <div class="all-courses">
-    <h1 class="mt-5 mb-2">All {{mainCategory?.name}} Courses</h1>
+<div class="all-courses">
+    <h1 class="mt-5 mb-2">All {{categoryService.mainCategory?.name}} Courses</h1>
     <div class="control-container">
         <div class="controls">
             <section>
@@ -129,7 +113,7 @@
                     </svg>
                 </div>
                 <div class="checks" *ngIf="!subCategoryChoices">
-                    <div *ngFor="let subCat of subcategories">
+                    <div *ngFor="let subCat of categoryService.subCategories">
                         <input type="checkbox" class="form-check-input me-1" id={{subCat.name}}
                             [(ngModel)]="subcategoryFilters[subCat.name]" (ngModelChange)="filter()">
                         <label for={{subCat.name}}>{{subCat.name}}</label>
@@ -281,8 +265,4 @@
             <img src="../../assets/images/No data-rafiki.png" alt="No Data Available">
         </div>
     </div>
-
-</div> -->
-
-
-
+</div>

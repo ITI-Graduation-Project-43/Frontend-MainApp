@@ -6,6 +6,13 @@ import { FormsModule } from '@angular/forms';
 import { CourseCardComponent } from './Components/course-card/course-card.component';
 import { RouterModule } from '@angular/router';
 import { LoaderComponent } from './Components/loader/loader.component';
+import { BreadcrumbNavigationComponent } from './Components/breadcrumb-navigation/breadcrumb-navigation.component';
+import { FeatureThisWeekComponent } from './Components/feature-this-week/feature-this-week.component';
+import { EntryLevelCoursesComponent } from './Components/entry-level-courses/entry-level-courses.component';
+import { TopInstructorsComponent } from './Components/top-instructors/top-instructors.component';
+import { RecentCoursesComponent } from './Components/recent-courses/recent-courses.component';
+import { FilterCoursesComponent } from './Components/filter-courses/filter-courses.component';
+import { CategoryTitleComponent } from './Components/category-title/category-title.component';
 
 
 
@@ -14,6 +21,13 @@ import { LoaderComponent } from './Components/loader/loader.component';
     CategoryComponent,
     CourseCardComponent,
     LoaderComponent,
+    BreadcrumbNavigationComponent,
+    FeatureThisWeekComponent,
+    EntryLevelCoursesComponent,
+    TopInstructorsComponent,
+    RecentCoursesComponent,
+    FilterCoursesComponent,
+    CategoryTitleComponent,
   ],
   imports: [
     CommonModule,

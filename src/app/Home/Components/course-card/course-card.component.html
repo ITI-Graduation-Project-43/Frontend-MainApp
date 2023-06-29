@@ -1,5 +1,5 @@
 <div class="courses mt-5">
-  <div class="course d-flex flex-column justify-content-between gap-3" #cours *ngFor="let course of courses"  (mouseenter)="checkPosition(cours, details)" (mouseleave)="resetPosition(cours)">
+  <div class="course d-flex flex-column justify-content-between gap-3" #cours *ngFor="let course of courses"  (mouseenter)="checkPosition(cours, details)" (mouseleave)="resetPosition(details)">
     <div class="image">
       <img [src]="course?.imageUrl" [alt]="course?.categoryName + ' courseimage'">
     </div>
@@ -47,7 +47,7 @@
         <div class="price">{{ course.price | currency }}</div>
       </div>
     </div>
-    <div class="course-details d-none flex-column justify-content-between" #details (mouseenter)="checkPosition(cours, details)">
+    <div class="course-details d-none flex-column justify-content-between" #details>
       <div class="info">
         <h4>This Course includes:</h4>
         <ul>

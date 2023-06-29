@@ -105,6 +105,7 @@ export class CourseCardComponent implements OnChanges, OnDestroy {
   resetPosition(details: HTMLElement) {
     details.classList.remove("hovered");
     details.classList.remove("open-right");
+    console.log("tarek");
   }
 
   ngOnDestroy(): void {

@@ -257,7 +257,6 @@
   .navbar__register-btn {
     .register-button {
       @include custom-button($greenColor,$blackColor,$whiteColor,43px);
-      // padding: 7px 22px;
     }
   }
 }

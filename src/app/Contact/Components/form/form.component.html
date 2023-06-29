@@ -58,8 +58,8 @@
         <span *ngIf="message?.errors?.['required']">Message is required.</span>
       </div>
     </div>
+    <button type="submit" [ngClass]="{ 'login w-100': true, send: submit }">
+      <span>Send</span>
+    </button>
   </div>
-  <button type="submit" [ngClass]="{ 'login w-100': true, send: submit }">
-    <span>Send</span>
-  </button>
 </form>

@@ -95,6 +95,10 @@
   background-color: $whiteColor;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 @media (min-width: 992px) {
   .px-lg-40 {
     padding-left: 40px !important;

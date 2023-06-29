@@ -28,8 +28,9 @@ section {
     margin-left: auto;
 
     .save {
-      @include custom-button(red,$blackColor,$blackColor, 22px);
-      color: white;
+      @include custom-button($error-color,$blackColor,$blackColor, 22px);
+      color: $whiteColor;
+      background-color: $error-color !important;
       padding: 7px 10px;
       &.send {
         display: block;
@@ -54,7 +55,7 @@ section {
             content: "";
             width: 20px;
             height: 20px;
-            border: 3px solid black;
+            border: 3px solid $blackColor;
             border-left: 3px solid transparent;
             animation-name: load;
             animation-timing-function: linear;

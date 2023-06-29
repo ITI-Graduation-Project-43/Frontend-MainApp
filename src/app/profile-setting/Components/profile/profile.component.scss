@@ -238,14 +238,10 @@ section {
           .profile {
             @include custom-button($mainColorLight,$blackColor,$blackColor,22px);
             margin-right: 20px;
-            padding-top: 7px;
-            padding-bottom: 7px;
           }
 
           .save {
-            @include custom-button($greenColor,$blackColor,$blackColor, 22px);
-            padding-top: 7px;
-            padding-bottom: 7px;
+            @include custom-button($greenColor,$blackColor,$blackColor, 43px);
             &.send {
               position: relative;
               padding: 7px 9px;

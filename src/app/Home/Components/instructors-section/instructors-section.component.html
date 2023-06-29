@@ -56,59 +56,10 @@
           fill="#181818"
         />
       </svg>
-      <a *ngFor="let instructor of instructors" [id]="instructor.id">
+      <a *ngFor="let instructor of instructors" [routerLink]="'/instructorDetails/' + instructor.id">
         <img
           [src]="instructor.profilePicture"
           alt="instructor profile photo"
-          loading="lazy"
-        />
-      </a>
-      <a>
-        <img
-          src="../../../../assets/images/student1.jpg"
-          alt="student photo"
-          loading="lazy"
-        />
-      </a>
-      <a>
-        <img
-          src="../../../../assets/images/student1.jpg"
-          alt="student photo"
-          loading="lazy"
-        />
-      </a>
-      <a>
-        <img
-          src="../../../../assets/images/student1.jpg"
-          alt="student photo"
-          loading="lazy"
-        />
-      </a>
-      <a>
-        <img
-          src="../../../../assets/images/student1.jpg"
-          alt="student photo"
-          loading="lazy"
-        />
-      </a>
-      <a>
-        <img
-          src="../../../../assets/images/student1.jpg"
-          alt="student photo"
-          loading="lazy"
-        />
-      </a>
-      <a>
-        <img
-          src="../../../../assets/images/instructor.webp"
-          alt="student photo"
-          loading="lazy"
-        />
-      </a>
-      <a>
-        <img
-          src="../../../../assets/images/student1.jpg"
-          alt="student photo"
           loading="lazy"
         />
       </a>

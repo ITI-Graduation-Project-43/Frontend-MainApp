@@ -71,7 +71,7 @@
         <span *ngIf="title?.errors?.['pattern']">Shouldn't extend 255 characters</span>
       </div>
       <div [ngClass]="{'form-outline mb-4 d-flex flex-column bio':true, 'send': saving}">
-        <div>
+        <div class="bg-white">
           <span (click)="bold(textarea)">B</span>
           <span (click)="italic(textarea)">I</span>
         </div>

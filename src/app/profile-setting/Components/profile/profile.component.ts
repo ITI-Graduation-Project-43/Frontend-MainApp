@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/Shared/Helper/local-storage.service';
 import { APIService } from 'src/app/Shared/Services/api.service';
 import { NotificationService } from 'src/app/Shared/Services/notification.service';
@@ -33,6 +32,7 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getAllAccounts();
     let UpdateUserObserver = {
       next: (data: any) => {
         if (data.message == 'new') {

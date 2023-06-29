@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TimeTrackingService } from 'src/app/Services/time-tracking.service';
 import { LocalStorageService } from 'src/app/Shared/Helper/local-storage.service';
+import { NotificationService } from 'src/app/Shared/Services/notification.service';
 
 @Component({
   selector: 'app-overview',
@@ -15,13 +16,22 @@ export class OverviewComponent implements OnInit {
 
   constructor(
     private timeTrackingService: TimeTrackingService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private NotificationService: NotificationService
   ) {
     this.instructorId = this.localStorageService.decodeToken().Id;
     this.instructor = this.localStorageService.getUserInfo();
   }
   ngOnInit() {
-    this.isLoading = true;
+    let obvserver = {
+      next: (data: any) => {
+        if(data.message == 'getNewUserInformation') {
+          this.instructor = this.localStorageService.getUserInfo();
+        }
+      }
+    };
+    this.NotificationService.notifications.subscribe(obvserver);
+
     this.timeTrackingService
       .GetTotalHours(this.instructorId)
       .subscribe((data: number) => {

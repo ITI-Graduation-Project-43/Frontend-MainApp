@@ -34,6 +34,7 @@ import { RouterLink } from '@angular/router';
     CommonModule,
     RouterLink,
     HomeRoutingModule
-  ]
+  ],
+  exports: [StatisticsSectionComponent]
 })
 export class HomeModule { }

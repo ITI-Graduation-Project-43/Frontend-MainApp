@@ -18,8 +18,10 @@ export class CloseAccoutComponent implements OnDestroy {
   confirmDeleteForm !: FormGroup;
   dialogRef !: MatDialogRef<ConfirmationComponent>;
   unSubscribe !: Subscription;
+  role !: string;
 
   constructor(private http: APIService, private dialog: MatDialog, private Notification: NotificationService, private LocalStorageService: LocalStorageService) {
+    this.role = LocalStorageService.decodeToken().Role;
     this.getStudentCourses();
   }
 
@@ -29,13 +31,9 @@ export class CloseAccoutComponent implements OnDestroy {
         if(data.success) {
           this.numberOfStudentCourses = data.items.length;
         }
-      },
-      complete: () => {
-      },
-      error: () => {
       }
     }
-    this.unSubscribe = this.http.getAllItem(`Enrollment/Student/${this.LocalStorageService.getUserInfo().Id}`).subscribe(observer);
+    this.unSubscribe = this.http.getAllItem(`Enrollment/Student/${this.LocalStorageService.getUserInfo().id}`).subscribe(observer);
   }
 
   confirmation(): void {

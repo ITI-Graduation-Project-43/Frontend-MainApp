@@ -39,12 +39,14 @@ export class LocalStorageService {
 
   decodeToken() {
     this.decryptLocalStorageData();
-    return this.helper.decodeToken(this.encryptedToken);
+    return this.helper.decodeToken(this.encryptedToken)
   }
 
   getUserInfo(): any {
     this.decryptLocalStorageData();
-    return JSON.parse(this.decryptedData).User;
+    if(this.decryptedData) {
+      return JSON.parse(this.decryptedData)?.User;
+    }
   }
 
   updateUserInfo(user: any) {

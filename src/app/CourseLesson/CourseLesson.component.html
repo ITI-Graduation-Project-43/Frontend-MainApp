@@ -250,6 +250,13 @@
   </div>
 </ng-template>
 
+<div>
+  <app-course-discussion
+    [lessonId]="lessonId"
+    [studentId]="user?.Id"
+  ></app-course-discussion>
+</div>
+
 <div *ngIf="!isAuthorized">
   You are not authorized to access this page
   <img

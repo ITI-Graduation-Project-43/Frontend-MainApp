@@ -63,7 +63,6 @@ export class CourseLessonComponent implements OnInit, OnDestroy {
       this.courseId = +params['courseId'];
       this.lessonId = +params['lessonId'];
     });
-
     this.courseService.courseId = this.courseId;
     this.courseService.checkEnrolledIn();
 
@@ -78,13 +77,15 @@ export class CourseLessonComponent implements OnInit, OnDestroy {
 
     this.login = this.LocalStorageService.checkTokenExpiration();
     this.user = this.LocalStorageService.decodeToken();
-    if (this.user.Role == 'Student') {
+    if (this.user && this.user?.Role == 'Student') {
       this.timeTrackingService
         .recordStartTime(this.user.Id, this.courseId)
         .subscribe(
           (response: any) => {},
           (error) => {}
         );
+    } else {
+      this.router.navigate(['home']);
     }
   }
 

@@ -1,3 +1,86 @@
-<p>
-  course-discussion works!
-</p>
+<div class="container my-3">
+  <div *ngFor="let discussion of discussions">
+    <div class="discussion">
+      <div class="card my-2">
+        <div class="card-body">
+          <h5 class="card-title">{{ discussion.username }}</h5>
+          <p class="card-text">{{ discussion.content }}</p>
+          <button class="btn btn-light" (click)="startReply(discussion.id)">
+            Reply
+          </button>
+          <div *ngIf="newDiscussionParentId === discussion.id">
+            <form (submit)="addDiscussion()">
+              <div class="mb-3">
+                <label for="content" class="form-label">Reply Content</label>
+                <textarea
+                  class="form-control"
+                  [(ngModel)]="newDiscussionContent"
+                  name="content"
+                  id="content"
+                  rows="3"
+                  required
+                ></textarea>
+                <button type="submit" class="btn btn-primary mt-2">
+                  Add Reply
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div *ngFor="let reply of discussions">
+        <ng-container *ngIf="reply.parentDiscussionId === discussion.id">
+          <div class="reply">
+            <div class="card my-2">
+              <div class="card-body">
+                <h5 class="card-title">{{ reply.username }}</h5>
+                <p class="card-text">{{ reply.content }}</p>
+                <button class="btn btn-light" (click)="startReply(reply.id)">
+                  Reply
+                </button>
+                <div *ngIf="newDiscussionParentId === reply.id">
+                  <form (submit)="addDiscussion()">
+                    <div class="mb-3">
+                      <label for="content" class="form-label"
+                        >Reply Content</label
+                      >
+                      <textarea
+                        class="form-control"
+                        [(ngModel)]="newDiscussionContent"
+                        name="content"
+                        id="content"
+                        rows="3"
+                        required
+                      ></textarea>
+                      <button type="submit" class="btn btn-primary mt-2">
+                        Add Reply
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <div class="my-3">
+    <h4 class="mb-3">Add a Discussion</h4>
+    <form (submit)="addDiscussion()">
+      <div class="mb-3">
+        <label for="content" class="form-label">Discussion Content</label>
+        <textarea
+          class="form-control"
+          [(ngModel)]="newDiscussionContent"
+          name="content"
+          id="content"
+          rows="3"
+          required
+        ></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Add discussion</button>
+    </form>
+  </div>
+</div>

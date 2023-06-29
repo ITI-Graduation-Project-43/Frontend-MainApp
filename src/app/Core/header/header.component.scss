@@ -4,11 +4,26 @@
 .navbar {
   background-color: $mainColorLight;
   font-size: $fs-24;
+  padding: 24px 40px;
 
   &.dark-background {
     background-color: $blackColor;
     * {
-      color: $whiteColor !important;
+      color: $blackColor;
+    }
+
+    .navbar-toggler {
+      background-color: $whiteColor;
+
+    }
+
+    .navbar-brand {
+      span {
+        color: $whiteColor;
+      }
+      path {
+        fill: $whiteColor !important;
+      }
     }
 
     .nav-item {
@@ -16,16 +31,6 @@
         &::after {
           background-color: $whiteColor;
         }
-      }
-    }
-
-    .register-button {
-      color: $blackColor !important;
-    }
-
-    .navbar-brand {
-      path {
-        fill: white !important;
       }
     }
 
@@ -46,7 +51,14 @@
 
     .navbar__cart-icon {
       path {
-        fill: $whiteColor;
+        fill: $blackColor;
+      }
+    }
+
+    .navbar__register-btn {
+      .register-button {
+        @include custom-button($greenColor, $blackColor, $whiteColor,43px);
+        color: $blackColor !important;
       }
     }
   }
@@ -65,38 +77,79 @@
     box-shadow: none;
   }
 
-  a {
-    text-decoration: none;
-  }
   .nav-item {
-    a {
-      width: fit-content;
-      position: relative;
-
-      &::after {
-        content: "";
-        position: absolute;
-        width: 0%;
-        height: 2px;
-        left: 50%;
-        bottom: 5px;
-        background-color: $blackColor        ;
-        transform: translateX(-50%);
-        -webkit-transform: translateX(-50%);
-        -moz-transform: translateX(-50%);
-        -ms-transform: translateX(-50%);
-        -o-transform: translateX(-50%);
-        transition: 0.3s;
-        -webkit-transition: 0.3s;
-        -moz-transition: 0.3s;
-        -ms-transition: 0.3s;
-        -o-transition: 0.3s;
-      }
-
-      &.active,
-      &:hover {
+    width: fit-content;
+    position: relative;
+    cursor: pointer;
+    &:not(.categories-list) {
+      a {
         &::after {
-          width: 70%;
+          content: "";
+          position: absolute;
+          width: 0%;
+          height: 2px;
+          left: 50%;
+          bottom: 5px;
+          background-color: $blackColor        ;
+          transform: translateX(-50%);
+          -webkit-transform: translateX(-50%);
+          -moz-transform: translateX(-50%);
+          -ms-transform: translateX(-50%);
+          -o-transform: translateX(-50%);
+          transition: 0.3s;
+          -webkit-transition: 0.3s;
+          -moz-transition: 0.3s;
+          -ms-transition: 0.3s;
+          -o-transition: 0.3s;
+        }
+
+        &.active,
+        &:hover {
+          &::after {
+            width: 70%;
+          }
+        }
+      }
+    }
+
+    .category-container {
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+      padding: 8px 0;
+      position: relative;
+      flex-direction: column;
+      left: 0%;
+      display: flex;
+      > .alter-nav {
+        cursor: auto;
+        color:  #8c8989;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      ul {
+        height: auto;
+        font-size: 18px;
+        width: auto;
+        gap: 10px;
+        padding: 0;
+        &:not(:first-child) {
+          border-left: none;
+        }
+        li {
+          span {
+            color: $blackColor !important;
+          }
+          &:hover,
+          &.active {
+            span {
+              color: $succes-color !important;
+            }
+            > svg {
+              use {
+                fill: $succes-color;
+              }
+            }
+          }
         }
       }
     }
@@ -122,22 +175,12 @@
         -o-border-radius: 50%;
       }
       .options {
-        display: none;
-        position: absolute;
-        width: 220px;
-        z-index: 1;
-        margin-bottom: 0;
-        background: white;
-        border: 1px solid black;
-        padding: 10px;
-        top: 50px;
-        right: 0;
-        overflow: hidden;
-        transition: 0.3s;
-        -webkit-transition: 0.3s;
-        -moz-transition: 0.3s;
-        -ms-transition: 0.3s;
-        -o-transition: 0.3s;
+        display: block;
+        position: relative;
+        width: auto;
+        border: none;
+        padding: 0;
+        top: 0px;
         &.active {
           display: block;
         }
@@ -194,8 +237,144 @@
 
   .navbar__register-btn {
     .register-button {
-      @include custom-button($greenColor,$blackColor,$whiteColor,43px);
-      // padding: 7px 22px;
+      @include custom-button($whiteColor, $blackColor, $blackColor,43px);
     }
   }
 }
+
+.collapse:not(.show) {
+  display: flex;
+  position: fixed;
+  top: 0;
+  right: -350px;
+  width: auto;
+  height: 100%;
+  background: $whiteColor;
+  color: $blackColor;
+  transition: right 0.6s;
+  -webkit-transition: right 0.6s;
+  -moz-transition: right 0.6s;
+  -ms-transition: right 0.6s;
+  -o-transition: right 0.6s;
+  span {
+    width: fit-content;
+    cursor: pointer;
+  }
+}
+
+.responsive__active {
+  right: 0% !important;
+  z-index: 10000000000;
+  overflow: auto;
+}
+
+@media (min-width: 992px) {
+  .navbar {
+    &.dark-background {
+      background-color: $blackColor;
+
+      * {
+        color: $whiteColor !important;
+      }
+
+      .nav-item {
+        &:not(.categories-list) {
+          a {
+            &::after {
+              background-color: $whiteColor;
+            }
+          }
+        }
+      }
+
+      .navbar__cart-icon {
+        text-align: center;
+        path {
+          fill: $whiteColor;
+        }
+      }
+    }
+
+    .navbar-collapse {
+      position: relative;
+      right: 0;
+      background: transparent;
+    }
+
+    .nav-item {
+      .category-container {
+        border: none;
+        position: absolute;
+        padding-top: 0;
+        padding-bottom: 0;
+        flex-direction: row;
+        left: -150%;
+        display: none;
+
+        ul {
+          overflow: auto;
+          max-height: 535px;
+          padding: 15px;
+          font-size: 18px;
+          width: 245px;
+          gap: 10px;
+          &:not(.categories) {
+            border-left: 1px solid #ccc;
+          }
+          li {
+            color: $blackColor;
+            &:hover,
+            &.active {
+              span {
+                color: $succes-color;
+              }
+              > svg {
+                use {
+                  fill: $succes-color;
+                }
+              }
+            }
+          }
+        }
+
+        &.open {
+          display: flex;
+          color: $blackColor;
+          background-color: $whiteColor;
+          z-index: 100000;
+          left: -150%
+        }
+      }
+    }
+
+    .navbar-text {
+      .profile {
+        .options {
+        display: none;
+        position: absolute;
+        width: 220px;
+        z-index: 1;
+        margin-bottom: 0;
+        background: white;
+        border: 1px solid black;
+        padding: 10px;
+        top: 50px;
+        right: 0;
+        overflow: hidden;
+        transition: 0.3s;
+        -webkit-transition: 0.3s;
+        -moz-transition: 0.3s;
+        -ms-transition: 0.3s;
+        -o-transition: 0.3s;
+        }
+      }
+    }
+
+    .navbar__register-btn {
+        .register-button {
+        @include custom-button($greenColor, $blackColor, $blackColor,43px);
+      }
+    }
+  }
+}
+

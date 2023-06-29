@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { InstructorService } from 'src/app/Services/instructor.service';
 import { TimeTrackingService } from 'src/app/Services/time-tracking.service';
 import { LocalStorageService } from 'src/app/Shared/Helper/local-storage.service';
-import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
+import { NotificationService } from 'src/app/Shared/Services/notification.service';
 
 @Component({
   selector: 'app-overview',
@@ -16,10 +14,9 @@ export class OverviewComponent implements OnInit {
   TotalHours: number = 0;
 
   constructor(
-    private instructorService: InstructorService,
     private timeTrackingService: TimeTrackingService,
-    private router: Router,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private NotificationService: NotificationService
   ) {
 
     this.instructorId = this.localStorageService.decodeToken().Id;
@@ -27,16 +24,14 @@ export class OverviewComponent implements OnInit {
 
   }
   ngOnInit() {
-    // this.instructorService
-    //   .getItemById('Instructor', this.instructorId)
-    //   .subscribe(
-    //     (data: APIResponseVM) => {
-    //       this.instructor = data.items;
-    //     },
-    //     (error) => {
-    //       this.router.navigateByUrl('');
-    //     }
-    //   );
+    let obvserver = {
+      next: (data: any) => {
+        if(data.message == 'getNewUserInformation') {
+          this.instructor = this.localStorageService.getUserInfo();
+        }
+      }
+    };
+    this.NotificationService.notifications.subscribe(obvserver);
 
     this.timeTrackingService
       .GetTotalHours(this.instructorId)

@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { APIService } from 'src/app/Shared/Services/api.service';
 import { NotificationService } from 'src/app/Shared/Services/notification.service';
 import {LocalStorageService} from '../../../Shared/Helper/local-storage.service'
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
@@ -15,8 +13,10 @@ import { Subscription } from 'rxjs';
 export class DeactivateAccoutComponent {
   dialogRef !: MatDialogRef<ConfirmationComponent>;
   unSubscribe !: Subscription;
+  role !: string;
 
-  constructor(private dialog: MatDialog, private Notification: NotificationService) {
+  constructor(private dialog: MatDialog, private Notification: NotificationService, private LocalStorageService: LocalStorageService) {
+    this.role = LocalStorageService.decodeToken().Role;
   }
 
   confirmation(): void {

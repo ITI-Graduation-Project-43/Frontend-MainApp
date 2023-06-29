@@ -19,7 +19,7 @@ export class CourseCouponComponent {
   @Input() courseId!: number;
   @Input() courseTitle!: string;
   @Input() coursePrice!: number;
-  
+
 
 
 

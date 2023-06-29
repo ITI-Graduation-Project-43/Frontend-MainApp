@@ -17,29 +17,8 @@
       <svg class="arrow d-none d-lg-inline" width="33" height="55" viewBox="0 0 33 55" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M21.5185 40.9741C32.7579 31.2407 36.2207 14.8701 29.7842 2.90173C28.4343 0.395823 26.6833 -0.755549 24.0031 0.531265C21.0979 1.92451 21.1077 4.09178 22.4771 6.76216C26.7616 15.141 24.4629 27.9607 17.3808 33.911C16.4711 31.7728 15.1603 29.8378 14.8766 27.7673C14.3876 24.2358 12.1475 23.2779 9.19338 23.0748C5.87732 22.8426 4.60564 25.2227 3.77418 27.7963C2.56122 31.589 1.64175 35.4785 0.370102 39.2421C-0.862415 42.8801 1.08418 47.0308 4.71326 48.5305C8.21517 49.9818 11.5899 51.7136 15.0136 53.3294C17.146 54.3259 19.3861 56.0869 21.6261 54.0841C23.6999 52.2264 25.0792 49.856 23.739 46.8179C22.9271 44.9893 22.3109 43.0736 21.5185 40.9644V40.9741Z" fill="#181818"/>
       </svg>
-      <a *ngFor="let instructor of instructors" [id]="instructor.id">
+      <a *ngFor="let instructor of instructors" [routerLink]="'/instructorDetails/' + instructor.id">
         <img [src]="instructor.profilePicture" alt="">
-      </a>
-      <a>
-        <img src="../../../../assets/images/student1.jpg" alt="">
-      </a>
-      <a>
-        <img src="../../../../assets/images/student1.jpg" alt="">
-      </a>
-      <a>
-        <img src="../../../../assets/images/student1.jpg" alt="">
-      </a>
-      <a>
-        <img src="../../../../assets/images/student1.jpg" alt="">
-      </a>
-      <a>
-        <img src="../../../../assets/images/student1.jpg" alt="">
-      </a>
-      <a>
-        <img src="../../../../assets/images/instructor.webp" alt="">
-      </a>
-      <a>
-        <img src="../../../../assets/images/student1.jpg" alt="">
       </a>
     </div>
     <a routerLink="/homeinstructor" class="be-instructor">Become and instructor</a>

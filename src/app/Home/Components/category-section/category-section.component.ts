@@ -11,17 +11,14 @@ import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
 })
 export class CategorySectionComponent {
   categories: any[] = [];
-  public myVariable = 'world';
   constructor(private http: APIService, private router: Router) {
       let obvserver = {
         next: (data: APIResponseVM) => {
-          if(data) {
+          if(data.success) {
             for(let i = 0; i < 4; i++) {
               this.categories[i] = data.items[i];
             }
           }
-        },
-        complete: () => {
         },
         error: (error: Error) => {
           console.log(error);

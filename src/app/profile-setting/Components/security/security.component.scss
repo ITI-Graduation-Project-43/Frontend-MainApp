@@ -99,13 +99,13 @@ section {
       margin-left: auto;
 
       .save {
-        @include custom-button($greenColor,$blackColor,$blackColor, 22px);
+        @include custom-button($greenColor,$blackColor,$blackColor, 43px);
         box-shadow: none;
         opacity: 0.7;
         cursor: not-allowed;
 
         &.active {
-          @include custom-button($greenColor,$blackColor,$blackColor, 22px);
+          @include custom-button($greenColor,$blackColor,$blackColor, 43px);
           opacity: 1;
           cursor: pointer;
         }

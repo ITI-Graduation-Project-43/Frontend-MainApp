@@ -26,9 +26,6 @@ export class TopRatedSectionComponent implements OnInit, OnDestroy {
           this.courses = data.items;
         }
       },
-      complete: () => {
-        //console.log("completed")
-      },
       error: (error: Error) => {
         console.log(error);
       }
@@ -43,9 +40,6 @@ export class TopRatedSectionComponent implements OnInit, OnDestroy {
         if(data) {
           this.courses = data.items;
         }
-      },
-      complete: () => {
-        //console.log("completed")
       },
       error: (error: Error) => {
         console.log(error);

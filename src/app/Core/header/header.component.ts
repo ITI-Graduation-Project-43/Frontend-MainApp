@@ -6,8 +6,8 @@ import { APIService } from 'src/app/Shared/Services/api.service';
 import { NotificationService } from './../../Shared/Services/notification.service';
 import { LocalStorageService } from './../../Shared/Helper/local-storage.service';
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
 import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
+import { Category } from 'src/app/Models/category';
 
 @Component({
   selector: 'app-header',
@@ -21,14 +21,19 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   Id!: string;
   Role!: string;
   User: any;
+  isShowDivIf = true;
+  categories !: Category[];
+  subCategories !: any;
+  topics !: any;
 
   constructor(
     private router: Router,
     private cartService: ShoppingCartService,
     private http: APIService,
     private NotificationService: NotificationService,
-    private LocalStorageService: LocalStorageService
+    private LocalStorageService: LocalStorageService,
   ) {
+    this.getCategories();
     this.numberOfCourses = this.cartService.getItems().length;
     this.getUser();
   }
@@ -78,7 +83,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       let user = this.LocalStorageService.decodeToken();
       this.Id = user.Id;
       this.Role = user.Role;
-      this.User = user.FullName;
+      this.User = this.LocalStorageService.getUserInfo().firstName || this.LocalStorageService.decodeToken().FullName;
+      if(this.Role == 'Instructor') {
+        this.router.navigateByUrl("/instructor");
+      }
     }
   }
 
@@ -88,14 +96,15 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       let obvserver = {
         next: (data: APIResponseVM) => {
           if(data.success) {
-            this.LocalStorageService.updateUserInfo(data.items[0])
+            this.LocalStorageService.updateUserInfo(data.items[0]);
+            this.NotificationService.notify("getNewUserInformation", "hide");
           }
         },
         error: (error: Error) => {
           console.log(error.message);
         }
       }
-      this.http.getItemById(`${this.Role}`, this.Id).subscribe(obvserver)
+      this.http.getItemById(`${this.Role}`, this.Id).subscribe(obvserver);
     }
   }
 
@@ -109,15 +118,84 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     }
   }
 
+  openCategory(category: HTMLElement) {
+    category.classList.add("open");
+  }
+
+  closeCategory(category: HTMLElement) {
+    category.classList.remove("open");
+  }
+
+  getCategories() {
+    let obvserver = {
+      next: (data: APIResponseVM) => {
+        if(data.success) {
+          this.categories = data.items;
+          this.subCategories = null;
+        }
+      },
+      error: (error: Error) => {
+        console.log(error.message);
+      }
+    }
+    this.http.getAllItem(`category/type/0?PageNumber=1&PageSize=${20}`).subscribe(obvserver);
+  }
+
+  getSubCategories(selected: HTMLElement, categoryId: number) {
+    for(let category of Array.from(document.querySelectorAll(".categories li"))) {
+      category.classList.remove("active");
+    }
+    selected.classList.add("active");
+    let obvserver = {
+      next: (data: APIResponseVM) => {
+        if(data.success) {
+          this.subCategories = data.items;
+          this.topics = null;
+        }
+      },
+      error: (error: Error) => {
+        console.log(error.message);
+      }
+    }
+    this.http.getAllItem(`Category/ParentSubCategories/${categoryId}`).subscribe(obvserver);
+
+  }
+
+  getTopics(selectedSubCategory: HTMLElement, subCategoryId: number) {
+    for(let subcategory of Array.from(document.querySelectorAll(".subcategories li"))) {
+      subcategory.classList.remove("active");
+    }
+    selectedSubCategory.classList.add("active");
+    let obvserver = {
+      next: (data: APIResponseVM) => {
+        if(data.success) {
+          this.topics = data.items;
+        }
+      },
+      error: (error: Error) => {
+        console.log(error.message);
+      }
+    }
+    this.http.getAllItem(`Category/ParentSubCategories/${subCategoryId}?PageNumber=1&PageSize=${2000}`).subscribe(obvserver);
+  }
+
   showCart() {
     this.cartService.showCart();
   }
 
-  openMenu(options: any) {
+  openMenu(menu: HTMLElement) {
+    menu.classList.add("open");
+  }
+
+  closeMenu(menu: HTMLElement) {
+    menu.classList.remove("open");
+  }
+
+  openProfileMenu(options: any) {
     options.classList.toggle('active');
   }
 
-  closeMenu(options: any) {
+  closeProfileMenu(options: any) {
     options.classList.remove('active');
   }
 
@@ -132,5 +210,21 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     localStorage.removeItem('creditCard')
     localStorage.removeItem('notifications')
     this.router.navigateByUrl("/login");
+    this.NotificationService.notify('signout', 'hide');
+  }
+
+  toggleDisplayDivIf() {
+    this.isShowDivIf = !this.isShowDivIf;
+    let body = document.querySelector("body");
+    body?.classList.toggle("overlay");
+    if(body?.classList.contains("overlay")) {
+      body?.addEventListener("click", (e) => {
+        let currentElement = e.target as HTMLElement;
+        if(currentElement.classList.contains("overlay")) {
+          this.isShowDivIf = true;
+          body?.classList.remove("overlay")
+        }
+      })
+    }
   }
 }

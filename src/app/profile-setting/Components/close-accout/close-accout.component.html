@@ -2,7 +2,8 @@
   <div>
     <h2>Close account</h2>
     <h4>Permanently close your account</h4>
-    <p><span>Warning: </span>If you close your account, you will be unsubscribed from all your {{numberOfStudentCourses}} courses, and will lose access forever.</p>
+    <p *ngIf="role == 'Student'"><span>Warning: </span>If you close your account, you will be unsubscribed from all your {{numberOfStudentCourses}} courses, and will lose access forever.</p>
+    <p *ngIf="role == 'Instructor'"><span>Warning: </span>If you close your account, you will not able to access your courses again</p>
     <div class="btns">
       <button (click)="confirmation()" type="button" class="save">
         <span>Close Account</span>

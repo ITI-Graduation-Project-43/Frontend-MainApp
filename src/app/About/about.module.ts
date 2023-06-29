@@ -10,6 +10,7 @@ import { TrustedByComponent } from './Components/trusted-by/trusted-by.component
 import { GetStartedComponent } from './Components/get-started/get-started.component';
 import { AboutRoutingModule } from './about-routing.module';
 import { RouterModule } from '@angular/router';
+import { HomeModule } from '../Home/home.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { RouterModule } from '@angular/router';
     TrustedByComponent,
     GetStartedComponent,
   ],
-  imports: [CommonModule, AboutRoutingModule, RouterModule],
+  imports: [CommonModule, AboutRoutingModule, RouterModule, HomeModule],
   exports: [GetStartedComponent],
 })
 export class AboutModule {}

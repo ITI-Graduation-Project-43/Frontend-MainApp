@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { CourseService } from '../Services/course.service';
@@ -19,14 +26,19 @@ const INITIAL_PAGE_SIZE = 2;
 const INITIAL_PAGE_NUMBER = 1;
 const STUDENTS_NUMBER = 4;
 const DEFAULT_PAGE_SIZE = 4;
-const DEFAULT_TOTAL_PAGES = 9;
 
 @Component({
   selector: 'app-course',
   templateUrl: './course.component.html',
   styleUrls: ['./course.component.scss'],
 })
-export class CourseComponent implements OnInit {
+export class CourseComponent implements OnInit, AfterViewInit {
+  @ViewChild('courseCard') courseCardRef!: ElementRef;
+  private courseCard!: HTMLElement;
+  private windowHeight: number = 0;
+  private headerHeight: number = 0;
+  private footerHeight: number = 0;
+
   // Properties
   courseId: number = 11;
   pageNumber: number = INITIAL_PAGE_NUMBER;
@@ -49,15 +61,48 @@ export class CourseComponent implements OnInit {
     private courseService: CourseService,
     private studentService: StudentService,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit() {
-    document.querySelector(".app-header")?.classList.add("dark-background")
+    document.querySelector('.app-header')?.classList.add('dark-background');
     this.route.params.subscribe((params) => {
       this.courseId = +params['id'];
       this.courseService.courseId = this.courseId;
       this.loadData();
     });
+  }
+  ngAfterViewInit(): void {
+    this.courseCard = this.courseCardRef.nativeElement;
+    this.windowHeight = window.innerHeight;
+    this.headerHeight = 80;
+    this.footerHeight = 400;
+  }
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const viewportWidth = window.innerWidth;
+
+    if (viewportWidth > 1300) {
+      const scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop ||
+        0;
+
+      if (scrollTop < this.headerHeight) {
+        this.courseCard.style.position = 'absolute';
+        this.courseCard.style.top = '0.5rem';
+      } else if (
+        scrollTop + this.windowHeight >
+        document.body.clientHeight - this.footerHeight
+      ) {
+        this.courseCard.style.position = 'fixed';
+        this.courseCard.style.bottom = '30rem';
+        this.courseCard.style.top = 'auto';
+      } else {
+        this.courseCard.style.position = 'fixed';
+        this.courseCard.style.top = '1.6rem';
+      }
+    }
   }
 
   loadData() {
@@ -102,8 +147,7 @@ export class CourseComponent implements OnInit {
           data.relatedCourses,
           (courses: courseStudents[]) => {
             this.relatedCourses = courses;
-            this.relatedCoursesTotalCount =
-              DEFAULT_TOTAL_PAGES || data.relatedCourses.TotalPages;
+            this.relatedCoursesTotalCount = data.relatedCourses.totalPages;
           }
         );
 
@@ -133,8 +177,7 @@ export class CourseComponent implements OnInit {
         (data) =>
           this.handleResponse(data, (courses: courseStudents[]) => {
             this.instructorCourses = courses;
-            this.instructorCoursesTotalCount =
-              DEFAULT_TOTAL_PAGES || data.TotalPages;
+            this.instructorCoursesTotalCount = data.totalPages;
           }),
         (error) => {
           this.handleError(error);

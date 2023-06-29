@@ -1,9 +1,7 @@
 import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ProfileSettingComponent } from './profile-setting/profile-setting.component';
 import { AuthenticationGuard } from './Guards/authentication.guard';
-import { HomeInstructorComponent } from './HomeInstructor/home-instructor.component';
 import { HideLoginAndRegisterGuard } from './Guards/hide-login-and-register.guard';
 
 const routes: Routes = [
@@ -31,14 +29,14 @@ const routes: Routes = [
       import('../app/Category/category.module').then((m) => m.CategoryModule),
   },
   {
-    path: 'instructorDetails',
+    path: 'instructorDetails/:id',
     loadChildren: () =>
       import('../app/instructor/instructor.module').then(
         (m) => m.InstructorModule
       ),
   },
   {
-    path: 'studentDetails',
+    path: 'studentDetails/:id',
     loadChildren: () =>
       import('../app/student-details/student-details.module').then(
         (m) => m.StudentDetailsModule
@@ -67,19 +65,21 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () =>
       import('../app/login/login.module').then((m) => m.LoginModule),
-    canActivate: [HideLoginAndRegisterGuard]
+    canActivate: [HideLoginAndRegisterGuard],
   },
   {
     path: 'register',
     loadChildren: () =>
       import('../app/register/register.module').then((m) => m.RegisterModule),
-    canActivate: [HideLoginAndRegisterGuard]
+    canActivate: [HideLoginAndRegisterGuard],
   },
   {
     path: 'setting',
     loadChildren: () =>
-      import('../app/profile-setting/profile-setting.module').then((m) => m.ProfileSettingModule),
-    canActivate: [AuthenticationGuard]
+      import('../app/profile-setting/profile-setting.module').then(
+        (m) => m.ProfileSettingModule
+      ),
+    canActivate: [AuthenticationGuard],
   },
   {
     path: 'checkout',
@@ -112,7 +112,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('../app/CourseUpload/creating-course.module').then(
         (m) => m.CreatingCourseModule
-      )
+      ),
   },
   {
     path: 'instructorCourses',

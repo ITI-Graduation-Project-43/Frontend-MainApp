@@ -12,11 +12,11 @@
   .students-feedback{
     @include style-display-column(16px , 0);
     align-items: center;
-    max-width: 828px;
+    width: 100%;
 
 
     .student-feedback-card{
-      @include style-display-row(10px , 24px);
+      @include style-display-row(16px , 24px);
 
       background: $whiteColor;
       border: 1px solid $blackColor;
@@ -97,4 +97,10 @@
 .student-course-sec.skeleton{
   height: 3rem;
   max-width: 600px;
+}
+@media screen and (max-width: 600px){
+  .student-feedback-card{
+    flex-direction: column !important;
+    align-items: center!important;
+  }
 }

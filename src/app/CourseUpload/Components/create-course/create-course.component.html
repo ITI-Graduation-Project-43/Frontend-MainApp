@@ -10,7 +10,11 @@
       <!-------------------- image---------------------------------- -->
       <div class="form-group .image">
         <label *ngIf="inputFileShowStatus" class="label">
-          <img src="../../../../assets/svg/photo.svg" alt="" />
+          <img
+            src="../../../../assets/svg/photo.svg"
+            alt="photo placeholder"
+            loading="lazy"
+          />
           <span class="d-block title">Upload course thumbnail</span>
           <input
             type="file"
@@ -23,9 +27,15 @@
             <img
               src="../../../../assets/svg/delete-ico.svg"
               alt="delete icon"
+              loading="lazy"
             />
           </button>
-          <img [src]="renderImage" alt="render" class="d-block" />
+          <img
+            [src]="renderImage"
+            alt="render"
+            class="d-block"
+            loading="lazy"
+          />
         </div>
       </div>
 

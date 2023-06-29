@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Chapter } from '../Models/chapter';
 import { CourseService } from '../Services/course.service';
@@ -10,6 +10,9 @@ import { Lesson } from '../Models/lesson';
 import { QuizService } from '../Services/quiz.service';
 import { CourseContentNavigationService } from '../Services/course-content-navigation.service';
 import { NotificationService } from 'src/app/Shared/Services/notification.service';
+import { LocalStorageService } from '../Shared/Helper/local-storage.service';
+import { TimeTrackingService } from '../Services/time-tracking.service';
+import { CourseDataService } from '../Services/course-data.service';
 
 const CHAPTER_BY_COURSE = 'Chapter/byCourse';
 const LESSON_API_ROUTE = 'Lesson';
@@ -19,11 +22,13 @@ const LESSON_API_ROUTE = 'Lesson';
   templateUrl: './CourseLesson.component.html',
   styleUrls: ['./CourseLesson.component.scss'],
 })
-
-//TODO : Refactor code , Style the HTML
-export class CourseLessonComponent implements OnInit {
+export class CourseLessonComponent implements OnInit, OnDestroy {
   courseId: number = 0;
+  isAuthorized = true;
+  user: any;
+  instructorId: string = '';
   lessonId: number = 0;
+  login!: boolean;
   firstLessonId: number = 0;
   lastLessonId: number = 0;
   loading: boolean = true;
@@ -43,33 +48,67 @@ export class CourseLessonComponent implements OnInit {
     private courseService: CourseService,
     private navigationService: CourseContentNavigationService,
     private quizService: QuizService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private LocalStorageService: LocalStorageService,
+    private timeTrackingService: TimeTrackingService,
+    private router: Router,
+    private locatStorageService: LocalStorageService,
+    private courseDataService: CourseDataService
   ) {}
 
   ngOnInit() {
-    document.querySelector(".app-header")?.classList.add("dark-background")
-
+    document.querySelector('.app-header')?.classList.add('dark-background');
     this.loading = true;
     this.route.params.subscribe((params) => {
       this.courseId = +params['courseId'];
       this.lessonId = +params['lessonId'];
-      this.loadCourseContent();
     });
-  }
 
-  loadCourseContent() {
-    this.loadChapters();
-    this.loadLesson();
+    this.courseService.courseId = this.courseId;
+    this.courseService.checkEnrolledIn();
+
+    if (!this.courseService.enrollmentData) {
+      this.loadChapters();
+    } else {
+      this.isAuthorized = false;
+      setTimeout(() => {
+        this.router.navigate(['home']);
+      }, 5000);
+    }
+
+    this.login = this.LocalStorageService.checkTokenExpiration();
+    this.user = this.LocalStorageService.decodeToken();
+    if (this.user.Role == 'Student') {
+      this.timeTrackingService
+        .recordStartTime(this.user.Id, this.courseId)
+        .subscribe(
+          (response: any) => {},
+          (error) => {}
+        );
+    }
   }
 
   loadChapters() {
     this.courseService.getItemById(CHAPTER_BY_COURSE, this.courseId).subscribe(
-      (data) => this.handleChaptersResponse(data),
+      (data) => {
+        this.handleChaptersResponse(data);
+        this.loadLesson();
+      },
       (error) => this.handleError(error)
     );
   }
 
   loadLesson() {
+    if (!this.lessonId || this.lessonId === -1) {
+      const firstLesson = this.chapters[0]?.lessons[0];
+      if (firstLesson) {
+        this.lessonId = firstLesson.id;
+      } else {
+        this.errorMessage = 'No lessons available.';
+        this.loading = false;
+        return;
+      }
+    }
     if (this.lessonId) {
       this.courseService.getItemById(LESSON_API_ROUTE, this.lessonId).subscribe(
         (data) => this.handleLessonResponse(data),
@@ -124,6 +163,12 @@ export class CourseLessonComponent implements OnInit {
         },
         (error) => this.handleError(error)
       );
+    } else {
+      this.courseDataService.instructorId =
+        this.courseService.enrollmentData.instructorId;
+      this.courseDataService.courseId = this.courseId;
+      this.courseDataService.studentId = this.user.Id;
+      this.router.navigate(['courseFeedback'], { relativeTo: this.route });
     }
   }
 
@@ -175,6 +220,15 @@ export class CourseLessonComponent implements OnInit {
     this.quizAnswers = {};
   }
 
+  formatHours(hours: number): string {
+    if (hours < 1) {
+      const minutes = hours * 60;
+      return minutes.toFixed(0) + ' Min(s)';
+    } else {
+      return hours.toFixed(1) + ' Hour(s)';
+    }
+  }
+
   handleChaptersResponse(response: APIResponseVM) {
     this.handleAPIResponse(response, (items: Chapter[]) => {
       items.forEach((chapter) => {
@@ -184,6 +238,7 @@ export class CourseLessonComponent implements OnInit {
         });
       });
       this.chapters = items;
+
       this.totalHoursCount = this.getTotalHoursCount();
       this.totalLessonCount = this.getTotalLessonCount();
 
@@ -192,9 +247,6 @@ export class CourseLessonComponent implements OnInit {
         this.chapters[this.chapters.length - 1].lessons[
           this.chapters[this.chapters.length - 1].lessons.length - 1
         ].id;
-
-      console.log(this.firstLessonId);
-      console.log(this.lastLessonId);
     });
   }
 
@@ -231,5 +283,19 @@ export class CourseLessonComponent implements OnInit {
         ? 'There was a problem with the server. Please try again later.'
         : 'An error occurred while loading the data. Please try again later.';
     this.loading = false;
+  }
+  ngOnDestroy() {
+    this.login = this.LocalStorageService.checkTokenExpiration();
+    let user = this.LocalStorageService.decodeToken();
+    if (user.Role == 'Student') {
+      this.timeTrackingService.recordEndTime(user.Id, this.courseId).subscribe(
+        (response: any) => {
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
   }
 }

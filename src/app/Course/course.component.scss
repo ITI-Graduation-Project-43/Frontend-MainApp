@@ -6,19 +6,30 @@
 .course-header-wrapper{
   position: relative;
 }
-.course-main-card{
-  position: absolute;
-  right: 40px;
-  top: 42px;
-}
-.course-content-wrapper{
-  @include style-display-column(48px, 0);
-  margin:40px ;
+.main-course-card-container {
+  position: fixed;
+  margin-left: 60vw;
+  top: 140px;
 }
 
-app-course-content{
-  max-width: 820px;
+
+.course-header-title{
+  background-color: $blackColor;
 }
+.course-header-breadcrumb{
+  background-color: $secondaryColor;
+}
+
+.course-content-wrapper{
+  @include style-display-column(48px, 0);
+  max-width: 1440px;
+  margin: 40px auto;
+}
+.course-content-wrapper >*{
+  display: flex;
+  justify-content: center
+}
+
 .error-message {
   padding: 20px;
   margin: 10px;
@@ -27,7 +38,7 @@ app-course-content{
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  @include style-font($font-cabin, 24px, 32px, #721c24,400);
+  @include style-font($font-cabin, 24px, 32px, $error-color, 400);
   .error-message-photo{
     width: 80vh;
     object-fit: cover;
@@ -35,3 +46,36 @@ app-course-content{
 }
 
 
+
+
+@media screen and (max-width: 1300px) {
+  .main-course-card-container {
+    position: static !important;
+    width: 100%;
+    margin: 40px 0;
+    display: flex;
+    justify-content: center;
+  }
+  .course-content-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    & > *{
+      width: 80vw;
+    }
+  }
+}
+@media screen and (max-width: 500px){
+  .course-header-breadcrumb{
+    display: none;
+  }
+  .main-course-card-container {
+    margin:  0;
+  }
+  .course-content-wrapper{
+    & > *{
+      width: 100vw;
+      padding: 24px;
+    }
+  }
+}

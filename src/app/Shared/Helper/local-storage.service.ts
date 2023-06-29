@@ -5,14 +5,14 @@ import { environment } from 'src/environments/environment';
 import { NotificationService } from '../Services/notification.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LocalStorageService {
-  helper : JwtHelperService = new JwtHelperService();
-  data !: string | null;
-  decryptedData !: string;
-  user !: any;
-  encryptedToken !: string;
+  helper: JwtHelperService = new JwtHelperService();
+  data!: string | null;
+  decryptedData!: string;
+  user!: any;
+  encryptedToken!: string;
 
   constructor(private NotificationService: NotificationService) {
     this.decryptLocalStorageData();
@@ -20,15 +20,18 @@ export class LocalStorageService {
 
   private decryptLocalStorageData() {
     this.data = localStorage.getItem('MindMission');
-    if(this.data) {
-      this.decryptedData = CryptoJS.AES.decrypt(this.data, environment.secretKey).toString(CryptoJS.enc.Utf8);
-      this.encryptedToken = (JSON.parse(this.decryptedData)).Token;
+    if (this.data) {
+      this.decryptedData = CryptoJS.AES.decrypt(
+        this.data,
+        environment.secretKey
+      ).toString(CryptoJS.enc.Utf8);
+      this.encryptedToken = JSON.parse(this.decryptedData).Token;
     }
   }
 
   checkTokenExpiration(): boolean {
     this.decryptLocalStorageData();
-    if(this.data) {
+    if (this.data) {
       return !this.helper.isTokenExpired(this.encryptedToken);
     }
     return false;
@@ -47,8 +50,11 @@ export class LocalStorageService {
   }
 
   updateUserInfo(user: any) {
-    let encryptedUserData = CryptoJS.AES.encrypt(JSON.stringify({User: user, Token: this.encryptedToken}), environment.secretKey).toString();
-    localStorage.setItem("MindMission", encryptedUserData);
-    this.NotificationService.notify("new", "hide");
+    let encryptedUserData = CryptoJS.AES.encrypt(
+      JSON.stringify({ User: user, Token: this.encryptedToken }),
+      environment.secretKey
+    ).toString();
+    localStorage.setItem('MindMission', encryptedUserData);
+    this.NotificationService.notify('new', 'hide');
   }
 }

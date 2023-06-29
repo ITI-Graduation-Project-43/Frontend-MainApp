@@ -7,10 +7,13 @@
 .breadcrumb {
   background-color: $secondaryColor;
   color: $blackColor;
-  padding: 1rem 2rem;
+  padding: 24px 0;
+  max-width: 1440px;
+  margin: 0px auto;
 
   ol {
     margin: 0;
+    padding: 0;
     @extend %flex-row;
   }
   &__item {
@@ -18,18 +21,15 @@
     &:not(:last-child) {
       margin-right: 1.2rem;
     }
-    // Additional styles for the active breadcrumb item
     &--active .breadcrumb__link {
       @include style-font($font-anton,24px,124.04%,$blackColor);
       font-weight:bold
     }
   }
-  // Styles for breadcrumb separator
   &__separator {
     margin-left: 1.2rem;
   }
-  // Styles for breadcrumb links
-   
+
     &__link:not(:first-child){
       text-decoration: none;
       color: inherit;
@@ -38,7 +38,7 @@
     // &:hover {
     //   font-weight: bold;
     // }
-  
+
 }
 
 
@@ -48,3 +48,8 @@
   height: 2.5rem;
 }
 
+@media screen and (max-width: 1600px){
+  .breadcrumb{
+    margin: 0 40px;
+  }
+}

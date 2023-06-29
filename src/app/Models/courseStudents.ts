@@ -2,6 +2,7 @@ export interface courseStudents {
   courseId: number;
   price: number;
   courseTitle: string;
+  courseDescription: string;
   courseImageUrl: string;
   courseAvgReview: number;
   courseNoOfStudents: number;

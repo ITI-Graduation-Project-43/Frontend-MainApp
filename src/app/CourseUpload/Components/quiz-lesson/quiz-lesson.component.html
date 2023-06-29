@@ -3,7 +3,11 @@
   <div class="add-new-heading">
     <div class="main-title">Quiz Title</div>
     <button (click)="onCancel()">
-      <img src="../../../../assets/svg/x-icon.svg" alt="" />
+      <img
+        src="../../../../assets/svg/x-icon.svg"
+        alt="close icon"
+        loading="lazy"
+      />
     </button>
   </div>
   <div class="title-data">
@@ -67,10 +71,18 @@
       <div class="main-title">Question {{ qIndex + 1 }}</div>
       <div>
         <button (click)="onAddQuestion()">
-          <img src="../../../../assets/svg/plus.svg" alt="plus icon" />
+          <img
+            src="../../../../assets/svg/plus.svg"
+            alt="plus icon"
+            loading="lazy"
+          />
         </button>
         <button (click)="onDeleteQuestion(qIndex)">
-          <img src="../../../../assets/svg/delete.svg" alt="delete icon" />
+          <img
+            src="../../../../assets/svg/delete.svg"
+            alt="delete icon"
+            loading="lazy"
+          />
         </button>
       </div>
     </div>
@@ -95,7 +107,11 @@
         *ngIf="question.choices.length < 4"
         (click)="onAddChoice(question)"
       >
-        <img src="../../../../assets/svg/plus.svg" alt="plus icon" />
+        <img
+          src="../../../../assets/svg/plus.svg"
+          alt="plus icon"
+          loading="lazy"
+        />
       </button>
     </div>
 
@@ -117,6 +133,7 @@
         />
         <input
           [(ngModel)]="question.choices[cIndex]"
+          (input)="onEditChoice(question, cIndex, choice)"
           type="text"
           name="choice{{ qIndex }}{{ cIndex }}"
           id="choice{{ qIndex }}{{ cIndex }}"
@@ -129,7 +146,11 @@
           *ngIf="question.choices.length > 2"
           (click)="onDeleteChoice(question, cIndex)"
         >
-          <img src="../../../../assets/svg/delete.svg" alt="delete icon" />
+          <img
+            src="../../../../assets/svg/delete.svg"
+            alt="delete icon"
+            loading="lazy"
+          />
         </button>
       </div>
     </div>

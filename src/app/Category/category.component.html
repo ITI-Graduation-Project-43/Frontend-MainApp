@@ -1,180 +1,20 @@
-<!-- Category Title -->
-<div class="category-title">
-    <div class="main-title">
-        {{mainCategory?.name}} Courses
-    </div>
-    <div class="description">
-        This is a long discription for {{mainCategory?.name}} category
-    </div>
-</div>
-
-<!-- NavBar -->
-<nav aria-label="subcategory" class="subcategory">
-    <ol>
-        <li class="subcategory__item subcategory__item--active">
-            <a href="#" class="subcategory__link">{{mainCategory?.name}}</a>
-            <!-- Separator (SVG) -->
-            <div class="subcategory__separator">
-                <svg xmlns="http://www.w3.org/2000/svg" width="1" height="70" viewBox="0 0 1 77" fill="none">
-                    <line x1="0.5" y1="77" x2="0.5" stroke="#303030" />
-                </svg>
-            </div>
-        </li>
-
-        <!-- Subcategories names -->
-        <li class="subcategory__item" *ngFor="let subCat of subcategories">
-            <a class="subcategory__link">{{subCat.name}}</a>
-        </li>
-    </ol>
-</nav>
-
-
-<!-- Feature this week -->
-<app-loader *ngIf="loadFeature"></app-loader>
-<div *ngIf="!loadFeature" class="featurecontainer">
-    <h1 class="mt-5 mb-2">Feature This Week</h1>
-    <div class="weekfeature" routerLink="/courseDetails/{{featureThisWeekCourse?.id}}">
-        <div class="image me-1">
-            <img class="featureImg" src={{featureThisWeekCourse?.imageUrl}} alt="">
-        </div>
-        <div class="details">
-            <div class="upsection">
-                <div class="course-rating">
-                    <img src="../../assets/svg/rating-star.svg" alt="rating-star"
-                        *ngFor="let star of ' '.repeat(3.5).split('')">
-                </div>
-                <h6>{{featureThisWeekCourse?.subCategoryName}}</h6>
-                <h1>{{featureThisWeekCourse?.title}}</h1>
-                <div class="course-students">
-                    <div class="student-pictures">
-                        <img class="course-students-pic" src="../../assets/images/student1.webp"
-                            alt="student-picture" />
-                        <img class="course-students-pic" src="../../assets/images/student1.webp"
-                            alt="student-picture" />
-                        <img class="course-students-pic" src="../../assets/images/student1.webp"
-                            alt="student-picture" />
-                    </div>
-                    <div class="enrollments-number">{{featureThisWeekCourse?.noOfStudents}} enrolled</div>
-                </div>
-            </div>
-            <div class="midsection mt-3">
-                <p>
-                    {{featureThisWeekCourse?.description}}
-                </p>
-            </div>
-            <div class="downsection">
-                <div class="course-instructor-price">
-                    <div class="course-instructor">
-                        <div class="instructor-picture">
-                            <img src={{featureThisWeekCourse?.instructorProfilePicture}} alt="instructor-picture" />
-                        </div>
-                        <div class="instructor-name">{{featureThisWeekCourse?.instructorName}}</div>
-                    </div>
-                    <div class="course-price">{{featureThisWeekCourse?.price}} USD</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
+<app-category-title></app-category-title>
+<app-breadcrumb-navigation></app-breadcrumb-navigation>
+<app-feature-this-week></app-feature-this-week>
 
 <!-- Learning Journey -->
 <div class="learning-journey">
-    <div>
-        <h5 class="get-started mt-5">Get Started</h5>
-    </div>
-    <div>
-        <h1>Begin Your Learning Journey</h1>
-        <p>Explore our handpicked selection of beginner-friendly courses designed to help you get started on your
-            learning
-            path. </p>
-
-    </div>
-    <div class="suggested-courses-section">
-        <div class="course-cards">
-            <app-course-card [courses]="entryLevelCourses"></app-course-card>
-        </div>
-    </div>
-
-
-    <div class="popular-instructors mt-5">
-        <div class="section-title">
-            <h5 class="mb-2">Popular Instructors</h5>
-            <h1>Learn from Renowned Experts </h1>
-        </div>
-
-
-        <div class="first-two-cards">
-            <div class="Instructor-card first">
-                <div>
-                    <img src={{topInstructors?.profilePicture}} alt="">
-                </div>
-                <section>
-                    <p>{{topInstructors?.avgRating}} Instructor Rating</p>
-                    <h1>{{topInstructors?.firstName}} {{topInstructors?.lastName}}</h1>
-                    <p>{{topInstructors?.title}}</p>
-                    <p>{{topInstructors?.noOfStudents}} Students | {{topInstructors?.noOfCourses}} Courses</p>
-                </section>
-            </div>
-            <div class="Instructor-card second">
-                <div>
-                    <img src="../../assets/images/instructor.webp" alt="">
-                </div>
-                <section>
-                    <p>4.7 Instructor Rating</p>
-                    <h1>Ben Geller</h1>
-                    <p>Flutter Developer</p>
-                    <p>10,620 Students | 7 Courses</p>
-                </section>
-            </div>
-        </div>
-        <div class="second-two-cards">
-            <div class="Instructor-card third">
-                <div>
-                    <img src="../../assets/images/instructor.webp" alt="">
-                </div>
-                <section>
-                    <p>4.7 Instructor Rating</p>
-                    <h1>Ben Geller</h1>
-                    <p>Flutter Developer</p>
-                    <p>10,620 Students | 7 Courses</p>
-                </section>
-            </div>
-            <div class="Instructor-card forth">
-                <div>
-                    <img src="../../assets/images/instructor.webp" alt="">
-                </div>
-                <section>
-                    <p>4.7 Instructor Rating</p>
-                    <h1>Ben Geller</h1>
-                    <p>Flutter Developer</p>
-                    <p>10,620 Students | 7 Courses</p>
-                </section>
-            </div>
-        </div>
-    </div>
+    <app-entry-level-courses></app-entry-level-courses>
+    <app-top-instructors></app-top-instructors>
 </div>
 
-<!-- Discover The Latest Course -->
-<div class="latest-courses">
-    <div>
-        <h5 class="get-started mt-5">New In</h5>
-    </div>
-    <div>
-        <h1>Discover the Latest Courses</h1>
-        <p>Stay ahead of the curve with our newly added courses.</p>
 
-    </div>
-    <div class="suggested-courses-section">
-        <div class="course-cards">
-            <app-course-card [courses]="latestCourses"></app-course-card>
-        </div>
-    </div>
-</div>
+<app-recent-courses></app-recent-courses>
 
+<app-filter-courses></app-filter-courses>
 
 <!-- All Developement Courses -->
-<div class="all-courses">
+<!-- <div class="all-courses">
     <h1 class="mt-5 mb-2">All {{mainCategory?.name}} Courses</h1>
     <div class="control-container">
         <div class="controls">
@@ -386,7 +226,7 @@
                 </div>
             </section>
         </div>
-        <div class="search-results">
+        <div class="search-results" *ngIf="filteredCourses.length">
             <div class="search-result-container" *ngFor="let course of filteredCourses">
                 <div class="weekfeature" routerLink="/courseDetails/{{course.id}}">
                     <div class="image me-1">
@@ -437,6 +277,12 @@
                 <button (click)="viewMore()">View more</button>
             </div>
         </div>
+        <div class="no-data" *ngIf="noData">
+            <img src="../../assets/images/No data-rafiki.png" alt="No Data Available">
+        </div>
     </div>
 
-</div>
+</div> -->
+
+
+

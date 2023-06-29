@@ -12,16 +12,15 @@ export class OverviewComponent implements OnInit {
   instructorId: string;
   instructor: any;
   TotalHours: number = 0;
+  isLoading: boolean = true;
 
   constructor(
     private timeTrackingService: TimeTrackingService,
     private localStorageService: LocalStorageService,
     private NotificationService: NotificationService
   ) {
-
     this.instructorId = this.localStorageService.decodeToken().Id;
     this.instructor = this.localStorageService.getUserInfo();
-
   }
   ngOnInit() {
     let obvserver = {
@@ -37,6 +36,7 @@ export class OverviewComponent implements OnInit {
       .GetTotalHours(this.instructorId)
       .subscribe((data: number) => {
         this.TotalHours = data;
+        this.isLoading = false;
       });
   }
 }

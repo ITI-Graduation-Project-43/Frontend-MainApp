@@ -2,12 +2,18 @@
 @use "../../assets/style/abstracts/variables.scss" as *;
 @use "../../assets/style/abstracts/_placeholders.scss" as *;
 
-
+.black-background{
+  position: absolute;
+  z-index: -1000;
+  background-color: $blackColor;
+  height: 400px;
+  width: 100%;
+}
 
 .lesson-content{
   margin: 80px 40px;
   .back-btn{
-    @include custom-button($greenColor,$blackColor,$blackColor,43px);
+    @include custom-button($greenColor,$blackColor,$whiteColor,43px);
     margin-bottom: 16px;
   }
   .next-control{

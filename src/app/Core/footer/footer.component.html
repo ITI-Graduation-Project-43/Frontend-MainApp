@@ -1,6 +1,8 @@
-<footer class="footer px-0 px-lg-40 py-3" *ngIf="role != 'Instructor'">
+<footer class="footer" *ngIf="role != 'Instructor'">
   <div class="container-fluid px-0">
-    <div class="footer-section d-flex align-items-center flex-column flex-lg-row">
+    <div
+      class="footer-section d-flex align-items-center flex-column flex-lg-row"
+    >
       <div class="footer-logo text-center text-lg-start">
         <h1 class="logo-text m-auto">MindMission</h1>
         <p class="logo-desc">
@@ -9,21 +11,39 @@
         </p>
       </div>
       <hr class="d-block d-lg-none w-100" />
-      <div class="footer-navigation te d-flex flex-column justify-content-end align-lg-items-end">
+      <div
+        class="footer-navigation te d-flex flex-column justify-content-end align-lg-items-end"
+      >
         <h2 class="nav-title text-end text-center text-lg-start">Pages</h2>
         <div>
-          <ul class="navbar-nav flex-row flex-lg-column gap-3 gap-lg-1 flex-wrap justify-content-center justify-content-lg-end">
+          <ul
+            class="navbar-nav flex-row flex-lg-column gap-3 gap-lg-1 flex-wrap justify-content-center justify-content-lg-end"
+          >
             <li class="nav-item">
-              <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
+              <a class="nav-link" routerLink="/home" routerLinkActive="active"
+                >Home</a
+              >
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="/courseDetails" routerLinkActive="active">Courses</a>
+              <a
+                class="nav-link"
+                routerLink="/courseDetails"
+                routerLinkActive="active"
+                >Courses</a
+              >
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="/about" routerLinkActive="active">About</a>
+              <a class="nav-link" routerLink="/about" routerLinkActive="active"
+                >About</a
+              >
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="/contact" routerLinkActive="active">Contact</a>
+              <a
+                class="nav-link"
+                routerLink="/contact"
+                routerLinkActive="active"
+                >Contact</a
+              >
             </li>
           </ul>
         </div>
@@ -31,7 +51,9 @@
     </div>
     <hr class="footer-separator" />
     <div class="footer-copyright text-center">
-      <p class="m-0">Copyright © {{currentYear}} MindMission | All rights reserved.</p>
+      <p class="m-0">
+        Copyright © {{ currentYear }} MindMission | All rights reserved.
+      </p>
     </div>
   </div>
 </footer>

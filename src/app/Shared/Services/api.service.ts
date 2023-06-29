@@ -60,7 +60,6 @@ export class APIService {
       .patch<APIResponseVM>(`${environment.APIURL}${APIRoute}`, object)
       .pipe(retry(3), catchError(this.handleError));
   }
-
   replaceItem(
     APIRoute: string,
     id: number,

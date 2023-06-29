@@ -5,7 +5,7 @@
   font-family: $mainFontFamily;
 }
 section {
-  padding: 4rem;
+  padding: 88px;
 }
 .header {
   text-align: center;
@@ -13,7 +13,7 @@ section {
 .header > p {
   font-size: $fs-48;
   font-weight: 400;
-  margin-top: -20px;
+  margin: 0;
 }
 
 .header > p:last-child {
@@ -22,10 +22,10 @@ section {
 }
 
 .contact {
-  padding: 1.5rem;
   text-align: center;
 }
 .contact button {
+  margin-top: 56px;
   @include custom-button($greenColor, $blackColor, $blackColor, 43px);
   font-family: $secondaryFontFamily;
   a {

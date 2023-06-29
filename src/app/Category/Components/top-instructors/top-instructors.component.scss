@@ -1,0 +1,62 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/placeholders" as *;
+
+.section-title h5 {
+    @include custom-header();
+    margin: 24px 0;
+    background-color: $secondaryColor;
+  }
+  .section-title h1{
+    @include style-font('Anton', 48px, 124.04%, $blackColor);
+  }
+  .popular-instructors {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    gap: 16px;
+    margin: 88px 40px;
+    .section-title {
+      grid-column: 1 / 3;
+    }
+
+    .first-two-cards,
+    .second-two-cards {
+      @include style-display-column(10px, 0px, 0px);
+
+      .Instructor-card {
+        @include style-display-row-center(20px, 10px, 10px);
+        width: 100%;
+        border: 1px solid $blackColor;
+
+        img {
+          @include make-avatar(120px, 120px);
+          margin-left: 1rem;
+        }
+      }
+
+      .first {
+        background-color: $mainColorLight;
+      }
+
+      .second {
+        background-color: $lightPurpleColor;
+      }
+
+      .third {
+        background-color: $greenColor;
+      }
+
+      .forth {
+        background-color: $secondaryColor;
+      }
+    }
+
+    .first-two-cards {
+      grid-column: 3 / 6;
+    }
+
+    .second-two-cards {
+      grid-column: 6 / 9;
+    }
+  }

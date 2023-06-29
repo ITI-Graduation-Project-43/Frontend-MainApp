@@ -1,4 +1,5 @@
-<div class="lesson-content" *ngIf="lesson && !loading">
+<div class="black-background"></div>
+<div class="lesson-content" *ngIf="lesson && !loading && isAuthorized">
   <button
     class="back-btn"
     (click)="goToPreviousLesson()"
@@ -7,7 +8,7 @@
     Previous Lesson
   </button>
   <div class="video-wrapper" *ngIf="lesson.type === LessonType.Video">
-    <video id="videoPlayer" controls>
+    <video id="videoPlayer" controls loading="lazy">
       <source [src]="lesson.video!.videoUrl" type="video/mp4" />
       Your browser does not support the video tag.
     </video>
@@ -24,7 +25,7 @@
         <h2 class="article-title">{{ lesson.title }}</h2>
       </div>
 
-      <div class="article-content">{{ lesson.article!.content }}</div>
+      <div class="article-content" [innerHTML]="lesson.article!.content"></div>
     </div>
 
     <div *ngIf="lesson.type === LessonType.Quiz && !quizResult">
@@ -153,12 +154,8 @@
     </div>
   </div>
   <div class="next-control">
-    <button
-      class="next-btn"
-      (click)="goToNextLesson()"
-      *ngIf="lessonId !== lastLessonId"
-    >
-      Next Lesson
+    <button class="next-btn" (click)="goToNextLesson()">
+      {{ lessonId !== lastLessonId ? "Next Lesson" : "Finish Course" }}
     </button>
   </div>
 </div>
@@ -174,21 +171,29 @@
 </div>
 
 <ng-template #content>
-  <div class="course-content-section">
+  <div class="course-content-section" *ngIf="isAuthorized">
     <h1>Course Content</h1>
     <div class="course-content-details">
       <div class="course-content-details-item">
-        <img src="../../assets/svg/lecture.svg" alt="lecture-icon" />
+        <img
+          src="../../assets/svg/lecture.svg"
+          alt="lecture-icon"
+          loading="lazy"
+        />
         <div>{{ totalLessonCount }} Lectures</div>
       </div>
       <div class="ellipse-seperator"></div>
       <div class="course-content-details-item">
-        <img src="../../assets/svg/clock.svg" alt="clock icon" />
-        <div>{{ totalHoursCount }} Hours</div>
+        <img src="../../assets/svg/clock.svg" alt="clock icon" loading="lazy" />
+        <div>{{ formatHours(totalHoursCount) }}</div>
       </div>
       <div class="ellipse-seperator"></div>
       <div class="course-content-details-item">
-        <img src="../../assets/svg/section.svg" alt="section icon" />
+        <img
+          src="../../assets/svg/section.svg"
+          alt="section icon"
+          loading="lazy"
+        />
         <div>{{ chapters.length }} Sections</div>
       </div>
     </div>
@@ -203,13 +208,14 @@
                   : '../../assets/svg/down arrow.svg'
               "
               alt="arrow"
+              loading="lazy"
             />
             <h2>{{ chapter.title }}</h2>
           </div>
           <div class="chapter-stats">
             <span>{{ chapter.noOfLessons }} Lesson(s)</span>
             <div class="ellipse-seperator"></div>
-            <span>{{ chapter.noOfHours }} Hour(s)</span>
+            <span>{{ formatHours(chapter.noOfHours) }}</span>
           </div>
         </div>
         <div class="course-lessons" *ngIf="chapter.open">
@@ -220,7 +226,11 @@
           >
             <div class="lesson-main-data">
               <div class="lesson-heading">
-                <img [src]="getIconByType(lesson.type)" alt="icon" />
+                <img
+                  [src]="getIconByType(lesson.type)"
+                  alt="icon"
+                  loading="lazy"
+                />
                 <h3>{{ lesson.title }}</h3>
               </div>
               <div
@@ -231,7 +241,7 @@
               </div>
             </div>
             <div class="lesson-stats">
-              <span>{{ lesson.noOfHours }} Hour(s)</span>
+              <span>{{ formatHours(lesson.noOfHours) }}</span>
             </div>
           </div>
         </div>
@@ -239,3 +249,12 @@
     </div>
   </div>
 </ng-template>
+
+<div *ngIf="!isAuthorized">
+  You are not authorized to access this page
+  <img
+    src="../../assets/svg/Unauthorized-rafiki.svg"
+    alt="Unauthorized"
+    loading="lazy"
+  />
+</div>

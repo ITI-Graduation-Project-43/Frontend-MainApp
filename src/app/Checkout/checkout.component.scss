@@ -18,4 +18,23 @@
             width:50%;
         }
     }
+    .no-items-sec{
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+
+      .heading{
+        @include style-font($font-anton, 64px, 124.04%, $blackColor);
+
+      }
+      .sub-heading{
+        @include style-font($font-cabin, 24px, 124.04%, $blackColor);
+
+      }
+      button{
+        @include custom-button($greenColor, $blackColor, $blackColor, 43px);
+      }
+    }
 }

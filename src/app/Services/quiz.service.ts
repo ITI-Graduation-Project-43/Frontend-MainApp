@@ -20,8 +20,8 @@ export class QuizService {
         [question.choiceD]: 'D',
       };
       if (
-        choiceMapping[quizAnswers[question.id]].toLowerCase() ===
-        question.correctAnswer.toLowerCase()
+        choiceMapping[quizAnswers[question.id]]?.toLowerCase() ===
+        question.correctAnswer?.toLowerCase()
       ) {
         correct++;
       }

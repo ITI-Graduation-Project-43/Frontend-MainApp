@@ -18,7 +18,10 @@
     .course-cards{
       @include style-display-row(24px, 0);
       flex-wrap: wrap;
-
+      .course-card-container {
+        display: flex;
+        height: 620px;
+      }
       .course-card{
         @include course-card;
         width: 402px;
@@ -126,3 +129,32 @@ h1.skeleton{
   height: 3rem;
   max-width: 300px;
 }
+@media screen and (max-width: 1035px){
+  .courses-section{
+    width: 80vw;
+  }
+  .course-cards{
+    justify-content: center !important;
+  }
+  .course-card-container{
+    flex-direction: column!important;
+    justify-content: center !important;
+  }
+  .course-card{
+    width: 80vw !important;
+    .course-card , .course-card img{
+      height: max-content;
+    }
+  }
+}
+
+.description {
+    display: flex;
+    margin-top: 16px;
+    height: 40px;
+    align-items: center;
+    p {
+      margin: 0;
+    }
+}
+

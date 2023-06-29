@@ -1,0 +1,185 @@
+@use "../../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/placeholders" as *;
+
+
+.search-result-container {
+    padding: 24px;
+    background-color: $mainColorLight;
+
+    .course-rating {
+      @include style-display-row(5.6px, 0);
+      width: 10rem;
+    }
+
+    .course-students {
+      @include style-display-row-center(8px, 0);
+
+      .student-pictures {
+        @include style-display-row(0, 0);
+        max-height: 24px;
+
+        img {
+          @include make-avatar(24px, 24px);
+          margin-left: -6px;
+        }
+      }
+
+      .enrollments-number {
+        @include style-font($font-cabin, 16px, 19px, $darkGreyColor, 700);
+      }
+    }
+
+    h1 {
+      @include style-font($font-anton, 24, 124.04%, $blackColor);
+      margin-bottom: 0;
+    }
+
+    .weekfeature {
+      @extend %flex-row;
+      box-sizing: border-box;
+      padding: 24px;
+      gap: 10px;
+      background: $whiteColor;
+      border: 1px solid $blackColor;
+      order: 1;
+      cursor: pointer;
+
+      .image {
+        .featureImg {
+          border: 1px solid $blackColor;
+          width: 32rem;
+        }
+      }
+
+    }
+
+    .course-instructor-price {
+      @include style-display-row-center(0, 0);
+      justify-content: space-between;
+      width: 100%;
+
+      .course-instructor {
+        @include style-display-row-center(16px, 0);
+
+        .instructor-picture {
+          img {
+            @include make-avatar(42px, 42px);
+          }
+        }
+
+        .instructor-name {
+          @include style-font($font-cabin, 16px, 19px, $darkGreyColor, 700);
+        }
+
+      }
+
+      .course-price {
+        @include style-display-column(10px, 15px, 24px);
+
+
+        background: $greenColor;
+        border: 2px solid $blackColor;
+        border-radius: 33px;
+
+
+        @include style-font($font-cabin, 16px, 19px, $darkGreyColor, 700);
+      }
+    }
+  }
+
+
+  .all-courses {
+    @include style-display-column(16px, 24px);
+
+    h1 {
+      @include style-font($font-anton, 24, 124.04%, $blackColor);
+    }
+
+    .control-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+
+      .controls {
+        grid-column: 1/2;
+        margin-right: 2rem;
+        @include style-display-column(16px, 0px);
+
+        section {
+          width: 100%;
+          background-color: $mainColorLight;
+          border: 1px solid $blackColor;
+          padding: 20px 30px;
+
+          .filtering-way {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            gap: 10px;
+          }
+        }
+      }
+
+      .search-results {
+        grid-column: 2/5;
+        @include style-display-column(16px, 0px);
+
+        .search-result-container {
+          padding: 0;
+          background-color: transparent;
+          width: 100%;
+        }
+      }
+
+      .no-data{
+        grid-column: 2/5;
+        img{
+          width: 70%;
+        }
+      }
+
+      .view-more {
+        width: 100%;
+        text-align: center;
+
+        button {
+          @include custom-button($greenColor, $blackColor, $blackColor, 43px);
+        }
+      }
+    }
+  }
+
+
+  input[type="checkbox"]{
+    accent-color: $blackColor;
+    width: 20px;
+    height: 20px;
+    border-radius: 0px;
+    margin-top: 0;
+  }
+  input[type="radio"]{
+    margin-top: 0;
+  }
+  .form-check-input:checked {
+    background-color: $blackColor;
+    border-color: $blackColor;
+  }
+  .form-check-input:focus {
+    border-color: $greyColor;
+    box-shadow: 0 0 0 0.25rem rgba(31, 31, 31, 0.25);
+  }
+  .checks{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    .filter-item{
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      .rating-star{
+        display: flex;
+        gap: 2px;
+      }
+    }
+  }

@@ -10,7 +10,7 @@
   width: 90%;
   margin-bottom: 2rem;
   h1 {
-    @include style-font("Anton", 36px, 44.65px, $blackColor);
+    @include style-font($font-anton, 36px, 44.65px, $blackColor);
     font-weight: 400;
     font-size: 24px;
     grid-column: 1;
@@ -32,7 +32,7 @@
 
 select {
   padding: 1rem;
-  font-family: Cabin;
+  font-family: $font-cabin;
   font-weight: 500;
   width: 100%;
 }

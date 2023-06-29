@@ -3,7 +3,7 @@
   <h5>Code</h5>
   <div class="code">
     <input type="text" [(ngModel)]="code" [disabled]="siteCouponDisable">
-    <button class="submit" (click)="checkCoupon()" [disabled]="siteCouponDisable">Submit</button>
+    <button class="submit" (click)="checkCoupon()" [disabled]="siteCouponDisable || isDone">Submit</button>
   </div>
 
   <div class="summary">
@@ -24,7 +24,9 @@
     </section>
   </div>
 
-  <button class="complete" [disabled]="service.creditCardReactiveForm.invalid || !service.orderCourses.length" (click)="completeCheckout()">Complete Checkout</button>
+  <app-loader *ngIf="isDone"></app-loader>
+  <button class="complete" [disabled]="service.creditCardReactiveForm.invalid || !service.orderCourses.length || isDone" (click)="completeCheckout()">
+    Complete Checkout</button>
   <div class="note">
     <h6>By completing checkout you agree to these terms of service</h6>
   </div>

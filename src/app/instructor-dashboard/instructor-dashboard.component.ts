@@ -4,12 +4,12 @@ import { TimeTrackingService } from '../Services/time-tracking.service';
 @Component({
   selector: 'app-instructor-dashboard',
   templateUrl: './instructor-dashboard.component.html',
-  styleUrls: ['./instructor-dashboard.component.scss']
+  styleUrls: ['./instructor-dashboard.component.scss'],
 })
 export class InstructorDashboardComponent {
   recentStudents: any;
   constructor(private timeTrackingService: TimeTrackingService) {
-    document.querySelector(".app-header")?.classList.add("dark-background")
+    document.querySelector('.app-header')?.classList.add('dark-background');
   }
 
   onCourseIdChanged(courseId: number) {

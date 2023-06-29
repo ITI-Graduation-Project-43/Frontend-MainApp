@@ -4,7 +4,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Anton", sans-serif;
+  font-family: $font-anton, sans-serif;
 }
 
 img {
@@ -15,12 +15,13 @@ img {
 }
 .main {
   background-color: $blackColor;
-  padding: 40px;
+  padding: 88px 40px;
   display: flex;
 }
 .about {
   font-size: 1.5rem;
   font-weight: 400;
+  line-height: 68px;
 }
 @media screen and (min-width: 600px) {
   .about {

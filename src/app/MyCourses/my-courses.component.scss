@@ -21,14 +21,16 @@
             gap: 0.4rem;
             margin-bottom: 1rem;
     
-            header,
-            button {
+            header
+            {
                 @include custom-header();
+                box-shadow: none;
+                background-color: $mainColorLight;
             }
     
             button{
-                box-shadow: none;
-                background-color: $mainColorLight;
+                @include custom-button($greenColor, $blackColor, $blackColor, 24px);
+                border-radius: 50px;
             }
         }
 

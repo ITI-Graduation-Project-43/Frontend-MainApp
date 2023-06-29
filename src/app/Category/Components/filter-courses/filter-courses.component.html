@@ -1,0 +1,548 @@
+<div class="all-courses">
+  <h1 class="mt-5 mb-2">
+    All {{ categoryService.mainCategory?.name }} Courses
+  </h1>
+  <div class="control-container">
+    <div class="controls">
+      <section>
+        <div class="filtering-way" (click)="ratingChoices = !ratingChoices">
+          <h3>Rating</h3>
+          <svg
+            width="11"
+            height="18"
+            viewBox="0 0 11 18"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            *ngIf="ratingChoices"
+          >
+            <path
+              d="M10.2969 9.79687L2.79687 17.2969C2.58553 17.5082 2.29888 17.6269 2 17.6269C1.70111 17.6269 1.41447 17.5082 1.20312 17.2969C0.991779 17.0855 0.873047 16.7989 0.873047 16.5C0.873047 16.2011 0.991779 15.9145 1.20312 15.7031L7.90719 9.00094L1.205 2.29687C1.10035 2.19223 1.01734 2.06799 0.960706 1.93126C0.904071 1.79454 0.874922 1.64799 0.874922 1.5C0.874922 1.35201 0.904071 1.20546 0.960706 1.06873C1.01734 0.932004 1.10035 0.807771 1.205 0.703123C1.30965 0.598476 1.43388 0.515466 1.57061 0.458831C1.70734 0.402196 1.85388 0.373047 2.00187 0.373047C2.14987 0.373047 2.29641 0.402196 2.43314 0.458831C2.56987 0.515466 2.6941 0.598476 2.79875 0.703123L10.2987 8.20312C10.4035 8.30776 10.4866 8.43205 10.5432 8.56887C10.5998 8.70568 10.6289 8.85232 10.6287 9.00039C10.6285 9.14845 10.5991 9.29503 10.5422 9.43171C10.4852 9.56839 10.4019 9.69248 10.2969 9.79687Z"
+              fill="#181818"
+            />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="22"
+            height="14"
+            viewBox="0 0 22 14"
+            fill="none"
+            *ngIf="!ratingChoices"
+          >
+            <path
+              d="M10.0054 12.6196L0.630375 3.24463C0.366194 2.98045 0.217779 2.62214 0.217779 2.24853C0.217779 1.87493 0.366194 1.51662 0.630375 1.25244C0.894556 0.988259 1.25286 0.839844 1.62647 0.839844C2.00008 0.839844 2.35838 0.988259 2.62256 1.25244L11.0003 9.63252L19.3804 1.25478C19.5112 1.12397 19.6665 1.02021 19.8374 0.949417C20.0083 0.878624 20.1915 0.842187 20.3765 0.842187C20.5615 0.842187 20.7446 0.878624 20.9155 0.949417C21.0865 1.02021 21.2418 1.12397 21.3726 1.25478C21.5034 1.38559 21.6071 1.54088 21.6779 1.7118C21.7487 1.88271 21.7852 2.06589 21.7852 2.25088C21.7852 2.43587 21.7487 2.61905 21.6779 2.78996C21.6071 2.96087 21.5034 3.11616 21.3726 3.24697L11.9976 12.622C11.8668 12.7529 11.7114 12.8568 11.5404 12.9275C11.3694 12.9983 11.1861 13.0346 11.001 13.0344C10.8159 13.0342 10.6327 12.9974 10.4618 12.9263C10.291 12.8551 10.1359 12.7509 10.0054 12.6196Z"
+              fill="black"
+            />
+          </svg>
+        </div>
+        <div class="checks" *ngIf="!ratingChoices">
+          <div class="filter-item">
+            <input
+              type="radio"
+              name="rating"
+              class="form-check-input me-1"
+              id="4"
+              value="4"
+              [(ngModel)]="ratingFilters.rating"
+              (ngModelChange)="filter()"
+            />
+
+            <div class="rating-star">
+              <img
+                src="../../assets/svg/rating-star.svg"
+                alt="rating-star"
+                loading="lazy"
+              />
+              <img
+                src="../../assets/svg/rating-star.svg"
+                alt="rating-star"
+                loading="lazy"
+              />
+              <img
+                src="../../assets/svg/rating-star.svg"
+                alt="rating-star"
+                loading="lazy"
+              />
+              <img
+                src="../../assets/svg/rating-star.svg"
+                alt="rating-star"
+                loading="lazy"
+              />
+              <img
+                src="../../assets/svg/NoneFill-RatingStar.svg"
+                alt="non-rating-star"
+                loading="lazy"
+              />
+            </div>
+            <label for="4">4 & UP</label>
+          </div>
+          <div class="filter-item">
+            <input
+              type="radio"
+              name="rating"
+              class="form-check-input me-1"
+              id="3"
+              value="3"
+              [(ngModel)]="ratingFilters.rating"
+              (ngModelChange)="filter()"
+            />
+            <div class="rating-star">
+              <img
+                src="../../assets/svg/rating-star.svg"
+                alt="rating-star"
+                loading="lazy"
+              />
+              <img
+                src="../../assets/svg/rating-star.svg"
+                alt="rating-star"
+                loading="lazy"
+              />
+              <img
+                src="../../assets/svg/rating-star.svg"
+                alt="rating-star"
+                loading="lazy"
+              />
+              <img
+                src="../../assets/svg/NoneFill-RatingStar.svg"
+                alt="non-rating-star"
+                loading="lazy"
+              />
+              <img
+                src="../../assets/svg/NoneFill-RatingStar.svg"
+                alt="non-rating-star"
+                loading="lazy"
+              />
+            </div>
+            <label for="3">3 & UP</label>
+          </div>
+          <div class="filter-item">
+            <input
+              type="radio"
+              name="rating"
+              class="form-check-input me-1"
+              id="2"
+              value="2"
+              [(ngModel)]="ratingFilters.rating"
+              (ngModelChange)="filter()"
+            />
+            <div class="rating-star">
+              <img
+                src="../../assets/svg/rating-star.svg"
+                alt="rating-star"
+                loading="lazy"
+              />
+              <img
+                src="../../assets/svg/rating-star.svg"
+                alt="rating-star"
+                loading="lazy"
+              />
+              <img
+                src="../../assets/svg/NoneFill-RatingStar.svg"
+                alt="non-rating-star"
+                loading="lazy"
+              />
+              <img
+                src="../../assets/svg/NoneFill-RatingStar.svg"
+                alt="non-rating-star"
+                loading="lazy"
+              />
+              <img
+                src="../../assets/svg/NoneFill-RatingStar.svg"
+                alt="non-rating-star"
+                loading="lazy"
+              />
+            </div>
+            <label for="2">2 & UP</label>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div class="filtering-way" (click)="durationChoices = !durationChoices">
+          <h3>Course Duration</h3>
+          <svg
+            width="11"
+            height="18"
+            viewBox="0 0 11 18"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            *ngIf="durationChoices"
+          >
+            <path
+              d="M10.2969 9.79687L2.79687 17.2969C2.58553 17.5082 2.29888 17.6269 2 17.6269C1.70111 17.6269 1.41447 17.5082 1.20312 17.2969C0.991779 17.0855 0.873047 16.7989 0.873047 16.5C0.873047 16.2011 0.991779 15.9145 1.20312 15.7031L7.90719 9.00094L1.205 2.29687C1.10035 2.19223 1.01734 2.06799 0.960706 1.93126C0.904071 1.79454 0.874922 1.64799 0.874922 1.5C0.874922 1.35201 0.904071 1.20546 0.960706 1.06873C1.01734 0.932004 1.10035 0.807771 1.205 0.703123C1.30965 0.598476 1.43388 0.515466 1.57061 0.458831C1.70734 0.402196 1.85388 0.373047 2.00187 0.373047C2.14987 0.373047 2.29641 0.402196 2.43314 0.458831C2.56987 0.515466 2.6941 0.598476 2.79875 0.703123L10.2987 8.20312C10.4035 8.30776 10.4866 8.43205 10.5432 8.56887C10.5998 8.70568 10.6289 8.85232 10.6287 9.00039C10.6285 9.14845 10.5991 9.29503 10.5422 9.43171C10.4852 9.56839 10.4019 9.69248 10.2969 9.79687Z"
+              fill="#181818"
+            />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="22"
+            height="14"
+            viewBox="0 0 22 14"
+            fill="none"
+            *ngIf="!durationChoices"
+          >
+            <path
+              d="M10.0054 12.6196L0.630375 3.24463C0.366194 2.98045 0.217779 2.62214 0.217779 2.24853C0.217779 1.87493 0.366194 1.51662 0.630375 1.25244C0.894556 0.988259 1.25286 0.839844 1.62647 0.839844C2.00008 0.839844 2.35838 0.988259 2.62256 1.25244L11.0003 9.63252L19.3804 1.25478C19.5112 1.12397 19.6665 1.02021 19.8374 0.949417C20.0083 0.878624 20.1915 0.842187 20.3765 0.842187C20.5615 0.842187 20.7446 0.878624 20.9155 0.949417C21.0865 1.02021 21.2418 1.12397 21.3726 1.25478C21.5034 1.38559 21.6071 1.54088 21.6779 1.7118C21.7487 1.88271 21.7852 2.06589 21.7852 2.25088C21.7852 2.43587 21.7487 2.61905 21.6779 2.78996C21.6071 2.96087 21.5034 3.11616 21.3726 3.24697L11.9976 12.622C11.8668 12.7529 11.7114 12.8568 11.5404 12.9275C11.3694 12.9983 11.1861 13.0346 11.001 13.0344C10.8159 13.0342 10.6327 12.9974 10.4618 12.9263C10.291 12.8551 10.1359 12.7509 10.0054 12.6196Z"
+              fill="black"
+            />
+          </svg>
+        </div>
+        <div class="checks" *ngIf="!durationChoices">
+          <div class="filter-item">
+            <input
+              type="checkbox"
+              class="form-check-input me-1"
+              id="5"
+              [(ngModel)]="durationFilters.upTo5Hours"
+              (ngModelChange)="filter()"
+            />
+            <label for="5">0-5 Hours</label>
+          </div>
+          <div class="filter-item">
+            <input
+              type="checkbox"
+              class="form-check-input me-1"
+              id="10"
+              [(ngModel)]="durationFilters.upTo10Hours"
+              (ngModelChange)="filter()"
+            />
+            <label for="10">6-10 Hours</label>
+          </div>
+          <div class="filter-item">
+            <input
+              type="checkbox"
+              class="form-check-input me-1"
+              id="15"
+              [(ngModel)]="durationFilters.upTo15Hours"
+              (ngModelChange)="filter()"
+            />
+            <label for="15">11-15 Hours</label>
+          </div>
+          <div class="filter-item">
+            <input
+              type="checkbox"
+              class="form-check-input me-1"
+              id="20"
+              [(ngModel)]="durationFilters.upTo20Hours"
+              (ngModelChange)="filter()"
+            />
+            <label for="20">16-20 Hours</label>
+          </div>
+          <div class="filter-item">
+            <input
+              type="checkbox"
+              class="form-check-input me-1"
+              id="21"
+              [(ngModel)]="durationFilters.moreThan21Hours"
+              (ngModelChange)="filter()"
+            />
+            <label for="21">21+ Hours</label>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div
+          class="filtering-way"
+          (click)="subCategoryChoices = !subCategoryChoices"
+        >
+          <h3>Subcategory</h3>
+          <svg
+            width="11"
+            height="18"
+            viewBox="0 0 11 18"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10.2969 9.79687L2.79687 17.2969C2.58553 17.5082 2.29888 17.6269 2 17.6269C1.70111 17.6269 1.41447 17.5082 1.20312 17.2969C0.991779 17.0855 0.873047 16.7989 0.873047 16.5C0.873047 16.2011 0.991779 15.9145 1.20312 15.7031L7.90719 9.00094L1.205 2.29687C1.10035 2.19223 1.01734 2.06799 0.960706 1.93126C0.904071 1.79454 0.874922 1.64799 0.874922 1.5C0.874922 1.35201 0.904071 1.20546 0.960706 1.06873C1.01734 0.932004 1.10035 0.807771 1.205 0.703123C1.30965 0.598476 1.43388 0.515466 1.57061 0.458831C1.70734 0.402196 1.85388 0.373047 2.00187 0.373047C2.14987 0.373047 2.29641 0.402196 2.43314 0.458831C2.56987 0.515466 2.6941 0.598476 2.79875 0.703123L10.2987 8.20312C10.4035 8.30776 10.4866 8.43205 10.5432 8.56887C10.5998 8.70568 10.6289 8.85232 10.6287 9.00039C10.6285 9.14845 10.5991 9.29503 10.5422 9.43171C10.4852 9.56839 10.4019 9.69248 10.2969 9.79687Z"
+              fill="#181818"
+              *ngIf="subCategoryChoices"
+            />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="22"
+            height="14"
+            viewBox="0 0 22 14"
+            fill="none"
+            *ngIf="!subCategoryChoices"
+          >
+            <path
+              d="M10.0054 12.6196L0.630375 3.24463C0.366194 2.98045 0.217779 2.62214 0.217779 2.24853C0.217779 1.87493 0.366194 1.51662 0.630375 1.25244C0.894556 0.988259 1.25286 0.839844 1.62647 0.839844C2.00008 0.839844 2.35838 0.988259 2.62256 1.25244L11.0003 9.63252L19.3804 1.25478C19.5112 1.12397 19.6665 1.02021 19.8374 0.949417C20.0083 0.878624 20.1915 0.842187 20.3765 0.842187C20.5615 0.842187 20.7446 0.878624 20.9155 0.949417C21.0865 1.02021 21.2418 1.12397 21.3726 1.25478C21.5034 1.38559 21.6071 1.54088 21.6779 1.7118C21.7487 1.88271 21.7852 2.06589 21.7852 2.25088C21.7852 2.43587 21.7487 2.61905 21.6779 2.78996C21.6071 2.96087 21.5034 3.11616 21.3726 3.24697L11.9976 12.622C11.8668 12.7529 11.7114 12.8568 11.5404 12.9275C11.3694 12.9983 11.1861 13.0346 11.001 13.0344C10.8159 13.0342 10.6327 12.9974 10.4618 12.9263C10.291 12.8551 10.1359 12.7509 10.0054 12.6196Z"
+              fill="black"
+            />
+          </svg>
+        </div>
+        <div class="checks" *ngIf="!subCategoryChoices">
+          <div
+            class="filter-item"
+            *ngFor="let subCat of categoryService.subCategories"
+          >
+            <input
+              type="checkbox"
+              class="form-check-input me-1"
+              id="{{ subCat.name }}"
+              [(ngModel)]="subcategoryFilters[subCat.name]"
+              (ngModelChange)="filter()"
+            />
+            <label for="{{ subCat.name }}">{{ subCat.name }}</label>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div class="filtering-way" (click)="levelChoices = !levelChoices">
+          <h3>Level</h3>
+          <svg
+            width="11"
+            height="18"
+            viewBox="0 0 11 18"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10.2969 9.79687L2.79687 17.2969C2.58553 17.5082 2.29888 17.6269 2 17.6269C1.70111 17.6269 1.41447 17.5082 1.20312 17.2969C0.991779 17.0855 0.873047 16.7989 0.873047 16.5C0.873047 16.2011 0.991779 15.9145 1.20312 15.7031L7.90719 9.00094L1.205 2.29687C1.10035 2.19223 1.01734 2.06799 0.960706 1.93126C0.904071 1.79454 0.874922 1.64799 0.874922 1.5C0.874922 1.35201 0.904071 1.20546 0.960706 1.06873C1.01734 0.932004 1.10035 0.807771 1.205 0.703123C1.30965 0.598476 1.43388 0.515466 1.57061 0.458831C1.70734 0.402196 1.85388 0.373047 2.00187 0.373047C2.14987 0.373047 2.29641 0.402196 2.43314 0.458831C2.56987 0.515466 2.6941 0.598476 2.79875 0.703123L10.2987 8.20312C10.4035 8.30776 10.4866 8.43205 10.5432 8.56887C10.5998 8.70568 10.6289 8.85232 10.6287 9.00039C10.6285 9.14845 10.5991 9.29503 10.5422 9.43171C10.4852 9.56839 10.4019 9.69248 10.2969 9.79687Z"
+              fill="#181818"
+              *ngIf="levelChoices"
+            />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="22"
+            height="14"
+            viewBox="0 0 22 14"
+            fill="none"
+            *ngIf="!levelChoices"
+          >
+            <path
+              d="M10.0054 12.6196L0.630375 3.24463C0.366194 2.98045 0.217779 2.62214 0.217779 2.24853C0.217779 1.87493 0.366194 1.51662 0.630375 1.25244C0.894556 0.988259 1.25286 0.839844 1.62647 0.839844C2.00008 0.839844 2.35838 0.988259 2.62256 1.25244L11.0003 9.63252L19.3804 1.25478C19.5112 1.12397 19.6665 1.02021 19.8374 0.949417C20.0083 0.878624 20.1915 0.842187 20.3765 0.842187C20.5615 0.842187 20.7446 0.878624 20.9155 0.949417C21.0865 1.02021 21.2418 1.12397 21.3726 1.25478C21.5034 1.38559 21.6071 1.54088 21.6779 1.7118C21.7487 1.88271 21.7852 2.06589 21.7852 2.25088C21.7852 2.43587 21.7487 2.61905 21.6779 2.78996C21.6071 2.96087 21.5034 3.11616 21.3726 3.24697L11.9976 12.622C11.8668 12.7529 11.7114 12.8568 11.5404 12.9275C11.3694 12.9983 11.1861 13.0346 11.001 13.0344C10.8159 13.0342 10.6327 12.9974 10.4618 12.9263C10.291 12.8551 10.1359 12.7509 10.0054 12.6196Z"
+              fill="black"
+            />
+          </svg>
+        </div>
+        <div class="checks" *ngIf="!levelChoices">
+          <div class="filter-item">
+            <input
+              type="checkbox"
+              class="form-check-input me-1"
+              id="entry"
+              [(ngModel)]="levelFilters.Entry"
+              (ngModelChange)="filter()"
+            />
+            <label for="entry">Entry</label>
+          </div>
+          <div class="filter-item">
+            <input
+              type="checkbox"
+              class="form-check-input me-1"
+              id="intermediate"
+              [(ngModel)]="levelFilters.Intermediate"
+              (ngModelChange)="filter()"
+            />
+            <label for="intermediate">Intermediate</label>
+          </div>
+          <div class="filter-item">
+            <input
+              type="checkbox"
+              class="form-check-input me-1"
+              id="expert"
+              [(ngModel)]="levelFilters.Expert"
+              (ngModelChange)="filter()"
+            />
+            <label for="expert">Expert</label>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div class="filtering-way" (click)="languageChoices = !languageChoices">
+          <h3>Language</h3>
+          <svg
+            width="11"
+            height="18"
+            viewBox="0 0 11 18"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10.2969 9.79687L2.79687 17.2969C2.58553 17.5082 2.29888 17.6269 2 17.6269C1.70111 17.6269 1.41447 17.5082 1.20312 17.2969C0.991779 17.0855 0.873047 16.7989 0.873047 16.5C0.873047 16.2011 0.991779 15.9145 1.20312 15.7031L7.90719 9.00094L1.205 2.29687C1.10035 2.19223 1.01734 2.06799 0.960706 1.93126C0.904071 1.79454 0.874922 1.64799 0.874922 1.5C0.874922 1.35201 0.904071 1.20546 0.960706 1.06873C1.01734 0.932004 1.10035 0.807771 1.205 0.703123C1.30965 0.598476 1.43388 0.515466 1.57061 0.458831C1.70734 0.402196 1.85388 0.373047 2.00187 0.373047C2.14987 0.373047 2.29641 0.402196 2.43314 0.458831C2.56987 0.515466 2.6941 0.598476 2.79875 0.703123L10.2987 8.20312C10.4035 8.30776 10.4866 8.43205 10.5432 8.56887C10.5998 8.70568 10.6289 8.85232 10.6287 9.00039C10.6285 9.14845 10.5991 9.29503 10.5422 9.43171C10.4852 9.56839 10.4019 9.69248 10.2969 9.79687Z"
+              fill="#181818"
+              *ngIf="languageChoices"
+            />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="22"
+            height="14"
+            viewBox="0 0 22 14"
+            fill="none"
+            *ngIf="!languageChoices"
+          >
+            <path
+              d="M10.0054 12.6196L0.630375 3.24463C0.366194 2.98045 0.217779 2.62214 0.217779 2.24853C0.217779 1.87493 0.366194 1.51662 0.630375 1.25244C0.894556 0.988259 1.25286 0.839844 1.62647 0.839844C2.00008 0.839844 2.35838 0.988259 2.62256 1.25244L11.0003 9.63252L19.3804 1.25478C19.5112 1.12397 19.6665 1.02021 19.8374 0.949417C20.0083 0.878624 20.1915 0.842187 20.3765 0.842187C20.5615 0.842187 20.7446 0.878624 20.9155 0.949417C21.0865 1.02021 21.2418 1.12397 21.3726 1.25478C21.5034 1.38559 21.6071 1.54088 21.6779 1.7118C21.7487 1.88271 21.7852 2.06589 21.7852 2.25088C21.7852 2.43587 21.7487 2.61905 21.6779 2.78996C21.6071 2.96087 21.5034 3.11616 21.3726 3.24697L11.9976 12.622C11.8668 12.7529 11.7114 12.8568 11.5404 12.9275C11.3694 12.9983 11.1861 13.0346 11.001 13.0344C10.8159 13.0342 10.6327 12.9974 10.4618 12.9263C10.291 12.8551 10.1359 12.7509 10.0054 12.6196Z"
+              fill="black"
+            />
+          </svg>
+        </div>
+        <div class="checks" *ngIf="!languageChoices">
+          <div class="filter-item">
+            <input
+              type="checkbox"
+              class="form-check-input me-1"
+              id="ar"
+              [(ngModel)]="languageFilters.Arabic"
+              (ngModelChange)="filter()"
+            />
+            <label for="ar">Arabic</label>
+          </div>
+          <div class="filter-item">
+            <input
+              type="checkbox"
+              class="form-check-input me-1"
+              id="en"
+              [(ngModel)]="languageFilters.English"
+              (ngModelChange)="filter()"
+            />
+            <label for="en">English</label>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div class="filtering-way" (click)="priceChoices = !priceChoices">
+          <h3>Price</h3>
+          <svg
+            width="11"
+            height="18"
+            viewBox="0 0 11 18"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10.2969 9.79687L2.79687 17.2969C2.58553 17.5082 2.29888 17.6269 2 17.6269C1.70111 17.6269 1.41447 17.5082 1.20312 17.2969C0.991779 17.0855 0.873047 16.7989 0.873047 16.5C0.873047 16.2011 0.991779 15.9145 1.20312 15.7031L7.90719 9.00094L1.205 2.29687C1.10035 2.19223 1.01734 2.06799 0.960706 1.93126C0.904071 1.79454 0.874922 1.64799 0.874922 1.5C0.874922 1.35201 0.904071 1.20546 0.960706 1.06873C1.01734 0.932004 1.10035 0.807771 1.205 0.703123C1.30965 0.598476 1.43388 0.515466 1.57061 0.458831C1.70734 0.402196 1.85388 0.373047 2.00187 0.373047C2.14987 0.373047 2.29641 0.402196 2.43314 0.458831C2.56987 0.515466 2.6941 0.598476 2.79875 0.703123L10.2987 8.20312C10.4035 8.30776 10.4866 8.43205 10.5432 8.56887C10.5998 8.70568 10.6289 8.85232 10.6287 9.00039C10.6285 9.14845 10.5991 9.29503 10.5422 9.43171C10.4852 9.56839 10.4019 9.69248 10.2969 9.79687Z"
+              fill="#181818"
+              *ngIf="priceChoices"
+            />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="22"
+            height="14"
+            viewBox="0 0 22 14"
+            fill="none"
+            *ngIf="!priceChoices"
+          >
+            <path
+              d="M10.0054 12.6196L0.630375 3.24463C0.366194 2.98045 0.217779 2.62214 0.217779 2.24853C0.217779 1.87493 0.366194 1.51662 0.630375 1.25244C0.894556 0.988259 1.25286 0.839844 1.62647 0.839844C2.00008 0.839844 2.35838 0.988259 2.62256 1.25244L11.0003 9.63252L19.3804 1.25478C19.5112 1.12397 19.6665 1.02021 19.8374 0.949417C20.0083 0.878624 20.1915 0.842187 20.3765 0.842187C20.5615 0.842187 20.7446 0.878624 20.9155 0.949417C21.0865 1.02021 21.2418 1.12397 21.3726 1.25478C21.5034 1.38559 21.6071 1.54088 21.6779 1.7118C21.7487 1.88271 21.7852 2.06589 21.7852 2.25088C21.7852 2.43587 21.7487 2.61905 21.6779 2.78996C21.6071 2.96087 21.5034 3.11616 21.3726 3.24697L11.9976 12.622C11.8668 12.7529 11.7114 12.8568 11.5404 12.9275C11.3694 12.9983 11.1861 13.0346 11.001 13.0344C10.8159 13.0342 10.6327 12.9974 10.4618 12.9263C10.291 12.8551 10.1359 12.7509 10.0054 12.6196Z"
+              fill="black"
+            />
+          </svg>
+        </div>
+        <div class="checks" *ngIf="!priceChoices">
+          <div class="filter-item">
+            <input
+              type="checkbox"
+              class="form-check-input me-1"
+              id="paid"
+              [(ngModel)]="priceFilters.paid"
+              (ngModelChange)="filter()"
+            />
+            <label for="paid">Paid</label>
+          </div>
+          <div class="filter-item">
+            <input
+              type="checkbox"
+              class="form-check-input me-1"
+              id="free"
+              [(ngModel)]="priceFilters.free"
+              (ngModelChange)="filter()"
+            />
+            <label for="free">Free</label>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="search-results" *ngIf="filteredCourses.length">
+      <div
+        class="search-result-container"
+        *ngFor="let course of filteredCourses"
+      >
+        <div class="weekfeature" routerLink="/courseDetails/{{ course.id }}">
+          <div class="image me-1">
+            <img class="featureImg" src="{{ course.imageUrl }}" alt="" />
+          </div>
+          <div class="details">
+            <div class="upsection">
+              <div class="course-rating">
+                <img
+                  src="../../assets/svg/rating-star.svg"
+                  alt="rating-star"
+                  *ngFor="let star of ' '.repeat(course.avgReview).split('')"
+                  loading="lazy"
+                />
+              </div>
+              <h6>{{ course.subCategoryName }}</h6>
+              <h1>{{ course.title }}</h1>
+              <div class="course-students">
+                <div class="student-pictures">
+                  <img
+                    class="course-students-pic"
+                    src="../../assets/images/student1.webp"
+                    alt="student-picture"
+                    loading="lazy"
+                  />
+                  <img
+                    class="course-students-pic"
+                    src="../../assets/images/student2.webp"
+                    alt="student-picture"
+                    loading="lazy"
+                  />
+                  <img
+                    class="course-students-pic"
+                    src="../../assets/images/student3.webp"
+                    alt="student-picture"
+                    loading="lazy"
+                  />
+                  <img
+                    class="course-students-pic"
+                    src="../../assets/images/student4.webp"
+                    alt="student-picture"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="enrollments-number">
+                  {{ course.noOfStudents }} enrolled
+                </div>
+              </div>
+            </div>
+            <div class="midsection mt-3">
+              <p>
+                {{ course.description }}
+              </p>
+            </div>
+            <div class="downsection">
+              <div class="course-instructor-price">
+                <div class="course-instructor">
+                  <div class="instructor-picture">
+                    <img
+                      src="{{ course.instructorProfilePicture }}"
+                      alt="instructor-picture"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="instructor-name">{{ course.instructorName }}</div>
+                </div>
+                <div class="course-price">{{ course.price }} USD</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="view-more">
+        <button (click)="viewMore()">View more</button>
+      </div>
+    </div>
+    <div class="no-data" *ngIf="noData">
+      <img
+        src="../../assets/images/No data-rafiki.png"
+        alt="No Data Available"
+        loading="lazy"
+      />
+    </div>
+  </div>
+</div>

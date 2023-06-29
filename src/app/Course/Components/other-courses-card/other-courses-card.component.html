@@ -52,12 +52,19 @@
     <div class="suggested-courses-section">
       <div class="course-cards">
         <!-- Loop through courses array -->
-        <ng-container *ngFor="let course of courses; let i = index">
-          <div class="course-card" (click)="navigateToCourseDetails(course.courseId)">
+        <div
+          class="course-card-container"
+          *ngFor="let course of courses; let i = index"
+        >
+          <div
+            class="course-card"
+            (click)="navigateToCourseDetails(course.courseId)"
+          >
             <img
               [src]="course.courseImageUrl"
               alt="{{ course.courseTitle + 'image ' }}"
               class="course-image"
+              loading="lazy"
             />
             <div class="course-info">
               <div class="course-rating">
@@ -66,10 +73,18 @@
                   [src]="'../../assets/svg/rating-star.svg'"
                   alt="rating-star"
                   [class.highlighted]="star <= course.courseAvgReview"
+                  loading="lazy"
                 />
               </div>
               <div class="course-category">{{ course.courseCategoryName }}</div>
-              <div class="course-name">{{ course.courseTitle }}</div>
+              <div class="course-name" [attr.title]="course.courseTitle">
+                {{
+                  course.courseTitle.length > 30
+                    ? (course.courseTitle | slice : 0 : 30) + "..."
+                    : course.courseTitle
+                }}
+              </div>
+
               <div class="course-students">
                 <div class="student-pictures">
                   <img
@@ -85,6 +100,7 @@
                         student.studentLastName +
                         ' photo'
                     }}"
+                    loading="lazy"
                   />
                 </div>
                 <div
@@ -111,6 +127,15 @@
                   enrolled
                 </div>
               </div>
+              <div class="description">
+                <p [attr.title]="course.courseDescription">
+                  {{
+                    course.courseDescription.length > 100
+                      ? (course.courseDescription | slice : 0 : 100) + "..."
+                      : course.courseDescription
+                  }}
+                </p>
+              </div>
             </div>
 
             <div class="course-instructor-price">
@@ -119,6 +144,7 @@
                   <img
                     [src]="course.instructorProfilePicture"
                     alt="instructor-picture"
+                    loading="lazy"
                   />
                 </div>
                 <div class="instructor-name">
@@ -130,7 +156,7 @@
               <div class="course-price">{{ course.price }} EGP</div>
             </div>
           </div>
-        </ng-container>
+        </div>
         <!-- End of loop -->
       </div>
       <div *ngIf="pageNumber * pageSize < coursesTotalCount">

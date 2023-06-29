@@ -1,20 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 
 import { SharedModule } from '../Shared/SharedModule/SharedModule.module';
 import { CourseLessonComponent } from './CourseLesson.component';
-import { VideoPlayerComponent } from './video-player/video-player/video-player.component';
+import { CourseLessonRoutingModule } from './course-lesson-routing.module';
+import { CourseFeedbackComponent } from './course-feedback/course-feedback.component';
+import { CourseDiscussionComponent } from './course-discussion/course-discussion.component';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
     FormsModule,
-
-    RouterModule.forChild([{ path: '', component: CourseLessonComponent }]),
+    ReactiveFormsModule,
+    CourseLessonRoutingModule,
   ],
-  declarations: [CourseLessonComponent, VideoPlayerComponent],
+  declarations: [
+    CourseLessonComponent,
+    CourseDiscussionComponent,
+    CourseFeedbackComponent,
+  ],
 })
 export class CourseLessonModule {}

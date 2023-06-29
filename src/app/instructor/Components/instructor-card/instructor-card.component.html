@@ -1,10 +1,18 @@
 <div class="instructor-details-card">
   <div class="course-picture">
-    <img [src]="instructor[0].profilePicture" alt="instructor image" />
+    <img
+      [src]="instructor[0].profilePicture"
+      alt="instructor image"
+      loading="lazy"
+    />
   </div>
   <div class="course-info">
     <div class="course-rating">
-      <img src="../../assets/svg/rating-star.svg" alt="rating-star" />
+      <img
+        src="../../assets/svg/rating-star.svg"
+        alt="rating-star"
+        loading="lazy"
+      />
       <span> {{ instructor[0].avgRating }} Instructor Rating</span>
     </div>
     <div class="course-students">
@@ -14,9 +22,13 @@
       </div>
     </div>
   </div>
-  <div class="instructor-action">
-    <button class="website" (click)="redirectToGitHub()">GitHub</button>
-    <button class="website" (click)="redirectToLinkedin()">LinkedIn</button>
-    <button class="website" (click)="redirectToTwitter()">Twitter</button>
+  <div class="instructor-action" *ngIf="accounts.length != 0">
+    <button
+      class="website"
+      *ngFor="let account of accounts; let i = index"
+      (click)="redirectToLink(i)"
+    >
+      {{ account.accountName }}
+    </button>
   </div>
 </div>

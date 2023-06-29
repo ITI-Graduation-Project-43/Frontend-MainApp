@@ -2,9 +2,9 @@
 @use "../../../../assets/style/abstracts/mixins.scss" as *;
 
 form {
-  border: 1px solid black;
+  border: 1px solid $blackColor;
   padding: 40px;
-  box-shadow: 5px 5px 0 black;
+  box-shadow: 5px 5px 0 $blackColor;
   background-color: white;
   max-height: 100%;
 }
@@ -14,8 +14,9 @@ h1 {
   font-family: $font-anton;
   margin-bottom: 15px;
 }
+
 input {
-  border: 1px solid #ccc;
+  border: 2px solid $blackColor;
   padding: 15px;
   margin-bottom: 15px;
   position: relative;
@@ -27,7 +28,7 @@ input {
 }
 input::placeholder,
 textarea::placeholder {
-  color: black;
+  color: $blackColor;
   font-size: $fs-24;
   font-family: $font-cabin;
 }
@@ -46,6 +47,7 @@ textarea::placeholder {
 }
 
 textarea {
+  border: 2px solid $blackColor;
   resize: none;
   position: relative;
   margin-bottom: 15px;
@@ -57,14 +59,61 @@ textarea {
   font-weight: 400;
 }
 
-button {
-  @include custom-button($greenColor, black, black, 20);
-  width: 100%;
-  margin-top: 20px;
-  font-size: 20px;
-  font-weight: 700;
-  padding: 5px;
-  &:hover {
-    background-color: $greenColor;
+.login {
+  @include custom-button($greenColor, $blackColor, $blackColor, 22px);
+  padding: 7px 22px;
+  &.send {
+    display: block;
+    position: relative;
+    opacity: 0.7;
+    box-shadow: none;
+    cursor: not-allowed;
+    &:active {
+      transform: translate(0px, 0px);
+      -webkit-transform: translate(0px, 0px);
+      -moz-transform: translate(0px, 0px);
+      -ms-transform: translate(0px, 0px);
+      -o-transform: translate(0px, 0px);
+    }
+
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      &::after {
+        content: "";
+        width: 20px;
+        height: 20px;
+        border: 3px solid $blackColor;
+        border-left: 3px solid transparent;
+        animation-name: load;
+        animation-timing-function: linear;
+        animation-duration: 0.7s;
+        animation-iteration-count: infinite;
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+      }
+    }
+  }
+}
+
+@keyframes load {
+  0% {
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(350deg);
+    -webkit-transform: rotate(350deg);
+    -moz-transform: rotate(350deg);
+    -ms-transform: rotate(350deg);
+    -o-transform: rotate(350deg);
   }
 }

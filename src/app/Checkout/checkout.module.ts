@@ -10,6 +10,7 @@ import { SummaryComponent } from './Components/summary/summary.component';
 import { CheckoutComponent } from './checkout.component';
 import { RouterModule } from '@angular/router';
 import { CourseCouponComponent } from './Components/course-coupon/course-coupon.component';
+import { LoaderComponent } from './Components/loader/loader.component';
 
 
 
@@ -22,6 +23,7 @@ import { CourseCouponComponent } from './Components/course-coupon/course-coupon.
     OrderDetailsComponent,
     SummaryComponent,
     CourseCouponComponent,
+    LoaderComponent,
   ],
   imports: [
     CommonModule,

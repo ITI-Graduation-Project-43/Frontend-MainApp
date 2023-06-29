@@ -1,21 +1,32 @@
 @use "../../../../assets/style/abstracts/variables.scss" as *;
 @use "../../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../../assets/style/abstracts/_placeholders.scss" as *;
 
-h2 {
-  font-family: $font-anton;
-  font-size: $fs-64;
-  font-weight: 400;
+
+section{
+  @include style-display-column(40px, 0);
+  .contact-us-text{
+    @include style-display-column(24px, 0);
+    h2{
+      margin:  0;
+      @include style-font($font-anton, 64px, 124.037%, $blackColor,700);
+      max-width: 567px;
+    }
+    p{
+      margin: 0;
+      @include style-font($font-cabin, 24px, 124.037%, $darkGreyColor,400);
+
+    }
+  }
+  .contact-us-location{
+    @include style-display-column(24px, 0);
+    h5{
+      margin:  0;
+      @include style-font($font-anton, 24px, 124.037%, $blackColor,700);
+    }
+  }
 }
-p {
-  font-size: $fs-24;
-  font-family: $font-cabin;
-  font-weight: 400;
-}
-h5 {
-  font-size: $fs-24;
-  font-weight: 400;
-  font-family: $font-anton;
-}
+
 img {
   max-width: 100%;
 }

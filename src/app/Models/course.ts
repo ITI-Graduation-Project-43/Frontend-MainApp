@@ -23,8 +23,8 @@ export interface Course {
   createdAt: Date;
   updatedAt: Date;
   categoryId: number;
-  SubcategoryId: number;
-  TopicId: number;
+  subCategoryId: number;
+  topicId: number;
   categoryName: string;
   subCategoryName: string;
   topicName: string;

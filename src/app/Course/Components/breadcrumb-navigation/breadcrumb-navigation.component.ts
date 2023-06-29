@@ -11,4 +11,6 @@ export class BreadcrumbNavigationComponent {
   @Input() subCategoryName: string = '';
   @Input() topicName: string = '';
   @Input() loading: boolean = true;
+  @Input() subCategoryId: number = -1;
+  @Input() topicId: number = -1;
 }

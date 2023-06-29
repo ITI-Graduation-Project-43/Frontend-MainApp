@@ -1,12 +1,11 @@
-import {Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy} from '@angular/core';
 import { Course } from 'src/app/Models/course';
 import { ShoppingCartService } from 'src/app/Services/cart.service';
 import {LocalStorageService} from '../../../Shared/Helper/local-storage.service'
 import { Router } from '@angular/router';
-import { Student } from 'src/app/Models/student';
 import { APIService } from 'src/app/Shared/Services/api.service';
 import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-course-card',
@@ -15,20 +14,22 @@ import { Subscription } from 'rxjs';
 })
 export class CourseCardComponent implements OnChanges, OnDestroy {
   student !: any
-  @Input()courses !: any;
+  role !: string;
+  @Input()courses : any[] = [];
   cart !: Course[];
-  wishlist : Subscription = new Subscription();
-  added : Subscription = new Subscription();
 
   constructor(private http: APIService, private shopCart : ShoppingCartService, private router: Router, private LocalStorageService: LocalStorageService) {
     this.student = LocalStorageService.getUserInfo();
-    this.getStudentWishlist();
-    this.getStudentAddCourses();
+    this.role = LocalStorageService.decodeToken().Role;
+
   }
 
   ngOnChanges(): void {
-    this.getStudentWishlist();
-    this.getStudentAddCourses();
+    this.student = this.LocalStorageService.getUserInfo();
+    this.role = this.LocalStorageService.decodeToken().Role;
+    if(this.role = 'Student' && this.student) {
+      this.loadStudentCoursesEnrolledAndWishlist();
+    }
   }
 
   rating(number: number = 1): number[] {
@@ -48,50 +49,39 @@ export class CourseCardComponent implements OnChanges, OnDestroy {
     }
   }
 
-  getStudentWishlist() {
-    if(this.student != null){
-      let obvserver = {
-        next: (data: APIResponseVM) => {
-          if(data.success) {
-            for(let wishlistCourse of data.items) {
-              for(let course of this.courses) {
-                if(course.id == wishlistCourse.courseId) {
-                  course.isFound = true;
-                }
+  loadStudentCoursesEnrolledAndWishlist() {
+    let obvserver = {
+      next: (data: any) => {
+        if(data) {
+          for(let addedCourse of data.wishlist.items) {
+            for(let course of this.courses) {
+              if(course.id == addedCourse.courseId) {
+                course.isEnrollment = true;
               }
             }
           }
-        },
-        complete: () => {
-        },
-        error: (error: Error) => {
-          console.log(error);
-        }
-      }
-      this.wishlist = this.http.getAllItem(`wishlist/student/${this.student.id}`).subscribe(obvserver)
-    }
-  }
 
-  getStudentAddCourses() {
-    if(this.student != null){
-      let obvserver = {
-        next: (data: APIResponseVM) => {
-          if(data.success) {
-            for(let addedCourse of data.items) {
-              for(let course of this.courses) {
-                if(course.id == addedCourse.courseId) {
-                  course.isEnrollment = true;
-                }
+          for(let wishlistCourse of data.wishlist.items) {
+            for(let course of this.courses) {
+              if(course.id == wishlistCourse.courseId) {
+                course.isFound = true;
               }
             }
           }
-        },
-        error: (error: Error) => {
-          console.log(error);
         }
+      },
+      complete: () => {
+        //console.log("completed")
+      },
+      error: (error: Error) => {
+        console.log(error);
       }
-      this.added = this.http.getAllItem(`enrollment/student/${this.student.id}`).subscribe(obvserver)
     }
+
+    forkJoin({
+      wishlist: this.http.getAllItem(`wishlist/student/${this.student.id}`),
+      enrolled: this.http.getAllItem(`enrollment/student/${this.student.id}`)
+    }).subscribe(obvserver);
   }
 
   checkPosition(course: HTMLElement, details: HTMLElement) {
@@ -105,11 +95,8 @@ export class CourseCardComponent implements OnChanges, OnDestroy {
   resetPosition(details: HTMLElement) {
     details.classList.remove("hovered");
     details.classList.remove("open-right");
-    console.log("tarek");
   }
 
   ngOnDestroy(): void {
-    this.wishlist.unsubscribe();
-    this.added.unsubscribe();
   }
 }

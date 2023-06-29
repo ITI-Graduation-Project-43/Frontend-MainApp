@@ -61,7 +61,8 @@ export class CourseComponent implements OnInit, AfterViewInit {
     private courseService: CourseService,
     private studentService: StudentService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     document.querySelector('.app-header')?.classList.add('dark-background');
@@ -108,24 +109,11 @@ export class CourseComponent implements OnInit, AfterViewInit {
   loadData() {
     this.loading = true;
     forkJoin({
-      course: this.courseService.getItemById(COURSE, this.courseId),
-      chapters: this.courseService.getItemById(
-        CHAPTER_BY_COURSE,
-        this.courseId
-      ),
-      relatedCourses: this.courseService.getRelatedCoursesWithStudents(
-        this.courseId,
-        STUDENTS_NUMBER,
-        this.pageNumber,
-        this.pageSize
-      ),
-      students: this.studentService.getRecentStudentsInCourse(
-        STUDENTS_NUMBER,
-        this.courseId,
-        INITIAL_PAGE_NUMBER,
-        DEFAULT_PAGE_SIZE
-      ),
-    }).subscribe(
+        course: this.courseService.getItemById(COURSE, this.courseId),
+        chapters: this.courseService.getItemById(CHAPTER_BY_COURSE, this.courseId),
+        relatedCourses: this.courseService.getRelatedCoursesWithStudents(this.courseId, STUDENTS_NUMBER, this.pageNumber,this.pageSize),
+        students: this.studentService.getRecentStudentsInCourse(STUDENTS_NUMBER, this.courseId, INITIAL_PAGE_NUMBER, DEFAULT_PAGE_SIZE),
+      }).subscribe(
       (data) => {
         this.handleResponse(data.course, (courses: Course[]) => {
           courses[0].language = mapEnumValue(Language, courses[0].language);
@@ -143,9 +131,7 @@ export class CourseComponent implements OnInit, AfterViewInit {
           this.chapters = chapters;
         });
 
-        this.handleResponse(
-          data.relatedCourses,
-          (courses: courseStudents[]) => {
+        this.handleResponse(data.relatedCourses, (courses: courseStudents[]) => {
             this.relatedCourses = courses;
             this.relatedCoursesTotalCount = data.relatedCourses.totalPages;
           }

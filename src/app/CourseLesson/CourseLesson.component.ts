@@ -24,6 +24,7 @@ const LESSON_API_ROUTE = 'Lesson';
 })
 export class CourseLessonComponent implements OnInit, OnDestroy {
   courseId: number = 0;
+  courseName: string = '';
   isAuthorized = true;
   user: any;
   instructorId: string = '';
@@ -56,25 +57,16 @@ export class CourseLessonComponent implements OnInit, OnDestroy {
     private courseDataService: CourseDataService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     document.querySelector('.app-header')?.classList.add('dark-background');
     this.loading = true;
     this.route.params.subscribe((params) => {
       this.courseId = +params['courseId'];
       this.lessonId = +params['lessonId'];
+      this.courseName = params['courseName'];
     });
     this.courseService.courseId = this.courseId;
-    this.courseService.checkEnrolledIn();
-
-    if (!this.courseService.enrollmentData) {
-      this.loadChapters();
-    } else {
-      this.isAuthorized = false;
-      setTimeout(() => {
-        this.router.navigate(['home']);
-      }, 5000);
-    }
-
+    this.isEnrolledIn();
     this.login = this.LocalStorageService.checkTokenExpiration();
     this.user = this.LocalStorageService.decodeToken();
     if (this.user && this.user?.Role == 'Student') {
@@ -88,7 +80,17 @@ export class CourseLessonComponent implements OnInit, OnDestroy {
       this.router.navigate(['home']);
     }
   }
-
+  async isEnrolledIn() {
+    await this.courseService.checkEnrolledIn();
+    if (this.courseService.enrollmentData) {
+      this.loadChapters();
+    } else {
+      this.isAuthorized = false;
+      setTimeout(() => {
+        this.router.navigate(['home']);
+      }, 3000);
+    }
+  }
   loadChapters() {
     this.courseService.getItemById(CHAPTER_BY_COURSE, this.courseId).subscribe(
       (data) => {
@@ -104,6 +106,9 @@ export class CourseLessonComponent implements OnInit, OnDestroy {
       const firstLesson = this.chapters[0]?.lessons[0];
       if (firstLesson) {
         this.lessonId = firstLesson.id;
+        this.router.navigate([
+          `/courses/${this.courseName}/${this.courseId}/lesson/${this.lessonId}`,
+        ]);
       } else {
         this.errorMessage = 'No lessons available.';
         this.loading = false;
@@ -125,6 +130,9 @@ export class CourseLessonComponent implements OnInit, OnDestroy {
         this.handleLessonResponse(data);
         this.quizResult = null;
         this.incorrectAnswers = [];
+        this.router.navigate([
+          `/courses/${this.courseName}/${this.courseId}/lesson/${this.lessonId}`,
+        ]);
       },
       (error) => this.handleError(error)
     );
@@ -161,12 +169,16 @@ export class CourseLessonComponent implements OnInit, OnDestroy {
           this.handleLessonResponse(data);
           this.quizResult = null;
           this.incorrectAnswers = [];
+
+          this.router.navigate([
+            `/courses/${this.courseName}/${this.courseId}/lesson/${this.lesson.id}`,
+          ]);
         },
         (error) => this.handleError(error)
       );
     } else {
       this.courseDataService.instructorId =
-        this.courseService.enrollmentData.instructorId;
+        this.courseService.enrollmentData?.instructorId;
       this.courseDataService.courseId = this.courseId;
       this.courseDataService.studentId = this.user.Id;
       this.router.navigate(['courseFeedback'], { relativeTo: this.route });
@@ -185,6 +197,9 @@ export class CourseLessonComponent implements OnInit, OnDestroy {
         (data) => {
           this.handleLessonResponse(data);
           this.quizResult = null;
+          this.router.navigate([
+            `/courses/${this.courseName}/${this.courseId}/lesson/${this.lesson.id}`,
+          ]);
         },
         (error) => this.handleError(error)
       );
@@ -290,12 +305,8 @@ export class CourseLessonComponent implements OnInit, OnDestroy {
     let user = this.LocalStorageService.decodeToken();
     if (user.Role == 'Student') {
       this.timeTrackingService.recordEndTime(user.Id, this.courseId).subscribe(
-        (response: any) => {
-          console.log(response);
-        },
-        (error) => {
-          console.log(error);
-        }
+        (response: any) => {},
+        (error) => {}
       );
     }
   }

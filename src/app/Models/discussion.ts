@@ -8,4 +8,5 @@ export interface Discussion {
   datetime: Date;
   username: string;
   parentContent: string;
+  replies: Discussion[];
 }

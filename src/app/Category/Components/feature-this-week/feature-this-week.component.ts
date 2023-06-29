@@ -20,7 +20,6 @@ export class FeatureThisWeekComponent implements OnInit {
     this.loadFeature = true;
     this.categoryService.getFeatureThisWeek().subscribe(
       (data: Course[]) => {
-        console.log(data);
         this.loadFeature = false;
         this.featureThisWeekCourse = data[0] as Course;
       },

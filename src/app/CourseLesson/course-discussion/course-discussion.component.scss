@@ -1,15 +1,119 @@
-.discussion {
-  margin-bottom: 2em;
-  background-color: #f8f8f8;
-  border: 1px solid #e0e0e0;
-  border-radius: 5px;
-  padding: 1em;
+@use "../../../assets/style/abstracts/mixins.scss" as *;
+@use "../../../assets/style/abstracts/variables.scss" as *;
+@use "../../../assets/style/abstracts/_placeholders.scss" as *;
+
+.discussion-wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  padding: 80px 80px;
+  margin: 80px 40px;
+  background: $whiteColor;
+  border: 3px solid $blackColor;
+
+  .add-discussion-sec{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .header{
+      @include style-font($font-anton, 24px, 36px, $blackColor, 400);
+      margin-bottom: 0;
+    }
+
+
+  }
+
+  .seperator{
+    width: 100%;
+    margin: 48px auto;
+    border: 1px solid $blackColor;
+  }
+
+  .lesson-discussion-sec{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .discussion {
+      padding: 24px;
+      border: 1px solid $blackColor;
+      .parent-discussion-sec{
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        h5 , p{
+          margin: 0;
+        }
+        h5{
+          color: $greyColor;
+        }
+        .date{
+          font-size:.7rem;
+        }
+        .paretn-discussion-actions{
+          display: flex;
+          gap: 8px;
+        }
+      }
+      .replies-sec {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px;
+        .reply{
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+      }
+
+      // Adds a separator between discussions
+      &:not(:last-child) {
+        border-bottom: 1px solid $blackColor;
+      }
+    }
+  }
 }
 
-.reply {
-  margin-left: 2em;
-  background-color: #e8f5e9;
-  border: 1px solid #c8e6c9;
-  border-radius: 5px;
-  padding: 1em;
+form{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .add-discussion-form{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    label {
+      @include style-font($font-cabin,16px, 124.037%, $blackColor, 700);
+    }
+
+    textarea{
+      width: 100%;
+      height: 200px;
+      padding: 24px;
+      box-sizing: border-box;
+      border: 1px solid $blackColor;
+      font-size: 16px;
+      resize: none;
+      border-radius: 0;
+    }
+  }
+
+  .discussion-action{
+    width: 100%;
+    @include style-display-column(0, 0);
+    align-items: flex-end;
+
+    .add-discussion-button{
+      @include custom-button($lightPurpleColor,$blackColor,$blackColor,43px);
+    }
+
+  }
+}
+.add-reply-button{
+  @include custom-button($secondaryColor,$blackColor,$blackColor,24px);
+  @include style-font($font-cabin, 12px, 124.037%, $blackColor, 700);
 }

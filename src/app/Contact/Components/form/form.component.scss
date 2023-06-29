@@ -14,11 +14,14 @@ h1 {
   font-family: $font-anton;
   margin-bottom: 15px;
 }
-
+.form-group{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
 input {
   border: 2px solid $blackColor;
   padding: 15px;
-  margin-bottom: 15px;
   position: relative;
   text-indent: 50px;
   width: 100%;
@@ -31,6 +34,12 @@ textarea::placeholder {
   color: $blackColor;
   font-size: $fs-24;
   font-family: $font-cabin;
+}
+.parent{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
 }
 /*check for pesudo elements and use svg insted of place holder*/
 .name-field,
@@ -50,7 +59,6 @@ textarea {
   border: 2px solid $blackColor;
   resize: none;
   position: relative;
-  margin-bottom: 15px;
   text-indent: 50px;
   width: 100%;
   padding: 15px;

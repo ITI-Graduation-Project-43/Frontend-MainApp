@@ -32,27 +32,34 @@ export class CourseService extends APIService {
     }
   }
 
-  checkEnrolledIn() {
-    if (!this.studentId || this.studentId < 1) return;
-    this.getAllItem(
-      `Enrollment/Student/${this.studentId}/Course/${this.courseId}`
-    ).subscribe(
-      (data: APIResponseVM) => {
-        if (data.success) {
-          this.enrollmentData = data.items[0];
-          this.enrolledIn = true;
-        } else {
+  checkEnrolledIn(): Promise<any> {
+    if (!this.studentId || this.studentId < 1) {
+      return Promise.resolve();
+    }
+
+    return new Promise((resolve, reject) => {
+      this.getAllItem(
+        `Enrollment/Student/${this.studentId}/Course/${this.courseId}`
+      ).subscribe(
+        (data: APIResponseVM) => {
+          if (data.success) {
+            this.enrollmentData = data.items[0];
+            this.enrolledIn = true;
+            resolve(this.enrollmentData);
+          } else {
+            this.enrollmentData = null;
+            this.enrolledIn = false;
+            resolve(null);
+          }
+        },
+        (error) => {
           this.enrollmentData = null;
           this.enrolledIn = false;
+          reject(error);
         }
-      },
-      (error) => {
-        this.enrollmentData = null;
-        this.enrolledIn = false;
-      }
-    );
+      );
+    });
   }
-
   getRelatedCourses(
     courseId: number,
     pageNumber: number = 1,

@@ -57,7 +57,7 @@ export class CourseFeedbackComponent implements OnInit {
           this.editMode = true;
         }
       },
-      (error) => console.log(error)
+      (error) => (this.editMode = false)
     );
   }
 

@@ -9,7 +9,7 @@
       online course that improves student lives.
     </p>
     <h3>What kind of teaching have you done before?</h3>
-    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="myForm" (submit)="onSubmit()">
       <fieldset class="form-group">
         <div class="form-check" *ngFor="let option of options">
           <label class="form-check-label">
@@ -21,20 +21,13 @@
             {{ option.label }}
           </label>
         </div>
-        <div
-          *ngIf="
-            myForm.get('teaching')?.invalid &&
-            (myForm.get('teaching')?.dirty || myForm.get('teaching')?.touched)
-          "
-          class="text-danger"
-        >
-          <div *ngIf="myForm.get('teaching')?.errors?.['required']">
-            Please select an option.
-          </div>
+        <div *ngIf="myForm?.invalid && myForm?.touched" class="text-danger">
+          Please select an option.
         </div>
       </fieldset>
       <div class="controls">
-        <button type="submit" [disabled]="myForm.invalid">Continue</button>
+        <button routerLink="/instructorRegister">Back</button>
+        <button type="submit">Continue</button>
       </div>
     </form>
   </div>

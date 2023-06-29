@@ -19,20 +19,19 @@ export class VideoAssessmentComponent {
     private fb: FormBuilder,
     private router: Router,
   ) {
+    let assessmentFormData = sessionStorage.getItem("assessment");
     this.myForm = this.fb.group({
-      assessment: ['', Validators.required],
+      assessment: [assessmentFormData, Validators.required],
     });
     document.querySelector(".app-header")?.classList.remove("dark-background")
   }
-  goback() {
-    this.router.navigateByUrl('instructorRegister');
-  }
   onSubmit() {
     if (this.myForm.invalid) {
+      this.myForm.markAllAsTouched();
       return;
     }
     const selectedValue = this.myForm.get('assessment')?.value;
-    localStorage.setItem('assessment', selectedValue, );
+    sessionStorage.setItem('assessment', selectedValue, );
     this.router.navigateByUrl('instructorRegister/expandReach');
   }
 }

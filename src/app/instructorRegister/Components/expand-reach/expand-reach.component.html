@@ -34,8 +34,11 @@
         </div>
       </fieldset>
       <div class="controls">
-        <button (click)="goback()">Back</button>
-        <button type="submit" [disabled]="myForm.invalid">Continue</button>
+        <button *ngIf="!registering" routerLink="/instructorRegister/videoAssessment">Back</button>
+        <button *ngIf="registering" class="send">Back</button>
+        <button type="submit" [ngClass]="{'complete': true, 'send': registering}">
+          <span>Complete</span>
+        </button>
       </div>
     </form>
   </div>

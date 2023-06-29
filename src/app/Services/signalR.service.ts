@@ -12,7 +12,7 @@ export class SignalRService {
 
   public startConnection = (): Promise<void> => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`https://localhost:7129/discussionHub`)
+      .withUrl(`${environment.APIURL}/discussionHub`)
       .build();
 
     return this.hubConnection

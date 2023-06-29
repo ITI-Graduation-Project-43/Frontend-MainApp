@@ -8,6 +8,7 @@ import { InstructorComponent } from './Components/instructor/instructor.componen
 import { MilestoneComponent } from './Components/milestone/milestone.component';
 import { HomeInstructorRoutingModule } from './home-instructor-routing.module';
 import { AboutModule } from '../About/about.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { AboutModule } from '../About/about.module';
     CommonModule,
     HomeInstructorRoutingModule,
     AboutModule,
+    RouterModule
   ],
 })
 export class HomeInstructorModule {}

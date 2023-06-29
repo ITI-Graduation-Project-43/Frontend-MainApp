@@ -1,0 +1,95 @@
+<section class="h-100 py-75 bg-mainColorLight">
+  <div class="container-fluid">
+    <div class="login-container m-auto bg-whiteColor">
+      <h2>Register as instructor</h2>
+      <form (submit)="register($event)" [formGroup]="this.registerForm">
+        <div class="d-flex flex-column flex-lg-row gap-0 gap-lg-2">
+          <div class="flex-grow-1">
+            <div class="form-outline mb-4">
+              <input type="text" placeholder="First Name" formControlName="firstName" [readOnly]="registering"/>
+            </div>
+            <div *ngIf="firstName?.invalid && firstName?.touched" style="color: red; font-size: 15px; margin-top: -20px;" class="mb-1">
+              <span *ngIf="firstName?.errors?.['required']">Firstname is required</span>
+              <span *ngIf="firstName?.errors?.['pattern']">Should be between 3 to 30 characters</span>
+            </div>
+          </div>
+          <div class="flex-grow-1">
+            <div class="form-outline mb-4">
+              <input type="text" placeholder="Last Name" formControlName="lastName" [readOnly]="registering"/>
+            </div>
+            <div *ngIf="lastName?.invalid && lastName?.touched" style="color: red; font-size: 15px; margin-top: -20px;" class="mb-1">
+              <span *ngIf="lastName?.errors?.['required']">Lastname is required</span>
+              <span *ngIf="lastName?.errors?.['pattern']">Should be between 3 to 30 characters</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-outline mb-4">
+          <input type="email" placeholder="Email" formControlName="email" [readOnly]="registering" #inputEmail (blur)="checkEmail(inputEmail.value)"/>
+        </div>
+        <div *ngIf="email?.invalid && email?.touched" style="color: red; font-size: 15px; margin-top: -20px;" class="mb-1">
+            <span *ngIf="email?.errors?.['pattern']">Invalid e-mail</span>
+            <span *ngIf="email?.errors?.['required']">E-mail is required</span>
+            <span *ngIf="registerForm.controls['email'].hasError('isFound')">This email is already used</span>
+        </div>
+        <div class="form-outline mb-4">
+          <input type="password" placeholder="Password" formControlName="password" #pass [readOnly]="registering" (input)="checkPasswordStrong(pass.value)"/>
+          <svg (click)="showPassword(pass)" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+            <path *ngIf="showedPass" d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zm151 118.3C226 97.7 269.5 80 320 80c65.2 0 118.8 29.6 159.9 67.7C518.4 183.5 545 226 558.6 256c-12.6 28-36.6 66.8-70.9 100.9l-53.8-42.2c9.1-17.6 14.2-37.5 14.2-58.7c0-70.7-57.3-128-128-128c-32.2 0-61.7 11.9-84.2 31.5l-46.1-36.1zM394.9 284.2l-81.5-63.9c4.2-8.5 6.6-18.2 6.6-28.3c0-5.5-.7-10.9-2-16c.7 0 1.3 0 2 0c44.2 0 80 35.8 80 80c0 9.9-1.8 19.4-5.1 28.2zm9.4 130.3C378.8 425.4 350.7 432 320 432c-65.2 0-118.8-29.6-159.9-67.7C121.6 328.5 95 286 81.4 256c8.3-18.4 21.5-41.5 39.4-64.8L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5l-41.9-33zM192 256c0 70.7 57.3 128 128 128c13.3 0 26.1-2 38.2-5.8L302 334c-23.5-5.4-43.1-21.2-53.7-42.3l-56.1-44.2c-.2 2.8-.3 5.6-.3 8.5z"/>
+            <path *ngIf="!showedPass" d="M288 80c-65.2 0-118.8 29.6-159.9 67.7C89.6 183.5 63 226 49.4 256c13.6 30 40.2 72.5 78.6 108.3C169.2 402.4 222.8 432 288 432s118.8-29.6 159.9-67.7C486.4 328.5 513 286 526.6 256c-13.6-30-40.2-72.5-78.6-108.3C406.8 109.6 353.2 80 288 80zM95.4 112.6C142.5 68.8 207.2 32 288 32s145.5 36.8 192.6 80.6c46.8 43.5 78.1 95.4 93 131.1c3.3 7.9 3.3 16.7 0 24.6c-14.9 35.7-46.2 87.7-93 131.1C433.5 443.2 368.8 480 288 480s-145.5-36.8-192.6-80.6C48.6 356 17.3 304 2.5 268.3c-3.3-7.9-3.3-16.7 0-24.6C17.3 208 48.6 156 95.4 112.6zM288 336c44.2 0 80-35.8 80-80s-35.8-80-80-80c-.7 0-1.3 0-2 0c1.3 5.1 2 10.5 2 16c0 35.3-28.7 64-64 64c-5.5 0-10.9-.7-16-2c0 .7 0 1.3 0 2c0 44.2 35.8 80 80 80zm0-208a128 128 0 1 1 0 256 128 128 0 1 1 0-256z"/>
+          </svg>
+        </div>
+        <div *ngIf="password?.invalid && password?.touched" style="color: red; font-size: 15px; margin-top: -20px;" class="mb-1">
+          <span *ngIf="password?.errors?.['required']">Password is required</span>
+          <span *ngIf="password?.errors?.['pattern']">{{passwordCheckMessage}}</span>
+        </div>
+        <div class="form-outline mb-4">
+          <input type="password" placeholder="Confirm Password" formControlName="ConfirmPassword" #confirmPass [readOnly]="registering" (input)="CheckMatched(confirmPass.value)"/>
+          <svg (click)="showConfirmPassword(confirmPass)" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+            <path *ngIf="showedConfirmPass" d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zm151 118.3C226 97.7 269.5 80 320 80c65.2 0 118.8 29.6 159.9 67.7C518.4 183.5 545 226 558.6 256c-12.6 28-36.6 66.8-70.9 100.9l-53.8-42.2c9.1-17.6 14.2-37.5 14.2-58.7c0-70.7-57.3-128-128-128c-32.2 0-61.7 11.9-84.2 31.5l-46.1-36.1zM394.9 284.2l-81.5-63.9c4.2-8.5 6.6-18.2 6.6-28.3c0-5.5-.7-10.9-2-16c.7 0 1.3 0 2 0c44.2 0 80 35.8 80 80c0 9.9-1.8 19.4-5.1 28.2zm9.4 130.3C378.8 425.4 350.7 432 320 432c-65.2 0-118.8-29.6-159.9-67.7C121.6 328.5 95 286 81.4 256c8.3-18.4 21.5-41.5 39.4-64.8L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5l-41.9-33zM192 256c0 70.7 57.3 128 128 128c13.3 0 26.1-2 38.2-5.8L302 334c-23.5-5.4-43.1-21.2-53.7-42.3l-56.1-44.2c-.2 2.8-.3 5.6-.3 8.5z"/>
+            <path *ngIf="!showedConfirmPass" d="M288 80c-65.2 0-118.8 29.6-159.9 67.7C89.6 183.5 63 226 49.4 256c13.6 30 40.2 72.5 78.6 108.3C169.2 402.4 222.8 432 288 432s118.8-29.6 159.9-67.7C486.4 328.5 513 286 526.6 256c-13.6-30-40.2-72.5-78.6-108.3C406.8 109.6 353.2 80 288 80zM95.4 112.6C142.5 68.8 207.2 32 288 32s145.5 36.8 192.6 80.6c46.8 43.5 78.1 95.4 93 131.1c3.3 7.9 3.3 16.7 0 24.6c-14.9 35.7-46.2 87.7-93 131.1C433.5 443.2 368.8 480 288 480s-145.5-36.8-192.6-80.6C48.6 356 17.3 304 2.5 268.3c-3.3-7.9-3.3-16.7 0-24.6C17.3 208 48.6 156 95.4 112.6zM288 336c44.2 0 80-35.8 80-80s-35.8-80-80-80c-.7 0-1.3 0-2 0c1.3 5.1 2 10.5 2 16c0 35.3-28.7 64-64 64c-5.5 0-10.9-.7-16-2c0 .7 0 1.3 0 2c0 44.2 35.8 80 80 80zm0-208a128 128 0 1 1 0 256 128 128 0 1 1 0-256z"/>
+          </svg>
+        </div>
+        <div *ngIf="ConfirmPassword?.invalid && ConfirmPassword?.touched" style="color: red; font-size: 15px; margin-top: -20px;" class="mb-1">
+          <span *ngIf="ConfirmPassword?.errors?.['required']">Password is required</span>
+          <span *ngIf="registerForm.controls['ConfirmPassword'].hasError('notMatched')">Not matched</span>
+        </div>
+        <div class="checkbox mt-2 mb-4">
+          <input type="checkbox">
+          <label>Send me special offers, personalized recommendations, and learning tips.</label>
+        </div>
+        <button type="submit" class="login w-100">
+          <span>Register</span>
+        </button>
+      </form>
+      <div class="or"></div>
+      <div class="external-login">
+        <div class="google">
+          <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" transform="translate(0 0.445312)" fill="white"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M23.04 12.7058C23.04 11.8903 22.9668 11.1062 22.8309 10.3535H12V14.8019H18.1891C17.9225 16.2394 17.1123 17.4574 15.8943 18.2728V21.1583H19.6109C21.7855 19.1562 23.04 16.2081 23.04 12.7058Z" fill="#4285F4"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9995 23.9459C15.1045 23.9459 17.7077 22.9161 19.6104 21.1597L15.8938 18.2743C14.864 18.9643 13.5467 19.372 11.9995 19.372C9.00425 19.372 6.46902 17.349 5.5647 14.6309H1.72266V17.6104C3.61493 21.3688 7.50402 23.9459 11.9995 23.9459Z" fill="#34A853"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.56523 14.6308C5.33523 13.9408 5.20455 13.2038 5.20455 12.4458C5.20455 11.6878 5.33523 10.9508 5.56523 10.2608V7.28125H1.72318C0.944318 8.83375 0.5 10.5901 0.5 12.4458C0.5 14.3015 0.944318 16.0578 1.72318 17.6103L5.56523 14.6308Z" fill="#FBBC05"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9995 5.51918C13.6879 5.51918 15.2038 6.0994 16.3956 7.23895L19.694 3.94054C17.7024 2.08486 15.0992 0.945312 11.9995 0.945312C7.50402 0.945312 3.61493 3.52236 1.72266 7.28077L5.5647 10.2603C6.46902 7.54213 9.00425 5.51918 11.9995 5.51918Z" fill="#EA4335"/>
+          </svg>
+          <span>Continue With Goole</span>
+        </div>
+        <div class="apple">
+          <svg width="20" height="24" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19.2798 18.3693C18.932 19.1728 18.5203 19.9125 18.0433 20.5925C17.393 21.5196 16.8606 22.1613 16.4503 22.5177C15.8143 23.1026 15.1329 23.4022 14.4031 23.4192C13.8792 23.4192 13.2475 23.2701 12.5121 22.9677C11.7742 22.6667 11.0962 22.5177 10.4762 22.5177C9.82598 22.5177 9.12861 22.6667 8.3827 22.9677C7.63565 23.2701 7.03383 23.4277 6.5737 23.4433C5.87393 23.4731 5.17643 23.1651 4.4802 22.5177C4.03583 22.1301 3.48001 21.4657 2.81417 20.5244C2.09977 19.5192 1.51244 18.3537 1.05231 17.0248C0.55953 15.5895 0.3125 14.1996 0.3125 12.854C0.3125 11.3126 0.645564 9.9832 1.31269 8.86916C1.83698 7.97432 2.53449 7.26844 3.40747 6.75024C4.28045 6.23205 5.2237 5.96798 6.23951 5.95109C6.79532 5.95109 7.5242 6.12302 8.42998 6.46091C9.33319 6.79993 9.91315 6.97186 10.1674 6.97186C10.3575 6.97186 11.0018 6.77083 12.094 6.37005C13.1268 5.99837 13.9985 5.84447 14.7126 5.90509C16.6477 6.06126 18.1015 6.82407 19.0683 8.19835C17.3377 9.24694 16.4816 10.7156 16.4986 12.5997C16.5142 14.0673 17.0466 15.2885 18.0929 16.2582C18.5671 16.7082 19.0967 17.0561 19.6859 17.3031C19.5581 17.6736 19.4232 18.0286 19.2798 18.3693V18.3693ZM14.8418 0.905443C14.8418 2.0557 14.4216 3.1297 13.5839 4.12378C12.5731 5.30555 11.3505 5.98843 10.0246 5.88067C10.0077 5.74268 9.9979 5.59744 9.9979 5.44482C9.9979 4.34057 10.4786 3.1588 11.3323 2.19255C11.7585 1.70332 12.3005 1.29653 12.9579 0.972027C13.6138 0.652365 14.2342 0.475585 14.8177 0.445312C14.8347 0.599085 14.8418 0.752866 14.8418 0.905428V0.905443Z" fill="white"/>
+          </svg>
+          <span>Continue With Apple</span>
+        </div>
+        <div class="facebook">
+          <svg width="24" height="23" viewBox="0 0 24 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M23.5 11.5147C23.5 5.16343 18.3513 0.0147038 12 0.0147038C5.64872 0.0147038 0.5 5.16343 0.5 11.5147C0.5 17.2547 4.70538 22.0123 10.2031 22.875V14.8389H7.2832V11.5147H10.2031V8.98111C10.2031 6.09892 11.92 4.50689 14.5468 4.50689C15.805 4.50689 17.1211 4.7315 17.1211 4.7315V7.56158H15.671C14.2424 7.56158 13.7969 8.44804 13.7969 9.35749V11.5147H16.9863L16.4765 14.8389H13.7969V22.875C19.2946 22.0123 23.5 17.2547 23.5 11.5147Z" fill="white"/>
+          </svg>
+          <span>Continue With Facebook</span>
+        </div>
+      </div>
+    </div>
+    <div class="login">
+      <span>Already have an account?</span>
+      <a routerLink="/login" class="fs-bold"> Login</a>
+    </div>
+  </div>
+</section>

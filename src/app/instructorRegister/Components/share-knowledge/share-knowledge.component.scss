@@ -53,8 +53,12 @@ button {
   padding: 15px 30px !important;
   margin-top: 10px;
 }
+button:first-of-type {
+  background-color: $mainColorLight;
+}
 .controls {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  gap: 20px;
 }

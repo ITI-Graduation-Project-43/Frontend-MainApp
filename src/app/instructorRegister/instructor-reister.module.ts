@@ -6,12 +6,14 @@ import { ShareKnowledgeComponent } from './Components/share-knowledge/share-know
 import { VideoAssessmentComponent } from './Components/video-assessment/video-assessment.component';
 import { ExpandReachComponent } from './Components/expand-reach/expand-reach.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RegisterFormComponent } from './Components/register-form/register-form.component';
 
 @NgModule({
   declarations: [
     ShareKnowledgeComponent,
     VideoAssessmentComponent,
     ExpandReachComponent,
+    RegisterFormComponent
   ],
   imports: [CommonModule, InstructorReisterRoutingModule, ReactiveFormsModule],
 })

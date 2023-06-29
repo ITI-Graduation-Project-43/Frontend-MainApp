@@ -17,18 +17,20 @@ export class ShareKnowledgeComponent {
   ];
 
   constructor(private fb: FormBuilder, private router: Router) {
+    let teachingFormData =  sessionStorage.getItem("teaching");
     this.myForm = this.fb.group({
-      teaching: ['', Validators.required],
+      teaching: [teachingFormData, Validators.required],
     });
     document.querySelector(".app-header")?.classList.remove("dark-background")
   }
 
   onSubmit() {
     if (this.myForm.invalid) {
+      this.myForm.markAllAsTouched();
       return;
     }
     const selectedValue = this.myForm.get('teaching')?.value;
-    localStorage.setItem('teaching', selectedValue);
+    sessionStorage.setItem('teaching', selectedValue);
     this.router.navigateByUrl('instructorRegister/videoAssessment');
   }
 }

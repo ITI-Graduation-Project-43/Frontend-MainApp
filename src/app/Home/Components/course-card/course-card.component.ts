@@ -20,13 +20,13 @@ export class CourseCardComponent implements OnChanges, OnDestroy {
 
   constructor(private http: APIService, private shopCart : ShoppingCartService, private router: Router, private LocalStorageService: LocalStorageService) {
     this.student = LocalStorageService.getUserInfo();
-    this.role = LocalStorageService.decodeToken().Role;
+    this.role = LocalStorageService.decodeToken()?.Role;
 
   }
 
   ngOnChanges(): void {
     this.student = this.LocalStorageService.getUserInfo();
-    this.role = this.LocalStorageService.decodeToken().Role;
+    this.role = this.LocalStorageService.decodeToken()?.Role;
     if(this.role = 'Student' && this.student) {
       this.loadStudentCoursesEnrolledAndWishlist();
     }

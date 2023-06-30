@@ -5,6 +5,9 @@ import { APIService } from 'src/app/Shared/Services/api.service';
 import {NotificationService} from './../../../Shared/Services/notification.service'
 import { environment } from 'src/environments/environment';
 import * as CryptoJS from 'crypto-js';
+import { Location } from '@angular/common';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-login-form',
@@ -19,8 +22,9 @@ export class LoginFormComponent {
   showed : boolean = true;
   loging: boolean = false;
   wrongEmailOrPassword : boolean = false;
+  history = [];
 
-  constructor(private http: APIService, private fb: FormBuilder, private NotificationService: NotificationService) {
+  constructor(private route: Router, private http: APIService, private fb: FormBuilder, private NotificationService: NotificationService, private location: Location) {
     document.querySelector(".app-header")?.classList.remove("dark-background");
     let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     this.loginForm = fb.group({
@@ -52,6 +56,7 @@ export class LoginFormComponent {
             localStorage.setItem('MindMission', encryptedUserData);
             this.NotificationService.notify("login");
             this.loging = false;
+            this.location.back();
           }
           else {
             this.wrongEmailOrPassword = true;

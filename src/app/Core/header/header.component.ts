@@ -212,10 +212,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   toggleDisplayDivIf() {
     this.isShowDivIf = !this.isShowDivIf;
     let body = document.querySelector("body");
+    body?.classList.add("overlay");
     if(body?.classList.contains("overlay")) {
       body?.addEventListener("click", (e) => {
         let currentElement = e.target as HTMLElement;
-        body?.classList.toggle("overlay");
         if(currentElement.classList.contains("overlay")) {
           this.isShowDivIf = true;
           body?.classList.remove("overlay")

@@ -132,11 +132,15 @@
           </li>
         </ul>
       </div>
-      <div class="btns">
-        <button class="cart added" *ngIf="course.isEnrollment">Owned</button>
+      <div class="btns" *ngIf="!course.isEnrollment">
         <button class="cart" (click)="AddToCart(course)" *ngIf="!course.isEnrollment">Add to Cart</button>
-        <button class="wishlist added" *ngIf="course.isFound">Added</button>
-        <button class="wishlist" (click)="AddToWishlist(course)" *ngIf="!course.isFound">Add to Wishlist</button>
+        <button class="wishlist" *ngIf="course.isFound" routerLink="/mycourses">Go to your wishlist</button>
+        <button [ngClass]="{'wishlist': true, 'send': add}" (click)="AddToWishlist(course)" *ngIf="!course.isFound">
+          <span>Add to Wishlist</span>
+        </button>
+      </div>
+      <div class="btns" *ngIf="course.isEnrollment">
+        <button class="cart" routerLink="/mycourses">Go to your courses</button>
       </div>
     </div>
   </div>

@@ -12,19 +12,19 @@ import { APIResponseVM } from 'src/app/Shared/ViewModels/apiresponse-vm';
 export class CategorySectionComponent {
   categories: any[] = [];
   constructor(private http: APIService, private router: Router) {
-      let obvserver = {
-        next: (data: APIResponseVM) => {
-          if(data.success) {
-            for(let i = 0; i < 4; i++) {
-              this.categories[i] = data.items[i];
-            }
+    let obvserver = {
+      next: (data: APIResponseVM) => {
+        if(data.success) {
+          for(let i = 0; i < 4; i++) {
+            this.categories[i] = data.items[i];
           }
-        },
-        error: (error: Error) => {
-          console.log(error);
         }
+      },
+      error: (error: Error) => {
+        console.log(error);
       }
-      this.http.getAllItem("category/type/0").subscribe(obvserver)
+    }
+    this.http.getAllItem("category/type/0").subscribe(obvserver)
   }
 
   goToCategory(id: number) {

@@ -17,6 +17,8 @@ export class CourseCardComponent implements OnChanges, OnDestroy {
   role !: string;
   @Input()courses : any[] = [];
   cart !: Course[];
+  subscription : Subscription = new Subscription();
+  add : boolean = false;
 
   constructor(private http: APIService, private shopCart : ShoppingCartService, private router: Router, private LocalStorageService: LocalStorageService) {
     this.student = LocalStorageService.getUserInfo();
@@ -40,9 +42,23 @@ export class CourseCardComponent implements OnChanges, OnDestroy {
     this.shopCart.addItem(course);
   }
 
-  AddToWishlist(course: Course) {
+  AddToWishlist(course: any) {
     if(this.LocalStorageService.checkTokenExpiration()) {
-      //call API
+      if(!this.add) {
+          this.add = true;
+        let obvserver = {
+          next: (data: APIResponseVM) => {
+            if(data.success) {
+              course.isFound = true;
+              this.add = false
+            }
+          },
+          error: (error: Error) => {
+            console.log(error);
+          }
+        }
+        this.http.addItem("Wishlist", {studentId: this.student.id, courseId: course.id}).subscribe(obvserver)
+      }
     }
     else {
       this.router.navigateByUrl("/login");
@@ -53,14 +69,13 @@ export class CourseCardComponent implements OnChanges, OnDestroy {
     let obvserver = {
       next: (data: any) => {
         if(data && this.courses) {
-          for(let addedCourse of data.wishlist.items) {
+          for(let addedCourse of data.enrolled.items) {
             for(let course of this.courses) {
               if(course.id == addedCourse.courseId) {
                 course.isEnrollment = true;
               }
             }
           }
-
           for(let wishlistCourse of data.wishlist.items) {
             for(let course of this.courses) {
               if(course.id == wishlistCourse.courseId) {
@@ -78,9 +93,9 @@ export class CourseCardComponent implements OnChanges, OnDestroy {
       }
     }
 
-    forkJoin({
-      wishlist: this.http.getAllItem(`wishlist/student/${this.student.id}`),
-      enrolled: this.http.getAllItem(`enrollment/student/${this.student.id}`)
+    this.subscription = forkJoin({
+      wishlist: this.http.getAllItem(`wishlist/student/${this.student.id}?pageNumber=1&pageSize=400`),
+      enrolled: this.http.getAllItem(`enrollment/student/${this.student.id}?pageNumber=1&pageSize=400`)
     }).subscribe(obvserver);
   }
 
@@ -98,5 +113,6 @@ export class CourseCardComponent implements OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

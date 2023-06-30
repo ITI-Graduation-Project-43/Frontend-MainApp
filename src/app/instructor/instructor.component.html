@@ -117,7 +117,7 @@
   </div>
 </div>
 <!--Course Feedback section-->
-<div class="Review-section">
+<div class="Review-section" *ngIf="instructorFeedbacks.length > 0">
   <h1>{{ instructor[0]?.firstName }}'s Reviews</h1>
   <div class="student-feedback-section">
     <div class="students-feedback">

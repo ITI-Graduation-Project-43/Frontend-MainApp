@@ -9,7 +9,7 @@ import { NotificationService } from './../../Shared/Services/notification.servic
 })
 export class FooterComponent implements OnInit {
   currentYear: number;
-  role !: any;
+  role : string = '';
   constructor(private LocalStorageService : LocalStorageService, private NotificationService: NotificationService) {
     this.currentYear = new Date().getFullYear();
     this.role = this.LocalStorageService.decodeToken()?.Role;
@@ -18,8 +18,11 @@ export class FooterComponent implements OnInit {
   ngOnInit(): void {
     let obvserverLogin = {
       next: (data: any) => {
-        if(data.message == 'login' || data.message == 'signout') {
+        if(data.message == 'login') {
           this.role = this.LocalStorageService.decodeToken()?.Role;
+        }
+        if(data.message == 'signout') {
+          this.role = ''
         }
       },
     };

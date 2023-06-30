@@ -144,6 +144,7 @@
               cursor: not-allowed;
             }
           }
+
           &.wishlist {
             @include custom-button($whiteColor,$blackColor,$blackColor,32px);
             &.added {
@@ -152,8 +153,63 @@
               cursor: not-allowed;
             }
           }
+
+          &.send {
+            display: block;
+            position: relative;
+            opacity: 0.7;
+            box-shadow: none;
+            cursor: not-allowed;
+            &:active {
+              transform: translate(0px, 0px);
+              -webkit-transform: translate(0px, 0px);
+              -moz-transform: translate(0px, 0px);
+              -ms-transform: translate(0px, 0px);
+              -o-transform: translate(0px, 0px);
+            }
+
+            span {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 5px;
+              &::after {
+                content: "";
+                width: 20px;
+                height: 20px;
+                border: 3px solid $blackColor;
+                border-left: 3px solid transparent;
+                animation-name: load;
+                animation-timing-function: linear;
+                animation-duration: 0.7s;
+                animation-iteration-count: infinite;
+                border-radius: 50%;
+                -webkit-border-radius: 50%;
+                -moz-border-radius: 50%;
+                -ms-border-radius: 50%;
+                -o-border-radius: 50%;
+              }
+            }
+          }
         }
       }
     }
+  }
+}
+
+@keyframes load {
+  0% {
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(350deg);
+    -webkit-transform: rotate(350deg);
+    -moz-transform: rotate(350deg);
+    -ms-transform: rotate(350deg);
+    -o-transform: rotate(350deg);
   }
 }

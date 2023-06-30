@@ -11,6 +11,7 @@ import { FooterComponent } from './Core/footer/footer.component';
 import { ShoppingCartComponent } from './Core/shopping-cart/shopping-cart.component';
 import { SnackbarComponent } from './Shared/snackbar/snackbar.component';
 import { InterceptorService } from './Interceptors/interceptor.service';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { InterceptorService } from './Interceptors/interceptor.service';
     FooterComponent,
     ShoppingCartComponent,
     SnackbarComponent,
+    NotfoundComponent,
   ],
   imports: [
     BrowserModule,

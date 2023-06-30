@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthenticationGuard } from './Guards/authentication.guard';
 import { HideLoginAndRegisterGuard } from './Guards/hide-login-and-register.guard';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -121,6 +122,7 @@ const routes: Routes = [
         (m) => m.InstructorCoursesModule
       ),
   },
+  { path: '**', component: NotfoundComponent },
 ];
 
 @NgModule({

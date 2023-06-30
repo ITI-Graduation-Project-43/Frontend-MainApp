@@ -34,12 +34,12 @@
         </svg>
       </a>
     </ng-template>
-    <button (click)=toggleDisplayDivIf() class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+    <button (click)="toggleDisplayDivIf()" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
         aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse p-3 p-lg-0 flex-column flex-lg-row align-items-start align-items-lg-center" id="navbarResponsive"  #targetDiv [ngClass]="!isShowDivIf ? 'responsive__active' : 'responsive__inactive'">
-      <span (click)= "toggleDisplayDivIf()"  class="text-danger d-block d-lg-none">X</span>
+      <span (click)="toggleDisplayDivIf()" class="text-danger d-block d-lg-none">X</span>
       <ul class="navbar-nav flex-grow-1 justify-content-center align-items-start align-items-lg-center gap-0 gap-lg-3 order-2 order-lg-1" *ngIf="Role != 'Instructor'">
         <li class="nav-item">
           <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
@@ -94,13 +94,13 @@
         </li>
       </ul>
       <ul class="navbar-nav flex-grow-1 justify-content-center align-items-start align-items-lg-center gap-0 gap-lg-3 order-2 order-lg-1" *ngIf="Role == 'Instructor'">
-        <li (click)="toggleDisplayDivIf()"  class="nav-item">
+        <li class="nav-item">
           <a class="nav-link" routerLink="/instructor" routerLinkActive="active">Dashboard</a>
         </li>
-        <li (click)="toggleDisplayDivIf()"  class="nav-item">
+        <li class="nav-item">
           <a class="nav-link" routerLink="/instructorCourses" routerLinkActive="active">My Courses</a>
         </li>
-        <li (click)="toggleDisplayDivIf()"  class="nav-item">
+        <li  class="nav-item">
           <a class="nav-link" routerLink="/setting" routerLinkActive="active">Setting</a>
         </li>
       </ul>

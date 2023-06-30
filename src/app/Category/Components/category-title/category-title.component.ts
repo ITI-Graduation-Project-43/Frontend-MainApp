@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Category } from 'src/app/Models/category';
 import { CategoryService } from 'src/app/Services/category.service';
 
@@ -11,9 +11,7 @@ import { CategoryService } from 'src/app/Services/category.service';
 export class CategoryTitleComponent implements OnInit {
   mainCategory!: Category | undefined;
   categoryId!:number;
-
-  constructor(private categoryService:CategoryService,
-    private activeRoute:ActivatedRoute){
+  constructor(private categoryService:CategoryService, private activeRoute: ActivatedRoute){
       this.getCategoryId();
     }
 
@@ -24,7 +22,8 @@ export class CategoryTitleComponent implements OnInit {
   getCategoryId() {
     this.activeRoute.paramMap.subscribe(
       (route: any) => {
-        this.categoryId = this.categoryService.categoryId = route.get('id');
+        this.categoryId = this.categoryService.categoryId = route.params['id'];
+        this.getTheCategory();
       },
       (erorr) => {
         console.log(erorr);

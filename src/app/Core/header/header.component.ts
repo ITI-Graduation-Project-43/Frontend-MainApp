@@ -135,7 +135,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         }
       },
       error: (error: Error) => {
-        console.log(error.message);
+        // console.log(error.message);
       }
     }
     this.http.getAllItem(`category/type/0?PageNumber=1&PageSize=${20}`).subscribe(obvserver);
@@ -204,11 +204,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.Id = this.Role = '';
     this.numberOfCourses = 0;
     this.cartService.clearCart();
-    localStorage.removeItem('MindMission');
-    localStorage.removeItem('cart')
-    localStorage.removeItem('privacy')
-    localStorage.removeItem('creditCard')
-    localStorage.removeItem('notifications')
+    localStorage.clear();
     this.router.navigateByUrl("/login");
     this.NotificationService.notify('signout', 'hide');
   }

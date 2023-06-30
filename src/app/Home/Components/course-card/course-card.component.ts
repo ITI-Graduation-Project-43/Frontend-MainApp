@@ -52,7 +52,7 @@ export class CourseCardComponent implements OnChanges, OnDestroy {
   loadStudentCoursesEnrolledAndWishlist() {
     let obvserver = {
       next: (data: any) => {
-        if(data) {
+        if(data && this.courses) {
           for(let addedCourse of data.wishlist.items) {
             for(let course of this.courses) {
               if(course.id == addedCourse.courseId) {

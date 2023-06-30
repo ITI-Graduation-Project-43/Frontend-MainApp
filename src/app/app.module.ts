@@ -10,6 +10,7 @@ import { HeaderComponent } from './Core/header/header.component';
 import { FooterComponent } from './Core/footer/footer.component';
 import { ShoppingCartComponent } from './Core/shopping-cart/shopping-cart.component';
 import { SnackbarComponent } from './Shared/snackbar/snackbar.component';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { SnackbarComponent } from './Shared/snackbar/snackbar.component';
     FooterComponent,
     ShoppingCartComponent,
     SnackbarComponent,
+    NotfoundComponent,
   ],
   imports: [
     BrowserModule,

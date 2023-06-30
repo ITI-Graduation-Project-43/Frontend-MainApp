@@ -1,0 +1,27 @@
+@use "../../assets/style/abstracts/variables.scss" as *;
+@use "../../assets/style/abstracts/mixins.scss" as *;
+@use "../../assets/style/abstracts/_placeholders.scss" as *;
+
+.error-wrapper{
+  background-color: $mainColorLight;
+  @include style-display-row-center(24px, 24px);
+  justify-content: space-around;
+  .error-message{
+    @include style-display-column(24px ,0);
+    width: 30%;
+    h3{
+      margin: 0;
+      @include style-font($font-cabin,  24px, 29px, $blackColor, 400);
+    }
+    button{
+      @include custom-button($secondaryColor, $blackColor, $blackColor, 43px);
+    }
+  }
+  img{
+    width: 50%;
+    object-fit: cover;
+  }
+}
+
+
+

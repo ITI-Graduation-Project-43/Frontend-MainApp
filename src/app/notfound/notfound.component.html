@@ -1,0 +1,17 @@
+<div class="error-wrapper">
+  <div class="error-message">
+    <h3>{{ randomSentence }}</h3>
+    <div>
+      <a routerLink="">
+        <button
+          [ngStyle]="{
+            backgroundColor: shouldHighlightButton() ? '#d8d6fb' : '#fbe6e9'
+          }"
+        >
+          Home
+        </button>
+      </a>
+    </div>
+  </div>
+  <img [src]="randomImage" />
+</div>

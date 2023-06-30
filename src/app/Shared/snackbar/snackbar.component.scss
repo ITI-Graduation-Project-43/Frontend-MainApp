@@ -27,13 +27,13 @@
   @include style-font($font-cabin, 16px, 19px,  $blackColor,400);
   animation-fill-mode: forwards;
   &.success {
-    background-color: #ade2bf;
+    background-color: #92c4a3;
   }
   &.error {
-    background-color: #fbe6e9;
+    background-color: #d6bfc2;
   }
   &.info {
-    background-color: #FDF6EB;
+    background-color: #e1d9cb;
   }
 
   &.hide{

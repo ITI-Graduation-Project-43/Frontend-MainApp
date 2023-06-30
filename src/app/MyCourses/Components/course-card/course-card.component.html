@@ -2,7 +2,7 @@
   <div class="image">
     <img
       src="{{ course.courseImageUrl }}"
-      alt=""
+      alt="{{ course.courseName }}"
       routerLink="/courseDetails/{{ course.courseId }}"
       loading="lazy"
     />
@@ -25,7 +25,6 @@
           {{ course.courseTitle | truncate }}
         </h1>
       </div>
-      <div class="course-name"></div>
       <div class="description">
         <p [attr.title]="course.courseDescription">
           {{

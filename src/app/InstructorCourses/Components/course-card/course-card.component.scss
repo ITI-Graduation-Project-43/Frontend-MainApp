@@ -5,9 +5,8 @@
 .course-card {
   @extend %simple-black-border;
   @extend %flex-column;
-  padding: 1.5rem;
-  height: 34rem;
-  gap: 0.5rem;
+  padding: 24px;
+    gap: 24px;
 
   .image {
       width: 100%;
@@ -18,24 +17,33 @@
       }
   }
 
-  .course-name {
-      h1 {
-          font-family: 'Anton';
+  .course-main-data{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    .course-name-sec{
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      .course-name {
+          h1 {
+              font-family: 'Anton';
+          }
       }
-  }
+    }
+}
 
 
 }
 
 .action {
   width: 100%;
-  position: relative;
-
   button {
       @include custom-button($greenColor, $blackColor, $blackColor, 24px);
-      position: absolute;
-      width: 22rem;
-      top: -6rem;
-      margin-left: calc(50% - 11rem);
+      width: 100%;
   }
+}
+
+h1, h2,h3,h4, p{
+margin: 0;
 }
